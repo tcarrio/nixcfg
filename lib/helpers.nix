@@ -9,6 +9,9 @@
   };
 
   # Helper function for generating host configs
+  # - installer: can be one of the following:
+  #    - "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+  #    - "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"
   mkHost = { hostname, username, desktop ? null, installer ? null }: inputs.nixpkgs.lib.nixosSystem {
     specialArgs = {
       inherit inputs outputs desktop hostname username stateVersion;
@@ -20,6 +23,7 @@
   };
 
   forAllSystems = inputs.nixpkgs.lib.genAttrs [
+    "armv7l-linux"
     "aarch64-linux"
     "i686-linux"
     "x86_64-linux"
