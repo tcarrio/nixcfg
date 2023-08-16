@@ -1,7 +1,7 @@
 { pkgs, ... }: {
   programs.firefox = {
     enable = true;
-    languagePacks = [ "en-GB" ];
+    languagePacks = [ "en-US" ];
     package = pkgs.unstable.firefox;
   };
 }

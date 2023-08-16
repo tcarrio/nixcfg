@@ -37,21 +37,21 @@
   };
 
   i18n = {
-    defaultLocale = "en_GB.utf8";
+    defaultLocale = "en_US.utf8";
     extraLocaleSettings = {
-      LC_ADDRESS = "en_GB.utf8";
-      LC_IDENTIFICATION = "en_GB.utf8";
-      LC_MEASUREMENT = "en_GB.utf8";
-      LC_MONETARY = "en_GB.utf8";
-      LC_NAME = "en_GB.utf8";
-      LC_NUMERIC = "en_GB.utf8";
-      LC_PAPER = "en_GB.utf8";
-      LC_TELEPHONE = "en_GB.utf8";
-      LC_TIME = "en_GB.utf8";
+      LC_ADDRESS = "en_US.utf8";
+      LC_IDENTIFICATION = "en_US.utf8";
+      LC_MEASUREMENT = "en_US.utf8";
+      LC_MONETARY = "en_US.utf8";
+      LC_NAME = "en_US.utf8";
+      LC_NUMERIC = "en_US.utf8";
+      LC_PAPER = "en_US.utf8";
+      LC_TELEPHONE = "en_US.utf8";
+      LC_TIME = "en_US.utf8";
     };
   };
-  services.xserver.layout = "gb";
-  time.timeZone = "Europe/London";
+  services.xserver.layout = "us";
+  time.timeZone = "America/Detroit";
 
   # Only install the docs I use
   documentation.enable = true;
@@ -65,8 +65,8 @@
     defaultPackages = with pkgs; lib.mkForce [
       gitMinimal
       home-manager
-      micro
       rsync
+      vim
     ];
     systemPackages = with pkgs; [
       agenix
@@ -76,9 +76,9 @@
       usbutils
     ];
     variables = {
-      EDITOR = "micro";
-      SYSTEMD_EDITOR = "micro";
-      VISUAL = "micro";
+      EDITOR = "vim";
+      SYSTEMD_EDITOR = "vim";
+      VISUAL = "vim";
     };
   };
 
@@ -122,20 +122,6 @@
 
   # Use passed hostname to configure basic networking
   networking = {
-    extraHosts = ''
-      192.168.192.40  skull-zt
-      192.168.192.59  trooper-zt
-      192.168.193.59  trooper-gaming
-      192.168.192.181 zed-zt
-      192.168.192.220 ripper-zt
-      192.168.193.220 ripper-gaming
-      192.168.192.162 p1-zt
-      192.168.192.249 p2-max-zt
-      #192.168.192.0   brix-zt
-      #192.168.192.0   nuc-zt
-      #192.168.192.0   win2-zt
-      #192.168.192.0   win-max-zt
-    '';
     hostName = hostname;
     useDHCP = lib.mkDefault true;
   };
@@ -246,12 +232,12 @@
       };
       shellAliases = {
         moon = "curl -s wttr.in/Moon";
-        nano = "micro";
+        nano = "vim";
         open = "xdg-open";
         pubip = "curl -s ifconfig.me/ip";
         #pubip = "curl -s https://api.ipify.org";
         wttr = "curl -s wttr.in && curl -s v2.wttr.in";
-        wttr-bas = "curl -s wttr.in/basingstoke && curl -s v2.wttr.in/basingstoke";
+        wttr-bas = "curl -s wttr.in/detroit && curl -s v2.wttr.in/detroit";
       };
     };
   };

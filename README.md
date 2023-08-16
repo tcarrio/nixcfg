@@ -7,46 +7,30 @@ This repository contains a [Nix Flake](https://nixos.wiki/wiki/Flakes) for confi
 
 |    Hostname    |       OEM      |        Model        |       OS      |     Role     |  Status  |
 | :------------: | :------------: | :-----------------: | :-----------: | :----------: | :------- |
-| `designare`    | DIY            | i9-9900K            | NixOS         | Desktop      | Done     |
-| `noname`       | DIY            | AMD 5900X, 6900 XT  | NixOS         | Gamestation  | Done     |
-| `node202`      | DIY            | AMD 5700G, 6700 XT  | ChimeraOS     | Gamestation  | Done     |
-| `vm`           | VM             | -                   | NixOS         | Desktop      | Done     |
-| `ripper`       | DIY            | AMD 3970X           | NixOS         | Desktop      | Done     |
-| `nuc`          | Intel          | [NUC5i7RYH]         | NixOS         | Server       | WIP      |
-| `skull`        | Intel          | [NUC6i7KYK]         | NixOS         | Server       | Done     |
-| `brix`         | Gigabyte       | [GB-BXCEH-2955]     | NixOS         | Server       | WIP      |
-| `trooper`      | DIY            | AMD 5950X, 3080Ti   | NixOS         | Desktop      | Done     |
-| `zed`          | Lenovo         | ThinkPad Z13 Gen 1  | NixOS         | Laptop       | Done     |
-| `p1`           | Lenovo         | ThinkPad P1 Gen 1   | NixOS         | Laptop       | Done     |
-| `pi4`          | Raspberry Pi   | Raspberry Pi 4      | Ubuntu MATE   | Desktop      | tbn      |
-| `pinebook`     | Pine64         | Pinebook            | -             | Laptop       | tbn      |
-| `pinebook-pro` | Pine64         | Pinebook Pro        | -             | Laptop       | tbn      |
-| `c630`         | Lenovo         | Yoga C630           | Windows 10S   | Laptop       | tbn      |
-| `pocket`       | GPD            | Pocket              | Ubuntu MATE   | Laptop       | tbn      |
-| `pocket2`      | GPD            | Pocket 2            | Ubuntu MATE   | Laptop       | tbn      |
-| `pocket3`      | GPD            | Pocket 3            | Ubuntu MATE   | Laptop       | tbn      |
-| `p2-max`       | GPD            | P2 Max              | NixOS         | Laptop       | Done     |
-| `micropc`      | GPD            | Micro PC            | NixOS         | Laptop       | WIP      |
-| `win2`         | GPD            | WIN 2               | NixOS         | Laptop       | WIP      |
-| `win-max`      | GPD            | WIN Max             | NixOS         | Laptop       | WIP      |
-| `falcon`       | TopJoy         | Falcon              | Ubuntu MATE   | Laptop       | tbn      |
-| `macbookpro`   | Apple          | Macbook Pro 2015    | macOS         | Laptop       | tbn      |
-| `xps-13`       | Dell           | XPS 13 9360         | Ubuntu MATE   | Laptop       | tbn      |
-| `spectre`      | HP             | Spectre 13          | Ubuntu MATE   | Laptop       | tbn      |
-| `apollo`       | Entroware      | Apollo 2000         | Ubuntu MATE   | Laptop       | tbn      |
+| `glass`        | DIY            | AMD Ryzen 9 3900X   | NixOS         | Desktop      | WIP      |
+| `lat`          | Dell           | Dell Latitute E5470 | NixOS         | Laptop       | WIP      |
+| `nuc0`         | Intel          | Pentium N3700       | NixOS         | Server       | WIP      |
+| `nuc1`         | Intel          | Pentium N3700       | NixOS         | Server       | WIP      |
+| `nuc2`         | Intel          | Pentium N3700       | NixOS         | Server       | WIP      |
+| `nuc3`         | Intel          | Pentium N3700       | NixOS         | Server       | WIP      |
+| `nuc4`         | Intel          | Pentium N3700       | NixOS         | Server       | WIP      |
+| `nuc5`         | Intel          | Pentium N3700       | NixOS         | Server       | WIP      |
+| `nuc6`         | Intel          | Pentium N3700       | NixOS         | Server       | WIP      |
+| `nuc7`         | Intel          | Pentium N3700       | NixOS         | Server       | WIP      |
+| `nuc8`         | Intel          | Pentium N3700       | NixOS         | Server       | WIP      |
+| `nuc9`         | Intel          | Pentium N3700       | NixOS         | Server       | WIP      |
+| `shiroi`       | DIY            | Celeron G1610T      | NixOS         | Server       | WIP      |
+| `tegra0`       | Nvidia         | Tegra K1            | NixOS         | Server       | WIP      |
+| `tegra1`       | Nvidia         | Tegra K1            | NixOS         | Server       | WIP      |
+| `tegra2`       | Nvidia         | Tegra K1            | NixOS         | Server       | WIP      |
+| `tegra3`       | Nvidia         | Tegra K1            | NixOS         | Server       | WIP      |
+| `tegra4`       | Nvidia         | Tegra K1            | NixOS         | Server       | WIP      |
+| `tp0`          | Lenovo         | Thinkpad T510       | NixOS         | Laptop       | WIP      |
+| `tp1`          | Lenovo         | Thinkpad T510       | NixOS         | Laptop       | WIP      |
 
-[NUC5i7RYH]: https://www.intel.co.uk/content/www/uk/en/products/sku/87570/intel-nuc-kit-nuc5i7ryh/specifications.html
-[NUC6i7KYK]: https://ark.intel.com/content/www/us/en/ark/products/89187/intel-nuc-kit-nuc6i7kyk.html
-[GB-BXCEH-2955]: https://www.gigabyte.com/uk/Mini-PcBarebone/GB-BXCEH-2955-rev-10
-[GB-BXCEH-2955 Review]: https://nucblog.net/2014/11/gigabyte-brix-2955u-review/
+## Respects
 
-**As featured on [Linux Matters](https://linuxmatters.sh) podcast!** 🎙️ I am a presenter on Linux Matters and this configuration was featured in [Episode 7 - Immutable Desktop Linux for Anyone](https://linuxmatters.sh/7/).
-
-<div align="center">
-  <a href="https://linuxmatters.sh" target="_blank"><img src="./.github/screenshots/linuxmatters.png" alt="Linux Matters Podcast"/></a>
-  <br />
-  <em>Linux Matters Podcast</em>
-</div>
+This project was forked from Wimpy's nix-config repository, which you can find [here](https://github.com/wimpysworld/nix-config). There is plenty of documentation to update so you will see plenty that is out of date here.
 
 ## Structure
 
