@@ -66,7 +66,7 @@ The [nixos/_mixins] and [home-manager/_mixins] are a collection of composited co
   1 Use the graphical Calamares installer to install an adhoc system
   2 Run `install-system <hostname> <username>` from a terminal
    - The install script uses [Disko] to automatically partition and format the disks, then uses my flake via `nixos-install` to complete a full-system installation
-   - This flake is copied to the target user's home directory as `~/Zero/nix-config`
+   - This flake is copied to the target user's home directory as `~/0xc/nix-config`
 - Make a cuppa 🫖
 - Reboot
 - Login and run `rebuild-home` (*see below*) from a terminal to complete the Home Manager configuration.
@@ -79,10 +79,10 @@ curl -sL https://raw.githubusercontent.com/tcarrio/nix-config/main/scripts/insta
 
 ## Applying Changes ✨
 
-I clone this repo to `~/Zero/nix-config`. NixOS and Home Manager changes are applied separately because I have some non-NixOS hosts.
+I clone this repo to `~/0xc/nix-config`. NixOS and Home Manager changes are applied separately because I have some non-NixOS hosts.
 
 ```bash
-gh repo clone tcarrio/nix-config ~/Zero/nix-config
+gh repo clone tcarrio/nix-config ~/0xc/nix-config
 ```
 
 ### NixOS ❄️
@@ -90,7 +90,7 @@ gh repo clone tcarrio/nix-config ~/Zero/nix-config
 A `rebuild-host` alias is provided that does the following:
 
 ```bash
-sudo nixos-rebuild switch --flake $HOME/Zero/nix-config
+sudo nixos-rebuild switch --flake $HOME/0xc/nix-config
 ```
 
 ### Home Manager 🏠️
@@ -98,7 +98,7 @@ sudo nixos-rebuild switch --flake $HOME/Zero/nix-config
 A `rebuild-home` alias is provided that does the following:
 
 ```bash
-home-manager switch -b backup --flake $HOME/Zero/nix-config
+home-manager switch -b backup --flake $HOME/0xc/nix-config
 ```
 
 ### ISO 📀
@@ -106,12 +106,12 @@ home-manager switch -b backup --flake $HOME/Zero/nix-config
 Aliases for `rebuild-iso-desktop` (*desktop*) and `rebuild-iso-console` (*console only*) are provided that create .iso images from this flake. They do the following:
 
 ```bash
-pushd $HOME/Zero/nix-config
+pushd $HOME/0xc/nix-config
 nix build .#nixosConfigurations.iso.config.system.build.isoImage
 popd
 ```
 
-A live image will be left in `~/$HOME/Zero/nix-config/result/iso/`. These .iso images are also periodically built and published via [GitHub Actions](./.github/workflows) and available in [this project's Releases](https://github.com/tcarrio/nix-config/releases).
+A live image will be left in `~/$HOME/0xc/nix-config/result/iso/`. These .iso images are also periodically built and published via [GitHub Actions](./.github/workflows) and available in [this project's Releases](https://github.com/tcarrio/nix-config/releases).
 
 ## What's in the box? 🎁
 
@@ -209,6 +209,8 @@ MATE Desktop 🧉 and Pantheon 🏛️ are the two desktop options available. Th
 - [x] Integrate Steam
 - [ ] Add Ferdium, Rambox or Wavebox
 - [ ] Add Password Managers
+    - [ ] Add Bitwarden
+    - [ ] Add 1Password
 
 ### Services
 
@@ -249,9 +251,11 @@ MATE Desktop 🧉 and Pantheon 🏛️ are the two desktop options available. Th
 
 ### Shell
 
+- [ ] emacs
 - [ ] fzf
 - [ ] tmate or tmux
 - [x] micro
+- [ ] vim
 - [ ] nnn or broot or felix or ranger
 
 ## Inspirations 🧑‍🏫

@@ -44,11 +44,11 @@
     ];
 
     sessionVariables = {
-      EDITOR = "micro";
+      EDITOR = "vim";
       MANPAGER = "sh -c 'col --no-backspaces --spaces | bat --language man'";
       PAGER = "moar";
-      SYSTEMD_EDITOR = "micro";
-      VISUAL = "micro";
+      SYSTEMD_EDITOR = "vim";
+      VISUAL = "vim";
     };
   };
 
@@ -138,7 +138,7 @@
       enable = true;
       extensions = with pkgs; [ gh-markdown-preview ];
       settings = {
-        editor = "micro";
+        editor = "vim";
         git_protocol = "ssh";
         prompt = "enabled";
       };
