@@ -1,4 +1,4 @@
-# Wimpy's [NixOS]  & [Home Manager] Configurations
+# tcarrio's [NixOS]  & [Home Manager] Configurations
 
 [NixOS]: https://nixos.org/
 [Home Manager]: https://github.com/nix-community/home-manager
@@ -74,7 +74,7 @@ The [nixos/_mixins] and [home-manager/_mixins] are a collection of composited co
 If the target system is booted from something other than the .iso image created by this flake, you can still install the system using the following:
 
 ```bash
-curl -sL https://raw.githubusercontent.com/wimpysworld/nix-config/main/scripts/install.sh | bash -s <hostname> <username>
+curl -sL https://raw.githubusercontent.com/tcarrio/nix-config/main/scripts/install.sh | bash -s <hostname> <username>
 ```
 
 ## Applying Changes ✨
@@ -82,7 +82,7 @@ curl -sL https://raw.githubusercontent.com/wimpysworld/nix-config/main/scripts/i
 I clone this repo to `~/Zero/nix-config`. NixOS and Home Manager changes are applied separately because I have some non-NixOS hosts.
 
 ```bash
-gh repo clone wimpysworld/nix-config ~/Zero/nix-config
+gh repo clone tcarrio/nix-config ~/Zero/nix-config
 ```
 
 ### NixOS ❄️
@@ -111,7 +111,7 @@ nix build .#nixosConfigurations.iso.config.system.build.isoImage
 popd
 ```
 
-A live image will be left in `~/$HOME/Zero/nix-config/result/iso/`. These .iso images are also periodically built and published via [GitHub Actions](./.github/workflows) and available in [this project's Releases](https://github.com/wimpysworld/nix-config/releases).
+A live image will be left in `~/$HOME/Zero/nix-config/result/iso/`. These .iso images are also periodically built and published via [GitHub Actions](./.github/workflows) and available in [this project's Releases](https://github.com/tcarrio/nix-config/releases).
 
 ## What's in the box? 🎁
 
