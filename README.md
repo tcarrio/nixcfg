@@ -63,10 +63,10 @@ The [nixos/_mixins] and [home-manager/_mixins] are a collection of composited co
 - Put the .iso image on a USB drive
 - Boot the target computer from the USB drive
 - Two installation options are available:
-  1 Use the graphical Calamares installer to install an adhoc system
-  2 Run `install-system <hostname> <username>` from a terminal
-   - The install script uses [Disko] to automatically partition and format the disks, then uses my flake via `nixos-install` to complete a full-system installation
-   - This flake is copied to the target user's home directory as `~/0xc/nix-config`
+    1. Use the graphical Calamares installer to install an adhoc system
+    2. Run `install-system <hostname> <username>` from a terminal
+       - The install script uses [Disko] to automatically partition and format the disks, then uses my flake via `nixos-install` to complete a full-system installation
+       - This flake is copied to the target user's home directory as `~/0xc/nix-config`
 - Make a cuppa 🫖
 - Reboot
 - Login and run `rebuild-home` (*see below*) from a terminal to complete the Home Manager configuration.
