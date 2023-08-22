@@ -39,29 +39,32 @@
     in
     {
       # home-manager switch -b backup --flake $HOME/Zero/nix-config
-      # nix build .#homeConfigurations."martin@ripper".activationPackage
+      # nix build .#homeConfigurations."tom@ripper".activationPackage
       homeConfigurations = {
         # .iso images
         "nuc@iso-nuc" = libx.mkHome { hostname = "iso-nuc"; username = "nixos"; };
         "tk1@iso-tk1" = libx.mkHome { hostname = "iso-tk1"; username = "nixos"; };
 
         # Workstations
-        "martin@designare" = libx.mkHome { hostname = "designare"; username = "martin"; desktop = "pantheon"; };
-        "martin@micropc" = libx.mkHome { hostname = "micropc"; username = "martin"; desktop = "pantheon"; };
-        "martin@p1" = libx.mkHome { hostname = "p1"; username = "martin"; desktop = "pantheon"; };
-        "martin@p2-max" = libx.mkHome { hostname = "p2-max"; username = "martin"; desktop = "pantheon"; };
-        "martin@ripper" = libx.mkHome { hostname = "ripper"; username = "martin"; desktop = "pantheon"; };
-        "martin@trooper" = libx.mkHome { hostname = "trooper"; username = "martin"; desktop = "pantheon"; };
-        "martin@vm" = libx.mkHome { hostname = "vm"; username = "martin"; desktop = "pantheon"; };
-        "martin@win2" = libx.mkHome { hostname = "win2"; username = "martin"; desktop = "pantheon"; };
-        "martin@win-max" = libx.mkHome { hostname = "win-max"; username = "martin"; desktop = "pantheon"; };
-        "martin@zed" = libx.mkHome { hostname = "zed"; username = "martin"; desktop = "pantheon"; };
+        "tom@designare" = libx.mkHome { hostname = "designare"; username = "tom"; desktop = "pantheon"; };
+        "tom@glass" = libx.mkHome { hostname = "glass"; username = "tom"; desktop = "pantheon"; };
+        "tom@micropc" = libx.mkHome { hostname = "micropc"; username = "tom"; desktop = "pantheon"; };
+        "tom@p1" = libx.mkHome { hostname = "p1"; username = "tom"; desktop = "pantheon"; };
+        "tom@p2-max" = libx.mkHome { hostname = "p2-max"; username = "tom"; desktop = "pantheon"; };
+        "tom@ripper" = libx.mkHome { hostname = "ripper"; username = "tom"; desktop = "pantheon"; };
+        "tom@t510" = libx.mkHome { hostname = "t510"; username = "tom"; desktop = "pantheon"; };
+        "tom@trooper" = libx.mkHome { hostname = "trooper"; username = "tom"; desktop = "pantheon"; };
+        "tom@vm" = libx.mkHome { hostname = "vm"; username = "tom"; desktop = "pantheon"; };
+        "tom@win2" = libx.mkHome { hostname = "win2"; username = "tom"; desktop = "pantheon"; };
+        "tom@win-max" = libx.mkHome { hostname = "win-max"; username = "tom"; desktop = "pantheon"; };
+        "tom@zed" = libx.mkHome { hostname = "zed"; username = "tom"; desktop = "pantheon"; };
 
         # Servers
-        "martin@brix" = libx.mkHome { hostname = "brix"; username = "martin"; };
-        "martin@skull" = libx.mkHome { hostname = "skull"; username = "martin"; };
-        "martin@vm-mini" = libx.mkHome { hostname = "vm-mini"; username = "martin"; };
+        "tom@brix" = libx.mkHome { hostname = "brix"; username = "tom"; };
+        "tom@skull" = libx.mkHome { hostname = "skull"; username = "tom"; };
+        "tom@vm-mini" = libx.mkHome { hostname = "vm-mini"; username = "tom"; };
       };
+
       nixosConfigurations = {
         # .iso images
         #  - nix build .#nixosConfigurations.{iso-console|iso-desktop}.config.system.build.isoImage
@@ -76,16 +79,18 @@
         # Workstations
         #  - sudo nixos-rebuild switch --flake $HOME/Zero/nix-config
         #  - nix build .#nixosConfigurations.ripper.config.system.build.toplevel
-        designare = libx.mkHost { type = "workstation"; hostname = "designare"; username = "martin"; desktop = "pantheon"; };
-        p1 = libx.mkHost { type = "workstation"; hostname = "p1"; username = "martin"; desktop = "pantheon"; };
-        p2-max = libx.mkHost { type = "workstation"; hostname = "p2-max"; username = "martin"; desktop = "pantheon"; };
-        micropc = libx.mkHost { type = "workstation"; hostname = "micropc"; username = "martin"; desktop = "pantheon"; };
-        ripper = libx.mkHost { type = "workstation"; hostname = "ripper"; username = "martin"; desktop = "pantheon"; };
-        trooper = libx.mkHost { type = "workstation"; hostname = "trooper"; username = "martin"; desktop = "pantheon"; };
-        vm = libx.mkHost { type = "workstation"; hostname = "vm"; username = "martin"; desktop = "pantheon"; };
-        win2 = libx.mkHost { type = "workstation"; hostname = "win2"; username = "martin"; desktop = "pantheon"; };
-        win-max = libx.mkHost { type = "workstation"; hostname = "win-max"; username = "martin"; desktop = "pantheon"; };
-        zed = libx.mkHost { type = "workstation"; hostname = "zed"; username = "martin"; desktop = "pantheon"; };
+        designare = libx.mkHost { type = "workstation"; hostname = "designare"; username = "tom"; desktop = "pantheon"; };
+        glass = libx.mkHost { type = "workstation"; hostname = "glass"; username = "tom"; desktop = "sway"; };
+        p1 = libx.mkHost { type = "workstation"; hostname = "p1"; username = "tom"; desktop = "pantheon"; };
+        p2-max = libx.mkHost { type = "workstation"; hostname = "p2-max"; username = "tom"; desktop = "pantheon"; };
+        micropc = libx.mkHost { type = "workstation"; hostname = "micropc"; username = "tom"; desktop = "pantheon"; };
+        ripper = libx.mkHost { type = "workstation"; hostname = "ripper"; username = "tom"; desktop = "pantheon"; };
+        t510 = libx.mkHost { type = "workstation"; hostname = "t510"; username = "tom"; desktop = "pantheon"; };
+        trooper = libx.mkHost { type = "workstation"; hostname = "trooper"; username = "tom"; desktop = "pantheon"; };
+        vm = libx.mkHost { type = "workstation"; hostname = "vm"; username = "tom"; desktop = "pantheon"; };
+        win2 = libx.mkHost { type = "workstation"; hostname = "win2"; username = "tom"; desktop = "pantheon"; };
+        win-max = libx.mkHost { type = "workstation"; hostname = "win-max"; username = "tom"; desktop = "pantheon"; };
+        zed = libx.mkHost { type = "workstation"; hostname = "zed"; username = "tom"; desktop = "pantheon"; };
 
         # Servers
         # Can be executed locally:
@@ -95,9 +100,9 @@
         #  - nixos-rebuild switch --fast --flake .#${HOST} \
         #      --target-host ${USERNAME}@${HOST}.${TAILNET} \
         #      --build-host ${USERNAME}@${HOST}.${TAILNET}
-        brix = libx.mkHost { type = "server"; hostname = "brix"; username = "martin"; };
-        skull = libx.mkHost { type = "server"; hostname = "skull"; username = "martin"; };
-        vm-mini = libx.mkHost { type = "server"; hostname = "vm-mini"; username = "martin"; };
+        brix = libx.mkHost { type = "server"; hostname = "brix"; username = "tom"; };
+        skull = libx.mkHost { type = "server"; hostname = "skull"; username = "tom"; };
+        vm-mini = libx.mkHost { type = "server"; hostname = "vm-mini"; username = "tom"; };
       };
 
       # Devshell for bootstrapping; acessible via 'nix develop' or 'nix-shell' (legacy)
