@@ -80,7 +80,7 @@
         #  - sudo nixos-rebuild switch --flake $HOME/Zero/nix-config
         #  - nix build .#nixosConfigurations.ripper.config.system.build.toplevel
         designare = libx.mkHost { systemType = "workstation"; hostname = "designare"; username = "tcarrio"; desktop = "pantheon"; };
-        glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "sway"; };
+        glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "pantheon"; };
         p1 = libx.mkHost { systemType = "workstation"; hostname = "p1"; username = "tcarrio"; desktop = "pantheon"; };
         p2-max = libx.mkHost { systemType = "workstation"; hostname = "p2-max"; username = "tcarrio"; desktop = "pantheon"; };
         micropc = libx.mkHost { systemType = "workstation"; hostname = "micropc"; username = "tcarrio"; desktop = "pantheon"; };

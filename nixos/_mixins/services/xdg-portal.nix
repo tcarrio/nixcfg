@@ -1,6 +1,6 @@
 _: {
   xdg.portal = {
-    enable = false;
-    # xdgOpenUsePortal = true;
+    enable = true;
+    xdgOpenUsePortal = true;
   };
 }
