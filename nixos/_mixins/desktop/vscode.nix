@@ -4,13 +4,10 @@
       vscode = master.vscode;
       vscodeExtensions = with unstable.vscode-extensions; [
         coolbear.systemd-unit-file
-        dart-code.flutter
-        dart-code.dart-code
         dotjoshjohnson.xml
         eamodio.gitlens
         editorconfig.editorconfig
         esbenp.prettier-vscode
-        github.copilot
         github.vscode-github-actions
         golang.go
         jnoortheen.nix-ide
@@ -19,50 +16,17 @@
         ms-python.python
         ms-python.vscode-pylance
         ms-vscode.cpptools
-        ms-vsliveshare.vsliveshare
         redhat.vscode-yaml
         ryu1kn.partial-diff
         streetsidesoftware.code-spell-checker
         timonwong.shellcheck
         vscode-icons-team.vscode-icons
         yzhang.markdown-all-in-one
-      ] ++ pkgs.unstable.vscode-utils.extensionsFromVscodeMarketplace [
-        {
-          name = "bash-debug";
-          publisher = "rogalmic";
-          version = "0.3.9";
-          sha256 = "sha256-f8FUZCvz/PonqQP9RCNbyQLZPnN5Oce0Eezm/hD19Fg=";
-        }
-        {
-          name = "beardedicons";
-          publisher = "beardedbear";
-          version = "1.13.2";
-          sha256 = "sha256-PpIut/yhUNK1eTPRvVXONt06TOXpoGgmd6lrhFdADRQ";
-        }
-        {
-          name = "beardedtheme";
-          publisher = "beardedbear";
-          version = "8.3.2";
-          sha256 = "sha256-TwHuoXme0o6EeciA1lxhs5vmhGlDvaWlH8tjVmuSQH8";
-        }
-        {
-          name = "debian-vscode";
-          publisher = "dawidd6";
-          version = "0.1.2";
-          sha256 = "sha256-DrCaEVf1tnB/ccFTJ5HpJfTxe0npbXMjqGkyHNri+G8=";
-        }
-        {
-          name = "font-switcher";
-          publisher = "evan-buss";
-          version = "4.1.0";
-          sha256 = "sha256-KkXUfA/W73kRfs1TpguXtZvBXFiSMXXzU9AYZGwpVsY=";
-        }
-        {
-          name = "grammarly";
-          publisher = "znck";
-          version = "0.23.15";
-          sha256 = "sha256-/LjLL8IQwQ0ghh5YoDWQxcPM33FCjPeg3cFb1Qa/cb0=";
-        }
+      ]
+      # the most simple way to calculate a package's SHA256 is to simply
+      # copy over an invalid SHA256 and the nixos-rebuild will fail,
+      # with output for the specified and actual hash values.
+      ++ pkgs.unstable.vscode-utils.extensionsFromVscodeMarketplace [
         {
           name = "language-hugo-vscode";
           publisher = "budparr";
@@ -122,6 +86,12 @@
           publisher = "hoovercj";
           version = "3.0.2";
           sha256 = "sha256-ZE+Dlq0mwyzr4nWL9v+JG00Gllj2dYwL2r9jUPQ8umQ=";
+        }
+        {
+          name = "cody-ai";
+          publisher = "sourcegraph";
+          version = "0.9.1693667194";
+          sha256 = "sha256-qxjScQVCuTCSkvqpuaZlOFL1O3S5rLzfoTAKrY/fm+c=";
         }
       ];
     })

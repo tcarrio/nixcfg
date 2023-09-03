@@ -7,6 +7,9 @@
 # SATA:        2TB SSHD
 
 { inputs, lib, config, pkgs, modulesPath, ... }:
+let
+  containerization = "docker";
+in
 {
   imports = [
     # TODO: Incorporate diskos
