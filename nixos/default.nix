@@ -1,9 +1,9 @@
-{ config, desktop, hostname, inputs, lib, modulesPath, outputs, pkgs, stateVersion, username, ... }: {
+{ config, desktop, hostname, inputs, lib, modulesPath, outputs, pkgs, stateVersion, systemType, username, ... }: {
   imports = [
     inputs.disko.nixosModules.disko
     inputs.vscode-server.nixosModules.default
     (modulesPath + "/installer/scan/not-detected.nix")
-    ./${hostname}
+    ./${systemType}/${hostname}
     ./_mixins/services/firewall.nix
     ./_mixins/services/fwupd.nix
     ./_mixins/services/kmscon.nix
@@ -32,7 +32,7 @@
 
   console = {
     font = "${pkgs.tamzen}/share/consolefonts/TamzenForPowerline10x20.psf";
-    keyMap = "uk";
+    keyMap = "us";
     packages = with pkgs; [ tamzen ];
   };
 
