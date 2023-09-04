@@ -46,18 +46,10 @@
         "tk1@iso-tk1" = libx.mkHome { hostname = "iso-tk1"; username = "nixos"; };
 
         # Workstations
-        "tcarrio@designare" = libx.mkHome { hostname = "designare"; username = "tcarrio"; desktop = "pantheon"; };
         "tcarrio@glass" = libx.mkHome { hostname = "glass"; username = "tcarrio"; desktop = "pantheon"; };
-        "tcarrio@micropc" = libx.mkHome { hostname = "micropc"; username = "tcarrio"; desktop = "pantheon"; };
-        "tcarrio@p1" = libx.mkHome { hostname = "p1"; username = "tcarrio"; desktop = "pantheon"; };
-        "tcarrio@p2-max" = libx.mkHome { hostname = "p2-max"; username = "tcarrio"; desktop = "pantheon"; };
-        "tcarrio@ripper" = libx.mkHome { hostname = "ripper"; username = "tcarrio"; desktop = "pantheon"; };
+        "tcarrio@kuroi" = libx.mkHome { hostname = "kuroi"; username = "tcarrio"; desktop = "gnome"; };
         "tcarrio@t510" = libx.mkHome { hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
-        "tcarrio@trooper" = libx.mkHome { hostname = "trooper"; username = "tcarrio"; desktop = "pantheon"; };
         "tcarrio@vm" = libx.mkHome { hostname = "vm"; username = "tcarrio"; desktop = "pantheon"; };
-        "tcarrio@win2" = libx.mkHome { hostname = "win2"; username = "tcarrio"; desktop = "pantheon"; };
-        "tcarrio@win-max" = libx.mkHome { hostname = "win-max"; username = "tcarrio"; desktop = "pantheon"; };
-        "tcarrio@zed" = libx.mkHome { hostname = "zed"; username = "tcarrio"; desktop = "pantheon"; };
 
         # Servers
         "tcarrio@brix" = libx.mkHome { hostname = "brix"; username = "tcarrio"; };
@@ -77,6 +69,7 @@
         #  - sudo nixos-rebuild switch --flake $HOME/Zero/nix-config
         #  - nix build .#nixosConfigurations.ripper.config.system.build.toplevel
         glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "pantheon"; };
+        kuroi = libx.mkHost { systemType = "workstation"; hostname = "kuroi"; username = "tcarrio"; desktop = "pantheon"; };
         t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
         vm = libx.mkHost { systemType = "workstation"; hostname = "vm"; username = "tcarrio"; desktop = "pantheon"; };
 
