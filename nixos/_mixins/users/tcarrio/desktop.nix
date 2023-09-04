@@ -1,6 +1,5 @@
 { desktop, pkgs, lib, ... }: {
   imports = [
-    ../../desktop/brave.nix
     ../../desktop/chromium.nix
     ../../desktop/firefox.nix
     #../../desktop/evolution.nix
