@@ -72,25 +72,13 @@
         iso-tk1 = libx.mkHost { systemType = "iso"; hostname = "iso-tk1"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"; desktop = "pantheon"; };
         iso-console = libx.mkHost { systemType = "iso"; hostname = "iso-console"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"; };
         iso-desktop = libx.mkHost { systemType = "iso"; hostname = "iso-desktop"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"; desktop = "pantheon"; };
-        iso-micropc = libx.mkHost { systemType = "iso"; hostname = "micropc"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"; desktop = "pantheon"; };
-        iso-win2 = libx.mkHost { systemType = "iso"; hostname = "win2"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"; desktop = "pantheon"; };
-        iso-win-max = libx.mkHost { systemType = "iso"; hostname = "iso-win-max"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"; desktop = "pantheon"; };
         
         # Workstations
         #  - sudo nixos-rebuild switch --flake $HOME/Zero/nix-config
         #  - nix build .#nixosConfigurations.ripper.config.system.build.toplevel
-        designare = libx.mkHost { systemType = "workstation"; hostname = "designare"; username = "tcarrio"; desktop = "pantheon"; };
         glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "pantheon"; };
-        p1 = libx.mkHost { systemType = "workstation"; hostname = "p1"; username = "tcarrio"; desktop = "pantheon"; };
-        p2-max = libx.mkHost { systemType = "workstation"; hostname = "p2-max"; username = "tcarrio"; desktop = "pantheon"; };
-        micropc = libx.mkHost { systemType = "workstation"; hostname = "micropc"; username = "tcarrio"; desktop = "pantheon"; };
-        ripper = libx.mkHost { systemType = "workstation"; hostname = "ripper"; username = "tcarrio"; desktop = "pantheon"; };
         t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
-        trooper = libx.mkHost { systemType = "workstation"; hostname = "trooper"; username = "tcarrio"; desktop = "pantheon"; };
         vm = libx.mkHost { systemType = "workstation"; hostname = "vm"; username = "tcarrio"; desktop = "pantheon"; };
-        win2 = libx.mkHost { systemType = "workstation"; hostname = "win2"; username = "tcarrio"; desktop = "pantheon"; };
-        win-max = libx.mkHost { systemType = "workstation"; hostname = "win-max"; username = "tcarrio"; desktop = "pantheon"; };
-        zed = libx.mkHost { systemType = "workstation"; hostname = "zed"; username = "tcarrio"; desktop = "pantheon"; };
 
         # Servers
         # Can be executed locally:

@@ -1,5 +1,6 @@
 { desktop, pkgs, lib, ... }: {
   imports = [
+    ../../desktop/beeper.nix
     ../../desktop/chromium.nix
     ../../desktop/firefox.nix
     #../../desktop/evolution.nix

@@ -25,7 +25,7 @@ in
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;
-    initrd.availableKernelModules = [ "ehci_pci" "ahci" "firewire_ohci" "usb_storage" "sd_mod" "sr_mod" "shdci_pci" ];
+    initrd.availableKernelModules = [ "ehci_pci" "ahci" "firewire_ohci" "usb_storage" "sd_mod" "sr_mod" "sdhci_pci" ];
     initrd.kernelModules = [ ];
     kernelModules = [ ];
     extraModulePackages = [ ];
