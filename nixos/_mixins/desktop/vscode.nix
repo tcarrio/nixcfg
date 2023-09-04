@@ -3,10 +3,12 @@
     (vscode-with-extensions.override {
       vscode = master.vscode;
       vscodeExtensions = with unstable.vscode-extensions; [
+        bbenoist.nix
         coolbear.systemd-unit-file
         dotjoshjohnson.xml
         eamodio.gitlens
         editorconfig.editorconfig
+        elmtooling.elm-ls-vscode
         esbenp.prettier-vscode
         github.vscode-github-actions
         golang.go
@@ -15,6 +17,7 @@
         ms-azuretools.vscode-docker
         ms-python.python
         ms-python.vscode-pylance
+        ms-vscode-remote.remote-ssh
         ms-vscode.cpptools
         redhat.vscode-yaml
         ryu1kn.partial-diff
@@ -92,6 +95,18 @@
           publisher = "sourcegraph";
           version = "0.9.1693667194";
           sha256 = "sha256-qxjScQVCuTCSkvqpuaZlOFL1O3S5rLzfoTAKrY/fm+c=";
+        }
+        {
+          name = "remote-ssh-edit";
+          publisher = "ms-vscode-remote";
+          version = "0.47.2";
+          sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
+        }
+        {
+          name = "rust-analyzer";
+          publisher = "rust-lang";
+          version = "0.3.1386";
+          sha256 = "qttgUVpoYNEg2+ArYxnEHwM4AbChQiB6/JW46+cq7/w=";
         }
       ];
     })
