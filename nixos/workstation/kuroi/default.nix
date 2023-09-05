@@ -24,9 +24,9 @@
 
   boot = {
     loader = {
-      loader.systemd-boot.enable = true;
-      loader.efi.canTouchEfiVariables = true;
-      loader.efi.efiSysMountPoint = "/boot/efi";
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+      efi.efiSysMountPoint = "/boot/efi";
     };
 
     kernelPackages = pkgs.linuxPackages_latest;
