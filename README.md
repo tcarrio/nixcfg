@@ -77,6 +77,16 @@ If the target system is booted from something other than the .iso image created 
 curl -sL https://raw.githubusercontent.com/tcarrio/nix-config/main/scripts/install.sh | bash -s <hostname> <username>
 ```
 
+### Installing Raspberry Pi 2 (WIP)
+
+TBD.
+
+For now, build the image with:
+
+```bash
+nix-build '<nixpkgs/nixos>' -A config.system.build.sdImage -I nixos-config=./sdcard/rpi2.nix
+```
+
 ## Applying Changes ✨
 
 I clone this repo to `~/0xc/nix-config`. NixOS and Home Manager changes are applied separately because I have some non-NixOS hosts.
