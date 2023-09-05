@@ -1,4 +1,4 @@
-# tcarrio's [NixOS]  & [Home Manager] Configurations
+# Tom's [NixOS]  & [Home Manager] Configurations
 
 [NixOS]: https://nixos.org/
 [Home Manager]: https://github.com/nix-community/home-manager
@@ -7,26 +7,26 @@ This repository contains a [Nix Flake](https://nixos.wiki/wiki/Flakes) for confi
 
 |    Hostname    |       OEM      |        Model        |       OS      |     Role     |  Status  |
 | :------------: | :------------: | :-----------------: | :-----------: | :----------: | :------- |
-| `glass`        | DIY            | AMD Ryzen 9 3900X   | NixOS         | Desktop      | WIP      |
-| `lat`          | Dell           | Dell Latitute E5470 | NixOS         | Laptop       | WIP      |
-| `nuc0`         | Intel          | Pentium N3700       | NixOS         | Server       | WIP      |
-| `nuc1`         | Intel          | Pentium N3700       | NixOS         | Server       | WIP      |
-| `nuc2`         | Intel          | Pentium N3700       | NixOS         | Server       | WIP      |
-| `nuc3`         | Intel          | Pentium N3700       | NixOS         | Server       | WIP      |
-| `nuc4`         | Intel          | Pentium N3700       | NixOS         | Server       | WIP      |
-| `nuc5`         | Intel          | Pentium N3700       | NixOS         | Server       | WIP      |
-| `nuc6`         | Intel          | Pentium N3700       | NixOS         | Server       | WIP      |
-| `nuc7`         | Intel          | Pentium N3700       | NixOS         | Server       | WIP      |
-| `nuc8`         | Intel          | Pentium N3700       | NixOS         | Server       | WIP      |
-| `nuc9`         | Intel          | Pentium N3700       | NixOS         | Server       | WIP      |
-| `shiroi`       | DIY            | Celeron G1610T      | NixOS         | Server       | WIP      |
-| `tegra0`       | Nvidia         | Tegra K1            | NixOS         | Server       | WIP      |
-| `tegra1`       | Nvidia         | Tegra K1            | NixOS         | Server       | WIP      |
-| `tegra2`       | Nvidia         | Tegra K1            | NixOS         | Server       | WIP      |
-| `tegra3`       | Nvidia         | Tegra K1            | NixOS         | Server       | WIP      |
-| `tegra4`       | Nvidia         | Tegra K1            | NixOS         | Server       | WIP      |
-| `tp0`          | Lenovo         | Thinkpad T510       | NixOS         | Laptop       | WIP      |
-| `tp1`          | Lenovo         | Thinkpad T510       | NixOS         | Laptop       | WIP      |
+| `glass`        | DIY            | AMD Ryzen 9 3900X   | NixOS         | Desktop      | Done     |
+| `kuroi`        | Dell           | Dell Latitute E5470 | NixOS         | Laptop       | WIP      |
+| `nuc0`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
+| `nuc1`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
+| `nuc2`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
+| `nuc3`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
+| `nuc4`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
+| `nuc5`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
+| `nuc6`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
+| `nuc7`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
+| `nuc8`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
+| `nuc9`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
+| `rpi2`         | Raspberry Pi   | Raspberry Pi 2      | NixOS         | Server       | WIP      |
+| `shiroi`       | DIY            | Celeron G1610T      | NixOS         | Server       | TBD      |
+| `tegra0`       | Nvidia         | Tegra K1            | NixOS         | Server       | TBD      |
+| `tegra1`       | Nvidia         | Tegra K1            | NixOS         | Server       | TBD      |
+| `tegra2`       | Nvidia         | Tegra K1            | NixOS         | Server       | TBD      |
+| `tegra3`       | Nvidia         | Tegra K1            | NixOS         | Server       | TBD      |
+| `tegra4`       | Nvidia         | Tegra K1            | NixOS         | Server       | TBD      |
+| `t510`         | Lenovo         | Thinkpad T510       | NixOS         | Laptop       | Done     |
 
 ## Respects
 
@@ -137,15 +137,20 @@ Here is the directory structure I'm using.
 │   │   ├── services
 │   │   ├── users
 │   │   └── virt
-│   ├── designare
 │   ├── iso
-│   ├── skull
-│   ├── vm
-│   ├── z13
+│   │   ├── iso-nuc
+│   │   └── iso-tk1
+│   ├── server
+│   │   └── ...
+│   ├── workstation
+│   │   ├── glass
+│   │   └── kuroi
 │   └── default.nix
 ├── overlays
 ├── pkgs
 ├── scripts
+├── sdcard
+│   └── rpi2.nix
 └── flake.nix
 ```
 
@@ -201,6 +206,8 @@ MATE Desktop 🧉 and Pantheon 🏛️ are the two desktop options available. Th
 - [ ] ~~Migrate (*maybe*) to ZFS, with backups via [`zrepl`](https://zrepl.github.io/)~~
 - [x] Fix Magewell mwprocapture driver: [nixpkgs#221209](https://github.com/NixOS/nixpkgs/pull/221209)
   - [ ] [And again](https://github.com/NixOS/nixpkgs/pull/247897)
+- [ ] Support Raspberry Pi installer
+  - [ ] With Nix flakes
 
 ### Applications
 
@@ -269,6 +276,9 @@ I like the directory hierarchy in [Jon Seager's nixos-config] and the mixin patt
 The [Disko] implementation and automated installation is chasing the ideas outlined in these blog posts:
   - [Setting up my new laptop: nix style](https://bmcgee.ie/posts/2022/12/setting-up-my-new-laptop-nix-style/)
   - [Setting up my machines: nix style](https://aldoborrero.com/posts/2023/01/15/setting-up-my-machines-nix-style/)
+
+
+<!-- References -->
 
 [nome from Luc Perkins]: https://github.com/the-nix-way/nome
 [nixos-config from Cole Helbling]: https://github.com/cole-h/nixos-config
