@@ -7,6 +7,10 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
 
+    # nix-darwin support for managing macOS devices
+    nix-darwin.url = "github:LnL7/nix-darwin";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -46,7 +50,7 @@
       inherit (self) outputs;
       # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
       stateVersion = "23.05";
-      libx = import ./lib { inherit inputs outputs stateVersion; };
+      libx = import ./lib { inherit self inputs outputs stateVersion; };
     in
     {
       # home-manager switch -b backup --flake $HOME/0xc/nix-config
@@ -67,6 +71,15 @@
         "tcarrio@skull" = libx.mkHome { hostname = "skull"; username = "tcarrio"; };
         "tcarrio@vm-mini" = libx.mkHome { hostname = "vm-mini"; username = "tcarrio"; };
       };
+
+      # Support for nix-darwin workstations
+      # - darwin-rebuild build --flake .#alum
+      darwinConfigurations = {
+        "alum" = libx.mkDarwin { username = "tcarrio"; hostname = "alum"; stateVersion = 4; };
+      };
+
+      # Expose the package set, including overlays, for convenience.
+      darwinPackages = self.darwinConfigurations."alum".pkgs;
 
       nixosConfigurations = {
         # .iso images
