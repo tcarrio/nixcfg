@@ -9,6 +9,7 @@
     environment.systemPackages = with pkgs; [
         # SYSTEM packages, for all users
         glances
+        home-manager
     ];
 
     # Auto upgrade nix package and the daemon service.
