@@ -1,4 +1,4 @@
-{ inputs, outputs, stateVersion, ... }: {
+{ self, inputs, outputs, stateVersion, ... }: {
   # Helper function for generating home-manager configs
   mkHome = { hostname, username, desktop ? null, platform ? "x86_64-linux" }: inputs.home-manager.lib.homeManagerConfiguration {
     pkgs = inputs.nixpkgs.legacyPackages.${platform};
@@ -20,6 +20,13 @@
       ../nixos
       inputs.agenix.nixosModules.default
     ] ++ (inputs.nixpkgs.lib.optionals (installer != null) [ installer ]);
+  };
+
+  mkDarwin = { hostname, username, stateVersion ? 4, platform ? "aarch64-darwin" }: inputs.nix-darwin.lib.darwinSystem {
+    specialArgs = {
+      inherit self inputs outputs hostname username platform stateVersion;
+    };
+    modules = [../macos];
   };
 
   forAllSystems = inputs.nixpkgs.lib.genAttrs [
