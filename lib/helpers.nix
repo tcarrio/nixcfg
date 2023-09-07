@@ -26,7 +26,10 @@
     specialArgs = {
       inherit self inputs outputs hostname username platform stateVersion;
     };
-    modules = [../macos];
+    modules = [
+      ../macos
+      inputs.home-manager.darwinModules.home-manager
+    ];
   };
 
   forAllSystems = inputs.nixpkgs.lib.genAttrs [
