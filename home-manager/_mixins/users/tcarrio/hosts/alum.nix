@@ -1,4 +1,4 @@
-_:
+{ lib, ... }:
 {
   programs = {
     fish = {
@@ -52,8 +52,9 @@ _:
         };
     };
 
-    git = {
+    git = lib.mkForce {
         userEmail = "thomas.carrio@skillshare.com";
         userName = "Tom Carrio";
     };
+  };
 }
