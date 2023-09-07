@@ -7,6 +7,10 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
 
+    # nix-darwin support for managing macOS devices
+    nix-darwin.url = "github:LnL7/nix-darwin";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 
