@@ -85,6 +85,8 @@ For now, build the image with:
 
 ```bash
 nix-build '<nixpkgs/nixos>' -A config.system.build.sdImage -I nixos-config=./sdcard/rpi2.nix
+# outputs to ${REPO_DIR}/result
+zstdcat ./result/sd-image/nixos-sd-image-*-aarch64-linux.img.zst | dd bs=1M iflag=fullblock of=/dev/sde status=progress
 ```
 
 ## Applying Changes ✨
@@ -92,7 +94,7 @@ nix-build '<nixpkgs/nixos>' -A config.system.build.sdImage -I nixos-config=./sdc
 I clone this repo to `~/0xc/nix-config`. NixOS and Home Manager changes are applied separately because I have some non-NixOS hosts.
 
 ```bash
-gh repo clone tcarrio/nix-config ~/0xc/nix-config
+git clone git@github:tcarrio/nix-config ~/0xc/nix-config
 ```
 
 ### NixOS ❄️
