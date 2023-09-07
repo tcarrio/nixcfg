@@ -63,5 +63,6 @@
     "d /home/${username}/Syncthing                     0755 ${username} users - -"
     "d /home/${username}/Websites                      0755 ${username} users - -"
     "L+ /home/${username}/.config/obs-studio/          -    -           -     - /home/${username}/Studio/OBS/config/obs-studio/"
+    "d /home/${username}/Developer                     0750 ${username} users - -"
   ];
 }
