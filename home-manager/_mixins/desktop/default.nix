@@ -43,8 +43,8 @@
     #LightGrey + White
     "*color7" = "#c8c8c8";
     "*color15" = "#e9e9e9";
-    "XTerm*faceName" = "FiraCode Nerd Font:size=13:style=Medium:antialias=true";
-    "XTerm*boldFont" = "FiraCode Nerd Font:size=13:style=Bold:antialias=true";
+    "XTerm*faceName" = "FiraCode Nerd Font:size=11:style=Medium:antialias=true";
+    "XTerm*boldFont" = "FiraCode Nerd Font:size=11:style=Bold:antialias=true";
     "XTerm*geometry" = "132x50";
     "XTerm.termName" = "xterm-256color";
     "XTerm*locale" = false;
