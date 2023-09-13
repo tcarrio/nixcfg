@@ -155,6 +155,40 @@
       };
       aliases = {
         lg = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
+        a = "add";
+        f = "fetch";
+        p = "push";
+        co = "checkout";
+        cm = "commit";
+        st = "status";
+        br = "branch";
+        rs = "reset";
+        rb = "rebase";
+        d = "diff";
+        ds = "d --staged";
+        # branch name
+        bn = "br --show-current";
+        # gets root directory
+        rd = "rev-parse --show-toplevel";
+        # gets latest shared commit
+        sr = "merge-base HEAD";
+        aa = "!git a $(git rd)";
+        fa = "f --all";
+        # shows commit history
+        hist = "log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short";
+        # amend
+        am = "!git cm --amend --no-edit --date=\"$(date +'%Y %D')\"";
+        # force with lease
+        pf = "p origin HEAD --force-with-lease";
+        # FORCEEEE
+        pff = "p origin HEAD --force";
+        # squash it
+        sq = "!gitsq() { git rb -i $(git sr $1) $2; }; gitsq";
+        # generate patch
+        gp = "!gitgenpatch() { target=$1; git format-patch $target --stdout | sed -n -e '/^diff --git/,$p' | head -n -3; }; gitgenpatch";
+        cob = "co -b";
+        rh = "rs --hard";
+        rho = "!git rh origin/$(git bn)";
       };
       extraConfig = {
         push = {
@@ -162,6 +196,7 @@
         };
         pull = {
           rebase = true;
+	        ff = "only";
         };
         init = {
           defaultBranch = "main";
