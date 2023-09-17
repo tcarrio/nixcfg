@@ -22,6 +22,7 @@ in
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
     ../../_mixins/desktop/helix.nix
+    ../../_mixins/desktop/steam.nix
     ../../_mixins/hardware/systemd-boot.nix
     ../../_mixins/services/pipewire.nix
     ../../_mixins/services/tailscale.nix
