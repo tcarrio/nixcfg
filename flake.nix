@@ -32,6 +32,7 @@
     , nix-formatter-pack
     , nixpkgs
     , vscode-server
+    , helix
     , ...
     } @ inputs:
     let
@@ -74,7 +75,6 @@
         glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "pantheon"; };
         kuroi = libx.mkHost { systemType = "workstation"; hostname = "kuroi"; username = "tcarrio"; desktop = "gnome"; };
         t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
-        vm = libx.mkHost { systemType = "workstation"; hostname = "vm"; username = "tcarrio"; desktop = "pantheon"; };
 
         # Servers
         # Can be executed locally:
@@ -83,11 +83,18 @@
         # Or remotely:
         #  - nixos-rebuild switch --fast --flake .#${HOST} \
         #      --target-host ${USERNAME}@${HOST}.${TAILNET} \
-        #      --build-host ${USERNAME}@${HOST}.${TAILNET}
-        brix = libx.mkHost { systemType = "server"; hostname = "brix"; username = "tcarrio"; };
-        skull = libx.mkHost { systemType = "server"; hostname = "skull"; username = "tcarrio"; };
-        vm-mini = libx.mkHost { systemType = "server"; hostname = "vm-mini"; username = "tcarrio"; };
-      };
+        #      --build-host  ${USERNAME}@${HOST}.${TAILNET}
+        nuc0 = libx.mkHost { systemType = "server"; hostname = "nuc0"; username = "tcarrio"; };
+        nuc1 = libx.mkHost { systemType = "server"; hostname = "nuc1"; username = "tcarrio"; };
+        nuc2 = libx.mkHost { systemType = "server"; hostname = "nuc2"; username = "tcarrio"; };
+        nuc3 = libx.mkHost { systemType = "server"; hostname = "nuc3"; username = "tcarrio"; };
+        nuc4 = libx.mkHost { systemType = "server"; hostname = "nuc4"; username = "tcarrio"; };
+        nuc5 = libx.mkHost { systemType = "server"; hostname = "nuc5"; username = "tcarrio"; };
+        nuc6 = libx.mkHost { systemType = "server"; hostname = "nuc6"; username = "tcarrio"; };
+        nuc7 = libx.mkHost { systemType = "server"; hostname = "nuc7"; username = "tcarrio"; };
+        nuc8 = libx.mkHost { systemType = "server"; hostname = "nuc8"; username = "tcarrio"; };
+        nuc9 = libx.mkHost { systemType = "server"; hostname = "nuc9"; username = "tcarrio"; };
+      } ;
 
       # Devshell for bootstrapping; acessible via 'nix develop' or 'nix-shell' (legacy)
       devShells = libx.forAllSystems (system:
