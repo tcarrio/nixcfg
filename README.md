@@ -89,6 +89,10 @@ nix-build '<nixpkgs/nixos>' -A config.system.build.sdImage -I nixos-config=./sdc
 zstdcat ./result/sd-image/nixos-sd-image-*-aarch64-linux.img.zst | dd bs=1M iflag=fullblock of=/dev/sde status=progress
 ```
 
+### Installing macOS (WIP)
+
+The [nix-darwin] project provides support for managing macOS systems with Nix in a similar fashion to NixOS. With this, we can ensure that the system has everything we need available and that we can reproduce a working development environment with minimal overhead.
+
 ## Applying Changes ✨
 
 I clone this repo to `~/0xc/nix-config`. NixOS and Home Manager changes are applied separately because I have some non-NixOS hosts.
@@ -220,6 +224,7 @@ MATE Desktop 🧉 and Pantheon 🏛️ are the two desktop options available. Th
   - [ ] [And again](https://github.com/NixOS/nixpkgs/pull/247897)
 - [ ] Support Raspberry Pi installer
   - [ ] With Nix flakes
+- [ ] Support macOS with [nix-darwin]
 
 ### Applications
 
@@ -302,3 +307,4 @@ The [Disko] implementation and automated installation is chasing the ideas outli
 [Will Taylor's dotfiles]: https://github.com/wiltaylor/dotfiles
 [GitHub nixos configuration]: https://github.com/search?q=nixos+configuration
 [Disko]: https://github.com/nix-community/disko
+[nix-darwin]: http://daiderd.com/nix-darwin/
