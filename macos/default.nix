@@ -27,13 +27,11 @@
         fontDir.enable = true;
         fonts = with pkgs; [
             font-awesome
-            tamzen
             (nerdfonts.override {
                 fonts = [
                   "FiraCode"
                 ];
             })
-            # "${pkgs.tamzen}/share/consolefonts/TamzenForPowerline10x20.psf"
         ];
     };
 
