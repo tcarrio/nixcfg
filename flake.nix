@@ -16,6 +16,9 @@
     home-manager.url = "github:nix-community/home-manager/release-23.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
+    nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
     nix-formatter-pack.url = "github:Gerschtli/nix-formatter-pack";
     nix-formatter-pack.inputs.nixpkgs.follows = "nixpkgs";
 
