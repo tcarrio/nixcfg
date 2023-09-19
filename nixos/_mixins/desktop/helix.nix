@@ -1,5 +1,5 @@
-{ pkgs, inputs, ... }: {
-  environment.systemPackages = with inputs.helix.packages.${pkgs.system}; [
+{ pkgs, ... }: {
+  environment.systemPackages = with pkgs; [
     helix
   ];
 }
