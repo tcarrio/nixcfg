@@ -225,6 +225,7 @@
         rebuild-home = "home-manager switch -b backup --flake $HOME/0xc/nix-config";
         rebuild-host = "sudo nixos-rebuild switch --flake $HOME/0xc/nix-config";
         rebuild-lock = "pushd $HOME/0xc/nix-config && nix flake lock --recreate-lock-file && popd";
+        modify-secret = "agenix -i ~/.ssh/id_rsa -e" # the path relative to /secrets must be passed
         rebuild-iso-console = "sudo true && pushd $HOME/0xc/nix-config && nix build .#nixosConfigurations.iso-console.config.system.build.isoImage && set ISO (head -n1 result/nix-support/hydra-build-products | cut -d'/' -f6) && sudo cp result/iso/$ISO ~/Quickemu/nixos-console/nixos.iso && popd";
         rebuild-iso-desktop = "sudo true && pushd $HOME/0xc/nix-config && nix build .#nixosConfigurations.iso-desktop.config.system.build.isoImage && set ISO (head -n1 result/nix-support/hydra-build-products | cut -d'/' -f6) && sudo cp result/iso/$ISO ~/Quickemu/nixos-desktop/nixos.iso && popd";
         rebuild-iso-gpd-edp = "sudo true && pushd $HOME/0xc/nix-config && nix build .#nixosConfigurations.iso-gpd-edp.config.system.build.isoImage && set ISO (head -n1 result/nix-support/hydra-build-products | cut -d'/' -f6) && sudo cp result/iso/$ISO ~/Quickemu/nixos-gpd-edp.iso && popd";
