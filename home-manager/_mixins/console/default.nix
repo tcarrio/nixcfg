@@ -11,7 +11,6 @@
       butler # Terminal Itch.io API client
       chafa # Terminal image viewer
       dconf2nix # Nix code from Dconf files
-      debootstrap # Terminal Debian installer
       diffr # Modern Unix `diff`
       difftastic # Modern Unix `diff`
       dua # Modern Unix `du`
@@ -27,7 +26,6 @@
       jpegoptim # Terminal JPEG optimizer
       jiq # Modern Unix `jq`
       lazygit # Terminal Git client
-      lurk # Modern Unix `strace`
       moar # Modern Unix `less`
       neofetch # Terminal system info
       nixpkgs-review # Nix code review
@@ -251,28 +249,6 @@
       enable = true;
       enableBashIntegration = true;
       enableFishIntegration = true;
-    };
-  };
-
-  services = {
-    gpg-agent = {
-      enable = true;
-      enableSshSupport = true;
-      pinentryFlavor = "curses";
-    };
-  };
-
-  # Nicely reload system units when changing configs
-  systemd.user.startServices = "sd-switch";
-
-  xdg = {
-    enable = true;
-    userDirs = {
-      enable = true;
-      createDirectories = lib.mkDefault true;
-      extraConfig = {
-        XDG_SCREENSHOTS_DIR = "${config.home.homeDirectory}/Pictures/Screenshots";
-      };
     };
   };
 }

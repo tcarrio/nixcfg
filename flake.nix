@@ -61,7 +61,7 @@
         "tk1@iso-tk1" = libx.mkHome { hostname = "iso-tk1"; username = "nixos"; };
 
         # Workstations
-        "tcarrio@alum" = libx.mkHome { hostname = "alum"; username = "tcarrio"; };
+        "tcarrio@alum" = libx.mkHome { hostname = "alum"; username = "tcarrio"; platform = "aarch64-darwin"; };
         "tcarrio@glass" = libx.mkHome { hostname = "glass"; username = "tcarrio"; desktop = "i3"; };
         "tcarrio@kuroi" = libx.mkHome { hostname = "kuroi"; username = "tcarrio"; desktop = "gnome"; };
         "tcarrio@t510" = libx.mkHome { hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
