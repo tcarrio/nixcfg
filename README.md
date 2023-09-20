@@ -7,6 +7,7 @@ This repository contains a [Nix Flake](https://nixos.wiki/wiki/Flakes) for confi
 
 |    Hostname    |       OEM      |        Model        |       OS      |     Role     |  Status  |
 | :------------: | :------------: | :-----------------: | :-----------: | :----------: | :------- |
+| `alum`         | Apple          | Apple M1 Pro        | macOS         | Laptop       | WIP      |
 | `glass`        | DIY            | AMD Ryzen 9 3900X   | NixOS         | Desktop      | Done     |
 | `kuroi`        | Dell           | Dell Latitute E5470 | NixOS         | Laptop       | WIP      |
 | `nuc0`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
