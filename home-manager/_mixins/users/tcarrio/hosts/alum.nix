@@ -1,5 +1,9 @@
 { lib, ... }:
 {
+  imports = [
+    ../../../desktop/doom-emacs.nix
+  ];
+
   programs = {
     fish = {
         enable = true;
@@ -35,17 +39,15 @@
           set -U fish_pager_color_prefix white --bold --underline
           set -U fish_pager_color_progress brwhite '--background=cyan'
         '';
-        shellAbbrs = {
+        shellAliases = {
           nix-gc = "sudo nix-collect-garbage --delete-older-than 14d";
           rebuild-all = "nix-gc && rebuild-host && rebuild-home";
           rebuild-home = "home-manager switch -b backup --flake $HOME/0xc/nix-config";
           rebuild-host = "darwin-rebuild switch --flake $HOME/0xc/nix-config";
           rebuild-lock = "pushd $HOME/0xc/nix-config && nix flake lock --recreate-lock-file && popd";
-        };
-        shellAliases = {
+
           moon = "curl -s wttr.in/Moon";
           nano = "vim";
-          open = "xdg-open";
           pubip = "curl -s ifconfig.me/ip";
           wttr = "curl -s wttr.in && curl -s v2.wttr.in";
           wttr-bas = "curl -s wttr.in/detroit && curl -s v2.wttr.in/detroit";
