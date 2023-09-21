@@ -25,6 +25,13 @@
       disk_size="96G"
       iso="nixos-desktop/nixos.iso"
     '';
+    file."Quickemu/nixos-nuc.conf".text = ''
+      #!/run/current-system/sw/bin/quickemu --vm
+      guest_os="linux"
+      disk_img="nixos-nuc/disk.qcow2"
+      disk_size="96G"
+      iso="nixos-nuc/nixos.iso"
+    '';
     sessionVariables = {
       # ...
     };
@@ -44,6 +51,9 @@
     "d /home/${username}/0xc                           0755 ${username} users - -"
     "d /home/${username}/Code                          0755 ${username} users - -"
     "d /home/${username}/Games                         0755 ${username} users - -"
+    "d /home/${username}/Quickemu/nixos-console        0755 ${username} users - -"
+    "d /home/${username}/Quickemu/nixos-desktop        0755 ${username} users - -"
+    "d /home/${username}/Quickemu/nixos-nuc            0755 ${username} users - -"
     "d /home/${username}/Studio/OBS/config/obs-studio/ 0755 ${username} users - -"
     "d /home/${username}/Syncthing                     0755 ${username} users - -"
     "d /home/${username}/Websites                      0755 ${username} users - -"
