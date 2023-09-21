@@ -221,15 +221,22 @@
       '';
       shellAbbrs = {
         nix-gc = "sudo nix-collect-garbage --delete-older-than 14d";
+
         rebuild-all = "sudo nix-collect-garbage --delete-older-than 14d && sudo nixos-rebuild switch --flake $HOME/0xc/nix-config && home-manager switch -b backup --flake $HOME/0xc/nix-config";
         rebuild-home = "home-manager switch -b backup --flake $HOME/0xc/nix-config";
         rebuild-host = "sudo nixos-rebuild switch --flake $HOME/0xc/nix-config";
         rebuild-lock = "pushd $HOME/0xc/nix-config && nix flake lock --recreate-lock-file && popd";
+
         modify-secret = "agenix -i ~/.ssh/id_rsa -e"; # the path relative to /secrets must be passed
+        
         rebuild-iso-console = "sudo true && pushd $HOME/0xc/nix-config && nix build .#nixosConfigurations.iso-console.config.system.build.isoImage && set ISO (head -n1 result/nix-support/hydra-build-products | cut -d'/' -f6) && sudo cp result/iso/$ISO ~/Quickemu/nixos-console/nixos.iso && popd";
+        test-iso-console =    "pushd ~/Quickemu/nixos-console/nixos.iso && quickemu --vm nixos-console.conf --ssh-port 54321 && popd";
+        
         rebuild-iso-desktop = "sudo true && pushd $HOME/0xc/nix-config && nix build .#nixosConfigurations.iso-desktop.config.system.build.isoImage && set ISO (head -n1 result/nix-support/hydra-build-products | cut -d'/' -f6) && sudo cp result/iso/$ISO ~/Quickemu/nixos-desktop/nixos.iso && popd";
-        rebuild-iso-gpd-edp = "sudo true && pushd $HOME/0xc/nix-config && nix build .#nixosConfigurations.iso-gpd-edp.config.system.build.isoImage && set ISO (head -n1 result/nix-support/hydra-build-products | cut -d'/' -f6) && sudo cp result/iso/$ISO ~/Quickemu/nixos-gpd-edp.iso && popd";
-        rebuild-iso-gpd-dsi = "sudo true && pushd $HOME/0xc/nix-config && nix build .#nixosConfigurations.iso-gpd-dsi.config.system.build.isoImage && set ISO (head -n1 result/nix-support/hydra-build-products | cut -d'/' -f6) && sudo cp result/iso/$ISO ~/Quickemu/nixos-gpd-dsi.iso && popd";
+        test-iso-desktop =    "pushd ~/Quickemu/nixos-desktop/nixos.iso && quickemu --vm nixos-desktop.conf --ssh-port 54321 && popd";
+        
+        rebuild-iso-nuc =     "sudo true && pushd $HOME/0xc/nix-config && nix build .#nixosConfigurations.iso-nuc.config.system.build.isoImage     && set ISO (head -n1 result/nix-support/hydra-build-products | cut -d'/' -f6) && sudo cp result/iso/$ISO ~/Quickemu/nixos-nuc/nixos.iso     && popd";
+        test-iso-nuc =        "pushd ~/Quickemu/nixos-nuc/nixos.iso     && quickemu --vm nixos-nuc.conf     --ssh-port 54321 && popd";
       };
       shellAliases = {
         moon = "curl -s wttr.in/Moon";
