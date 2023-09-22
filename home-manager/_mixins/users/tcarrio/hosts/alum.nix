@@ -7,10 +7,10 @@
   ];
 
   home = {
+    sessionPath = [ "/opt/homebrew/bin" ];
     sessionVariables = {
       AWS_REGION = "us-east-1";
       AWS_PROFILE = "skillshare-utility-developer";
-
       SSH_AUTH_SOCK = "/Users/tcarrio/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
     };
     file = {
@@ -63,6 +63,8 @@
       show_open_ports = "lsof -nP -iTCP -sTCP:LISTEN";
     };
   };
+
+  programs.fish.shellAliases.rebuild-host = lib.mkForce "darwin-rebuild switch --flake $HOME/0xc/nix-config";
 
   programs.git.userEmail = lib.mkForce "thomas.carrio@skillshare.com";
 }
