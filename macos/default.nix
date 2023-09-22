@@ -79,11 +79,9 @@
                 rebuild-lock = "pushd $HOME/0xc/nix-config && nix flake lock --recreate-lock-file && popd";
                 # TODO: Support secrets management on macOS
                 # modify-secret = "agenix -i ~/.ssh/id_rsa -e"; # the path relative to /secrets must be passed
-            };
-            shellAliases = {
+
                 moon = "curl -s wttr.in/Moon";
                 nano = "vim";
-                open = "xdg-open";
                 pubip = "curl -s ifconfig.me/ip";
                 #pubip = "curl -s https://api.ipify.org";
                 wttr = "curl -s wttr.in && curl -s v2.wttr.in";

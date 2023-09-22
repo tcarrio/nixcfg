@@ -1,7 +1,8 @@
 { lib, config, ... }:
 {
   imports = [
-    ../../../desktop/doom-emacs.nix
+    # TODO: Implement Doom Emacs
+    # ../../../desktop/doom-emacs.nix
   ];
 
   home = {
@@ -13,8 +14,6 @@
       "${config.xdg.configHome}/direnv/direnv.toml".text = builtins.readFile ./alum-direnv.toml;
     };
   };
-
-  programs.fish.shellAliases.rebuild-host = lib.mkForce "darwin-rebuild switch --flake $HOME/0xc/nix-config";
 
   programs.git.userEmail = lib.mkForce "thomas.carrio@skillshare.com";
 }
