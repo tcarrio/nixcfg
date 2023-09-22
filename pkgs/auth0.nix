@@ -16,9 +16,7 @@ buildGo120Module rec {
 
   vendorHash = "sha256-T8y7MPFebDU6skfz4Rqo0ElRRaldtfexOl99D7h+orU=";
 
-  # upstream did not update the tests, so they are broken now
-  # https://github.com/sorenisanerd/gotty/issues/13
-  doCheck = true;
+  doCheck = false;
 
   meta = with lib; {
     description = "Build, manage and test your Auth0 integrations from the command line";

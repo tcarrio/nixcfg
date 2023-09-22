@@ -7,10 +7,6 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
 
-    # nix-darwin support for managing macOS devices
-    nix-darwin.url = "github:LnL7/nix-darwin";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs-unstable";
-
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -34,8 +30,23 @@
     devshells.url = "github:tcarrio/devshells";
     devshells.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
+    # Android support with nix-on-droid
     nix-on-droid.url = "github:nix-community/nix-on-droid/release-23.05";
     nix-on-droid.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Darwin support with nix-darwin
+    nix-darwin.url = "github:LnL7/nix-darwin";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+    # Homebrew support
+    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+    nix-homebrew.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+    homebrew-core.url = "github:homebrew/homebrew-core";
+    homebrew-core.flake = false;
+    
+    homebrew-cask.url = "github:homebrew/homebrew-cask";
+    homebrew-cask.flake = false;
   };
   outputs =
     { self

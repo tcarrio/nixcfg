@@ -3,4 +3,25 @@
 # RAM:         16GB DDR4
 # SATA:        500GB SSD
 
-_: {}
+{ ... }: {
+  imports = [
+    # TODO: Enable homebrew management
+    # ../_mixins/console/homebrew.nix
+  ];
+
+  system = {
+    defaults = {
+      dock = {
+        autohide = true;
+        orientation = "bottom";
+        tilesize = 128;
+      };
+      finder = {};
+      trackpad = {
+        Clicking = true;
+        TrackpadRightClick = true;
+      };
+    };
+    keyboard = { enableKeyMapping = true; };
+  };
+}
