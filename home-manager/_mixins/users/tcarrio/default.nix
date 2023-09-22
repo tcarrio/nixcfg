@@ -34,6 +34,7 @@ in
       disk_size="96G"
       iso="nixos-nuc/nixos.iso"
     '';
+    file.".ssh/config".text = builtins.readFile ./ssh.conf;
     sessionVariables = {
       # ...
     };
