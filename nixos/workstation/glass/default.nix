@@ -22,6 +22,7 @@ in
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
     ../../_mixins/desktop/fractal.nix
+    ../../_mixins/console/helix.nix
     ../../_mixins/desktop/steam.nix
     ../../_mixins/hardware/gtx-1080ti.nix
     ../../_mixins/hardware/systemd-boot.nix
@@ -31,7 +32,7 @@ in
   ];
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_6_5;
     blacklistedKernelModules = lib.mkDefault [ "nouveau" ];
     extraModulePackages = [ ];
     initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];

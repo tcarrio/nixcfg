@@ -8,6 +8,7 @@
     # $ nix-env -qaP | grep wget
     environment.systemPackages = with pkgs; [
         # SYSTEM packages, for all users
+        direnv
         glances
         home-manager
     ];
