@@ -26,6 +26,10 @@
     
     vscode-server.url = "github:msteen/nixos-vscode-server";
     vscode-server.inputs.nixpkgs.follows = "nixpkgs";
+
+    # ISO and VPS image generation
+    nixos-generators.url = "github:nix-community/nixos-generators";
+    nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs =
     { self
@@ -119,9 +123,39 @@
       overlays = import ./overlays { inherit inputs; };
 
       # Custom packages; acessible via 'nix build', 'nix shell', etc
-      packages = libx.forAllSystems (system:
+      packages = (libx.forAllSystems (system:
         let pkgs = nixpkgs.legacyPackages.${system};
         in import ./pkgs { inherit pkgs; }
-      );
+      )) // {
+        # TODO: Support for multiple platforms per image
+        packages.x86_64-linux = {
+          wallabagDO = libx.mkImage { systemType = "server"; hostname = "wallawalla"; format = "do"; username = "nixos"; };
+
+          vmware = nixos-generators.nixosGenerate {
+            system = "x86_64-linux";
+            modules = [
+              # you can include your own nixos configuration here, i.e.
+              # ./configuration.nix
+            ];
+            format = "vmware";
+            
+            # optional arguments:
+            # explicit nixpkgs and lib:
+            # pkgs = nixpkgs.legacyPackages.x86_64-linux;
+            # lib = nixpkgs.legacyPackages.x86_64-linux.lib;
+            # additional arguments to pass to modules:
+            # specialArgs = { myExtraArg = "foobar"; };
+            
+            # you can also define your own custom formats
+            # customFormats = { "myFormat" = <myFormatModule>; ... };
+            # format = "myFormat";
+          };
+
+          vbox = nixos-generators.nixosGenerate {
+            system = "x86_64-linux";
+            format = "virtualbox";
+          };
+        };
+      };
     };
 }

@@ -22,6 +22,19 @@
     ] ++ (inputs.nixpkgs.lib.optionals (installer != null) [ installer ]);
   };
 
+  mkImage = { hostname, username, format, desktop ? null, systemType ? null }: inputs.nixos-generators.nixosGenerate {
+    system = platform;
+    format = format;
+
+    specialArgs = {
+      inherit inputs outputs desktop hostname username platform stateVersion systemType;
+    };
+    modules = [
+      ../nixos
+      inputs.agenix.nixosModules.default
+    ];
+  };
+
   forAllSystems = inputs.nixpkgs.lib.genAttrs [
     "armv7l-linux"
     "aarch64-linux"
