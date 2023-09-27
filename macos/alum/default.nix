@@ -14,7 +14,7 @@
       dock = {
         autohide = true;
         orientation = "bottom";
-        tilesize = 128;
+        tilesize = 64;
       };
       finder = {};
       trackpad = {
