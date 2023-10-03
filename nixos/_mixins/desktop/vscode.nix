@@ -91,12 +91,6 @@
           sha256 = "sha256-ZE+Dlq0mwyzr4nWL9v+JG00Gllj2dYwL2r9jUPQ8umQ=";
         }
         {
-          name = "cody-ai";
-          publisher = "sourcegraph";
-          version = "0.9.1693667194";
-          sha256 = "sha256-qxjScQVCuTCSkvqpuaZlOFL1O3S5rLzfoTAKrY/fm+c=";
-        }
-        {
           name = "remote-ssh-edit";
           publisher = "ms-vscode-remote";
           version = "0.47.2";
