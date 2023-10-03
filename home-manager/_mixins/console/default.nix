@@ -133,6 +133,11 @@
         top = "btm --basic --tree --hide_table_gap --dot_marker --mem_as_value";
         tree = "exa --tree";
       };
+      functions = {
+        shell = ''
+          nix develop $HOME/0xc/nix-config#$argv[1]
+        '';
+      };
     };
     gh = {
       enable = true;
