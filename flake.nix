@@ -28,7 +28,7 @@
     vscode-server.inputs.nixpkgs.follows = "nixpkgs";
 
     devshells.url = "github:tcarrio/devshells";
-    devshells.inputs.nixpkgs.follows = "nixpkgs";
+    devshells.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
   outputs =
     { self
