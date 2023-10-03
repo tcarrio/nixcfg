@@ -26,13 +26,16 @@
     
     vscode-server.url = "github:msteen/nixos-vscode-server";
     vscode-server.inputs.nixpkgs.follows = "nixpkgs";
+
+    devshells.url = "github:tcarrio/devshells";
+    devshells.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs =
     { self
     , nix-formatter-pack
     , nixpkgs
     , vscode-server
-    , helix
+    , devshells
     , ...
     } @ inputs:
     let
@@ -97,10 +100,10 @@
       } ;
 
       # Devshell for bootstrapping; acessible via 'nix develop' or 'nix-shell' (legacy)
-      devShells = libx.forAllSystems (system:
-        let pkgs = nixpkgs.legacyPackages.${system};
-        in import ./shell.nix { inherit pkgs; }
-      );
+      devShells = devshells.devShells; # libx.forAllSystems (system:
+        # let pkgs = nixpkgs.legacyPackages.${system};
+        # in import ./shell.nix { inherit pkgs; }
+      # );
 
       # nix fmt
       formatter = libx.forAllSystems (system:
