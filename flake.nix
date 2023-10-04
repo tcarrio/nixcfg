@@ -53,10 +53,10 @@
         "tk1@iso-tk1" = libx.mkHome { hostname = "iso-tk1"; username = "nixos"; };
 
         # Workstations
-        "tcarrio@glass" = libx.mkHome { hostname = "glass"; username = "tcarrio"; desktop = "pantheon"; };
+        "tcarrio@glass" = libx.mkHome { hostname = "glass"; username = "tcarrio"; desktop = "gnome"; };
         "tcarrio@kuroi" = libx.mkHome { hostname = "kuroi"; username = "tcarrio"; desktop = "gnome"; };
         "tcarrio@t510" = libx.mkHome { hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
-        "tcarrio@vm" = libx.mkHome { hostname = "vm"; username = "tcarrio"; desktop = "pantheon"; };
+        "tcarrio@vm" = libx.mkHome { hostname = "vm"; username = "tcarrio"; desktop = "gnome"; };
 
         # Servers
         "tcarrio@brix" = libx.mkHome { hostname = "brix"; username = "tcarrio"; };
@@ -75,7 +75,7 @@
         # Workstations
         #  - sudo nixos-rebuild switch --flake $HOME/0xc/nix-config
         #  - nix build .#nixosConfigurations.ripper.config.system.build.toplevel
-        glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "pantheon"; };
+        glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "gnome"; };
         kuroi = libx.mkHost { systemType = "workstation"; hostname = "kuroi"; username = "tcarrio"; desktop = "gnome"; };
         t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
 
