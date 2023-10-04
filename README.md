@@ -202,7 +202,7 @@ MATE Desktop 🧉 and Pantheon 🏛️ are the two desktop options available. Th
 
 ## Eye Candy 👀🍬
 
-![Pantheon on Designare](.github/screenshots/pantheon.png)
+![GNOME on Glass](.github/screenshots/gnome.png)
 
 ## TODO 🗒️
 
