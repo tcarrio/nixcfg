@@ -135,7 +135,15 @@
       };
       functions = {
         shell = ''
-          nix develop $HOME/0xc/nix-config#$argv[1]
+          nix develop $HOME/0xc/nix-config#$argv[1] || nix develop $HOME/0xc/nix-config#( \
+            git remote -v \
+              | grep '(push)' \
+              | awk '{print $2}' \
+              | cut -d ':' -f 2 \
+              | rev \
+              | sed 's/tig.//' \
+              | rev \
+          )
         '';
       };
     };
