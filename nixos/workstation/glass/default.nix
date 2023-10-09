@@ -21,6 +21,7 @@ in
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
+    ../../_mixins/desktop/fractal.nix
     ../../_mixins/desktop/steam.nix
     ../../_mixins/hardware/gtx-1080ti.nix
     ../../_mixins/hardware/systemd-boot.nix

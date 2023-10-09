@@ -1,5 +1,9 @@
 { pkgs, ... }:
 {
+  imports = [
+    ../services/xdg-portal.nix
+  ];
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
@@ -8,9 +12,9 @@
   services.xserver.desktopManager.gnome.enable = true;
 
   # Enable udev rules
-  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+  services.udev.packages = with pkgs.unstable; [ gnome.gnome-settings-daemon ];
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs.unstable; [
     gnomeExtensions.appindicator
     gnome3.gnome-tweaks
   ];
