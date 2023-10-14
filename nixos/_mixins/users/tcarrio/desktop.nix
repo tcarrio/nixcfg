@@ -1,7 +1,7 @@
 { desktop, pkgs, lib, ... }: {
   imports = [
     ../../desktop/chromium.nix
-    ../../desktop/cinny.nix
+    ../../desktop/element.nix
     ../../desktop/firefox.nix
     #../../desktop/evolution.nix
     ../../desktop/google-chrome.nix
