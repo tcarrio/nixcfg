@@ -7,7 +7,7 @@ let
 #set -euo pipefail
 
 TARGET_HOST="''${1:-}"
-TARGET_USER="''${2:-martin}"
+TARGET_USER="''${2:-tcarrio}"
 TARGET_TYPE="''${3:-}"
 
 if [ "$(id -u)" -eq 0 ]; then

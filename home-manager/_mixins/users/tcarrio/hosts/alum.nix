@@ -11,6 +11,9 @@
       "/opt/homebrew/bin"
     ];
     sessionVariables = {
+      AWS_REGION = "us-east-1";
+      AWS_PROFILE = "skillshare-utility-developer";
+
       SSH_AUTH_SOCK = "/Users/tcarrio/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
     };
     file = {
@@ -18,23 +21,28 @@
     };
   };
 
-  programs.fish.shellAliases = rec {
+  programs.fish.shellAliases = let
+    sh = target: "nix develop ~/0xc/devshells#${target} --command \$SHELL";
+    sk = target: "nix develop ~/Developer/sksh#${target} --command \$SHELL";
+  in rec
+  {
     sk = "~/Developer/workstation/bin/skillshare-workstation";
     sw = sk;
-    gti = "git";
 
-    shell = "nix develop ~/Developer/skix";
-    "shell:sk" = "${shell}#sk --command zsh";
-    "shell:web" = "${shell}#web --command zsh";
-    "shell:php74" = "${shell}#php74 --command zsh";
-    "shell:php80" = "${shell}#php80 --command zsh";
-    "shell:php81" = "${shell}#php81 --command zsh";
-    "shell:php82" = "${shell}#php82 --command zsh";
-    "shell:node" = "${shell}#node --command zsh";
-    "shell:node16" = "${shell}#node16 --command zsh";
-    "shell:node18" = "${shell}#node18 --command zsh";
-    "shell:node20" = "${shell}#node20 --command zsh";
-    "shell:python" = "${shell}#python --command zsh";
+    g = "git";
+    gti = g;
+
+    "sk:mono" = sk "sk";
+    "sk:web" = sk "web";
+    "sk:php74" = sk "php74";
+    "sk:php80" = sk "php80";
+    "sk:php81" = sk "php81";
+    "sk:php82" = sk "php82";
+    "sk:node" = sk "node";
+    "sk:node16" = sk "node16";
+    "sk:node18" = sk "node18";
+    "sk:node20" = sk "node20";
+    "sk:python" = sk "python";
   };
 
   programs.git.userEmail = lib.mkForce "thomas.carrio@skillshare.com";
