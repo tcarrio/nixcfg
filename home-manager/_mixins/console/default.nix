@@ -43,7 +43,6 @@
 
     sessionVariables = {
       EDITOR = "vim";
-      MANPAGER = "sh -c 'col --no-backspaces --spaces | bat --language man'";
       PAGER = "moar";
       SYSTEMD_EDITOR = "vim";
       VISUAL = "vim";
