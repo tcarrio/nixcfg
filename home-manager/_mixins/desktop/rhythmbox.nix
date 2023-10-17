@@ -11,7 +11,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/rhythmbox/rhythmdb" = {
-      locations = [ "file:///home/martin/Studio/Music" ];
+      locations = [ "file:///home/tcarrio/Studio/Music" ];
       monitor-library = true;
     };
 

@@ -262,8 +262,8 @@ MATE Desktop 🧉 and Pantheon 🏛️ are the two desktop options available. Th
 - [x] Include fallback fonts for Work Sans, Fira Code and Joypixels
 - [x] Create common user settings and discrete user settings
 - [x] Move application defaults out of the desktop defaults
-- [x] Create standard directories in `/home/martin` using `systemd.user.tmpfiles.rules`.
-- [x] Create `.envrc` files in `/home/martin`.
+- [x] Create standard directories in `/home/tcarrio` using `systemd.user.tmpfiles.rules`.
+- [x] Create `.envrc` files in `/home/tcarrio`.
 - [ ] Bind Syncthing GUI to ZeroTier.
 - [ ] Configure Plank.
 - [x] Fix [Unfree in Home Manager](https://github.com/Misterio77/nix-starter-configs/blob/main/minimal/home-manager/home.nix#L31))
