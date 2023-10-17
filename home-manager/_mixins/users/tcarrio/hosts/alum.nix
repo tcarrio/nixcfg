@@ -61,10 +61,9 @@
 
       ip = lib.mkForce "ifconfig";
       show_open_ports = "lsof -nP -iTCP -sTCP:LISTEN";
-    };
-  };
 
-  programs.fish.shellAliases.rebuild-host = lib.mkForce "darwin-rebuild switch --flake $HOME/0xc/nix-config";
+      rebuild-host = lib.mkForce "darwin-rebuild switch --flake $HOME/0xc/nix-config";
+    };
 
   programs.git.userEmail = lib.mkForce "thomas.carrio@skillshare.com";
 }
