@@ -4,8 +4,8 @@ with lib.hm.gvariant;
   dconf.settings = {
     "apps/audio-recorder" = {
       append-to-file = false;
-      filename-pattern = "LMP-martin-%V-%H%M";
-      folder-name = "/home/martin/Audio";
+      filename-pattern = "LMP-tcarrio-%V-%H%M";
+      folder-name = "/home/tcarrio/Audio";
       keep-on-top = true;
       level-bar-value = 2;
       media-format = "Podcast Mono, Lossless 44KHz";
