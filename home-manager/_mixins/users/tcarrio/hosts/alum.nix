@@ -64,6 +64,7 @@
 
       rebuild-host = lib.mkForce "darwin-rebuild switch --flake $HOME/0xc/nix-config";
     };
+  };
 
   programs.git.userEmail = lib.mkForce "thomas.carrio@skillshare.com";
 }
