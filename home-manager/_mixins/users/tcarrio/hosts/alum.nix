@@ -3,6 +3,7 @@
   imports = [
     # TODO: Implement Doom Emacs
     # ../../../desktop/doom-emacs.nix
+    ../../../console/asdf.nix
   ];
 
   home = {
@@ -21,28 +22,36 @@
     };
   };
 
-  programs.fish.shellAliases = let
-    sh = target: "nix develop ~/0xc/devshells#${target} --command \$SHELL";
-    sk = target: "nix develop ~/Developer/sksh#${target} --command \$SHELL";
-  in rec
-  {
-    sk = "~/Developer/workstation/bin/skillshare-workstation";
-    sw = sk;
+  programs.fish = {
+    interactiveShellInit = ''
+      source $HOME/.nix-profile/share/asdf-vm/asdf.fish
+    '';
+    shellAliases = let
+      sh = target: "nix develop ~/0xc/devshells#${target} --command \$SHELL";
+      sk = target: "nix develop ~/Developer/sksh#${target} --command \$SHELL";
+      git = "git";
+      skillshareWorkstation = "~/Developer/workstation/bin/skillshare-workstation";
+      ip = "ifconfig";
+    in
+    {
+      sk = skillshareWorkstation;
+      sw = skillshareWorkstation;
 
-    g = "git";
-    gti = g;
+      g = git;
+      gti = git;
 
-    "sk:mono" = sk "sk";
-    "sk:web" = sk "web";
-    "sk:php74" = sk "php74";
-    "sk:php80" = sk "php80";
-    "sk:php81" = sk "php81";
-    "sk:php82" = sk "php82";
-    "sk:node" = sk "node";
-    "sk:node16" = sk "node16";
-    "sk:node18" = sk "node18";
-    "sk:node20" = sk "node20";
-    "sk:python" = sk "python";
+      "sk:mono" = sk "sk";
+      "sk:web" = sk "web";
+      "sk:php74" = sk "php74";
+      "sk:php80" = sk "php80";
+      "sk:php81" = sk "php81";
+      "sk:php82" = sk "php82";
+      "sk:node" = sk "node";
+      "sk:node16" = sk "node16";
+      "sk:node18" = sk "node18";
+      "sk:node20" = sk "node20";
+      "sk:python" = sk "python";
+    };
   };
 
   programs.git.userEmail = lib.mkForce "thomas.carrio@skillshare.com";
