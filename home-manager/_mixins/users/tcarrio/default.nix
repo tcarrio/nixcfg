@@ -1,4 +1,4 @@
-{ lib, hostname, username, pkgs, ... }:
+{ lib, hostname, username, pkgs, inputs, ... }:
 let
   systemShortName = "darwin";
 in
@@ -8,6 +8,7 @@ in
     ++ lib.optional (builtins.pathExists (./. + "/systems/${systemShortName}.nix")) ./systems/${systemShortName}.nix;
 
   home = {
+    file."0xc/devshells".source = inputs.devshells;
     file.".ssh/config".text = "
       Host github.com
         HostName github.com
@@ -34,7 +35,6 @@ in
       disk_size="96G"
       iso="nixos-nuc/nixos.iso"
     '';
-    file.".ssh/config".text = builtins.readFile ./ssh.conf;
     sessionVariables = {
       # ...
     };
