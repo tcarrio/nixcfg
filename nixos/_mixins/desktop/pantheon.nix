@@ -4,6 +4,7 @@
   imports = [
     ./qt-style.nix
     ../services/networkmanager.nix
+    ../services/xdg-portal.nix
   ];
 
   # Exclude the elementary apps I don't use

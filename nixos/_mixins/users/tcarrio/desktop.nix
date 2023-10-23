@@ -1,12 +1,11 @@
 { desktop, pkgs, lib, ... }: {
   imports = [
-    ../../desktop/beeper.nix
     ../../desktop/chromium.nix
+    ../../desktop/element.nix
     ../../desktop/firefox.nix
     #../../desktop/evolution.nix
     ../../desktop/google-chrome.nix
     ../../desktop/lutris.nix
-    ../../desktop/microsoft-edge.nix
     ../../desktop/obs-studio.nix
     ../../desktop/spotify.nix
     ../../desktop/tilix.nix

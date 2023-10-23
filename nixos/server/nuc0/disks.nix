@@ -1,13 +1,13 @@
-{ disks ? [ "/dev/nvme0n1" "/dev/nvme1n1" ], ... }:
+{ disks ? [ "/dev/sda" "/dev/sdb" ], ... }:
 let
   defaultXfsOpts = [ "defaults" "relatime" "nodiratime" ];
 in
 {
   disko.devices = {
     disk = {
-      nvme1 = {
+      sda = {
         type = "disk";
-        device = builtins.elemAt disks 1;
+        device = builtins.elemAt disks 0;
         content = {
           type = "table";
           format = "gpt";
@@ -45,9 +45,9 @@ in
             }];
         };
       };
-      nvme0 = {
+      sdb = {
         type = "disk";
-        device = builtins.elemAt disks 0;
+        device = builtins.elemAt disks 1;
         content = {
           type = "table";
           format = "gpt";

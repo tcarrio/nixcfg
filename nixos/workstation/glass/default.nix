@@ -21,9 +21,12 @@ in
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
+    ../../_mixins/desktop/fractal.nix
+    ../../_mixins/desktop/steam.nix
+    ../../_mixins/hardware/gtx-1080ti.nix
     ../../_mixins/hardware/systemd-boot.nix
     ../../_mixins/services/pipewire.nix
-    ../../_mixins/services/tailscale.nix
+    ../../_mixins/services/tailscale-autoconnect.nix
     ../../_mixins/virt
   ];
 
@@ -34,12 +37,7 @@ in
     initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
     initrd.kernelModules = [ ];
     kernelModules = [ "kvm-amd" "nvidia" ];
-    # kernelModules = [ "kvm-amd" ];
   };
-
-  environment.systemPackages = with pkgs; [
-    nvtop
-  ];
 
   services = {
     hardware.openrgb = {
@@ -47,7 +45,6 @@ in
       motherboard = "amd";
       package = pkgs.openrgb-with-all-plugins;
     };
-    xserver.videoDrivers = [ "nvidia" ];
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

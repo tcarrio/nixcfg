@@ -19,9 +19,6 @@ in
   ++ lib.optional (builtins.isPath (./. + "/_mixins/users/${username}")) ./_mixins/users/${username};
 
   home = {
-    activation.report-changes = config.lib.dag.entryAnywhere ''
-      ${pkgs.nvd}/bin/nvd diff $oldGenPath $newGenPath
-    '';
     homeDirectory = if isDarwin then "/Users/${username}" else "/home/${username}";
     sessionPath = [ "$HOME/.local/bin" ];
     inherit stateVersion;

@@ -15,11 +15,14 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
+    # fix for nixos-rebuild hangups on certain hardware
+    ../../_mixins/hardware/disable-nm-wait.nix
+
     ../../_mixins/hardware/systemd-boot.nix
     ../../_mixins/services/pipewire.nix
     ../../_mixins/services/tailscale.nix
     ../../_mixins/services/yubikey.nix
-    ../../_mixins/virt
+    ../../_mixins/virt/podman.nix
   ];
 
   boot = {
@@ -47,7 +50,7 @@
 
     # communication
     discord
-    signal-desktop
+    element-desktop
     slack
     zoom-us
 

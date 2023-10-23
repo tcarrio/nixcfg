@@ -16,6 +16,9 @@
     home-manager.url = "github:nix-community/home-manager/release-23.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
+    nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
     nix-formatter-pack.url = "github:Gerschtli/nix-formatter-pack";
     nix-formatter-pack.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -23,12 +26,16 @@
     
     vscode-server.url = "github:msteen/nixos-vscode-server";
     vscode-server.inputs.nixpkgs.follows = "nixpkgs";
+
+    devshells.url = "github:tcarrio/devshells";
+    devshells.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
   outputs =
     { self
     , nix-formatter-pack
     , nixpkgs
     , vscode-server
+    , devshells
     , ...
     } @ inputs:
     let
@@ -46,10 +53,10 @@
         "tk1@iso-tk1" = libx.mkHome { hostname = "iso-tk1"; username = "nixos"; };
 
         # Workstations
-        "tcarrio@glass" = libx.mkHome { hostname = "glass"; username = "tcarrio"; desktop = "pantheon"; };
+        "tcarrio@glass" = libx.mkHome { hostname = "glass"; username = "tcarrio"; desktop = "i3"; };
         "tcarrio@kuroi" = libx.mkHome { hostname = "kuroi"; username = "tcarrio"; desktop = "gnome"; };
         "tcarrio@t510" = libx.mkHome { hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
-        "tcarrio@vm" = libx.mkHome { hostname = "vm"; username = "tcarrio"; desktop = "pantheon"; };
+        "tcarrio@vm" = libx.mkHome { hostname = "vm"; username = "tcarrio"; desktop = "gnome"; };
 
         # Servers
         "tcarrio@brix" = libx.mkHome { hostname = "brix"; username = "tcarrio"; };
@@ -68,10 +75,9 @@
         # Workstations
         #  - sudo nixos-rebuild switch --flake $HOME/0xc/nix-config
         #  - nix build .#nixosConfigurations.ripper.config.system.build.toplevel
-        glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "pantheon"; };
+        glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "i3"; };
         kuroi = libx.mkHost { systemType = "workstation"; hostname = "kuroi"; username = "tcarrio"; desktop = "gnome"; };
         t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
-        vm = libx.mkHost { systemType = "workstation"; hostname = "vm"; username = "tcarrio"; desktop = "pantheon"; };
 
         # Servers
         # Can be executed locally:
@@ -80,17 +86,24 @@
         # Or remotely:
         #  - nixos-rebuild switch --fast --flake .#${HOST} \
         #      --target-host ${USERNAME}@${HOST}.${TAILNET} \
-        #      --build-host ${USERNAME}@${HOST}.${TAILNET}
-        brix = libx.mkHost { systemType = "server"; hostname = "brix"; username = "tcarrio"; };
-        skull = libx.mkHost { systemType = "server"; hostname = "skull"; username = "tcarrio"; };
-        vm-mini = libx.mkHost { systemType = "server"; hostname = "vm-mini"; username = "tcarrio"; };
-      };
+        #      --build-host  ${USERNAME}@${HOST}.${TAILNET}
+        nuc0 = libx.mkHost { systemType = "server"; hostname = "nuc0"; username = "tcarrio"; };
+        nuc1 = libx.mkHost { systemType = "server"; hostname = "nuc1"; username = "tcarrio"; };
+        nuc2 = libx.mkHost { systemType = "server"; hostname = "nuc2"; username = "tcarrio"; };
+        nuc3 = libx.mkHost { systemType = "server"; hostname = "nuc3"; username = "tcarrio"; };
+        nuc4 = libx.mkHost { systemType = "server"; hostname = "nuc4"; username = "tcarrio"; };
+        nuc5 = libx.mkHost { systemType = "server"; hostname = "nuc5"; username = "tcarrio"; };
+        nuc6 = libx.mkHost { systemType = "server"; hostname = "nuc6"; username = "tcarrio"; };
+        nuc7 = libx.mkHost { systemType = "server"; hostname = "nuc7"; username = "tcarrio"; };
+        nuc8 = libx.mkHost { systemType = "server"; hostname = "nuc8"; username = "tcarrio"; };
+        nuc9 = libx.mkHost { systemType = "server"; hostname = "nuc9"; username = "tcarrio"; };
+      } ;
 
       # Devshell for bootstrapping; acessible via 'nix develop' or 'nix-shell' (legacy)
-      devShells = libx.forAllSystems (system:
-        let pkgs = nixpkgs.legacyPackages.${system};
-        in import ./shell.nix { inherit pkgs; }
-      );
+      devShells = devshells.devShells; # libx.forAllSystems (system:
+        # let pkgs = nixpkgs.legacyPackages.${system};
+        # in import ./shell.nix { inherit pkgs; }
+      # );
 
       # nix fmt
       formatter = libx.forAllSystems (system:
