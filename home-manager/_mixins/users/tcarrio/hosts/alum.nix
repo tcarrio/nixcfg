@@ -7,10 +7,6 @@
   ];
 
   home = {
-    sessionPath = [
-      "$HOME/Developer/workstation/bin"
-      "/opt/homebrew/bin"
-    ];
     sessionVariables = {
       AWS_REGION = "us-east-1";
       AWS_PROFILE = "skillshare-utility-developer";
@@ -24,14 +20,25 @@
 
   programs.fish = {
     interactiveShellInit = ''
+      function default_set --no-scope-shadowing
+        set -q $argv[1] || set $argv[1] $argv[2..-1]
+      end
+
+      function kill_by_port
+        set signal $argv[2]
+        default_set signal 9
+        show_open_ports | grep ":$argv[1] " | awk '{ print $2 }' | xargs kill -$signal
+      end
+
+      export PATH="/opt/homebrew/bin:$PATH"
       source $HOME/.nix-profile/share/asdf-vm/asdf.fish
+      export PATH="$HOME/Developer/workstation/bin:$PATH"
     '';
     shellAliases = let
       sh = target: "nix develop ~/0xc/devshells#${target} --command \$SHELL";
       sk = target: "nix develop ~/Developer/sksh#${target} --command \$SHELL";
       git = "git";
       skillshareWorkstation = "~/Developer/workstation/bin/skillshare-workstation";
-      ip = "ifconfig";
     in
     {
       sk = skillshareWorkstation;
@@ -51,6 +58,9 @@
       "sk:node18" = sk "node18";
       "sk:node20" = sk "node20";
       "sk:python" = sk "python";
+
+      ip = lib.mkForce "ifconfig";
+      show_open_ports = "lsof -nP -iTCP -sTCP:LISTEN";
     };
   };
 
