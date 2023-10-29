@@ -13,7 +13,25 @@
       fsType = "ext4";
     };
 
-  boot.initrd.luks.devices."luks-1175ca46-0654-4ba3-b8bf-a82a29545879".device = "/dev/disk/by-uuid/1175ca46-0654-4ba3-b8bf-a82a29545879";
+  # Bootloader.
+  boot.loader.grub = {
+    enable = true;
+    device = "/dev/sda";
+    useOSProber = true;
+
+    # Enable grub cryptodisk
+    enableCryptodisk = true;
+  };
+
+  # Setup keyfile
+  boot.initrd = {
+    secrets = {
+      "/crypto_keyfile.bin" = null;
+    };
+
+    luks.devices."luks-1175ca46-0654-4ba3-b8bf-a82a29545879".device = "/dev/disk/by-uuid/1175ca46-0654-4ba3-b8bf-a82a29545879";
+  };
+
 
   swapDevices = [ ];
 
