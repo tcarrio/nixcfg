@@ -17,7 +17,7 @@ in
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
-    ../../_mixins/hardware/systemd-boot.nix
+    ../../_mixins/hardware/grub-legacy-boot.nix
     ../../_mixins/services/pipewire.nix
     ../../_mixins/services/tailscale.nix
     ../../_mixins/virt
