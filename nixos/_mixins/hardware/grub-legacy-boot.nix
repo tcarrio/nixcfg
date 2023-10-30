@@ -1,6 +1,6 @@
 { ... }: {
-    boot.loader.grub = {
-        enable = true;
-        efiSupport = false;
-    };
+  boot.loader.grub = {
+    enable = true;
+    efiSupport = false;
+  };
 }
