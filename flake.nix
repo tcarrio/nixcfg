@@ -29,6 +29,9 @@
 
     devshells.url = "github:tcarrio/devshells";
     devshells.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+    nix-on-droid.url = "github:nix-community/nix-on-droid/release-23.05";
+    nix-on-droid.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs =
     { self
@@ -36,6 +39,7 @@
     , nixpkgs
     , vscode-server
     , devshells
+    , nix-on-droid
     , ...
     } @ inputs:
     let
@@ -98,6 +102,12 @@
         nuc8 = libx.mkHost { systemType = "server"; hostname = "nuc8"; username = "tcarrio"; };
         nuc9 = libx.mkHost { systemType = "server"; hostname = "nuc9"; username = "tcarrio"; };
       } ;
+
+      nixOnDroidConfigurations = {
+        pixel6a = nix-on-droid.lib.nixOnDroidConfiguration {
+          modules = [ ./android/pixel6a/config.nix ];
+        };
+      };
 
       # Devshell for bootstrapping; acessible via 'nix develop' or 'nix-shell' (legacy)
       devShells = devshells.devShells; # libx.forAllSystems (system:
