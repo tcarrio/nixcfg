@@ -8,6 +8,7 @@ let
 
 TARGET_HOST="''${1:-}"
 TARGET_USER="''${2:-martin}"
+TARGET_TYPE="''${3:-}"
 
 if [ "$(id -u)" -eq 0 ]; then
   echo "ERROR! $(basename "$0") should be run as a regular user"
@@ -34,14 +35,23 @@ if [[ -z "$TARGET_USER" ]]; then
   exit 1
 fi
 
-if [ ! -e "nixos/$TARGET_HOST/disks.nix" ]; then
-  echo "ERROR! $(basename "$0") could not find the required nixos/$TARGET_HOST/disks.nix"
+if [[ -z "$TARGET_TYPE" ]]; then
+  echo "ERROR! $(basename "$0") requires a type as the third argument"
+  echo "       The following types are available"
+  ls -1 nixos/ | grep -v -E "nixos|root|_mixins"
+  exit 1
+fi
+
+TARGET_HOST_ROOT="nixos/$TARGET_TYPE/$TARGET_HOST"
+
+if [ ! -e "$TARGET_HOST_ROOT/disks.nix" ]; then
+  echo "ERROR! $(basename "$0") could not find the required $TARGET_HOST_ROOT/disks.nix"
   exit 1
 fi
 
 # Check if the machine we're provisioning expects a keyfile to unlock a disk.
 # If it does, generate a new key, and write to a known location.
-if grep -q "data.keyfile" "nixos/$TARGET_HOST/disks.nix"; then
+if grep -q "data.keyfile" "$TARGET_HOST_ROOT/disks.nix"; then
   echo -n "$(head -c32 /dev/random | base64)" > /tmp/data.keyfile
 fi
 
@@ -59,7 +69,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     --no-write-lock-file \
     -- \
     --mode zap_create_mount \
-    "nixos/$TARGET_HOST/disks.nix"
+    "$TARGET_HOST_ROOT/disks.nix"
 
   sudo nixos-install --no-root-password --flake ".#$TARGET_HOST"
 
