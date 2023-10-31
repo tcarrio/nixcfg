@@ -18,7 +18,6 @@
         "PasswordManagerEnabled" = false;
         "SpellcheckEnabled" = true;
         "SpellcheckLanguage" = [
-          "en-GB"
           "en-US"
         ];
         "VoiceInteractionHotwordEnabled" = false;

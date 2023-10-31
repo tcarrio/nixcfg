@@ -63,7 +63,7 @@
       package = pkgs.unstable.atuin;
       settings = {
         auto_sync = true;
-        dialect = "uk";
+        dialect = "us";
         show_preview = true;
         style = "compact";
         sync_frequency = "1h";
