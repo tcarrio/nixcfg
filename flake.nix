@@ -129,9 +129,10 @@
       } ;
 
       nixOnDroidConfigurations = {
-        pixel6a = nix-on-droid.lib.nixOnDroidConfiguration {
+        pixel6a-old = nix-on-droid.lib.nixOnDroidConfiguration {
           modules = [ ./android/pixel6a/config.nix ];
         };
+        pixel6a = libx.mkDroid { hostname = "pixel6a"; username = "tcarrio"; };
       };
 
       # Devshell for bootstrapping; acessible via 'nix develop' or 'nix-shell' (legacy)
