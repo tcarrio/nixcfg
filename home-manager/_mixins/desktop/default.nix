@@ -1,6 +1,8 @@
 { desktop, ... }: {
   imports = [
     ./neovide.nix
+    ./emote.nix
+    ./tilix.nix
     (./. + "/${desktop}.nix")
   ];
 
