@@ -1,9 +1,12 @@
-{ self, inputs, outputs, stateVersion, ... }: {
+{ self, inputs, outputs, stateVersion, ... }:
+let
+  sshMatrix = import ./ssh-matrix.nix {};
+in {
   # Helper function for generating home-manager configs
   mkHome = { hostname, username, desktop ? null, platform ? "x86_64-linux" }: inputs.home-manager.lib.homeManagerConfiguration {
     pkgs = inputs.nixpkgs.legacyPackages.${platform};
     extraSpecialArgs = {
-      inherit inputs outputs desktop hostname platform username stateVersion;
+      inherit inputs outputs desktop hostname platform username stateVersion sshMatrix;
     };
     modules = [ ../home-manager ];
   };
@@ -14,7 +17,7 @@
   #    - "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"
   mkHost = { hostname, username, desktop ? null, installer ? null, systemType ? null }: inputs.nixpkgs.lib.nixosSystem {
     specialArgs = {
-      inherit inputs outputs desktop hostname username stateVersion systemType;
+      inherit inputs outputs desktop hostname username stateVersion systemType sshMatrix;
     };
     modules = [
       ../nixos
@@ -24,7 +27,7 @@
 
   mkDarwin = { hostname, username, stateVersion ? 4, platform ? "aarch64-darwin" }: inputs.nix-darwin.lib.darwinSystem {
     specialArgs = {
-      inherit self inputs outputs hostname username platform stateVersion;
+      inherit self inputs outputs hostname username platform stateVersion sshMatrix;
     };
     modules = [
       ../macos
@@ -38,7 +41,7 @@
 
   mkDroid = { hostname, username, stateVersion ? 4, platform ? "aarch64-linux" }: inputs.nix-on-droid.lib.nixOnDroidConfiguration {
     specialArgs = {
-      inherit self inputs outputs hostname username platform stateVersion;
+      inherit self inputs outputs hostname username platform stateVersion sshMatrix;
     };
     modules = [
       ../android
