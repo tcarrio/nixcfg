@@ -1,16 +1,17 @@
-{ desktop, pkgs, lib, ... }: {
+{ desktop, pkgs, lib, sshMatrix, ... }: {
   imports = [
     ../../desktop/chromium.nix
     ../../desktop/element.nix
     ../../desktop/firefox.nix
-    #../../desktop/evolution.nix
     ../../desktop/google-chrome.nix
     ../../desktop/lutris.nix
     ../../desktop/obs-studio.nix
     ../../desktop/spotify.nix
     ../../desktop/tilix.nix
     ../../desktop/vscode.nix
-  ] ++ lib.optional (builtins.pathExists (../.. + "/desktop/${desktop}-apps.nix")) ../../desktop/${desktop}-apps.nix;
+  ]
+  ++ lib.optional (builtins.pathExists (../.. + "/desktop/${desktop}.nix")) ../../desktop/${desktop}.nix
+  ++ lib.optional (builtins.pathExists (../.. + "/desktop/${desktop}-apps.nix")) ../../desktop/${desktop}-apps.nix;
 
   environment.systemPackages = with pkgs; [
     audio-recorder
