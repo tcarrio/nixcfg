@@ -1,9 +1,9 @@
-{ config, desktop, hostname, inputs, lib, modulesPath, outputs, pkgs, stateVersion, systemType, username, ... }: {
+{ config, desktop, hostname, schematic ? hostname, inputs, lib, modulesPath, outputs, pkgs, stateVersion, systemType, username, ... }: {
   imports = [
     inputs.disko.nixosModules.disko
     inputs.vscode-server.nixosModules.default
     (modulesPath + "/installer/scan/not-detected.nix")
-    ./${systemType}/${hostname}
+    ./${systemType}/${schematic}
     ./_mixins/services/firewall.nix
     ./_mixins/services/fwupd.nix
     ./_mixins/services/kmscon.nix

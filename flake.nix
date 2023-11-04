@@ -126,6 +126,7 @@
         nuc7 = libx.mkHost { systemType = "server"; hostname = "nuc7"; username = "tcarrio"; };
         nuc8 = libx.mkHost { systemType = "server"; hostname = "nuc8"; username = "tcarrio"; };
         nuc9 = libx.mkHost { systemType = "server"; hostname = "nuc9"; username = "tcarrio"; };
+        minimal = libx.mkHost { systemType = "server"; schematic = "minimal"; hostname = "t510-srv"; username = "root"; };
       } ;
 
       nixOnDroidConfigurations = {
