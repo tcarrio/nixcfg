@@ -6,8 +6,9 @@ in
   # Only include desktop components if one is supplied.
   imports = [ ] ++ lib.optional (builtins.isString desktop) ./desktop.nix;
 
-  environment.systemPackages = [
-    pkgs.yadm # Terminal dot file manager
+  environment.systemPackages = with pkgs; [
+    yadm # Terminal dot file manager
+    neovim
   ];
 
   users.users.tcarrio = {

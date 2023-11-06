@@ -47,6 +47,10 @@
     
     homebrew-cask.url = "github:homebrew/homebrew-cask";
     homebrew-cask.flake = false;
+
+    # IDE starter config for Neovim
+    neovim-kickstart.url = "github:tcarrio/kickstart.nvim";
+    neovim-kickstart.flake = false;
   };
   outputs =
     { self
@@ -55,6 +59,7 @@
     , vscode-server
     , devshells
     , nix-on-droid
+    , neovim-kickstart
     , ...
     } @ inputs:
     let
@@ -129,7 +134,7 @@
       } ;
 
       nixOnDroidConfigurations = {
-        pixel6a-old = nix-on-droid.lib.nixOnDroidConfiguration {
+        pixel6a-legacy = nix-on-droid.lib.nixOnDroidConfiguration {
           modules = [ ./android/pixel6a/config.nix ];
         };
         pixel6a = libx.mkDroid { hostname = "pixel6a"; username = "tcarrio"; };
