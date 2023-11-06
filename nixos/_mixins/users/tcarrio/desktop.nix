@@ -25,6 +25,7 @@
     netflix
     pick-colour-picker
     slack
+    neovide
 
     # Fast moving apps use the unstable branch
     unstable.discord

@@ -1,4 +1,8 @@
 { config, lib, pkgs, ... }: {
+  imports = [
+    ./neovim.nix
+  ];
+
   home = {
     file = {
       "${config.xdg.configHome}/neofetch/config.conf".text = builtins.readFile ./neofetch.conf;
