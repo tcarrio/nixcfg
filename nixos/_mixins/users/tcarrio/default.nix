@@ -1,4 +1,4 @@
-{ config, desktop, lib, pkgs, ... }:
+{ config, desktop, lib, pkgs, sshMatrix, ... }:
 let
   ifExists = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 in
