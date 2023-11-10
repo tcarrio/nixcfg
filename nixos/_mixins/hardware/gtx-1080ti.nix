@@ -7,6 +7,12 @@
     nvtop
   ];
 
+  hardware.opengl = {
+    enable = true;
+    extraPackages = [config.boot.kernelPackages.nvidiaPackages.beta];
+    extraPackages32 = [config.boot.kernelPackages.nvidiaPackages.beta];
+  };
+
   hardware.nvidia = {
     # Modesetting is required.
     modesetting.enable = true;
