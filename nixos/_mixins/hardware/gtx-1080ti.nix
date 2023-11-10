@@ -44,4 +44,16 @@
   };
 
   services.xserver.videoDrivers = ["nvidia"];
+
+
+  ## TODO: if this is useful, nixify
+  # nix-store --query --graph /run/current-system \
+  # | grep -e "steam-fhs" \
+  # | grep -e "nvidia" \
+  # | awk '{print $1}' \
+  # | sed 's/"//g' \
+  # | sed -E 's#^#/nix/store/#' \
+  # | while read dir; find $dir -name "nvidia_icd*.json"; end
+  ## results in paths to the ICD files that can be set in the env e.g.
+  # export VK_ICD_FILENAMES=/nix/store/abc-nvidia-x11-535.86.05-6.5.10/share/vulkan/icd.d/nvidia_icd.x86_64.json:...
 }
