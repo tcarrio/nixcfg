@@ -6,11 +6,7 @@
 # SATA:        500GB SSD
 # SATA:        2TB SSHD
 
-{ inputs, lib, config, pkgs, modulesPath, ... }:
-let
-  containerization = "docker";
-in
-{
+{ inputs, lib, config, pkgs, modulesPath, ... }: {
   imports = [
     # TODO: Incorporate diskos
     # (import ./disks.nix { })
