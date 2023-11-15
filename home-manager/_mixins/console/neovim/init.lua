@@ -1,3 +1,5 @@
+-- Initially sourced from https://github.com/nvim-lua/kickstart.nvim
+
 --[[
 
 =====================================================================
@@ -216,6 +218,10 @@ require('lazy').setup({
   },
 
   {
+    'nvim-orgmode/orgmode'
+  },
+
+  {
     -- File explorer
     'luukvbaal/nnn.nvim',
     config = function()
@@ -413,6 +419,9 @@ vim.defer_fn(function()
       },
     },
   }
+
+  -- setup org-mode extension after treesitter
+  require('orgmode').setup{}
 end, 0)
 
 -- Diagnostic keymaps
