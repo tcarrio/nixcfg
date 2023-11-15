@@ -3,11 +3,7 @@
 # RAM:         8GB DDR2
 # SATA:        120GB SSD
 
-{ inputs, lib, config, pkgs, modulesPath, ... }:
-let
-  containerization = "docker";
-in
-{
+{ inputs, lib, config, pkgs, modulesPath, ... }: {
   imports = [
     # TODO: Incorporate diskos
     (import ./disks.nix { })
