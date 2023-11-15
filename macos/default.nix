@@ -1,4 +1,4 @@
-{ self, pkgs, hostname, username, platform, stateVersion, inputs, ... /* outputs, lib, config */ }: {
+{ self, pkgs, hostname, username, platform, stateVersion, inputs, outputs, ... /* lib, config */ }: {
     imports = [
         ./${hostname}
         ./_mixins/users/${username}
@@ -31,6 +31,17 @@
 
     # Necessary for using flakes on this system.
     nix.settings.experimental-features = "nix-command flakes";
+
+    nixpkgs = {
+        # You can add overlays here
+        overlays = [
+            # Add overlays your own flake exports (from overlays and pkgs dir):
+            outputs.overlays.additions
+            outputs.overlays.modifications
+            outputs.overlays.unstable-packages
+            outputs.overlays.master-packages
+        ];
+    };
 
     # Create /etc/zshrc that loads the nix-darwin environment.
     programs.zsh.enable = false;  # default shell on catalina
