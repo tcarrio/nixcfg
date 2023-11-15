@@ -35,8 +35,9 @@
       export PATH="$HOME/Developer/workstation/bin:$PATH"
     '';
     shellAliases = let
-      sh = target: "nix develop ~/0xc/devshells#${target} --command \$SHELL";
-      sk = target: "nix develop ~/Developer/sksh#${target} --command \$SHELL";
+      #                         determines directory path of symbol link
+      sh = target: "nix develop $(readlink -f ~/0xc/devshells)#${target} --command \$SHELL";
+      sk = target: "nix develop ~/0xc/sksh#${target} --command \$SHELL";
       git = "git";
       skillshareWorkstation = "~/Developer/workstation/bin/skillshare-workstation";
     in
@@ -58,6 +59,15 @@
       "sk:node18" = sk "node18";
       "sk:node20" = sk "node20";
       "sk:python" = sk "python";
+
+      "sh:php80" = sh "php80";
+      "sh:php81" = sh "php81";
+      "sh:php82" = sh "php82";
+      "sh:node" = sh "node";
+      "sh:node16" = sh "node16";
+      "sh:node18" = sh "node18";
+      "sh:node20" = sh "node20";
+      "sh:python" = sh "python";
 
       ip = lib.mkForce "ifconfig";
       show_open_ports = "lsof -nP -iTCP -sTCP:LISTEN";
