@@ -87,6 +87,9 @@
         "tcarrio@brix" = libx.mkHome { hostname = "brix"; username = "tcarrio"; };
         "tcarrio@skull" = libx.mkHome { hostname = "skull"; username = "tcarrio"; };
         "tcarrio@vm-mini" = libx.mkHome { hostname = "vm-mini"; username = "tcarrio"; };
+
+        # Handhelds
+        "pixel6a" = libx.mkHome { hostname = "pixel6a"; username = "tcarrio"; };
       };
 
       # Support for nix-darwin workstations
