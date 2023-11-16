@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, config, lib, ... }:
 let
   nvidiaPackage = config.boot.kernelPackages.nvidiaPackages.stable;
 in
@@ -9,15 +9,15 @@ in
 
   environment.systemPackages = with pkgs; [
     nvtop
-    linuxPackages.nvidia_x11
+    nvidiaPackage.bin
   ];
 
   hardware.opengl = {
     enable = true;
-    package = nvidiaPackage;
-    package32 = nvidiaPackage;
-    # extraPackages = [nvidiaPackage];
-    # extraPackages32 = [nvidiaPackage];
+    package = nvidiaPackage.out;
+    package32 = nvidiaPackage.lib32;
+    extraPackages = lib.mkForce [];
+    extraPackages32 = lib.mkForce [];
   };
 
   services.xserver.videoDrivers = ["nvidia"];
