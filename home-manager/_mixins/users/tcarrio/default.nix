@@ -83,8 +83,8 @@ in
     };
 
     git = {
-      userEmail = "tom@carrio.dev";
-      userName = "Tom Carrio";
+      userEmail = lib.mkDefault "tom@carrio.dev";
+      userName = lib.mkDefault "Tom Carrio";
     };
   };
 }

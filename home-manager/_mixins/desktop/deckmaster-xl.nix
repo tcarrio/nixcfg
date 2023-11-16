@@ -2,7 +2,7 @@
 {
   # https://github.com/muesli/deckmaster
   imports = [
-    ../console/deckmaster.nix
+    ../console/decktrunk.nix
   ];
   
   home.file = {
