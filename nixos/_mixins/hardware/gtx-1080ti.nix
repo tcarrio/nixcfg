@@ -1,27 +1,38 @@
-{ pkgs, config, ... }: {
+{ pkgs, config, ... }:
+let
+  nvidiaPackage = config.boot.kernelPackages.nvidiaPackages.stable;
+in
+{
   imports = [
     ../av/vulkan.nix
   ];
 
   environment.systemPackages = with pkgs; [
     nvtop
+    linuxPackages.nvidia_x11
   ];
 
   hardware.opengl = {
     enable = true;
-    extraPackages = [config.boot.kernelPackages.nvidiaPackages.beta];
-    extraPackages32 = [config.boot.kernelPackages.nvidiaPackages.beta];
+    package = nvidiaPackage;
+    package32 = nvidiaPackage;
+    # extraPackages = [nvidiaPackage];
+    # extraPackages32 = [nvidiaPackage];
   };
+
+  services.xserver.videoDrivers = ["nvidia"];
 
   hardware.nvidia = {
     # Modesetting is required.
     modesetting.enable = true;
 
-    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    powerManagement.enable = false;
-    # Fine-grained power management. Turns off GPU when not in use.
-    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
-    powerManagement.finegrained = false;
+    powerManagement = {
+      # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
+      enable = false;
+      # Fine-grained power management. Turns off GPU when not in use.
+      # Experimental and only works on modern Nvidia GPUs (Turing or newer).
+      finegrained = false;
+    };
 
     # Use the NVidia open source kernel module (not to be confused with the
     # independent third-party "nouveau" open source driver).
@@ -37,14 +48,11 @@
     nvidiaSettings = true;
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    package = nvidiaPackage;
 
     # In order to resolve screentearing issues
     forceFullCompositionPipeline = true;
   };
-
-  services.xserver.videoDrivers = ["nvidia"];
-
 
   ## TODO: if this is useful, nixify
   # nix-store --query --graph /run/current-system \
