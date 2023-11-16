@@ -46,10 +46,10 @@
     ];
 
     sessionVariables = {
-      EDITOR = "vim";
+      EDITOR = "nvim";
       PAGER = "moar";
-      SYSTEMD_EDITOR = "vim";
-      VISUAL = "vim";
+      SYSTEMD_EDITOR = "nvim";
+      VISUAL = "nvim";
     };
   };
 
