@@ -218,7 +218,8 @@ require('lazy').setup({
   },
 
   {
-    'nvim-orgmode/orgmode'
+    'nvim-orgmode/orgmode',
+    enabled = false
   },
 
   {
@@ -421,7 +422,7 @@ vim.defer_fn(function()
   }
 
   -- setup org-mode extension after treesitter
-  require('orgmode').setup{}
+  -- require('orgmode').setup_ts_grammar().setup{}
 end, 0)
 
 -- Diagnostic keymaps
