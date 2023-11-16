@@ -722,7 +722,7 @@
         "type": "github"
       }
     },
-    "nixpkgs-master": {
+    "nixpkgs-trunk": {
       "locked": {
         "lastModified": 1700089044,
         "narHash": "sha256-+zfGUljZLginjs9aJMb3QWJpDeN8MXi9zlsG5iGL6lI=",
@@ -991,7 +991,7 @@
         "nix-on-droid": "nix-on-droid",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_3",
-        "nixpkgs-master": "nixpkgs-master",
+        "nixpkgs-trunk": "nixpkgs-trunk",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "vscode-server": "vscode-server"
       }

@@ -21,8 +21,8 @@
       config.allowUnfree = true;
     };
   };
-  master-packages = final: _prev: {
-    master = import inputs.nixpkgs-master {
+  trunk-packages = final: _prev: {
+    trunk = import inputs.nixpkgs-trunk {
       inherit (final) system;
       config.allowUnfree = true;
     };

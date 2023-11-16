@@ -109,7 +109,7 @@ in
 {
   environment.systemPackages = with pkgs; [
     (vscode-with-extensions.override {
-      vscode = master.vscode;
+      vscode = trunk.vscode;
       vscodeExtensions = with unstable.vscode-extensions;
       # globally enabled extensions
       []
