@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }: {
   imports = [
     ./neovim.nix
+    ./tmux.nix
   ];
 
   home = {
