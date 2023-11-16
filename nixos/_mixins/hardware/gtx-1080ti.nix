@@ -52,6 +52,13 @@ in
 
     # In order to resolve screentearing issues
     forceFullCompositionPipeline = true;
+
+    # Disable ALL Prime settings
+    prime = {
+      sync.enable = false;
+      reverseSync.enable = false;
+      offload.enable = false;
+    };
   };
 
   ## TODO: if this is useful, nixify
