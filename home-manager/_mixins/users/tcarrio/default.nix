@@ -1,11 +1,12 @@
-{ lib, hostname, username, pkgs, inputs, ... }:
+{ lib, hostname, username, pkgs, inputs, platform, ... }:
 let
-  systemShortName = "darwin";
+  systemInfo = lib.splitString "-" platform;
+  systemType = builtins.elemAt systemInfo 1;
 in
 {
   imports = []
     ++ lib.optional (builtins.pathExists (./. + "/hosts/${hostname}.nix")) ./hosts/${hostname}.nix
-    ++ lib.optional (builtins.pathExists (./. + "/systems/${systemShortName}.nix")) ./systems/${systemShortName}.nix;
+    ++ lib.optional (builtins.pathExists (./. + "/systems/${systemType}.nix")) ./systems/${systemType}.nix;
 
   home = {
     file."0xc/devshells".source = inputs.devshells;
