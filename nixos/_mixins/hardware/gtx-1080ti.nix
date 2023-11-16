@@ -14,8 +14,8 @@ in
 
   hardware.opengl = {
     enable = true;
-    package = nvidiaPackage.out;
-    package32 = nvidiaPackage.lib32;
+    package = lib.mkForce nvidiaPackage.bin;
+    package32 = lib.mkForce nvidiaPackage.lib32;
     extraPackages = lib.mkForce [];
     extraPackages32 = lib.mkForce [];
   };

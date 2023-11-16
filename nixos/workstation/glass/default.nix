@@ -28,7 +28,7 @@
 
   boot = {
     kernelPackages = pkgs.linuxPackages_6_5;
-    blacklistedKernelModules = lib.mkDefault [ "nouveau" ];
+    blacklistedKernelModules = [ "nouveau" ];
     extraModulePackages = [ ];
     initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
     initrd.kernelModules = [ ];
