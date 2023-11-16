@@ -34,7 +34,9 @@
   system.stateVersion = "23.05";
 
   # Set up nix for flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
 
   # Set your time zone
   time.timeZone = "America/Detroit";

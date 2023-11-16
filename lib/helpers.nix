@@ -39,8 +39,8 @@ in {
     ];
   };
 
-  mkDroid = { hostname, username, stateVersion ? 4, platform ? "aarch64-linux" }: inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-    specialArgs = {
+  mkDroid = { hostname, username, stateVersion ? "23.05", platform ? "aarch64-linux" }: inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+    extraSpecialArgs = {
       inherit self inputs outputs hostname username platform stateVersion sshMatrix;
     };
     modules = [
