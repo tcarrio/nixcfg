@@ -4,7 +4,7 @@ let
 in {
   # user@host matrix
   systems = {
-    alum = {
+    sktc0 = {
       tcarrio = parseFriendlyKey ''
   ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAy
   NTYAAABBBAl788s2f8cUb8v3pyqX1sv4jRpvBuWeC0pfp+p0Gq1eLKBv9GxENTl1

@@ -14,7 +14,7 @@
       SSH_AUTH_SOCK = "/Users/tcarrio/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
     };
     file = {
-      "${config.xdg.configHome}/direnv/direnv.toml".text = builtins.readFile ./alum-direnv.toml;
+      "${config.xdg.configHome}/direnv/direnv.toml".text = builtins.readFile ./sktc0-direnv.toml;
     };
   };
 
