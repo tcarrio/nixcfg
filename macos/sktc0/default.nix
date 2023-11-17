@@ -3,11 +3,13 @@
 # RAM:         16GB DDR4
 # SATA:        500GB SSD
 
-{ ... }: {
+_: {
   imports = [
     # TODO: Enable homebrew management
     # ../_mixins/console/homebrew.nix
   ];
+
+  networking.hostName = "sktc0";
 
   system = {
     defaults = {

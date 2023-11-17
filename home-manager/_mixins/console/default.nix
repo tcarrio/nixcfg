@@ -202,9 +202,9 @@
         # FORCEEEE
         pff = "poh --force";
         # push and open pr
-        ppr = "!git poh; gh pr open"; 
+        ppr = "!git poh; !git pr"; 
         # open pr
-        pr = "!gh pr open";
+        pr = "!gh pr create";
         # squash it
         sq = "!gitsq() { git rb -i $(git sr $1) $2; }; gitsq";
         # generate patch
