@@ -153,7 +153,7 @@
       enable = true;
       extensions = with pkgs; [ gh-markdown-preview ];
       settings = {
-        editor = "vim";
+        editor = "nvim";
         git_protocol = "ssh";
         prompt = "enabled";
       };
@@ -195,10 +195,16 @@
         hist = "log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short";
         # amend
         am = "!git cm --amend --no-edit --date=\"$(date +'%Y %D')\"";
+        # push to origin HEAD
+        poh = "p origin HEAD";
         # force with lease
-        pf = "p origin HEAD --force-with-lease";
+        pf = "poh --force-with-lease";
         # FORCEEEE
-        pff = "p origin HEAD --force";
+        pff = "poh --force";
+        # push and open pr
+        ppr = "!git poh; gh pr open"; 
+        # open pr
+        pr = "!gh pr open";
         # squash it
         sq = "!gitsq() { git rb -i $(git sr $1) $2; }; gitsq";
         # generate patch
