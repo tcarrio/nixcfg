@@ -1,11 +1,11 @@
 { username, ... }: {
   imports = [
-    ./audio-recorder.nix
-    ./celluloid.nix
-    ./dconf-editor.nix
-    ./gnome-sound-recorder.nix
-    ./tilix.nix
-    ./emote.nix
+    ../../../desktop/audio-recorder.nix
+    ../../../desktop/celluloid.nix
+    ../../../desktop/dconf-editor.nix
+    ../../../desktop/gnome-sound-recorder.nix
+    ../../../desktop/tilix.nix
+    ../../../desktop/emote.nix
   ];
 
   systemd.user.tmpfiles.rules = [
