@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ... }:
+{ pkgs, config, lib, inputs, ... }:
 let
   nvidiaPackage = config.boot.kernelPackages.nvidiaPackages.stable;
 in
@@ -14,7 +14,7 @@ in
 
   hardware.opengl = {
     enable = true;
-    package = lib.mkForce nvidiaPackage.bin;
+    package = lib.mkForce nvidiaPackage;
     package32 = lib.mkForce nvidiaPackage.lib32;
     extraPackages = lib.mkForce [];
     extraPackages32 = lib.mkForce [];
@@ -71,4 +71,9 @@ in
   # | while read dir; find $dir -name "nvidia_icd*.json"; end
   ## results in paths to the ICD files that can be set in the env e.g.
   # export VK_ICD_FILENAMES=/nix/store/abc-nvidia-x11-535.86.05-6.5.10/share/vulkan/icd.d/nvidia_icd.x86_64.json:...
+  environment.sessionVariables = {
+    VK_ICD_FILENAMES = "${nvidiaPackage}/share/vulkan/icd.d/nvidia_icd.x86_64.json:${nvidiaPackage.lib32}/share/vulkan/icd.d/nvidia_icd.i686.json";
+  };
+
+  nixpkgs.overlays = [ nixgl.overlay ];
 }

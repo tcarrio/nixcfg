@@ -30,6 +30,10 @@
     devshells.url = "github:tcarrio/devshells";
     devshells.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
+    # OpenGL / Vulkan wrappers
+    nixgl.url = "github:guibou/nixGL";
+    nixgl.follows = "nixpkgs";
+
     # Android support with nix-on-droid
     nix-on-droid.url = "github:nix-community/nix-on-droid/release-23.05";
     nix-on-droid.inputs.nixpkgs.follows = "nixpkgs";
