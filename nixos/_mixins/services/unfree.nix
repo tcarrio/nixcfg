@@ -1,3 +1,3 @@
 { lib ? { mkForce = x: x; }, ... }: {
-    nixpkgs.config.allowUnfree = lib.mkForce true;
+  nixpkgs.config.allowUnfree = lib.mkForce true;
 }

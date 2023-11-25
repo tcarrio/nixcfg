@@ -5,35 +5,39 @@
 
 {
   imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+    [
+      (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/2c4292c6-c365-4c2a-a762-318eec1a0883";
+    {
+      device = "/dev/disk/by-uuid/2c4292c6-c365-4c2a-a762-318eec1a0883";
       fsType = "btrfs";
       options = [ "subvol=root" "compress=zstd" ];
     };
 
   fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/2c4292c6-c365-4c2a-a762-318eec1a0883";
+    {
+      device = "/dev/disk/by-uuid/2c4292c6-c365-4c2a-a762-318eec1a0883";
       fsType = "btrfs";
       options = [ "subvol=home" "compress=zstd" ];
     };
 
   fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/2c4292c6-c365-4c2a-a762-318eec1a0883";
+    {
+      device = "/dev/disk/by-uuid/2c4292c6-c365-4c2a-a762-318eec1a0883";
       fsType = "btrfs";
       options = [ "subvol=nix" "compress=zstd" "noatime" ];
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/75E4-D8D4";
+    {
+      device = "/dev/disk/by-uuid/75E4-D8D4";
       fsType = "vfat";
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/1222e371-0e03-447b-ae1c-e511900edabc"; }
-    ];
+    [{ device = "/dev/disk/by-uuid/1222e371-0e03-447b-ae1c-e511900edabc"; }];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's

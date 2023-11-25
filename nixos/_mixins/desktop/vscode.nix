@@ -1,10 +1,10 @@
 args@{ pkgs, lib, ... }:
 let
-  languages = if builtins.hasAttr "languages" args then args.languages else {};
+  languages = if builtins.hasAttr "languages" args then args.languages else { };
 
-  getLangOr = key: default: !!(if builtins.hasAttr key languages then languages[key] else default);
+  getLangOr = key: default: !!(if builtins.hasAttr key languages then languages [ key ] else default);
 
-  getListIf = isEnabled: list: if isEnabled then list else [];
+  getListIf = isEnabled: list: if isEnabled then list else [ ];
 
   ext = {
     language-hugo-vscode = {
@@ -107,58 +107,62 @@ let
   };
 in
 {
+  imports = [ ]
+    ++ lib.optional g.nix ../console/nix-lsp.nix
+  ;
+
   environment.systemPackages = with pkgs; [
     (vscode-with-extensions.override {
-      vscode = trunk.vscode;
+      inherit (trunk) vscode;
       vscodeExtensions = with unstable.vscode-extensions;
-      # globally enabled extensions
-      []
-      ++ getListIf g.cpp [ms-vscode.cpptools]
-      ++ getListIf g.diff [ryu1kn.partial-diff]
-      ++ getListIf g.docker [ms-azuretools.vscode-docker]
-      ++ getListIf g.editorconfig [editorconfig.editorconfig]
-      ++ getListIf g.elm [elmtooling.elm-ls-vscode]
-      ++ getListIf g.github [github.vscode-github-actions]
-      ++ getListIf g.gitlens [eamodio.gitlens]
-      ++ getListIf g.go [golang.go]
-      ++ getListIf g.icons [vscode-icons-team.vscode-icons]
-      ++ getListIf g.js [esbenp.prettier-vscode]
-      ++ getListIf g.linux [coolbear.systemd-unit-file timonwong.shellcheck mads-hartmann.bash-ide-vscode]
-      ++ getListIf g.nix [bbenoist.nix jnoortheen.nix-ide]
-      ++ getListIf g.python [ms-python.python ms-python.vscode-pylance]
-      ++ getListIf g.ssh [ms-vscode-remote.remote-ssh]
-      ++ getListIf g.text [streetsidesoftware.code-spell-checker yzhang.markdown-all-in-one]
-      ++ getListIf g.xml [dotjoshjohnson.xml]
-      ++ getListIf g.yaml [redhat.vscode-yaml]
-
-      # the most simple way to calculate a package's SHA256 is to simply
-      # copy over an invalid SHA256 and the nixos-rebuild will fail,
-      # with output for the specified and actual hash values.
-      ++ (pkgs.unstable.vscode-utils.extensionsFromVscodeMarketplace
         # globally enabled extensions
-        [ext.non-breaking-space-highlighter]
-        ++ getListIf g.cpp []
-        ++ getListIf g.diff []
-        ++ getListIf g.docker []
-        ++ getListIf g.editorconfig []
-        ++ getListIf g.elm []
-        ++ getListIf g.fun [ext.vscode-power-mode]
-        ++ getListIf g.github []
-        ++ getListIf g.gitlens []
-        ++ getListIf g.go []
-        ++ getListIf g.hugo [ext.language-hugo-vscode]
-        ++ getListIf g.icons []
-        ++ getListIf g.js []
-        ++ getListIf g.linux [ext.linux-desktop-file]
-        ++ getListIf g.nix []
-        ++ getListIf g.python []
-        ++ getListIf g.rust [ext.rust-analyzer]
-        ++ getListIf g.ssh [ext.remote-ssh-edit]
+        [ ]
+        ++ getListIf g.cpp [ ms-vscode.cpptools ]
+        ++ getListIf g.diff [ ryu1kn.partial-diff ]
+        ++ getListIf g.docker [ ms-azuretools.vscode-docker ]
+        ++ getListIf g.editorconfig [ editorconfig.editorconfig ]
+        ++ getListIf g.elm [ elmtooling.elm-ls-vscode ]
+        ++ getListIf g.github [ github.vscode-github-actions ]
+        ++ getListIf g.gitlens [ eamodio.gitlens ]
+        ++ getListIf g.go [ golang.go ]
+        ++ getListIf g.icons [ vscode-icons-team.vscode-icons ]
+        ++ getListIf g.js [ esbenp.prettier-vscode ]
+        ++ getListIf g.linux [ coolbear.systemd-unit-file timonwong.shellcheck mads-hartmann.bash-ide-vscode ]
+        ++ getListIf g.nix [ bbenoist.nix jnoortheen.nix-ide ]
+        ++ getListIf g.python [ ms-python.python ms-python.vscode-pylance ]
+        ++ getListIf g.ssh [ ms-vscode-remote.remote-ssh ]
+        ++ getListIf g.text [ streetsidesoftware.code-spell-checker yzhang.markdown-all-in-one ]
+        ++ getListIf g.xml [ dotjoshjohnson.xml ]
+        ++ getListIf g.yaml [ redhat.vscode-yaml ]
+
+        # the most simple way to calculate a package's SHA256 is to simply
+        # copy over an invalid SHA256 and the nixos-rebuild will fail,
+        # with output for the specified and actual hash values.
+        ++ (pkgs.unstable.vscode-utils.extensionsFromVscodeMarketplace
+          # globally enabled extensions
+          [ ext.non-breaking-space-highlighter ]
+        ++ getListIf g.cpp [ ]
+        ++ getListIf g.diff [ ]
+        ++ getListIf g.docker [ ]
+        ++ getListIf g.editorconfig [ ]
+        ++ getListIf g.elm [ ]
+        ++ getListIf g.fun [ ext.vscode-power-mode ]
+        ++ getListIf g.github [ ]
+        ++ getListIf g.gitlens [ ]
+        ++ getListIf g.go [ ]
+        ++ getListIf g.hugo [ ext.language-hugo-vscode ]
+        ++ getListIf g.icons [ ]
+        ++ getListIf g.js [ ]
+        ++ getListIf g.linux [ ext.linux-desktop-file ]
+        ++ getListIf g.nix [ ]
+        ++ getListIf g.python [ ]
+        ++ getListIf g.rust [ ext.rust-analyzer ]
+        ++ getListIf g.ssh [ ext.remote-ssh-edit ]
         # TODO: Determine root cause of manifest issues
         # ++ getListIf g.text [ext.simple-rst ext.vscode-mdx ext.vscode-mdx-preview]
-        ++ getListIf g.xml []
-        ++ getListIf g.yaml []
-      )
+        ++ getListIf g.xml [ ]
+        ++ getListIf g.yaml [ ]
+        )
       ;
     })
   ];

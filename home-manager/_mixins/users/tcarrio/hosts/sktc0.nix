@@ -34,46 +34,47 @@
       source $HOME/.nix-profile/share/asdf-vm/asdf.fish
       export PATH="$HOME/Developer/workstation/bin:$PATH"
     '';
-    shellAliases = let
-      #                         determines directory path of symbol link
-      sh = target: "nix develop $(readlink -f ~/0xc/devshells)#${target} --command \$SHELL";
-      sk = target: "nix develop ~/0xc/sksh#${target} --command \$SHELL";
-      git = "git";
-      skillshareWorkstation = "~/Developer/workstation/bin/skillshare-workstation";
-    in
-    {
-      sk = skillshareWorkstation;
-      sw = skillshareWorkstation;
+    shellAliases =
+      let
+        #                         determines directory path of symbol link
+        sh = target: "nix develop $(readlink -f ~/0xc/devshells)#${target} --command \$SHELL";
+        sk = target: "nix develop ~/0xc/sksh#${target} --command \$SHELL";
+        git = "git";
+        skillshareWorkstation = "~/Developer/workstation/bin/skillshare-workstation";
+      in
+      {
+        sk = skillshareWorkstation;
+        sw = skillshareWorkstation;
 
-      g = git;
-      gti = git;
+        g = git;
+        gti = git;
 
-      "sk:mono" = sk "sk";
-      "sk:web" = sk "web";
-      "sk:php74" = sk "php74";
-      "sk:php80" = sk "php80";
-      "sk:php81" = sk "php81";
-      "sk:php82" = sk "php82";
-      "sk:node" = sk "node";
-      "sk:node16" = sk "node16";
-      "sk:node18" = sk "node18";
-      "sk:node20" = sk "node20";
-      "sk:python" = sk "python";
+        "sk:mono" = sk "sk";
+        "sk:web" = sk "web";
+        "sk:php74" = sk "php74";
+        "sk:php80" = sk "php80";
+        "sk:php81" = sk "php81";
+        "sk:php82" = sk "php82";
+        "sk:node" = sk "node";
+        "sk:node16" = sk "node16";
+        "sk:node18" = sk "node18";
+        "sk:node20" = sk "node20";
+        "sk:python" = sk "python";
 
-      "sh:php80" = sh "php80";
-      "sh:php81" = sh "php81";
-      "sh:php82" = sh "php82";
-      "sh:node" = sh "node";
-      "sh:node16" = sh "node16";
-      "sh:node18" = sh "node18";
-      "sh:node20" = sh "node20";
-      "sh:python" = sh "python";
+        "sh:php80" = sh "php80";
+        "sh:php81" = sh "php81";
+        "sh:php82" = sh "php82";
+        "sh:node" = sh "node";
+        "sh:node16" = sh "node16";
+        "sh:node18" = sh "node18";
+        "sh:node20" = sh "node20";
+        "sh:python" = sh "python";
 
-      ip = lib.mkForce "ifconfig";
-      show_open_ports = "lsof -nP -iTCP -sTCP:LISTEN";
+        ip = lib.mkForce "ifconfig";
+        show_open_ports = "lsof -nP -iTCP -sTCP:LISTEN";
 
-      rebuild-host = lib.mkForce "darwin-rebuild switch --flake $HOME/0xc/nix-config";
-    };
+        rebuild-host = lib.mkForce "darwin-rebuild switch --flake $HOME/0xc/nix-config";
+      };
   };
 
   programs.git.userEmail = lib.mkForce "thomas.carrio@skillshare.com";

@@ -8,7 +8,7 @@
     desktopManager = {
       xterm.enable = false;
     };
-   
+
     displayManager = {
       defaultSession = "none+i3";
     };

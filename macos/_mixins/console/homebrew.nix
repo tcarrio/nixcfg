@@ -5,7 +5,7 @@
 
   nix-homebrew = {
     enable = false;
-    
+
     # enables the prefix under the given user instead of globally
     # user = "${username}";
 

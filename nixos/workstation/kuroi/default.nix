@@ -79,8 +79,7 @@
     dwarf-fortress
   ];
 
-  services = {
-  };
+  services = { };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }

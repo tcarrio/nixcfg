@@ -4,7 +4,7 @@
   imports = [
     ../console/decktrunk.nix
   ];
-  
+
   home.file = {
     "${config.xdg.configHome}/autostart/deskmaster-xl.desktop".text = "
       [Desktop Entry]

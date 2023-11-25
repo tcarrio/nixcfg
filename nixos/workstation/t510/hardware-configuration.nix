@@ -5,11 +5,13 @@
 
 {
   imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+    [
+      (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/140fca12-c2a2-411c-8b0f-1dd4547f1f0e";
+    {
+      device = "/dev/disk/by-uuid/140fca12-c2a2-411c-8b0f-1dd4547f1f0e";
       fsType = "ext4";
     };
 

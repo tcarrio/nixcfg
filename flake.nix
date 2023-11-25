@@ -23,7 +23,7 @@
     nix-formatter-pack.inputs.nixpkgs.follows = "nixpkgs";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    
+
     vscode-server.url = "github:msteen/nixos-vscode-server";
     vscode-server.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -44,7 +44,7 @@
 
     homebrew-core.url = "github:homebrew/homebrew-core";
     homebrew-core.flake = false;
-    
+
     homebrew-cask.url = "github:homebrew/homebrew-cask";
     homebrew-cask.flake = false;
 
@@ -105,7 +105,7 @@
         iso-tk1 = libx.mkHost { systemType = "iso"; hostname = "iso-tk1"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"; desktop = "pantheon"; };
         iso-console = libx.mkHost { systemType = "iso"; hostname = "iso-console"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"; };
         iso-desktop = libx.mkHost { systemType = "iso"; hostname = "iso-desktop"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"; desktop = "pantheon"; };
-        
+
         # Workstations
         #  - sudo nixos-rebuild switch --flake $HOME/0xc/nix-config
         #  - nix build .#nixosConfigurations.ripper.config.system.build.toplevel
@@ -131,7 +131,7 @@
         nuc7 = libx.mkHost { systemType = "server"; hostname = "nuc7"; username = "tcarrio"; };
         nuc8 = libx.mkHost { systemType = "server"; hostname = "nuc8"; username = "tcarrio"; };
         nuc9 = libx.mkHost { systemType = "server"; hostname = "nuc9"; username = "tcarrio"; };
-      } ;
+      };
 
       nixOnDroidConfigurations = {
         pixel6a-legacy = nix-on-droid.lib.nixOnDroidConfiguration {
@@ -141,9 +141,9 @@
       };
 
       # Devshell for bootstrapping; acessible via 'nix develop' or 'nix-shell' (legacy)
-      devShells = devshells.devShells; # libx.forAllSystems (system:
-        # let pkgs = nixpkgs.legacyPackages.${system};
-        # in import ./shell.nix { inherit pkgs; }
+      inherit (devshells) devShells; # libx.forAllSystems (system:
+      # let pkgs = nixpkgs.legacyPackages.${system};
+      # in import ./shell.nix { inherit pkgs; }
       # );
 
       # nix fmt

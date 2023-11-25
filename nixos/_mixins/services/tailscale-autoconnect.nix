@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 {
-  imports = [./tailscale.nix];
+  imports = [ ./tailscale.nix ];
 
   # Mounts the secrets file
   age.secrets.tailscale-token = {

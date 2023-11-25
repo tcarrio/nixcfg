@@ -1,6 +1,6 @@
 let
-  sshMatrix = import "../lib/ssh-matrix.nix" {};
-  systems = sshMatrix.systems;
+  sshMatrix = import "../lib/ssh-matrix.nix" { };
+  inherit (sshMatrix) systems;
 in
 {
   "users/tcarrio/ssh.age".publicKeys = with systems.glass; [ tcarrio host ];
