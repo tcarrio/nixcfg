@@ -989,6 +989,9 @@
         "nix-formatter-pack": "nix-formatter-pack",
         "nix-homebrew": "nix-homebrew",
         "nix-on-droid": "nix-on-droid",
+        "nix-user-repository": [
+          "nixpkgs-unstable"
+        ],
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-trunk": "nixpkgs-trunk",

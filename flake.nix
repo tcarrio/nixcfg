@@ -7,6 +7,9 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-trunk.url = "github:nixos/nixpkgs/master";
 
+    nix-user-repository.url = "github:nix-community/NUR";
+    nix-user-repository.follows = "nixpkgs-unstable";
+
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 
