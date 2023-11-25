@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-    environment.systemPackages = with pkgs; [
-        auth0
-    ];
+  environment.systemPackages = with pkgs; [
+    auth0
+  ];
 }

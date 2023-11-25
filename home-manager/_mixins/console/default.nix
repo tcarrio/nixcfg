@@ -202,7 +202,7 @@
         # FORCEEEE
         pff = "poh --force";
         # push and open pr
-        ppr = "!git poh; !git pr"; 
+        ppr = "!git poh; !git pr";
         # open pr
         pr = "!gh pr create";
         # squash it
@@ -219,7 +219,7 @@
         };
         pull = {
           rebase = true;
-	        ff = "only";
+          ff = "only";
         };
         init = {
           defaultBranch = "main";

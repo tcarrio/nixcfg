@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-    environment.systemPackages = with pkgs; [
-        direnv
-    ];
+  environment.systemPackages = with pkgs; [
+    direnv
+  ];
 }

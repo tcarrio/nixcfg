@@ -29,7 +29,7 @@
           '';
         };
 
-        templateFileContent = n: t: d: builtins.readFile "${templateFile n t d}";
+      templateFileContent = n: t: d: builtins.readFile "${templateFile n t d}";
     };
 
   # This one contains whatever you want to overlay

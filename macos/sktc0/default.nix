@@ -18,7 +18,7 @@ _: {
         orientation = "bottom";
         tilesize = 80;
       };
-      finder = {};
+      finder = { };
       trackpad = {
         Clicking = true;
         TrackpadRightClick = true;

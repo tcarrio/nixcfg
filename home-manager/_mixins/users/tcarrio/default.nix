@@ -4,7 +4,7 @@ let
   systemType = builtins.elemAt systemInfo 1;
 in
 {
-  imports = []
+  imports = [ ]
     ++ lib.optional (builtins.pathExists (./. + "/hosts/${hostname}.nix")) ./hosts/${hostname}.nix
     ++ lib.optional (builtins.pathExists (./. + "/systems/${systemType}.nix")) ./systems/${systemType}.nix;
 
@@ -40,9 +40,9 @@ in
       # ...
     };
     file.".config/nixpkgs/config.nix".text = ''
-    {
-      allowUnfree = true;
-    }
+      {
+        allowUnfree = true;
+      }
     '';
   };
 
