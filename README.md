@@ -223,9 +223,9 @@ MATE Desktop 🧉 and Pantheon 🏛️ are the two desktop options available. Th
 - [ ] ~~Migrate (*maybe*) to ZFS, with backups via [`zrepl`](https://zrepl.github.io/)~~
 - [x] Fix Magewell mwprocapture driver: [nixpkgs#221209](https://github.com/NixOS/nixpkgs/pull/221209)
   - [ ] [And again](https://github.com/NixOS/nixpkgs/pull/247897)
-- [ ] Support Raspberry Pi installer
+- [x] Support Raspberry Pi installer
   - [ ] With Nix flakes
-- [ ] Support macOS with [nix-darwin]
+- [x] Support macOS with [nix-darwin]
 
 ### Applications
 
@@ -254,7 +254,7 @@ MATE Desktop 🧉 and Pantheon 🏛️ are the two desktop options available. Th
 ### Configuration
 
 - [x] Embed [install script in the ISO](./nixos/_mixins/users/nixos/console.nix)
-- [ ] Integrate [agenix](https://github.com/ryantm/agenix) ~~or [sops-nix](https://github.com/Mic92/sops-nix)~~
+- [x] Integrate [agenix](https://github.com/ryantm/agenix) ~~or [sops-nix](https://github.com/Mic92/sops-nix)~~
 - [x] Integrate capabilities from [nix-starter-configs](https://github.com/Misterio77/nix-starter-configs)
 - [x] Integrate wallpapers
 - [x] Integrate faces
@@ -278,10 +278,10 @@ MATE Desktop 🧉 and Pantheon 🏛️ are the two desktop options available. Th
 
 - [ ] emacs
 - [ ] fzf
-- [ ] tmate or tmux
+- [x] tmate or tmux
 - [x] micro
-- [ ] vim
-- [ ] nnn or broot or felix or ranger
+- [x] neovim
+- [x] nnn ~~or broot or felix or ranger~~
 
 ## Inspirations 🧑‍🏫
 
