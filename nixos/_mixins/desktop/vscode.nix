@@ -108,7 +108,7 @@ let
 in
 {
   imports = [ ]
-    ++ lib.optional g.nix ../console/nix-lsp.nix
+    # ++ lib.optional g.nix ../console/nix-lsp.nix
   ;
 
   environment.systemPackages = with pkgs; [
