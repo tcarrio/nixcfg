@@ -16,7 +16,7 @@ in
   # - installer: can be one of the following:
   #    - "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
   #    - "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"
-  mkHost = { hostname, username, desktop ? null, installer ? null, systemType ? null }: inputs.nixpkgs.lib.nixosSystem {
+  mkHost = { hostname, username, systemType, desktop ? null, installer ? null }: inputs.nixpkgs.lib.nixosSystem {
     specialArgs = {
       inherit inputs outputs desktop hostname username stateVersion systemType sshMatrix;
     };
@@ -40,7 +40,25 @@ in
     ];
   };
 
-  mkDroid = { hostname, username, stateVersion ? 4, platform ? "aarch64-linux" }: inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+  mkSdImage = { hostname, username, systemType, platform ? "armv7l-linux" }: inputs.nixos-generators.nixosGenerate {
+    specialArgs = {
+      inherit self inputs outputs hostname username platform stateVersion sshMatrix;
+    };
+
+    system = platform;
+    format = if platform == "armv7l-linux"
+              then "sd-armv7l-installer"
+              else "sd-aarch64-installer";
+
+    # pkgs = inputs.nixpkgs.legacyPackages."${platform}";
+    # lib = inputs.nixpkgs.legacyPackages."${platform}".lib;
+
+    modules = [
+      ../nixos
+    ];
+  };
+
+  mkDroid = { hostname, username, platform ? "aarch64-linux" }: inputs.nix-on-droid.lib.nixOnDroidConfiguration {
     specialArgs = {
       inherit self inputs outputs hostname username platform stateVersion sshMatrix;
     };
