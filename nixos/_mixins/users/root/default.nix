@@ -7,4 +7,7 @@
       sshMatrix.systems.glass.tcarrio
     ];
   };
+
+  # allow root SSH login (defaults to non-password)
+  services.openssh.settings.PermitRootLogin = "yes";
 }
