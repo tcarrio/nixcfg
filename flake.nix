@@ -64,6 +64,7 @@
     , devshells
     , nix-on-droid
     , neovim-kickstart
+    , nixos-generators
     , ...
     } @ inputs:
     let
@@ -170,6 +171,11 @@
       packages = libx.forAllSystems (system:
         let pkgs = nixpkgs.legacyPackages.${system};
         in import ./pkgs { inherit pkgs; }
-      );
+      )
+      # And custom nixos-generators definitions
+      # TODO: forAllSystems
+      // libx.forAllSystems (system: {
+        tk1 = libx.mkSdImage { hostname = "tk1"; username = "root"; systemType = "server"; };
+      });
     };
 }
