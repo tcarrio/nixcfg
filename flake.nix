@@ -44,7 +44,7 @@
 
     # nixos-generators for sdcard install generation
     nixos-generators.url = "github:tcarrio/nixos-generators";
-    nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-generators.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     homebrew-core.url = "github:homebrew/homebrew-core";
     homebrew-core.flake = false;
