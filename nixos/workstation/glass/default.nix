@@ -36,6 +36,9 @@
     kernelModules = [ "kvm-amd" "nvidia" ];
   };
 
+  # support for cross-platform NixOS builds
+  boot.binfmt.emulatedSystems = [ "armv7l-linux" "aarch64-linux" ];
+
   services = {
     hardware.openrgb = {
       enable = true;
