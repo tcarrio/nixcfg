@@ -1,7 +1,6 @@
 { config, desktop, hostname, inputs, lib, modulesPath, outputs, pkgs, stateVersion, systemType, username, ... }: {
   imports = [
     inputs.disko.nixosModules.disko
-    inputs.vscode-server.nixosModules.default
     (modulesPath + "/installer/scan/not-detected.nix")
     ./${systemType}/${hostname}
     ./_mixins/services/firewall.nix

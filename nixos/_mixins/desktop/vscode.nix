@@ -1,5 +1,7 @@
 args@{ pkgs, lib, ... }:
 let
+  codeServer = if builtins.hasAttr "codeServer" args then args.codeServer else { enable = false; };
+
   languages = if builtins.hasAttr "languages" args then args.languages else { };
 
   getLangOr = key: default: !!(if builtins.hasAttr key languages then languages [ key ] else default);
@@ -107,8 +109,9 @@ let
   };
 in
 {
-  imports = [ ]
+  imports = []
     # ++ lib.optional g.nix ../console/nix-lsp.nix
+    ++ lib.optional codeServer.enable ../services/vscode-server.nix
   ;
 
   environment.systemPackages = with pkgs; [
@@ -167,7 +170,6 @@ in
     })
   ];
 
-  services.vscode-server.enable = true;
   # May require the service to be enable/started for the user
   # - systemctl --user enable auto-fix-vscode-server.service --now
 }
