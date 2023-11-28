@@ -168,10 +168,11 @@
       overlays = import ./overlays { inherit inputs; };
 
       # Custom packages; acessible via 'nix build', 'nix shell', etc
-      packages = libx.forAllSystems (system:
-        let pkgs = nixpkgs.legacyPackages.${system};
-        in import ./pkgs { inherit pkgs; }
-      )
+      packages = libx.forAllSystems
+        (system:
+          let pkgs = nixpkgs.legacyPackages.${system};
+          in import ./pkgs { inherit pkgs; }
+        )
       # And custom nixos-generators definitions
       # TODO: forAllSystems
       // libx.forAllSystems (system: {

@@ -3,7 +3,8 @@
 {
 
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
@@ -102,7 +103,7 @@
     };
   };
 
-    # Set your time zone.
+  # Set your time zone.
   time.timeZone = "Europe/London";
 
   # Configure console keymap
@@ -127,12 +128,12 @@
 
 
   networking.extraHosts =
-  ''
-    10.50.10.2 dns dns.int.example.uk
-    10.50.20.2 dns dns.int.example.uk
-    10.50.30.2 dns dns.int.example.uk
-    10.50.40.2 dns dns.int.example.uk
-  '';
+    ''
+      10.50.10.2 dns dns.int.example.uk
+      10.50.20.2 dns dns.int.example.uk
+      10.50.30.2 dns dns.int.example.uk
+      10.50.40.2 dns dns.int.example.uk
+    '';
 
   services.dnsmasq = {
     enable = true;
