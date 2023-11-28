@@ -8,7 +8,7 @@
 
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" "sd_nod" ];
-    kernelModules = [];
+    kernelModules = [ ];
 
     # TODO: validate newer version with U-Boot
     kernelPackages = lib.mkDefault pkgs.linuxPackages_4_9;
@@ -24,7 +24,7 @@
     }];
     useDHCP = lib.mkForce false
 
-  };
+      };
 
-  nixpkgs.hostPlatform = lib.mkDefault "armv7l-linux";
-}
+    nixpkgs.hostPlatform = lib.mkDefault "armv7l-linux";
+  }
