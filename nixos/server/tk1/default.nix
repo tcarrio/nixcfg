@@ -14,15 +14,16 @@
     kernelPackages = lib.mkDefault pkgs.linuxPackages_4_9;
   };
 
-  # Use passed hostname to configure basic networking
+  # TODO: Revert to DHCP MAC address allocated IPs after testing
   networking = {
     defaultGateway = "192.168.1.1";
+    nameservers = [ "192.168.1.1" ];
     interfaces.enp3s0.ipv4.addresses = [{
-      address = "192.168.1.185"; # test IP
+      address = "192.168.1.185";
       prefixLength = 24;
     }];
-    nameservers = [ "192.168.1.1" ];
-    useDHCP = lib.mkForce false;
+    useDHCP = lib.mkForce false
+
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "armv7l-linux";
