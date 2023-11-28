@@ -654,6 +654,42 @@
         "type": "github"
       }
     },
+    "nixlib": {
+      "locked": {
+        "lastModified": 1693701915,
+        "narHash": "sha256-waHPLdDYUOHSEtMKKabcKIMhlUOHPOOPQ9UyFeEoovs=",
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "rev": "f5af57d3ef9947a70ac86e42695231ac1ad00c25",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "type": "github"
+      }
+    },
+    "nixos-generators": {
+      "inputs": {
+        "nixlib": "nixlib",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1701139197,
+        "narHash": "sha256-Su2m1tZcblhT4BlxgNFxP4ywI/17GX4Rra9QFlbabkc=",
+        "owner": "tcarrio",
+        "repo": "nixos-generators",
+        "rev": "95397b5da6b0be9c5bbda2ef812d021c2fd0d8a3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "tcarrio",
+        "repo": "nixos-generators",
+        "type": "github"
+      }
+    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1701020860,
@@ -989,6 +1025,7 @@
         "nix-formatter-pack": "nix-formatter-pack",
         "nix-homebrew": "nix-homebrew",
         "nix-on-droid": "nix-on-droid",
+        "nixos-generators": "nixos-generators",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-trunk": "nixpkgs-trunk",
