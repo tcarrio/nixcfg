@@ -16,6 +16,7 @@
   fonts = {
     fontDir.enable = true;
     fonts = with pkgs; [
+      iosevka
       font-awesome
       (nerdfonts.override {
         fonts = [
