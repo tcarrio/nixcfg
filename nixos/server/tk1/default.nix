@@ -1,6 +1,6 @@
 # Nvidia Tegra K1 Devboard
 
-{ inputs, lib, pkgs, ... }:
+{ lib, pkgs, ... }:
 {
   imports = [
     ../_mixins/virt
@@ -22,9 +22,8 @@
       address = "192.168.1.185";
       prefixLength = 24;
     }];
-    useDHCP = lib.mkForce false
+    useDHCP = lib.mkForce false;
+  };
 
-      };
-
-    nixpkgs.hostPlatform = lib.mkDefault "armv7l-linux";
-  }
+  nixpkgs.hostPlatform = lib.mkDefault "armv7l-linux";
+}
