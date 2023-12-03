@@ -117,7 +117,7 @@
         enable = true;
       };
     };
-    exa = {
+    eza = {
       enable = true;
       enableAliases = true;
       icons = true;
@@ -133,7 +133,7 @@
         less = "bat --paging=always";
         more = "bat --paging=always";
         top = "btm --basic --tree --hide_table_gap --dot_marker --mem_as_value";
-        tree = "exa --tree";
+        tree = "eza --tree";
       };
       functions = {
         shell = ''

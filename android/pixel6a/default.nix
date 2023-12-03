@@ -40,7 +40,7 @@
   time.timeZone = "America/Detroit";
 
   # After installing home-manager channel like
-  #   nix-channel --add https://github.com/rycee/home-manager/archive/release-23.05.tar.gz home-manager
+  #   nix-channel --add https://github.com/rycee/home-manager/archive/release-23.11.tar.gz home-manager
   #   nix-channel --update
   # you can configure home-manager in here like
   #home-manager = {
@@ -50,7 +50,7 @@
   #    { config, lib, pkgs, ... }:
   #    {
   #      # Read the changelog before changing this value
-  #      home.stateVersion = "23.05";
+  #      home.stateVersion = "23.11";
   #
   #      # insert home-manager config
   #    };
