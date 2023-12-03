@@ -99,6 +99,7 @@ let
     js = getLangOr "js" true;
     linux = getLangOr "linux" false;
     nix = getLangOr "nix" true;
+    php = getLangOr "php" true;
     python = getLangOr "python" true;
     rust = getLangOr "rust" false;
     ssh = getLangOr "ssh" false;
@@ -132,6 +133,7 @@ in
         ++ getListIf g.js [ esbenp.prettier-vscode ]
         ++ getListIf g.linux [ coolbear.systemd-unit-file timonwong.shellcheck mads-hartmann.bash-ide-vscode ]
         ++ getListIf g.nix [ bbenoist.nix jnoortheen.nix-ide ]
+        ++ getListIf g.php [ bmewburn.vscode-intelephense-client ]
         ++ getListIf g.python [ ms-python.python ms-python.vscode-pylance ]
         ++ getListIf g.ssh [ ms-vscode-remote.remote-ssh ]
         ++ getListIf g.text [ streetsidesoftware.code-spell-checker yzhang.markdown-all-in-one ]
@@ -158,6 +160,7 @@ in
         ++ getListIf g.js [ ]
         ++ getListIf g.linux [ ext.linux-desktop-file ]
         ++ getListIf g.nix [ ]
+        ++ getListIf g.php [ ]
         ++ getListIf g.python [ ]
         ++ getListIf g.rust [ ext.rust-analyzer ]
         ++ getListIf g.ssh [ ext.remote-ssh-edit ]
