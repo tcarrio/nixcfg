@@ -110,7 +110,7 @@ let
   };
 in
 {
-  imports = []
+  imports = [ ]
     # ++ lib.optional g.nix ../console/nix-lsp.nix
     ++ lib.optional codeServer.enable ../services/vscode-server.nix
   ;
