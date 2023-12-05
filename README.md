@@ -140,35 +140,62 @@ Here is the directory structure I'm using.
 
 ```
 .
+├── android
+│  ├── _mixins -> ../nixos/_mixins/
+│  ├── default.nix
+│  └── pixel6a
 ├── home-manager
-│   ├── _mixins
-│   │   ├── console
-│   │   ├── desktop
-│   │   ├── services
-│   │   └── users
-│   └── default.nix
+│  ├── _mixins
+│  │  ├── console
+│  │  ├── desktop
+│  │  ├── services
+│  │  └── users
+│  └── default.nix
+├── lib
+│  ├── default.nix
+│  ├── helpers.nix
+│  └── ssh-matrix.nix
+├── LICENSE
+├── macos
+│  ├── _mixins -> ../nixos/_mixins/
+│  ├── default.nix
+│  └── sktc0
 ├── nixos
-│   ├── _mixins
-│   │   ├── desktop
-│   │   ├── hardware
-│   │   ├── services
-│   │   ├── users
-│   │   └── virt
-│   ├── iso
-│   │   ├── iso-nuc
-│   │   └── iso-tk1
-│   ├── server
-│   │   └── ...
-│   ├── workstation
-│   │   ├── glass
-│   │   └── kuroi
-│   └── default.nix
+│  ├── _mixins
+│  │  ├── av
+│  │  ├── console
+│  │  ├── desktop
+│  │  ├── hardware
+│  │  ├── services
+│  │  ├── users
+│  │  └── virt
+│  ├── default.nix
+│  ├── iso
+│  │  ├── iso-console
+│  │  ├── iso-desktop
+│  │  ├── iso-gpd-dsi
+│  │  ├── iso-gpd-edp
+│  │  ├── iso-nuc
+│  │  ├── iso-tk1
+│  │  └── iso-win-max
+│  ├── server
+│  │  ├── brix
+│  │  ├── NUC.md
+│  │  ├── nuc0
+│  │  ├── pxe-server
+│  │  ├── skull
+│  │  └── tk1
+│  └── workstation
+│     ├── glass
+│     ├── kuroi
+│     ├── t510
+│     └── vm
 ├── overlays
 ├── pkgs
 ├── scripts
 ├── sdcard
-│   └── rpi2.nix
-└── flake.nix
+├── secrets
+└── shells
 ```
 
 ### The Shell 🐚
