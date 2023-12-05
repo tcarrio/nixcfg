@@ -153,7 +153,7 @@
       # );
 
       # nix fmt
-      formatter = libx.forAllSystems (_:
+      formatter = libx.forAllSystems (system:
         nix-formatter-pack.lib.mkFormatter {
           pkgs = nixpkgs.legacyPackages.${system};
           config.tools = {
