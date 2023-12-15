@@ -3,7 +3,7 @@
 # RAM:         8GB DDR2
 # SATA:        120GB SSD
 
-{ inputs, lib, config, pkgs, modulesPath, ... }: {
+{ inputs, lib, pkgs, ... }: {
   imports = [
     # TODO: Incorporate diskos
     (import ./disks.nix { })

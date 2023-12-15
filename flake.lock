@@ -447,6 +447,22 @@
         "type": "github"
       }
     },
+    "homebrew-koekeishiya": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1699812011,
+        "narHash": "sha256-1pXKOdZz1KADlAU3410afYq97Icxq0At5c9HClwLeFo=",
+        "owner": "koekeishiya",
+        "repo": "homebrew-formulae",
+        "rev": "d4c95802ca991ea41512320af412072e775c1eb7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "koekeishiya",
+        "repo": "homebrew-formulae",
+        "type": "github"
+      }
+    },
     "neovim-kickstart": {
       "flake": false,
       "locked": {
@@ -1019,6 +1035,7 @@
         "home-manager": "home-manager_2",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
+        "homebrew-koekeishiya": "homebrew-koekeishiya",
         "neovim-kickstart": "neovim-kickstart",
         "nix-darwin": "nix-darwin",
         "nix-doom-emacs": "nix-doom-emacs",

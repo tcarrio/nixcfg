@@ -110,9 +110,7 @@ let
   };
 in
 {
-  imports = [ ]
-    # ++ lib.optional g.nix ../console/nix-lsp.nix
-    ++ lib.optional codeServer.enable ../services/vscode-server.nix
+  imports = lib.optional codeServer.enable ../services/vscode-server.nix
   ;
 
   environment.systemPackages = with pkgs; [
@@ -120,8 +118,7 @@ in
       inherit (trunk) vscode;
       vscodeExtensions = with unstable.vscode-extensions;
         # globally enabled extensions
-        [ ]
-        ++ getListIf g.cpp [ ms-vscode.cpptools ]
+        getListIf g.cpp [ ms-vscode.cpptools ]
         ++ getListIf g.diff [ ryu1kn.partial-diff ]
         ++ getListIf g.docker [ ms-azuretools.vscode-docker ]
         ++ getListIf g.editorconfig [ editorconfig.editorconfig ]

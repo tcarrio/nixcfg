@@ -1,4 +1,4 @@
-{ config, containerization, desktop, lib, pkgs, ... }:
+{ desktop, lib, ... }:
 {
   imports =
     [

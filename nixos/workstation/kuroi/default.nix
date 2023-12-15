@@ -4,7 +4,7 @@
 # SATA:        120GB SSD
 # SATA:        500GB SSD
 
-{ inputs, lib, config, pkgs, modulesPath, ... }:
+{ inputs, lib, pkgs, ... }:
 {
   imports = [
     # TODO: Incorporate diskos

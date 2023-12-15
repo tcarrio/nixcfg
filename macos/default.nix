@@ -1,4 +1,4 @@
-{ self, pkgs, hostname, username, platform, stateVersion, inputs, outputs, ... /* lib, config */ }: {
+{ self, pkgs, hostname, username, platform, stateVersion, outputs, ... /* lib, config */ }: {
   imports = [
     ./${hostname}
     ./_mixins/users/${username}

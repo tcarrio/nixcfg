@@ -37,10 +37,11 @@ in
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
       }
+      inputs.nix-homebrew.darwinModules.nix-homebrew
     ];
   };
 
-  mkSdImage = { hostname, username, systemType, platform ? "armv7l-linux" }: inputs.nixos-generators.nixosGenerate {
+  mkSdImage = { hostname, username, platform ? "armv7l-linux" }: inputs.nixos-generators.nixosGenerate {
     specialArgs = {
       inherit self inputs outputs hostname username platform stateVersion sshMatrix;
     };

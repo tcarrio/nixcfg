@@ -1,11 +1,10 @@
-{ lib, hostname, username, pkgs, inputs, platform, ... }:
+{ lib, hostname, inputs, platform, ... }:
 let
   systemInfo = lib.splitString "-" platform;
   systemType = builtins.elemAt systemInfo 1;
 in
 {
-  imports = [ ]
-    ++ lib.optional (builtins.pathExists (./. + "/hosts/${hostname}.nix")) ./hosts/${hostname}.nix
+  imports = lib.optional (builtins.pathExists (./. + "/hosts/${hostname}.nix")) ./hosts/${hostname}.nix
     ++ lib.optional (builtins.pathExists (./. + "/systems/${systemType}.nix")) ./systems/${systemType}.nix;
 
   home = {

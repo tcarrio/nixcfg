@@ -4,7 +4,7 @@ let
 in
 {
   # Only include desktop components if one is supplied.
-  imports = [ ] ++ lib.optional (builtins.isString desktop) ./desktop.nix;
+  imports = lib.optional (builtins.isString desktop) ./desktop.nix;
 
   environment.systemPackages = with pkgs; [
     yadm # Terminal dot file manager

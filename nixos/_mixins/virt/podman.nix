@@ -1,6 +1,6 @@
 { config, desktop, lib, pkgs, ... }:
 {
-  imports = [ ] ++ lib.optional (builtins.isString desktop) ./desktop.nix;
+  imports = lib.optional (builtins.isString desktop) ./desktop.nix;
 
   #https://nixos.wiki/wiki/Podman
   environment.systemPackages = with pkgs; [

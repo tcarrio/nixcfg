@@ -1,4 +1,4 @@
-{ pkgs, inputs, username, ... }: {
+_: {
   environment.systemPackages = [
     emacs
   ];

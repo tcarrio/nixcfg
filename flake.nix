@@ -42,15 +42,17 @@
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
     nix-homebrew.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
+    # Homebrew taps
+    homebrew-core.url = "github:homebrew/homebrew-core";
+    homebrew-core.flake = false;
+    homebrew-cask.url = "github:homebrew/homebrew-cask";
+    homebrew-cask.flake = false;
+    homebrew-koekeishiya.url = "github:koekeishiya/homebrew-formulae";
+    homebrew-koekeishiya.flake = false;
+
     # nixos-generators for sdcard install generation
     nixos-generators.url = "github:tcarrio/nixos-generators";
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs-unstable";
-
-    homebrew-core.url = "github:homebrew/homebrew-core";
-    homebrew-core.flake = false;
-
-    homebrew-cask.url = "github:homebrew/homebrew-cask";
-    homebrew-cask.flake = false;
 
     # IDE starter config for Neovim
     neovim-kickstart.url = "github:tcarrio/kickstart.nvim";
@@ -60,17 +62,14 @@
     { self
     , nix-formatter-pack
     , nixpkgs
-    , vscode-server
     , devshells
     , nix-on-droid
-    , neovim-kickstart
-    , nixos-generators
     , ...
     } @ inputs:
     let
       # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
       stateVersion = "23.11";
-      
+
       inherit (self) outputs;
       libx = import ./lib { inherit self inputs outputs stateVersion; };
     in
@@ -176,7 +175,7 @@
         )
       # And custom nixos-generators definitions
       # TODO: forAllSystems
-      // libx.forAllSystems (system: {
+      // libx.forAllSystems (_system: {
         tk1 = libx.mkSdImage { hostname = "tk1"; username = "root"; systemType = "server"; };
       });
     };
