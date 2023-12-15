@@ -67,7 +67,7 @@ SEGMENT_SPACING=13  # The spacing between segments
 {{bin.sketchybar}} --animate sin 30 --bar y_offset=-100 y_offset=0
 
 ### Spaces themselves are this ###
-. "$ITEM_DIR/spaces.sh"
+# . "$ITEM_DIR/spaces.sh"
 
 ### First Seperator on the bar ###
 {{bin.sketchybar}}   --add item       separator left                                       \
@@ -124,7 +124,7 @@ SEGMENT_SPACING=13  # The spacing between segments
                    --subscribe window_title window_focus title_change                      \
 
 ### Menu bar items ###
-. "$ITEM_DIR/system.sh"
+# . "$ITEM_DIR/system.sh"
 
 ### Time Widget ###
 {{bin.sketchybar}} --add item clock right                                          \
