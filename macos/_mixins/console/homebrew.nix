@@ -1,18 +1,16 @@
-{ nix-homebrew, homebrew-core, homebrew-cask, username, platform, ... }: {
-  imports = [
-    nix-homebrew.darwinModules.nix-homebrew
-  ];
-
+{ inputs, username, platform, ... }: {
   nix-homebrew = {
-    enable = false;
+    enable = true;
 
     # enables the prefix under the given user instead of globally
-    # user = "${username}";
+    user = username;
 
     taps = {
-      "homebrew/homebrew-core" = homebrew-core;
-      "homebrew/homebrew-cask" = homebrew-cask;
+      "homebrew/homebrew-core" = inputs.homebrew-core;
+      "homebrew/homebrew-cask" = inputs.homebrew-cask;
     };
+
+    # other tooling interacts via Brew CLI so this is required
     mutableTaps = true;
 
     # automatically incorporate any existing Homebrew installations

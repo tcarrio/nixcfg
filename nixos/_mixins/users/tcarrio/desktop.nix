@@ -1,4 +1,4 @@
-{ desktop, pkgs, lib, sshMatrix, ... }: {
+{ desktop, pkgs, lib, ... }: {
   imports = [
     ../../desktop/chromium.nix
     ../../desktop/element.nix

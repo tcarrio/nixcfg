@@ -1,5 +1,5 @@
 { desktop, lib, ... }: {
-  imports = [ ] ++ lib.optionals (desktop != null) [
+  imports = lib.optionals (desktop != null) [
     ../desktop/keybase.nix
   ];
 

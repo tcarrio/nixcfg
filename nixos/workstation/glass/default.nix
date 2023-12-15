@@ -6,7 +6,7 @@
 # SATA:        500GB SSD
 # SATA:        2TB SSHD
 
-{ inputs, lib, config, pkgs, modulesPath, ... }: {
+{ inputs, lib, pkgs, ... }: {
   imports = [
     # TODO: Incorporate diskos
     # (import ./disks.nix { })
