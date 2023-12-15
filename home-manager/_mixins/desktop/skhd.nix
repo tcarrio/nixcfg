@@ -6,7 +6,7 @@ let
     };
   };
 
-  skhdConfig = pkgs.templateFile "skhdrc" ./skhd/skhd.conf.mustache templateValues;
+  skhdConfig = pkgs.templateFile "skhdrc" ./skhd/skhd.conf.tpl templateValues;
 in
 {
   home.file.".config/skhd/skhdrc".source = "${skhdConfig}";

@@ -9,7 +9,7 @@ let
     };
   };
 
-  sketchybarConfig = t "sketchybarrc" ./sketchybar/sketchybar.conf.mustache values;
+  sketchybarConfig = t "sketchybarrc" ./sketchybar/sketchybar.conf.tpl values;
 
   plugins = [
     "battery.sh"
@@ -44,16 +44,16 @@ in
   // # Include plugins
   builtins.listToAttrs (builtins.map
     (plugin: {
-      name = ".config/sketchybar/plugins/${plugin}.mustache".source;
-      value = t plugin ./sketchybar/plugins/${plugin}.mustache values;
+      name = ".config/sketchybar/plugins/${plugin}.tpl".source;
+      value = t plugin ./sketchybar/plugins/${plugin}.tpl values;
     })
     plugins)
 
   // # Include items
   builtins.listToAttrs (builtins.map
     (item: {
-      name = ".config/sketchybar/items/${item}.mustache".source;
-      value = t item ./sketchybar/items/${item}.mustache values;
+      name = ".config/sketchybar/items/${item}.tpl".source;
+      value = t item ./sketchybar/items/${item}.tpl values;
     })
     items);
 }

@@ -6,7 +6,7 @@ let
     };
   };
 
-  yabaiConfig = pkgs.templateFile "yabairc" ./yabai/yabai.conf.mustache templateValues;
+  yabaiConfig = pkgs.templateFile "yabairc" ./yabai/yabai.conf.tpl templateValues;
 in
 {
   home.file.".config/yabai/yabairc".source = "${yabaiConfig}";

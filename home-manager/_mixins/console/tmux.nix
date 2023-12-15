@@ -12,8 +12,8 @@ let
       comment_grey = "#5c6370";
     };
   };
-  themeFile = pkgs.templateFile "onedark-theme.tmux" ./tmux/theme.tmux.mustache theme;
-  tmuxConfig = pkgs.templateFile "tmux.conf" ./tmux/tmux.conf.mustache { theme.path = "${themeFile}"; };
+  themeFile = pkgs.templateFile "onedark-theme.tmux" ./tmux/theme.tmux.tpl theme;
+  tmuxConfig = pkgs.templateFile "tmux.conf" ./tmux/tmux.conf.tpl { theme.path = "${themeFile}"; };
 in
 {
   home.file.".tmux.conf".source = "${tmuxConfig}";
