@@ -4,8 +4,8 @@ let
 
   values = {
     bin = {
-      sketchybar = "${pkgs.sketchybar}";
-      yabai = "${pkgs.yabai}";
+      sketchybar = "${pkgs.sketchybar}/bin/sketchybar";
+      yabai = "${pkgs.yabai}/bin/yabai";
     };
   };
 
@@ -30,7 +30,7 @@ let
 
   items = [
     "spacenum.sh"
-    "spaces.sh"
+    # "spaces.sh"
   ];
 in
 {
@@ -44,16 +44,16 @@ in
   // # Include plugins
   builtins.listToAttrs (builtins.map
     (plugin: {
-      name = ".config/sketchybar/plugins/${plugin}.tpl".source;
-      value = t plugin ./sketchybar/plugins/${plugin}.tpl values;
+      name = ".config/sketchybar/plugins/${plugin}";
+      value = { source = t plugin ./sketchybar/plugins/${plugin}.tpl values; };
     })
     plugins)
 
   // # Include items
   builtins.listToAttrs (builtins.map
     (item: {
-      name = ".config/sketchybar/items/${item}.tpl".source;
-      value = t item ./sketchybar/items/${item}.tpl values;
+      name = ".config/sketchybar/items/${item}";
+      value = { source = t item ./sketchybar/items/${item}.tpl values; };
     })
     items);
 }

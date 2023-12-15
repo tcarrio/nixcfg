@@ -4,6 +4,9 @@
     # TODO: Implement Doom Emacs
     # ../../../desktop/doom-emacs.nix
     ../../../console/asdf.nix
+    ../../../desktop/sketchybar.nix
+    ../../../desktop/skhd.nix
+    ../../../desktop/yabai.nix
   ];
 
   home = {
