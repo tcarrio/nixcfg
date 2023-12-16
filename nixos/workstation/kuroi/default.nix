@@ -61,6 +61,7 @@
 
     # security
     bitwarden
+    nordvpn
     tor-browser-bundle-bin
 
     # development
