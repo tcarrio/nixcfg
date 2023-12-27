@@ -107,16 +107,16 @@
         # .iso images
         #  - nix build .#nixosConfigurations.{iso-console|iso-desktop}.config.system.build.isoImage
         iso-nuc = libx.mkHost { systemType = "iso"; hostname = "iso-nuc"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"; };
-        iso-tk1 = libx.mkHost { systemType = "iso"; hostname = "iso-tk1"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"; desktop = "pantheon"; };
+        iso-tk1 = libx.mkHost { systemType = "iso"; hostname = "iso-tk1"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"; desktop = "gnome"; };
         iso-console = libx.mkHost { systemType = "iso"; hostname = "iso-console"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"; };
-        iso-desktop = libx.mkHost { systemType = "iso"; hostname = "iso-desktop"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"; desktop = "pantheon"; };
+        iso-desktop = libx.mkHost { systemType = "iso"; hostname = "iso-desktop"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"; desktop = "gnome"; };
 
         # Workstations
         #  - sudo nixos-rebuild switch --flake $HOME/0xc/nix-config
         #  - nix build .#nixosConfigurations.ripper.config.system.build.toplevel
-        glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "i3"; };
+        glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "gnome"; };
         kuroi = libx.mkHost { systemType = "workstation"; hostname = "kuroi"; username = "tcarrio"; desktop = "gnome"; };
-        t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
+        t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "gnome"; };
 
         # Servers
         # Can be executed locally:
@@ -172,11 +172,11 @@
         (system:
           let pkgs = nixpkgs.legacyPackages.${system};
           in import ./pkgs { inherit pkgs; }
-        )
-      # And custom nixos-generators definitions
-      # TODO: forAllSystems
-      // libx.forAllSystems (_system: {
-        tk1 = libx.mkSdImage { hostname = "tk1"; username = "root"; systemType = "server"; };
-      });
+        );
+        # And custom nixos-generators definitions
+        # TODO: forAllSystems
+        # // libx.forAllSystems (_system: {
+        #   tk1 = libx.mkSdImage { hostname = "tk1"; username = "root"; systemType = "server"; };
+        # });
     };
 }
