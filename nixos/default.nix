@@ -262,4 +262,6 @@
     '';
   };
   system.stateVersion = stateVersion;
+
+  nix.trustedUsers = [username];
 }
