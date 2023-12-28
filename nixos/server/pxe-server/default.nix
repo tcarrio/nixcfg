@@ -2,6 +2,7 @@
 let
   dnsHostName = "carrio.dev";
   internalDnsHostName = "int.${dnsHostName}";
+  virtNetIface = "enu1u1";
 in
 {
   imports = [
@@ -53,8 +54,8 @@ in
     enable = true;
     settings = {
       server = [
-        "8.8.8.8"
-        "8.8.4.4"
+        "1.1.1.1"
+        "9.9.9.9"
       ];
       dhcp-authoritative = false;
       domain-needed = true;
@@ -65,56 +66,54 @@ in
 
       # DHCP OPTIONS (SUCH AS PXE, DNS SERVER, GATEWAY, ETC)
       dhcp-option = [
-        "enu1u1.10,3,10.50.10.1"
-        "enu1u1.10,6,10.50.10.2"
-        "enu1u1.20,3,10.50.20.1"
-        "enu1u1.20,6,10.50.20.2"
-        "enu1u1.30,3,10.50.30.1"
-        "enu1u1.30,6,10.50.30.2"
-        "enu1u1.40,3,10.50.40.1"
-        "enu1u1.40,6,10.50.40.2"
+        "${virtNetIface}.10,3,10.50.10.1"
+        "${virtNetIface}.10,6,10.50.10.2"
+        "${virtNetIface}.20,3,10.50.20.1"
+        "${virtNetIface}.20,6,10.50.20.2"
+        "${virtNetIface}.30,3,10.50.30.1"
+        "${virtNetIface}.30,6,10.50.30.2"
+        "${virtNetIface}.40,3,10.50.40.1"
+        "${virtNetIface}.40,6,10.50.40.2"
       ];
 
       # DHCP RANGES
       dhcp-range = [
-        "enu1u1.10,10.50.10.200,10.50.10.254,255.255.255.0,8h"
-        "enu1u1.20,10.50.20.10,10.50.20.254,255.255.255.0,8h"
-        "enu1u1.30,10.50.30.10,10.50.30.254,255.255.255.0,8h"
-        "enu1u1.40,10.50.40.200,10.50.40.254,255.255.255.0,8h"
+        "${virtNetIface}.10,10.50.10.200,10.50.10.254,255.255.255.0,8h"
       ];
 
       # STATIC HOST MAPPINGS ("MAC_ADDRESS,IP_ADDRESS,HOSTNAME")
       dhcp-host = [
-        "xx:xx:xx:xx:xx:xx,10.50.10.3,switch"
-        "xx:xx:xx:xx:xx:xx,10.50.10.4,ap"
-        "xx:xx:xx:xx:xx:xx,10.50.10.10,bedrock"
-        "xx:xx:xx:xx:xx:xx,10.50.10.11,hass"
-        "xx:xx:xx:xx:xx:xx,10.50.10.12,mainsail"
+        "f4:4d:30:61:9b:19,192.168.1.200" # NUC 00
+        "f4:4d:30:62:4c:26,192.168.1.201" # NUC 01
+        "f4:4d:30:61:99:ab,192.168.1.202" # NUC 02
+        "f4:4d:30:61:8c:cf,192.168.1.203" # NUC 03
+        "f4:4d:30:61:99:ad,192.168.1.204" # NUC 04
+        "f4:4d:30:61:8a:9d,192.168.1.205" # NUC 05
+        "f4:4d:30:62:4a:76,192.168.1.206" # NUC 06
+        "f4:4d:30:62:4a:43,192.168.1.207" # NUC 07
+        "f4:4d:30:61:9a:e0,192.168.1.208" # NUC 08
+        "f4:4d:30:61:99:ed,192.168.1.209" # NUC 09
 
-        "xx:xx:xx:xx:xx:xx,10.50.40.10,hass-iot"
-        "xx:xx:xx:xx:xx:xx,10.50.40.11,glow-ihd"
-        "xx:xx:xx:xx:xx:xx,10.50.40.12,printer"
-        "xx:xx:xx:xx:xx:xx,10.50.40.13,cctv-iot"
-        "xx:xx:xx:xx:xx:xx,10.50.40.14,cctv-front"
-        "xx:xx:xx:xx:xx:xx,10.50.40.15,cctv-side"
-        "xx:xx:xx:xx:xx:xx,10.50.40.16,cctv-rear"
-        "xx:xx:xx:xx:xx:xx,10.50.40.17,doorbell"
-        "xx:xx:xx:xx:xx:xx,10.50.40.18,cctv-downstairs"
+        "00:04:4b:49:19:32,192.168.1.210" # TK1 00
+        "00:04:4b:5a:f2:75,192.168.1.211" # TK1 01
+        "00:04:4b:5a:ef:dc,192.168.1.212" # TK1 02
+        #00:04:4b:xx:xx:xx,192.168.1.213  # TK1 03
+        #00:04:4b:xx:xx:xx,192.168.1.213  # TK1 04
       ];
 
       # DNS OVERRIDES
       address = [
-        "/cloud.${dnsHostName}/10.50.10.10"
-        "/photos.${dnsHostName}/10.50.10.10"
-        "/id.${dnsHostName}/10.50.10.10"
-        "/vault.${dnsHostName}/10.50.10.10"
-        "/overseerr.${dnsHostName}/10.50.10.10"
-        "/media.${internalDnsHostName}/10.50.10.10"
-        "/${dnsHostName}/10.50.10.10"
-        "/matrix.${dnsHostName}/10.50.10.10"
-        "/syncv3.${dnsHostName}/10.50.10.10"
-        "/cctv.${internalDnsHostName}/10.50.10.10"
-        "/archive.${internalDnsHostName}/10.50.10.10"
+        # "/cloud.${dnsHostName}/10.50.10.10"
+        # "/photos.${dnsHostName}/10.50.10.10"
+        # "/id.${dnsHostName}/10.50.10.10"
+        # "/vault.${dnsHostName}/10.50.10.10"
+        # "/overseerr.${dnsHostName}/10.50.10.10"
+        # "/media.${internalDnsHostName}/10.50.10.10"
+        # "/${dnsHostName}/10.50.10.10"
+        # "/matrix.${dnsHostName}/10.50.10.10"
+        # "/syncv3.${dnsHostName}/10.50.10.10"
+        # "/cctv.${internalDnsHostName}/10.50.10.10"
+        # "/archive.${internalDnsHostName}/10.50.10.10"
       ];
     };
   };
