@@ -14,7 +14,7 @@
 
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.nbd}/bin/nbd-client t510 -N dvd-drive -C 4 -persist /dev/sr0";
+      ExecStart = "${pkgs.nbd}/bin/nbd-client -N dvd-drive t510 10809 /dev/nbd0";
       ExecStop = "${pkgs.nbd}/bin/nbd-client -d /dev/sr0";
       RemainAfterExit = "yes";
     };
