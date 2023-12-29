@@ -30,7 +30,17 @@
   environment.systemPackages = with pkgs; [
   ];
 
-  services = { };
+  services.nbd.server = {
+    enable = true;
+    listenAddress = "0.0.0.0";
+
+    exports = {
+      dvd-drive = {
+        path = "/dev/sr0";
+        allowAddresses = [ "10.0.0.0/8" ];
+      };
+    };
+  };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
