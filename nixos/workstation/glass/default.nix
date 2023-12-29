@@ -24,6 +24,7 @@
     ../../_mixins/hardware/systemd-boot.nix
     ../../_mixins/services/nixified-ai.nix
     ../../_mixins/services/pipewire.nix
+    ../../_mixins/services/t510-dvd-nbd-mount.nix
     ../../_mixins/services/tailscale-autoconnect.nix
     ../../_mixins/virt
   ];
