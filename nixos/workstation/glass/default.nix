@@ -28,6 +28,10 @@
     ../../_mixins/virt
   ];
 
+  environment.systemPackages = with pkgs; [
+    tenacity
+  ];
+
   boot = {
     kernelPackages = pkgs.linuxPackages_6_5;
     blacklistedKernelModules = lib.mkDefault [ "nouveau" ];
