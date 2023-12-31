@@ -84,7 +84,7 @@
 
   fonts = {
     fontDir.enable = true;
-    fonts = with pkgs; [
+    packages = with pkgs; [
       (nerdfonts.override { fonts = [ "FiraCode" "SourceCodePro" "UbuntuMono" ]; })
       fira
       fira-go
@@ -97,7 +97,7 @@
     ];
 
     # Enable a basic set of fonts providing several font styles and families and reasonable coverage of Unicode.
-    enableDefaultFonts = false;
+    enableDefaultPackages = false;
 
     fontconfig = {
       antialias = true;
@@ -178,6 +178,8 @@
       # Avoid unwanted garbage collection when using nix-direnv
       keep-outputs = true;
       keep-derivations = true;
+
+      trusted-users = [username];
 
       warn-dirty = false;
     };
@@ -262,6 +264,4 @@
     '';
   };
   system.stateVersion = stateVersion;
-
-  nix.trustedUsers = [username];
 }
