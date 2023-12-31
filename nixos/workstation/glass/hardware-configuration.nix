@@ -36,6 +36,13 @@
       fsType = "vfat";
     };
 
+  fileSystems."/data" =
+    {
+      device = "b67cf092-d263-4e99-979d-ab61abe9532c";
+      fsType = "btrfs";
+      options = [ "subvol=/" ];
+    };
+
   swapDevices =
     [{ device = "/dev/disk/by-uuid/1222e371-0e03-447b-ae1c-e511900edabc"; }];
 
