@@ -38,7 +38,7 @@
 
   fileSystems."/data" =
     {
-      device = "b67cf092-d263-4e99-979d-ab61abe9532c";
+      device = "/dev/disk/by-uuid/b67cf092-d263-4e99-979d-ab61abe9532c";
       fsType = "btrfs";
       options = [ "subvol=/" ];
     };
