@@ -37,6 +37,7 @@ in
 
     opengl = {
       enable = true;
+      package = config.hardware.nvidia.package;
       driSupport = true;
       driSupport32Bit = true;
     };
