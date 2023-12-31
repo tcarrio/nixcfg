@@ -17,6 +17,7 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
+    ../../_mixins/desktop/daw.nix
     ../../_mixins/desktop/fractal.nix
     ../../_mixins/desktop/logseq.nix
     ../../_mixins/desktop/steam.nix
@@ -26,10 +27,6 @@
     ../../_mixins/services/pipewire.nix
     ../../_mixins/services/tailscale-autoconnect.nix
     ../../_mixins/virt
-  ];
-
-  environment.systemPackages = with pkgs; [
-    tenacity
   ];
 
   boot = {
