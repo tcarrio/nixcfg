@@ -73,13 +73,6 @@
         update_check = false;
       };
     };
-    bat = {
-      enable = true;
-      extraPackages = with pkgs.bat-extras; [
-        batwatch
-        prettybat
-      ];
-    };
     bottom = {
       enable = true;
       settings = {
