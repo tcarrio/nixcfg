@@ -1,8 +1,6 @@
 { lib, config, ... }:
 {
   imports = [
-    # TODO: Implement Doom Emacs
-    # ../../../desktop/doom-emacs.nix
     ../../../console/asdf.nix
     ../../../desktop/sketchybar.nix
     ../../../desktop/skhd.nix
@@ -75,8 +73,6 @@
 
         ip = lib.mkForce "ifconfig";
         show_open_ports = "lsof -nP -iTCP -sTCP:LISTEN";
-
-        rebuild-host = lib.mkForce "darwin-rebuild switch --flake $HOME/0xc/nix-config";
       };
   };
 

@@ -1,6 +1,6 @@
 { self, pkgs, hostname, username, platform, stateVersion, outputs, ... /* lib, config */ }: {
   imports = [
-    ./${hostname}
+    ./workstation/${hostname}
     ./_mixins/users/${username}
   ];
 

@@ -27,6 +27,7 @@
     vscode-server.url = "github:msteen/nixos-vscode-server";
     vscode-server.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Dev shell environments
     devshells.url = "github:tcarrio/devshells";
     devshells.inputs.nixpkgs.follows = "nixpkgs-unstable";
 

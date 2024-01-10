@@ -6,10 +6,10 @@
 _: {
   imports = [
     # TODO: Enable homebrew management
-    # ../_mixins/console/homebrew.nix
-    ../_mixins/desktop/sketchybar.nix
-    ../_mixins/desktop/skhd.nix
-    ../_mixins/desktop/yabai.nix
+    # ../../_mixins/console/homebrew.nix
+    ../../_mixins/desktop/sketchybar.nix
+    ../../_mixins/desktop/skhd.nix
+    ../../_mixins/desktop/yabai.nix
   ];
 
   networking.hostName = "sktc0";

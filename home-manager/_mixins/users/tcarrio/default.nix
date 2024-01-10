@@ -4,7 +4,9 @@ let
   systemType = builtins.elemAt systemInfo 1;
 in
 {
-  imports = lib.optional (builtins.pathExists (./. + "/hosts/${hostname}.nix")) ./hosts/${hostname}.nix
+  imports = []
+    ++ lib.optional (builtins.pathExists (./. + "/hosts/${hostname}.nix")) ./hosts/${hostname}.nix # hosts/$name.nix
+    ++ lib.optional (builtins.pathExists (./. + "/hosts/${hostname}")) ./hosts/${hostname} # hosts/$name/default.nix
     ++ lib.optional (builtins.pathExists (./. + "/systems/${systemType}.nix")) ./systems/${systemType}.nix;
 
   home = {
