@@ -65,6 +65,8 @@ with lib.hm.gvariant;
     "org/gnome/desktop/wm/keybindings" = {
       switch-to-workspace-left = [ "<Primary><Alt>Left" ];
       switch-to-workspace-right = [ "<Primary><Alt>Right" ];
+      switch-windows = [ "<Alt> Tab" ];
+      switch-windows-backward = [ "<Shift><Alt> Tab" ];
     };
 
     "org/gnome/desktop/wm/preferences" = {
@@ -76,7 +78,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/GWeather" = {
-      temperature-unit = "centigrade";
+      locations = "[<(uint32 2, <('Detroit', 'KDET', true, [(0.74017959717812587, -1.448797812080493)], [(0.73882277821762554, -1.4494218371012511)])>)>]";
     };
 
     "org/gnome/mutter" = {
