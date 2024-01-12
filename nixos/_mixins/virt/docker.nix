@@ -1,4 +1,4 @@
-{ desktop, lib, pkgs, ... }:
+{ config, desktop, lib, pkgs, ... }:
 {
   imports = lib.optional (builtins.isString desktop) ./desktop.nix;
 
@@ -10,6 +10,5 @@
   virtualisation = {
     docker.enable = true;
     docker.storageDriver = "btrfs";
-    docker.enableNvidia = true;
   };
 }

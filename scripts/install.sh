@@ -2,8 +2,9 @@
 
 set -euo pipefail
 
-TARGET_HOST="${1:-}"
-TARGET_USER="${2:-tcarrio}"
+TARGET_HOST="''${1:-}"
+TARGET_USER="''${2:-tcarrio}"
+TARGET_TYPE="''${3:-}"
 
 if [ "$(id -u)" -eq 0 ]; then
   echo "ERROR! $(basename "$0") should be run as a regular user"
@@ -27,6 +28,13 @@ if [[ -z "$TARGET_USER" ]]; then
   echo "ERROR! $(basename "$0") requires a username as the second argument"
   echo "       The following users are available"
   ls -1 nixos/_mixins/users/ | grep -v -E "nixos|root"
+  exit 1
+fi
+
+if [[ -z "$TARGET_TYPE" ]]; then
+  echo "ERROR! $(basename "$0") requires a type as the third argument"
+  echo "       The following types are available"
+  ls -1 nixos/ | grep -v -E "workstation|server"
   exit 1
 fi
 

@@ -60,6 +60,28 @@ in
     ];
   };
 
+  mkRawImage = { hostname, username, systemType, desktop ? null, platform ? "x86_64-linux" }: inputs.nixos-generators.nixosGenerate {
+    specialArgs = {
+      inherit self inputs outputs desktop hostname username stateVersion systemType sshMatrix;
+    };
+
+    system = platform;
+    format =
+      if platform == "x86_64-linux"
+      then "raw-efi"
+      else "raw";
+
+    # pkgs = inputs.nixpkgs.legacyPackages."${platform}";
+    # lib = inputs.nixpkgs.legacyPackages."${platform}".lib;
+
+    modules = [
+      ../nixos
+      {
+        boot.kernelParams = [ "console=tty0" ];
+      }
+    ];
+  };
+
   mkDroid = { hostname, username, platform ? "aarch64-linux" }: inputs.nix-on-droid.lib.nixOnDroidConfiguration {
     specialArgs = {
       inherit self inputs outputs hostname username platform stateVersion sshMatrix;
