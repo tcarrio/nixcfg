@@ -80,6 +80,20 @@ in
         set -U fish_pager_color_prefix white --bold --underline
         set -U fish_pager_color_progress brwhite '--background=cyan'
       '';
+
+      shellAliases = let
+        #                         determines directory path of symbol link
+        sh = target: "nix develop $(readlink -f ~/0xc/devshells)#${target} --command \$SHELL";
+      in {
+        "sh:php80" = sh "php80";
+        "sh:php81" = sh "php81";
+        "sh:php82" = sh "php82";
+        "sh:node" = sh "node";
+        "sh:node16" = sh "node16";
+        "sh:node18" = sh "node18";
+        "sh:node20" = sh "node20";
+        "sh:python" = sh "python";
+      };
     };
 
     git = {
