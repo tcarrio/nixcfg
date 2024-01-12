@@ -144,6 +144,10 @@ Here is the directory structure I'm using.
 │  ├── _mixins -> ../nixos/_mixins/
 │  ├── default.nix
 │  └── pixel6a
+├── darwin
+│  ├── _mixins -> ../nixos/_mixins/
+│  ├── default.nix
+│  └── sktc0
 ├── home-manager
 │  ├── _mixins
 │  │  ├── console
@@ -156,10 +160,6 @@ Here is the directory structure I'm using.
 │  ├── helpers.nix
 │  └── ssh-matrix.nix
 ├── LICENSE
-├── macos
-│  ├── _mixins -> ../nixos/_mixins/
-│  ├── default.nix
-│  └── sktc0
 ├── nixos
 │  ├── _mixins
 │  │  ├── av

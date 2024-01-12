@@ -31,7 +31,7 @@ in
       inherit self inputs outputs hostname username platform stateVersion sshMatrix;
     };
     modules = [
-      ../macos
+      ../darwin
       inputs.home-manager.darwinModules.home-manager
       {
         home-manager.useGlobalPkgs = true;
