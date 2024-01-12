@@ -8,10 +8,10 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     (import ./disks.nix { })
-    ../_mixins/hardware/systemd-boot.nix
-    ../_mixins/services/bluetooth.nix
-    ../_mixins/services/zerotier.nix
-    ../_mixins/virt
+    ../../_mixins/hardware/systemd-boot.nix
+    ../../_mixins/services/bluetooth.nix
+    ../../_mixins/services/zerotier.nix
+    ../../_mixins/virt
   ];
 
   # disko does manage mounting of / /boot /home, but I want to mount by-partlabel
@@ -45,12 +45,12 @@
 
   # Use passed hostname to configure basic networking
   networking = {
-    defaultGateway = "192.168.2.1";
+    defaultGateway = "192.168.1.1";
     interfaces.enp3s0.ipv4.addresses = [{
-      address = "192.168.2.10";
+      address = "192.168.1.209";
       prefixLength = 24;
     }];
-    nameservers = [ "192.168.2.1" ];
+    nameservers = [ "192.168.1.1" ];
     useDHCP = lib.mkForce false;
   };
 
