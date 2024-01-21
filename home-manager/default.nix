@@ -1,4 +1,4 @@
-{ config, desktop, lib, outputs, pkgs, stateVersion, username, ... }:
+{ config, desktop, lib, outputs, pkgs, stateVersion, username, isDroid, ... }:
 let
   inherit (pkgs.stdenv) isDarwin;
 in
@@ -13,7 +13,7 @@ in
     # inputs.nix-colors.homeManagerModules.default
 
     # You can also split up your configuration and import pieces of it here:
-    ./_mixins/console
+    ./_mixins/${if isDroid then "droid.nix" else "console"}
   ]
   ++ lib.optional (builtins.isString desktop) ./_mixins/desktop
   ++ lib.optional (builtins.isPath (./. + "/_mixins/users/${username}")) ./_mixins/users/${username};

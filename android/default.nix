@@ -9,7 +9,9 @@
     environment.packages = with pkgs; [
         # SYSTEM packages, for all users
         direnv
+        fish
         htop
+        neovim
         home-manager
     ];
 

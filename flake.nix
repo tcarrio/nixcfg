@@ -89,7 +89,7 @@
         "tcarrio@vm-mini" = libx.mkHome { hostname = "vm-mini"; username = "tcarrio"; };
 
         # Handhelds
-        "pixel6a" = libx.mkHome { hostname = "pixel6a"; username = "tcarrio"; };
+        "pixel6a" = libx.mkHome { hostname = "pixel6a"; username = "nix-on-droid"; isDroid = true; platform = "aarch64-linux"; };
       };
 
       # Support for nix-darwin workstations

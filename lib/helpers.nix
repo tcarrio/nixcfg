@@ -3,10 +3,10 @@ let
   sshMatrix = import ./ssh-matrix.nix {};
 in {
   # Helper function for generating home-manager configs
-  mkHome = { hostname, username, desktop ? null, platform ? "x86_64-linux" }: inputs.home-manager.lib.homeManagerConfiguration {
+  mkHome = { hostname, username, desktop ? null, platform ? "x86_64-linux", isDroid ? false }: inputs.home-manager.lib.homeManagerConfiguration {
     pkgs = inputs.nixpkgs.legacyPackages.${platform};
     extraSpecialArgs = {
-      inherit inputs outputs desktop hostname platform username stateVersion sshMatrix;
+      inherit inputs outputs desktop hostname platform username stateVersion sshMatrix isDroid;
     };
     modules = [ ../home-manager ];
   };
