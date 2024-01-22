@@ -179,7 +179,7 @@
       keep-outputs = true;
       keep-derivations = true;
 
-      trusted-users = [username];
+      trusted-users = [ username ];
 
       warn-dirty = false;
     };
