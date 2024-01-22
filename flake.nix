@@ -173,15 +173,15 @@
           let pkgs = nixpkgs.legacyPackages.${system};
           in import ./pkgs { inherit pkgs; }
         )
-        // libx.forAllSystems
-        (system: {
-            nuc9 = libx.mkRawImage { systemType = "server"; hostname = "nuc9"; username = "root"; };
-          }
+      // libx.forAllSystems
+        (_system: {
+          nuc9 = libx.mkRawImage { systemType = "server"; hostname = "nuc9"; username = "root"; };
+        }
         );
-        # And custom nixos-generators definitions
-        # TODO: forAllSystems
-        # // libx.forAllSystems (_system: {
-        #   tk1 = libx.mkSdImage { hostname = "tk1"; username = "root"; systemType = "server"; };
-        # });
+      # And custom nixos-generators definitions
+      # TODO: forAllSystems
+      # // libx.forAllSystems (_system: {
+      #   tk1 = libx.mkSdImage { hostname = "tk1"; username = "root"; systemType = "server"; };
+      # });
     };
 }

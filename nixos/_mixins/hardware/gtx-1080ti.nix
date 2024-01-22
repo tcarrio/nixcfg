@@ -10,11 +10,11 @@ in
     systemPackages = with pkgs; [ vulkan-tools nvtop ];
 
     variables = {
-      VK_DRIVER_FILES = (builtins.concatStringsSep ":" vulkanDriverFiles);
+      VK_DRIVER_FILES = builtins.concatStringsSep ":" vulkanDriverFiles;
     };
   };
 
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware = {
     nvidia = {
@@ -37,7 +37,7 @@ in
 
     opengl = {
       enable = true;
-      package = config.hardware.nvidia.package;
+      inherit (config.hardware.nvidia) package;
       driSupport = true;
       driSupport32Bit = true;
     };

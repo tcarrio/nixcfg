@@ -1,8 +1,8 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
   boot.kernelModules = [ "nbd" ];
 
-  environment.systemPackages = with pkgs; [nbd];
+  environment.systemPackages = with pkgs; [ nbd ];
 
   systemd.services.t510-dvd-nbd-mount = {
     description = "Automatic network mounting via NBD of T510 DVD drive";
