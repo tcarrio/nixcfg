@@ -18,12 +18,10 @@
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
     ../../_mixins/desktop/daw.nix
-    ../../_mixins/desktop/fractal.nix
     ../../_mixins/desktop/logseq.nix
     ../../_mixins/desktop/steam.nix
     ../../_mixins/hardware/gtx-1080ti.nix
     ../../_mixins/hardware/systemd-boot.nix
-    ../../_mixins/services/nixified-ai.nix
     ../../_mixins/services/pipewire.nix
     ../../_mixins/services/tailscale-autoconnect.nix
     ../../_mixins/virt
