@@ -7,7 +7,20 @@
   ];
 
   environment.systemPackages = with pkgs; [
+    awscli2
+    bazelisk
+    direnv
+    dive
     fish
+    guile
+    jdk11
+    lazydocker
+    lazygit
+    mysql
+    neofetch
     neovim
+    tmux
+    tokei
+    tree
   ];
 }
