@@ -37,7 +37,6 @@ in
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
       }
-      inputs.nix-homebrew.darwinModules.nix-homebrew
     ];
   };
 
