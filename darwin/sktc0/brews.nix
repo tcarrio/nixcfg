@@ -2,6 +2,11 @@ _: {
     homebrew = {
         taps = [
             "auth0/auth0-cli"
+            "ankitpokhrel/jira-cli"
+            "codefresh-io/cli"
+            "homebrew/cask"
+            "homebrew/core"
+            "oven-sh/bun"
         ];
 
         brews = [
@@ -10,7 +15,6 @@ _: {
             "auth0"
             "autoconf"
             "automake"
-            "awscli"
             "bash"
             "bats-core"
             "bpython"
@@ -28,6 +32,7 @@ _: {
             "dbus"
             "deno"
             "dive"
+            "docker-compose"
             "editorconfig"
             "flarectl"
             "fswatch"
@@ -99,17 +104,8 @@ _: {
 
         casks = [
             "amethyst"
-            "chromium"
-            "dbeaver-community"
-            "docker"
-            "google-chrome"
-            "jupyterlab"
-            "openlens"
             "secretive"
-            "sequel-ace"
-            "tableplus"
-            "tunnelblick"
-            "zoom"
+            "podman-desktop"
         ];
     };
 }
