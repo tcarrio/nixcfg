@@ -49,7 +49,7 @@
       "inputs": {
         "nixphps": "nixphps",
         "nixpkgs": [
-          "nixpkgs-unstable"
+          "nixpkgs"
         ]
       },
       "locked": {
