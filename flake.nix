@@ -28,7 +28,7 @@
     vscode-server.inputs.nixpkgs.follows = "nixpkgs";
 
     devshells.url = "github:tcarrio/devshells";
-    devshells.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    devshells.inputs.nixpkgs.follows = "nixpkgs";
 
     # Android support with nix-on-droid. Currently not updated for 23.11
     nix-on-droid.url = "github:nix-community/nix-on-droid/release-23.05";
