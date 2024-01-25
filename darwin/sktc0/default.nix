@@ -5,9 +5,7 @@
 
 _: {
   imports = [
-    # TODO: Enable homebrew management
     ../_mixins/console/homebrew.nix
-    ../_mixins/desktop/skhd.nix
     ./brews.nix
   ];
 
