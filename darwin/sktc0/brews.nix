@@ -106,6 +106,7 @@ _: {
             "amethyst"
             "docker"
             "secretive"
+            "talon"
         ];
     };
 }
