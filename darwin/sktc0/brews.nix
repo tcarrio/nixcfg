@@ -105,7 +105,6 @@ _: {
         casks = [
             "amethyst"
             "secretive"
-            "podman-desktop"
         ];
     };
 }
