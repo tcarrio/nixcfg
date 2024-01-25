@@ -104,6 +104,7 @@ _: {
 
         casks = [
             "amethyst"
+            "docker"
             "secretive"
         ];
     };
