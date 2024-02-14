@@ -31,6 +31,7 @@
       end
 
       export PATH="/opt/homebrew/bin:$PATH"
+      thefuck --alias | source
       source $HOME/.nix-profile/share/asdf-vm/asdf.fish
       export PATH="$HOME/Developer/workstation/bin:$PATH"
     '';

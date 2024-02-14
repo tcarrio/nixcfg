@@ -1,4 +1,4 @@
-{ lib, hostname, inputs, platform, ... }:
+{ lib, hostname, inputs, platform, pkgs, ... }:
 let
   systemInfo = lib.splitString "-" platform;
   systemType = builtins.elemAt systemInfo 1;
@@ -24,6 +24,10 @@ in
         allowUnfree = true;
       }
     '';
+
+    packages = with pkgs; [
+      thefuck
+    ];
   };
 
   programs = {
