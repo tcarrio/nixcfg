@@ -227,6 +227,7 @@ require('lazy').setup({
     'luukvbaal/nnn.nvim',
     config = function()
       require("nnn").setup()
+      vim.keymap.set('', '<C-B>', '<cmd>NnnExplorer<CR>')
     end,
   },
 
