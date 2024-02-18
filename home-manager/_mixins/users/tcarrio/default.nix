@@ -87,8 +87,12 @@ in
         let
           #                         determines directory path of symbol link
           sh = target: "nix develop $(readlink -f ~/0xc/devshells)#${target} --command \$SHELL";
+          git = "git";
         in
         {
+          g = git;
+          gti = git;
+
           "sh:php80" = sh "php80";
           "sh:php81" = sh "php81";
           "sh:php82" = sh "php82";
