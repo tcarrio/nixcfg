@@ -223,11 +223,30 @@ require('lazy').setup({
   },
 
   {
-    -- File explorer
-    'luukvbaal/nnn.nvim',
+    -- File explorer with nnn
+    -- 'luukvbaal/nnn.nvim',
+    -- config = function()
+    --   require("nnn").setup()
+    -- end,
+
+    -- File explorer with nvim-tree
+    'nvim-tree/nvim-tree.lua',
     config = function()
-      require("nnn").setup()
-      vim.keymap.set('', '<C-B>', '<cmd>NnnExplorer<CR>')
+      require("nvim-tree").setup({
+        sort = {
+          sorter = "case_sensitive",
+        },
+        view = {
+          width = 30,
+        },
+        renderer = {
+          group_empty = true,
+        },
+        filters = {
+          -- dotfiles = true,
+        },
+      })
+      vim.keymap.set('', '<C-B>', '<cmd>NvimTreeToggle<CR>')
     end,
   },
 
