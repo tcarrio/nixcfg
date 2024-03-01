@@ -88,6 +88,8 @@
       (nerdfonts.override { fonts = [ "FiraCode" "SourceCodePro" "UbuntuMono" ]; })
       fira
       fira-go
+      ipafont
+      kochi-substitute
       joypixels
       liberation_ttf
       noto-fonts-emoji
@@ -102,9 +104,9 @@
     fontconfig = {
       antialias = true;
       defaultFonts = {
-        serif = [ "Source Serif" ];
-        sansSerif = [ "Work Sans" "Fira Sans" "FiraGO" ];
-        monospace = [ "FiraCode Nerd Font Mono" "SauceCodePro Nerd Font Mono" ];
+        serif = [ "Source Serif" "IPAPMincho" ];
+        sansSerif = [ "Work Sans" "Fira Sans" "FiraGO" "IPAGothic" ];
+        monospace = [ "FiraCode Nerd Font Mono" "SauceCodePro Nerd Font Mono" "IPAGothic" ];
         emoji = [ "Joypixels" "Noto Color Emoji" ];
       };
       enable = true;
