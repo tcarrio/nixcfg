@@ -106,7 +106,7 @@ in
       "podman"
     ];
     group = "nixos";
-    isSystemUser = true;
+    isSystemUser = false;
     homeMode = "0755";
 
     hashedPassword = "$6$FGMdV6JzcaHdCnQt$yOu9i9B2NOxsb6MPg1yxgNOifyMC/QveHsADtTuTvxpahf0yb610y.fCkQolYgdAp4Ih1zHsRQS9U71yh5.iS1";
