@@ -13,7 +13,6 @@ in
     (import ./disks.nix { })
     ../_mixins/hardware/systemd-boot.nix
     ../_mixins/services/bluetooth.nix
-    ../_mixins/services/zerotier.nix
     ../_mixins/users/tcarrio
     ../_mixins/users/pxe
     ../_mixins/virt
