@@ -33,6 +33,7 @@ in
       # Add any authorized keys for SSH access here
       glass.tcarrio
       sktc0.tcarrio
+      pixel6a.nix-on-droid
     ];
     packages = [ pkgs.home-manager ];
     shell = pkgs.fish;
