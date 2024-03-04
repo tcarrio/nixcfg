@@ -1,4 +1,4 @@
-{ config, desktop, lib, pkgs, username, ... }:
+{ config, desktop, lib, pkgs, sshMatrix, username, ... }:
 let
   ifExists = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
   install-system = pkgs.writeScriptBin "install-system" ''
@@ -105,12 +105,20 @@ in
       "docker"
       "podman"
     ];
+    group = "nixos";
+    isSystemUser = true;
     homeMode = "0755";
+
+    hashedPassword = "$6$FGMdV6JzcaHdCnQt$yOu9i9B2NOxsb6MPg1yxgNOifyMC/QveHsADtTuTvxpahf0yb610y.fCkQolYgdAp4Ih1zHsRQS9U71yh5.iS1";
     openssh.authorizedKeys.keys = [
+      sshMatrix.systems.glass.tcarrio
     ];
+
     packages = [ pkgs.home-manager ];
     shell = pkgs.fish;
   };
+
+  config.users.groups.nixos = {};
 
   config.system.stateVersion = lib.mkForce lib.trivial.release;
   config.environment.systemPackages = [ install-system ];
