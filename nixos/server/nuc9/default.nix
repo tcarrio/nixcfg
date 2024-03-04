@@ -25,15 +25,13 @@
     kernelPackages = lib.mkDefault pkgs.linuxPackages_5_15;
   };
 
-  # Use passed hostname to configure basic networking
-  networking = {
-    defaultGateway = "192.168.1.1";
-    interfaces.enp3s0.ipv4.addresses = [{
-      address = "192.168.1.209";
-      prefixLength = 24;
-    }];
-    nameservers = [ "192.168.1.1" ];
-    useDHCP = lib.mkForce false;
+  systemd.network.networks."10-lan" = {
+    matchConfig.Name = "en*";
+    networkConfig = {
+      Address = "192.168.1.209/24";
+      Gateway = "192.168.1.1";
+      DNS = "192.168.1.1";
+    };
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
