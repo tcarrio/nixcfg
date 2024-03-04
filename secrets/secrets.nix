@@ -1,8 +1,9 @@
 let
   sshMatrix = import "../lib/ssh-matrix.nix" { };
   inherit (sshMatrix) systems;
+  inherit (systems) glass;
 in
 {
-  "users/tcarrio/ssh.age".publicKeys = with systems.glass; [ tcarrio host ];
-  "services/tailscale/token.age".publicKeys = with systems.glass; [ tcarrio host ];
+  "users/tcarrio/ssh.age".publicKeys = [ glass.tcarrio glass.host ];
+  "services/tailscale/token.age".publicKeys = [ glass.tcarrio glass.host ];
 }
