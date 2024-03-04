@@ -76,7 +76,7 @@ in
     modules = [
       ../nixos
       {
-        boot.kernelParams = [ "console=tty0" ];
+        boot.kernelParams = [ "console=tty0" ]; # enable physical display tty, not serial port
       }
     ];
   };
