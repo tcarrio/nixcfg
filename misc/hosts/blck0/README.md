@@ -105,3 +105,230 @@ Internal Bitmap : 8 sectors from superblock
   user@113.service          loaded active running User Manager for UID 113
   wpa_supplicant.service    loaded active running WPA supplicant
 ```
+
+# Disk partition information
+
+```
+NAME    MAJ:MIN RM   SIZE RO TYPE  MOUNTPOINTS
+sda       8:0    0 111.8G  0 disk  
+└─md126   9:126  0 670.4G  0 raid6 /storage/ssds
+sdb       8:16   0 111.8G  0 disk  
+└─md126   9:126  0 670.4G  0 raid6 /storage/ssds
+sdc       8:32   0 111.8G  0 disk  
+└─md126   9:126  0 670.4G  0 raid6 /storage/ssds
+sdd       8:48   0 111.8G  0 disk  
+└─md126   9:126  0 670.4G  0 raid6 /storage/ssds
+sde       8:64   0 111.8G  0 disk  
+└─md126   9:126  0 670.4G  0 raid6 /storage/ssds
+sdf       8:80   0 111.8G  0 disk  
+└─md126   9:126  0 670.4G  0 raid6 /storage/ssds
+sdg       8:96   0 111.8G  0 disk  
+└─md126   9:126  0 670.4G  0 raid6 /storage/ssds
+sdh       8:112  0 111.8G  0 disk  
+└─md126   9:126  0 670.4G  0 raid6 /storage/ssds
+sdi       8:128  0 298.1G  0 disk  
+sdj       8:144  0 238.5G  0 disk  
+├─sdj1    8:145  0 222.5G  0 part  /
+├─sdj2    8:146  0     1K  0 part  
+└─sdj5    8:149  0    16G  0 part  [SWAP]
+sdk       8:160  0 931.5G  0 disk  
+└─md127   9:127  0   2.7T  0 raid5 /srv/media
+                                   /storage/hdds
+sdl       8:176  0 931.5G  0 disk  
+└─md127   9:127  0   2.7T  0 raid5 /srv/media
+                                   /storage/hdds
+sdm       8:192  0 931.5G  0 disk  
+└─md127   9:127  0   2.7T  0 raid5 /srv/media
+                                   /storage/hdds
+sdn       8:208  0 931.5G  0 disk  
+└─md127   9:127  0   2.7T  0 raid5 /srv/media
+                                   /storage/hdds
+```
+
+```
+Disk /dev/sdi: 298.09 GiB, 320072933376 bytes, 625142448 sectors
+Disk model: WDC WD3200AAKS-0
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/sdj: 238.47 GiB, 256060514304 bytes, 500118192 sectors
+Disk model: Corsair CMFSSD-2
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x54cdf023
+
+Device     Boot     Start       End   Sectors   Size Id Type
+/dev/sdj1  *         2048 466618367 466616320 222.5G 83 Linux
+/dev/sdj2       466620414 500117503  33497090    16G  5 Extended
+/dev/sdj5       466620416 500117503  33497088    16G 82 Linux swap / Solaris
+The primary GPT table is corrupt, but the backup appears OK, so that will be used.
+
+
+Disk /dev/sdk: 931.51 GiB, 1000204886016 bytes, 1953525168 sectors
+Disk model: WDC WD10EFRX-68F
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disklabel type: gpt
+Disk identifier: E49C7BCD-9BB7-4D33-9DE8-EB7CFEF781AC
+
+Device     Start        End    Sectors   Size Type
+/dev/sdk1   2048 1953525134 1953523087 931.5G Linux RAID
+The primary GPT table is corrupt, but the backup appears OK, so that will be used.
+
+
+Disk /dev/sdm: 931.51 GiB, 1000204886016 bytes, 1953525168 sectors
+Disk model: WDC WD10EFRX-68P
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disklabel type: gpt
+Disk identifier: C7686AE5-315E-4557-A632-8F5A7F817A87
+
+Device     Start        End    Sectors   Size Type
+/dev/sdm1   2048 1953525134 1953523087 931.5G Linux RAID
+The primary GPT table is corrupt, but the backup appears OK, so that will be used.
+
+
+Disk /dev/sdn: 931.51 GiB, 1000204886016 bytes, 1953525168 sectors
+Disk model: WDC WD10EFRX-68P
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disklabel type: gpt
+Disk identifier: 27EC78A2-79E0-4FCC-8FD5-C14E6455196D
+
+Device     Start        End    Sectors   Size Type
+/dev/sdn1   2048 1953525134 1953523087 931.5G Linux RAID
+The primary GPT table is corrupt, but the backup appears OK, so that will be used.
+
+
+Disk /dev/sdb: 111.8 GiB, 120040980480 bytes, 234455040 sectors
+Disk model: WDC WDS120G2G0A-
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 15613000-ADFC-482C-9B42-F370417CC09E
+
+Device     Start       End   Sectors   Size Type
+/dev/sdb1   2048 234455006 234452959 111.8G Linux RAID
+The primary GPT table is corrupt, but the backup appears OK, so that will be used.
+
+
+Disk /dev/sda: 111.8 GiB, 120040980480 bytes, 234455040 sectors
+Disk model: WDC WDS120G2G0A-
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 61C99D01-5599-4D3B-8B42-3943ECFA28F1
+
+Device     Start       End   Sectors   Size Type
+/dev/sda1   2048 234455006 234452959 111.8G Linux RAID
+The primary GPT table is corrupt, but the backup appears OK, so that will be used.
+
+
+Disk /dev/sdc: 111.8 GiB, 120040980480 bytes, 234455040 sectors
+Disk model: WDC WDS120G2G0A-
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 1BFDEAD1-0999-4AC6-A6C7-2A4503F3A1C6
+
+Device     Start       End   Sectors   Size Type
+/dev/sdc1   2048 234455006 234452959 111.8G Linux RAID
+The primary GPT table is corrupt, but the backup appears OK, so that will be used.
+
+
+Disk /dev/sdh: 111.8 GiB, 120040980480 bytes, 234455040 sectors
+Disk model: WDC WDS120G2G0A-
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: EB8FB32B-7BD6-45E8-A7D2-D03A1854B313
+
+Device     Start       End   Sectors   Size Type
+/dev/sdh1   2048 234455006 234452959 111.8G Linux RAID
+The primary GPT table is corrupt, but the backup appears OK, so that will be used.
+
+
+Disk /dev/sde: 111.8 GiB, 120040980480 bytes, 234455040 sectors
+Disk model: WDC WDS120G2G0A-
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: 5366E018-52DA-45A8-A9A5-EA6872E1590C
+
+Device     Start       End   Sectors   Size Type
+/dev/sde1   2048 234455006 234452959 111.8G Linux RAID
+The primary GPT table is corrupt, but the backup appears OK, so that will be used.
+
+
+Disk /dev/sdl: 931.51 GiB, 1000204886016 bytes, 1953525168 sectors
+Disk model: WDC WD10EFRX-68F
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disklabel type: gpt
+Disk identifier: 97E93A5E-6D2F-4BA0-8FF9-B0092ED419AC
+
+Device     Start        End    Sectors   Size Type
+/dev/sdl1   2048 1953525134 1953523087 931.5G Linux RAID
+
+
+Disk /dev/sdf: 111.8 GiB, 120040980480 bytes, 234455040 sectors
+Disk model: WDC WDS120G2G0A-
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x00000000
+
+Device     Boot Start       End   Sectors   Size Id Type
+/dev/sdf1           1 234455039 234455039 111.8G ee GPT
+
+
+Disk /dev/sdd: 111.8 GiB, 120040980480 bytes, 234455040 sectors
+Disk model: WDC WDS120G2G0A-
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x00000000
+
+Device     Boot Start       End   Sectors   Size Id Type
+/dev/sdd1           1 234455039 234455039 111.8G ee GPT
+The primary GPT table is corrupt, but the backup appears OK, so that will be used.
+
+
+Disk /dev/sdg: 111.8 GiB, 120040980480 bytes, 234455040 sectors
+Disk model: WDC WDS120G2G0A-
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: gpt
+Disk identifier: D7BC14E3-D8F0-4F91-B8B0-DA24C4C0A3B6
+
+Device     Start       End   Sectors   Size Type
+/dev/sdg1   2048 234455006 234452959 111.8G Linux RAID
+
+
+Disk /dev/md127: 2.73 TiB, 3000208195584 bytes, 5859781632 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 262144 bytes / 786432 bytes
+
+
+Disk /dev/md126: 670.4 GiB, 719836938240 bytes, 1405931520 sectors
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 262144 bytes / 1572864 bytes
+```
