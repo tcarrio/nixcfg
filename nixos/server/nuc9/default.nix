@@ -16,6 +16,21 @@
     ../../_mixins/virt
   ];
 
+  # based on nixos-generators raw + raw-efi formats, see linked references
+  fileSystems = {
+    # https://github.com/nix-community/nixos-generators/blob/c1590ae68664e11c1acd03ec76c193a5c151a657/formats/raw.nix#L9
+    "/" = {
+      device = "/dev/disk/by-label/nixos";
+      autoResize = true;
+      fsType = "ext4";
+    };
+    # https://github.com/nix-community/nixos-generators/blob/c1590ae68664e11c1acd03ec76c193a5c151a657/formats/raw-efi.nix#L20
+    "/boot" = {
+      device = "/dev/disk/by-label/ESP";
+      fsType = "vfat";
+    };
+  };
+
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" ];
     kernelModules = [ "kvm-intel" ];
