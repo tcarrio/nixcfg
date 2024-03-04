@@ -100,6 +100,7 @@ let
     linux = getLangOr "linux" false;
     nix = getLangOr "nix" true;
     php = getLangOr "php" true;
+    prisma = getLangOr "prisma" true;
     python = getLangOr "python" true;
     rust = getLangOr "rust" false;
     ssh = getLangOr "ssh" false;
@@ -131,6 +132,7 @@ in
         ++ getListIf g.linux [ coolbear.systemd-unit-file timonwong.shellcheck mads-hartmann.bash-ide-vscode ]
         ++ getListIf g.nix [ bbenoist.nix jnoortheen.nix-ide ]
         ++ getListIf g.php [ bmewburn.vscode-intelephense-client ]
+        ++ getListIf g.prisma [ prisma.prisma ]
         ++ getListIf g.python [ ms-python.python ms-python.vscode-pylance ]
         ++ getListIf g.ssh [ ms-vscode-remote.remote-ssh ]
         ++ getListIf g.text [ streetsidesoftware.code-spell-checker yzhang.markdown-all-in-one ]
