@@ -163,6 +163,7 @@
         )
       // libx.forAllSystems
         (_system: {
+          nuc-init = libx.mkRawImage { systemType = "server"; hostname = "nuc-init"; username = "root"; };
           nuc9 = libx.mkRawImage { systemType = "server"; hostname = "nuc9"; username = "root"; };
         }
         );
