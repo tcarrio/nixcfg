@@ -76,6 +76,8 @@ in
           g = git;
           gti = git;
 
+          lg = "lazygit";
+
           "sh:php80" = sh "php80";
           "sh:php81" = sh "php81";
           "sh:php82" = sh "php82";
