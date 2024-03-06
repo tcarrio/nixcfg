@@ -22,7 +22,6 @@
     ../../_mixins/desktop/steam.nix
     ../../_mixins/hardware/gtx-1080ti.nix
     ../../_mixins/hardware/systemd-boot.nix
-    ../../_mixins/network-shares/ds418-nfs.nix
     ../../_mixins/services/pipewire.nix
     ../../_mixins/services/tailscale-autoconnect.nix
     ../../_mixins/virt
