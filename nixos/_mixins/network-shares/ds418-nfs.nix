@@ -1,12 +1,27 @@
-_: {
+{ config, pkgs, ... }: {
   # more info in https://nixos.wiki/wiki/NFS
-  fileSystems."/mnt/nas-ds418-00" = {
-    device = "nas-ds418-00:/";
-    fsType = "nfs";
-    options = [
-      "x-systemd.automount"
-      "x-systemd.idle-timeout=600"
-      "noauto"
-    ];
-  };
+
+  services.rpcbind.enable = true; # needed for NFS
+
+  boot.kernelModules = [ "nfsd" ];
+
+  environment.systemPackages = with pkgs; [ nfs-utils ];
+
+  systemd.mounts = [{
+    type = "nfs";
+    mountConfig = {
+      Options = "noatime";
+    };
+    what = "nas-ds418-00:/";
+    where = "/mnt/nas-ds418-00";
+  }];
+
+  systemd.automounts = [{
+    wantedBy = [ "multi-user.target" ];
+    wants = [ "nfs-client.target" ];
+    automountConfig = {
+      TimeoutIdleSec = "600";
+    };
+    where = "/mnt/nas-ds418-00";
+  }];
 }
