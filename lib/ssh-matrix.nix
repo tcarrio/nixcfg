@@ -63,6 +63,6 @@ in
         76CePCB4g3YIEd+YcwL2EswMmdfOx2YFr9V3JQ3uHfI1W/Q21bi338KC4EMa7Fxaj
         EVzHMEQ== nix-on-droid@localhost
       '';
-    }
+    };
   };
 }
