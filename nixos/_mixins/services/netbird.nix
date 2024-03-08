@@ -1,5 +1,7 @@
-{ config, pkgs, desktop ? false ... }: {
-  environment.systemPackages = if desktop then [ pkgs.netbird-ui ] else [];
+{ config, pkgs, lib, desktop, ... }: {
+  environment.systemPackages = lib.optionals (desktop != null) [
+    pkgs.netbird-ui
+  ];
 
   services.netbird.enable = true;
 
