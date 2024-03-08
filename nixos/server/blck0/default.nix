@@ -24,9 +24,9 @@
   systemd.network.networks."10-lan" = {
     matchConfig.Name = "enp3s0";
     networkConfig = {
-      Address = "192.168.1.250/24";
-      Gateway = "192.168.1.1";
-      DNS = "192.168.1.1";
+      Address = "192.168.40.250/24";
+      Gateway = "192.168.40.1";
+      DNS = "192.168.40.1";
     };
   };
 

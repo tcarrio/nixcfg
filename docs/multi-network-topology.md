@@ -10,7 +10,7 @@ I prefer these to be as interoperable as possible
 
 ## Home
 
-CIDR range: 192.168.1.0/24
+CIDR range: 192.168.40.0/24
 
 ## Office suite
 
