@@ -5,9 +5,9 @@ let
   mkNetwork = mac: ipSuffix: {
     matchConfig.MACAddress = mac;
     networkConfig = {
-      Address = "192.168.1.${ipSuffix}/24";
-      Gateway = "192.168.1.1";
-      DNS = "192.168.1.1";
+      Address = "192.168.40.${ipSuffix}/24";
+      Gateway = "192.168.40.1";
+      DNS = "192.168.40.1";
     };
   };
 in
