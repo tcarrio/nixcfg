@@ -102,7 +102,7 @@
         # Workstations
         #  - sudo nixos-rebuild switch --flake $HOME/0xc/nix-config
         #  - nix build .#nixosConfigurations.ripper.config.system.build.toplevel
-        glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "kde6"; };
+        glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "gnome"; };
         # No longer an owned device
         # kuroi = libx.mkHost { systemType = "workstation"; hostname = "kuroi"; username = "tcarrio"; desktop = "gnome"; };
         t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "gnome"; };
