@@ -115,16 +115,17 @@
         #  - nixos-rebuild switch --fast --flake .#${HOST} \
         #      --target-host ${USERNAME}@${HOST}.${TAILNET} \
         #      --build-host  ${USERNAME}@${HOST}.${TAILNET}
-        nuc0 = libx.mkHost { systemType = "server"; hostname = "nuc0"; username = "root"; };
-        nuc1 = libx.mkHost { systemType = "server"; hostname = "nuc1"; username = "root"; };
-        nuc2 = libx.mkHost { systemType = "server"; hostname = "nuc2"; username = "root"; };
-        nuc3 = libx.mkHost { systemType = "server"; hostname = "nuc3"; username = "root"; };
-        nuc4 = libx.mkHost { systemType = "server"; hostname = "nuc4"; username = "root"; };
-        nuc5 = libx.mkHost { systemType = "server"; hostname = "nuc5"; username = "root"; };
-        nuc6 = libx.mkHost { systemType = "server"; hostname = "nuc6"; username = "root"; };
-        nuc7 = libx.mkHost { systemType = "server"; hostname = "nuc7"; username = "root"; };
-        nuc8 = libx.mkHost { systemType = "server"; hostname = "nuc8"; username = "root"; };
-        nuc9 = libx.mkHost { systemType = "server"; hostname = "nuc9"; username = "root"; };
+        nuc-init = libx.mkHost { systemType = "server"; hostname = "nuc-init"; username = "nixos"; };
+        nuc0 =     libx.mkHost { systemType = "server"; hostname = "nuc0";     username = "root"; };
+        nuc1 =     libx.mkHost { systemType = "server"; hostname = "nuc1";     username = "root"; };
+        nuc2 =     libx.mkHost { systemType = "server"; hostname = "nuc2";     username = "root"; };
+        nuc3 =     libx.mkHost { systemType = "server"; hostname = "nuc3";     username = "root"; };
+        nuc4 =     libx.mkHost { systemType = "server"; hostname = "nuc4";     username = "root"; };
+        nuc5 =     libx.mkHost { systemType = "server"; hostname = "nuc5";     username = "root"; };
+        nuc6 =     libx.mkHost { systemType = "server"; hostname = "nuc6";     username = "root"; };
+        nuc7 =     libx.mkHost { systemType = "server"; hostname = "nuc7";     username = "root"; };
+        nuc8 =     libx.mkHost { systemType = "server"; hostname = "nuc8";     username = "root"; };
+        nuc9 =     libx.mkHost { systemType = "server"; hostname = "nuc9";     username = "root"; };
       };
 
       nixOnDroidConfigurations = {
