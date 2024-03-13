@@ -157,15 +157,16 @@
       overlays = import ./overlays { inherit inputs; };
 
       # Custom packages; acessible via 'nix build', 'nix shell', etc
-      packages = libx.forAllSystems
+      packages = let
+        mkNuc = user: name: libx.mkRawImage { systemType = "server"; hostname = name; username = user; };
+      in libx.forAllSystems
         (system:
           let pkgs = nixpkgs.legacyPackages.${system};
           in import ./pkgs { inherit pkgs; }
         )
       // libx.forAllSystems
         (_system: {
-          nuc-init = libx.mkRawImage { systemType = "server"; hostname = "nuc-init"; username = "nixos"; };
-          nuc9 = libx.mkRawImage { systemType = "server"; hostname = "nuc9"; username = "root"; };
+          nuc-init = mkNuc "nixos" "nuc-init";
         }
         );
       # And custom nixos-generators definitions
