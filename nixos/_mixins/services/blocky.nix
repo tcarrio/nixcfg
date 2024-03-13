@@ -33,13 +33,13 @@ in {
         upstream = "https://one.one.one.one/dns-query";
         ips = [ "1.1.1.1" "1.0.0.1" ];
       };
-      #Enable Blocking of certain domains.
+      # Enable Blocking of certain domains.
       blocking = {
         blackLists = {
           (inherit fullBlcklistProjectTrackerList) Abuse Ads Crypto Drugs Fraud Gambling Malware Phishing Ransomware Scam Torrent Tracking;
         };
       };
-      #Configure what block categories are used
+      # Configure what block categories are used
       clientGroupsBlock = {
         default = builtins.attrNames blocking.blackLists;
       };
