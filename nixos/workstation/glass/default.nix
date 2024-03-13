@@ -20,6 +20,7 @@
     ../../_mixins/desktop/daw.nix
     ../../_mixins/desktop/logseq.nix
     ../../_mixins/desktop/steam.nix
+    ../../_mixins/hardware/disable-nm-wait.nix
     ../../_mixins/hardware/gtx-1080ti.nix
     ../../_mixins/hardware/systemd-boot.nix
     ../../_mixins/network-shares/ds418-nfs.nix
