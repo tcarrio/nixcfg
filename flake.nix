@@ -38,7 +38,7 @@
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
-    # nixos-generators for sdcard install generation
+    # nixos-generators for sdcard and raw disk install generation
     nixos-generators.url = "github:tcarrio/nixos-generators";
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
