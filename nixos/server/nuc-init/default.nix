@@ -11,7 +11,7 @@ let
     };
   };
 
-  auto-install-system = pkgs.writeScriptBin "install-system" ''
+  auto-install-system = pkgs.writeScriptBin "auto-install-system" ''
     macAddr="$(${pkgs.iproute2}/bin/ip address show enp3s0 | grep link/ether | awk '{print $2}')"
     switch $macAddress
       case "f4:4d:30:61:9b:19"
@@ -58,7 +58,6 @@ in
     inputs.nixos-hardware.nixosModules.common-gpu-intel
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
-    # (import ./disks.nix { })
     ../../_mixins/hardware/systemd-boot.nix
     ../../_mixins/services/bluetooth.nix
     ../../_mixins/virt
@@ -75,6 +74,9 @@ in
     kernelModules = [ "kvm-intel" ];
     kernelPackages = lib.mkDefault pkgs.linuxPackages_5_15;
   };
+
+  # ensure we aren't defaulting to NetworkManager with DHCP on
+  networking.useDHCP = false;
 
   systemd.network = {
     enable = true;
