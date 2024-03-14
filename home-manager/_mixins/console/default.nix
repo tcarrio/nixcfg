@@ -31,12 +31,12 @@
       jpegoptim # Terminal JPEG optimizer
       jiq # Modern Unix `jq`
       lazygit # Terminal Git client
-      moar # Modern Unix `less`
       neofetch # Terminal system info
       nixpkgs-review # Nix code review
       nurl # Nix URL fetcher
       nyancat # Terminal rainbow spewing feline
       optipng # Terminal PNG optimizer
+      page # Modern pager
       procs # Modern Unix `ps`
       quilt # Terminal patch manager
       ripgrep # Modern Unix `grep`
@@ -48,7 +48,7 @@
 
     sessionVariables = {
       EDITOR = "nvim";
-      PAGER = "moar";
+      PAGER = "page";
       SYSTEMD_EDITOR = "nvim";
       VISUAL = "nvim";
     };
