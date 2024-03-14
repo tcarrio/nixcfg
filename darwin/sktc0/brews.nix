@@ -105,6 +105,7 @@ _: {
         casks = [
             "amethyst"
             "docker"
+            "emacs"
             "secretive"
             "sequel-ace"
             "talon"
