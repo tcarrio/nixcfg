@@ -5,13 +5,11 @@ in
 {
   # user@host matrix
   systems = {
-    sktc0 = {
-      tcarrio = parseFriendlyKey ''
+    sktc0.tcarrio = parseFriendlyKey ''
         ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAy
         NTYAAABBBAl788s2f8cUb8v3pyqX1sv4jRpvBuWeC0pfp+p0Gq1eLKBv9GxENTl1
         46PoqAMkXQB2CJE8KX7vbjZrrirJBBc= GitHub@secretive.alum.local
       '';
-    };
     glass = {
       host = parseFriendlyKey ''
         ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDC1bp1dPv/g2DkghZprPoxqtxcq
@@ -42,12 +40,10 @@ in
         7a2zZFQ== tom@carrio.dev
       '';
     };
-    kuroi = {
-      host = parseFriendlyKey ''
+    kuroi.host = parseFriendlyKey ''
         ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAT4Z64F9AhDZ60xzv9TOAf/+PJQK
         VQ+hf8ar3nEzpmm root@kuroinixu
       '';
-    };
     pixel6a = {
       nix-on-droid = parseFriendlyKey ''
         ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC68RU/lBgyjjlWjdxP2B8Yw8bYR
@@ -64,5 +60,17 @@ in
         EVzHMEQ== nix-on-droid@localhost
       '';
     };
+
+    # NUC servers
+    nuc0.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHkgTzsmgHcVE12Sc9EYPP29Ek8d++RKZCIVEGEmWJc9 nuc0.int.carrio.dev";
+    nuc1.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBwF9SXi7HWdTTquPNm3eeznSKg+o7/TKvr36/L4boOG nuc1.int.carrio.dev";
+    nuc2.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILUEpqUooCALg3Xpu4R23DdnQ6ZVQEOKKUte5Gy+91m0 nuc2.int.carrio.dev";
+    nuc3.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIyV12a/mLyXg5b+G+iwziwIinepHtfYLfiPoz8mbX1Y nuc3.int.carrio.dev";
+    nuc4.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICC8NSrOAcHifK+w1uvTBrep5vKiSH3Di4nwDywF6Ejc nuc4.int.carrio.dev";
+    nuc5.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDlyiu5JZypGxQmh0OJ4vkOn+gUWBWmUZ0yd5QmG7Coe nuc5.int.carrio.dev";
+    nuc6.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH2nYb9OjbmCher2HqAB+K7whs+dNwBlE/DgmoWr46Gd nuc6.int.carrio.dev";
+    nuc7.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHxoeRp7c4Nf8UNbeLn+2iNIF/aRYGB3Oguh/5B7tPeX nuc7.int.carrio.dev";
+    nuc8.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE3oKc5kg3bsi0+CeNveIAe72oBsUcpJneRtzHD19W5r nuc8.int.carrio.dev";
+    nuc9.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMTvNx3JktdcCnanqsDZiRJs2IeF9Gb8NVeLdBFHiekR nuc9.int.carrio.dev";
   };
 }
