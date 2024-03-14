@@ -14,6 +14,8 @@
     ../../_mixins/services/bluetooth.nix
     ../../_mixins/services/tailscale-autoconnect.nix
     ../../_mixins/virt
+
+    ../../_mixins/services/blocky.nix # privacy-centric DNS server
   ];
 
   # based on nixos-generators raw + raw-efi formats, see linked references
