@@ -168,6 +168,16 @@
       // libx.forAllSystems
         (_system: {
           nuc-init = mkNuc "nixos" "nuc-init";
+          nuc0 = mkNuc "root" "nuc0";
+          nuc1 = mkNuc "root" "nuc1";
+          nuc2 = mkNuc "root" "nuc2";
+          nuc3 = mkNuc "root" "nuc3";
+          nuc4 = mkNuc "root" "nuc4";
+          nuc5 = mkNuc "root" "nuc5";
+          nuc6 = mkNuc "root" "nuc6";
+          nuc7 = mkNuc "root" "nuc7";
+          nuc8 = mkNuc "root" "nuc8";
+          nuc9 = mkNuc "root" "nuc9";
         }
         );
       # And custom nixos-generators definitions
