@@ -10,6 +10,7 @@ in
         NTYAAABBBAl788s2f8cUb8v3pyqX1sv4jRpvBuWeC0pfp+p0Gq1eLKBv9GxENTl1
         46PoqAMkXQB2CJE8KX7vbjZrrirJBBc= GitHub@secretive.alum.local
       '';
+
     glass = {
       host = parseFriendlyKey ''
         ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDC1bp1dPv/g2DkghZprPoxqtxcq
@@ -40,10 +41,12 @@ in
         7a2zZFQ== tom@carrio.dev
       '';
     };
+
     kuroi.host = parseFriendlyKey ''
         ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAT4Z64F9AhDZ60xzv9TOAf/+PJQK
         VQ+hf8ar3nEzpmm root@kuroinixu
       '';
+
     pixel6a = {
       nix-on-droid = parseFriendlyKey ''
         ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC68RU/lBgyjjlWjdxP2B8Yw8bYR
