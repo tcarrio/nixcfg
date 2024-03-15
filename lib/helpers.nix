@@ -56,6 +56,7 @@ in
 
     modules = [
       ../nixos
+      inputs.agenix.nixosModules.default
     ];
   };
 
@@ -75,6 +76,7 @@ in
 
     modules = [
       ../nixos
+      inputs.agenix.nixosModules.default
       {
         boot.kernelParams = [ "console=tty0" ]; # enable physical display tty, not serial port
       }
