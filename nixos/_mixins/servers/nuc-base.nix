@@ -32,6 +32,7 @@
     kernelPackages = lib.mkDefault pkgs.linuxPackages_5_15;
   };
 
+  systemd.network.enable = true;
   systemd.network.networks."10-lan" = {
     matchConfig.Name = "enp2s0";
     networkConfig = {
