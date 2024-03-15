@@ -11,6 +11,7 @@
       AWS_REGION = "us-east-1";
       AWS_PROFILE = "skillshare-utility-developer";
       SKILLSHARE_WORKSTATION_WARP = "true";
+      SKILLSHARE_SRC_DIRECTORY="~/Developer";
       SSH_AUTH_SOCK = "/Users/tcarrio/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
     };
     file = {
@@ -33,7 +34,9 @@
       export PATH="/opt/homebrew/bin:$PATH"
       thefuck --alias | source
       source $HOME/.nix-profile/share/asdf-vm/asdf.fish
-      export PATH="$HOME/Developer/workstation/bin:$PATH"
+
+      # export PATH="$HOME/Developer/workstation/bin:$PATH"
+      fenv source $HOME/Developer/workstation/workstation.sh
     '';
     shellAliases =
       let
@@ -47,6 +50,8 @@
 
         g = git;
         gti = git;
+
+        asso = "aws sso login";
 
         "sk:mono" = sk "sk";
         "sk:web" = sk "web";
