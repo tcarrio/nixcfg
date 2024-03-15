@@ -63,12 +63,6 @@ in
     ../../_mixins/virt
   ];
 
-  # disable swap
-  # swapDevices = [{
-  #   device = "/swap";
-  #   size = 2048;
-  # }];
-
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" ];
     kernelModules = [ "kvm-intel" ];
