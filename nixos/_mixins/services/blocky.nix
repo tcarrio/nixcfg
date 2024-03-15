@@ -36,7 +36,7 @@ in {
       # Enable Blocking of certain domains.
       blocking = {
         blackLists = {
-          inherit (fullBlcklistProjectTrackerList) Abuse Ads Crypto Drugs Fraud Gambling Malware Phishing Ransomware Scam Torrent Tracking;
+          inherit (fullBlocklistProjectTrackerList) Abuse Ads Crypto Drugs Fraud Gambling Malware Phishing Ransomware Scam Torrent Tracking;
         };
       };
       # Configure what block categories are used
