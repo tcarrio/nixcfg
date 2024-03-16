@@ -6,7 +6,6 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     ../../_mixins/hardware/systemd-boot.nix
-    ../../_mixins/services/bluetooth.nix
     ../../_mixins/services/tailscale-autoconnect.nix
     ../../_mixins/virt
   ];
