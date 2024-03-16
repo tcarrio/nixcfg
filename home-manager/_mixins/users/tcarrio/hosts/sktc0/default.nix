@@ -37,6 +37,8 @@
 
       # export PATH="$HOME/Developer/workstation/bin:$PATH"
       fenv source $HOME/Developer/workstation/workstation.sh
+      
+      export PATH="/Users/tcarrio/.nix-profile/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:$PATH"
     '';
     shellAliases =
       let
