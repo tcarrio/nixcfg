@@ -59,8 +59,6 @@ in
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     ../../_mixins/hardware/systemd-boot.nix
-    ../../_mixins/services/bluetooth.nix
-    ../../_mixins/virt
   ];
 
   boot = {
