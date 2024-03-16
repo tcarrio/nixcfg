@@ -9,6 +9,6 @@
 
   virtualisation = {
     docker.enable = true;
-    docker.storageDriver = "btrfs";
+    docker.storageDriver = lib.mkDefault "overlay2";
   };
 }

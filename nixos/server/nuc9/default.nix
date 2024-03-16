@@ -8,9 +8,6 @@
   imports = [
     # base NUC configuration
     ../../_mixins/servers/nuc-base.nix
-
-    # privacy-centric DNS server
-    ../../_mixins/services/blocky.nix
   ];
 
   systemd.network.networks."10-lan".networkConfig.Address = "192.168.40.209/24";
