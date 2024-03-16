@@ -32,6 +32,8 @@
     kernelPackages = lib.mkDefault pkgs.linuxPackages_5_15;
   };
 
+  # ensure we aren't defaulting to NetworkManager with DHCP on
+  networking.useDHCP = false;
   systemd.network.enable = true;
   systemd.network.networks."10-lan" = {
     matchConfig.Name = "enp2s0";
