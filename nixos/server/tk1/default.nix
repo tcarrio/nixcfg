@@ -3,7 +3,8 @@
 { lib, pkgs, ... }:
 {
   imports = [
-    ../_mixins/virt
+    # TODO: Enable virtualization
+    # ../_mixins/virt
   ];
 
   boot = {
