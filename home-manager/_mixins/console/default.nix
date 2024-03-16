@@ -137,6 +137,10 @@
               | rev \
           )
         '';
+        is-number = ''
+          string match --quiet --regex "^\d+\$" $argv[1]
+        '';
+        deploy-nuc = "is-number $argv[1] && nixos-rebuild --fast --flake $HOME/0xc/nix-config#nuc$argv[1] --target-host root@192.168.40.20$argv[1] $argv[2..]";
       };
     };
     gh = {
