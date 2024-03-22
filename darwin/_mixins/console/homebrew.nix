@@ -1,10 +1,7 @@
-_: {
+{ lib, platform, ... }: {
   homebrew = {
     enable = true;
 
-    taps = [
-      "homebrew/core"
-      "homebrew/cask"
-    ];
+    taps = [];
   };
 }

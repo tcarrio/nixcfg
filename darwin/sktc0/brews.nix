@@ -4,8 +4,6 @@ _: {
             "auth0/auth0-cli"
             "ankitpokhrel/jira-cli"
             "codefresh-io/cli"
-            "homebrew/cask"
-            "homebrew/core"
             "oven-sh/bun"
         ];
 
