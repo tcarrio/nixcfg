@@ -1,0 +1,18 @@
+version: '3.5'
+services:
+  jellyfin:
+    image: docker.io/jellyfin/jellyfin
+    container_name: jellyfin
+    user: root:root
+    # network_mode: 'host'
+    ports:
+      - 8096:8096
+    volumes:
+      - /opt/jellyfin/config:/config
+      - /opt/jellyfin/cache:/cache
+      - /storage/hdds/plex:/media
+      # - /path/to/media2:/media2:ro
+    restart: 'unless-stopped'
+    # Optional - alternative address used for autodiscovery
+    environment:
+      - JELLYFIN_PublishedServerUrl=http://blck0.tail9c8a7.ts.net
