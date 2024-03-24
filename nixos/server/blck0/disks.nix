@@ -65,6 +65,8 @@ in
       ssd-g = mkSsdRaidDisk "sdg";
       ssd-h = mkSsdRaidDisk "sdh";
 
+      # NOTE: /dev/sdi is the system OS
+
       hdd-k = mkHddRaidDisk "sdk";
       hdd-l = mkHddRaidDisk "sdl";
       hdd-m = mkHddRaidDisk "sdm";
