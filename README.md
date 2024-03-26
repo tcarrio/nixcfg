@@ -75,7 +75,7 @@ The [nixos/_mixins] and [home-manager/_mixins] are a collection of composited co
 If the target system is booted from something other than the .iso image created by this flake, you can still install the system using the following:
 
 ```bash
-curl -sL https://raw.githubusercontent.com/tcarrio/nix-config/main/scripts/install.sh | bash -s <hostname> <username>
+curl -sL https://raw.githubusercontent.com/tcarrio/nix-config/main/scripts/install.sh | bash -s <hostname> <username> <type>
 ```
 
 ### Installing Raspberry Pi 2 (WIP)
