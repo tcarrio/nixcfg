@@ -73,9 +73,15 @@ let
 
       sudo nixos-install --no-root-password --flake ".#$TARGET_HOST"
 
+      if [[ "$TARGET_USER" == "root" ]]; then
+        TARGET_USER_HOME="/mnt/root"
+      else
+        TARGET_USER_HOME="/mnt/home/$TARGET_USER"
+      fi
+
       # Rsync nix-config to the target install and set the remote origin to SSH.
-      rsync -a --delete "$HOME/0xc/" "/mnt/home/$TARGET_USER/0xc/"
-      pushd "/mnt/home/$TARGET_USER/0xc/nix-config"
+      rsync -a --delete "$HOME/0xc/" "$TARGET_USER_HOME/0xc/"
+      pushd "$TARGET_USER_HOME/0xc/nix-config"
       git remote set-url origin git@github.com:tcarrio/nix-config.git
       popd
 
