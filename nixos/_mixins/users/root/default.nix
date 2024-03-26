@@ -1,4 +1,4 @@
-{ sshMatrix, ... }:
+{ lib, ... }:
 {
   users.users.root = {
     # mkpasswd -m sha-512
@@ -6,5 +6,5 @@
     openssh.authorizedKeys.keys = [];
   };
 
-  services.openssh.settings.PermitRootLogin = "no";
+  services.openssh.settings.PermitRootLogin = lib.mkDefault "no";
 }

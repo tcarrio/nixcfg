@@ -80,6 +80,7 @@ let
       fi
 
       # Rsync nix-config to the target install and set the remote origin to SSH.
+      mkdir -p "$TARGET_USER_HOME"
       rsync -a --delete "$HOME/0xc/" "$TARGET_USER_HOME/0xc/"
       pushd "$TARGET_USER_HOME/0xc/nix-config"
       git remote set-url origin git@github.com:tcarrio/nix-config.git
