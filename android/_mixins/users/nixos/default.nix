@@ -112,8 +112,7 @@ in
       "podman"
     ];
     homeMode = "0755";
-    openssh.authorizedKeys.keys = [
-    ];
+    openssh.authorizedKeys.keys = sshMatrix.groups.privileged_users;
     packages = [ pkgs.home-manager ];
     shell = pkgs.fish;
   };

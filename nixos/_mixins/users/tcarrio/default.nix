@@ -29,12 +29,7 @@ in
     hashedPassword = "$6$uLtXsdZpgBd/iVao$L3Lk9vmQMOfZrARIyl6Sq6ZbU91d53dWQteZADxkgLJ8FZUet.L4E73LnmVccJUGdAUcMQ1cuISS9j0XygM2Q1";
     homeMode = "0755";
     isNormalUser = true;
-    openssh.authorizedKeys.keys = with sshMatrix.systems; [
-      # Add any authorized keys for SSH access here
-      glass.tcarrio
-      sktc0.tcarrio
-      pixel6a.nix-on-droid
-    ];
+    openssh.authorizedKeys.keys = sshMatrix.groups.privileged_users;
     packages = [ pkgs.home-manager ];
     shell = pkgs.fish;
   };

@@ -2,7 +2,7 @@ _:
 let
   parseFriendlyKey = builtins.replaceStrings [ "\n" ] [ "" ];
 in
-{
+rec {
   # user@host matrix
   systems = {
     sktc0.tcarrio = parseFriendlyKey ''
@@ -75,5 +75,15 @@ in
     nuc7.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHxoeRp7c4Nf8UNbeLn+2iNIF/aRYGB3Oguh/5B7tPeX nuc7.int.carrio.dev";
     nuc8.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE3oKc5kg3bsi0+CeNveIAe72oBsUcpJneRtzHD19W5r nuc8.int.carrio.dev";
     nuc9.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMTvNx3JktdcCnanqsDZiRJs2IeF9Gb8NVeLdBFHiekR nuc9.int.carrio.dev";
+  };
+
+  # logical groups
+  groups = {
+    privileged_users = with systems; [
+      sktc0.tcarrio
+      glass.host
+      glass.tcarrio
+      pixel6a
+    ];
   };
 }

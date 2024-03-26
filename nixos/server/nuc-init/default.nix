@@ -93,7 +93,7 @@ in
   '';
 
   # allow remote deployments via root user
-  users.users.root.openssh.authorizedKeys.keys = [ sshMatrix.systems.glass.host ];
+  users.users.root.openssh.authorizedKeys.keys = sshMatrix.groups.privileged_users;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
