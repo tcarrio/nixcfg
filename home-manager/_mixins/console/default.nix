@@ -178,6 +178,7 @@
         br = "branch";
         rs = "reset";
         rb = "rebase";
+        rbc = "rebase --continue";
         d = "diff";
         ds = "d --staged";
         # branch name
