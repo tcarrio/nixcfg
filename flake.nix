@@ -111,17 +111,17 @@
         #  - nixos-rebuild switch --fast --flake .#${HOST} \
         #      --target-host ${USERNAME}@${HOST}.${TAILNET} \
         #      --build-host  ${USERNAME}@${HOST}.${TAILNET}
-        nuc-init = libx.mkHost { systemType = "server"; hostname = "nuc-init"; username = "nixos"; };
-        nuc0 =     libx.mkHost { systemType = "server"; hostname = "nuc0";     username = "root"; };
-        nuc1 =     libx.mkHost { systemType = "server"; hostname = "nuc1";     username = "root"; };
-        nuc2 =     libx.mkHost { systemType = "server"; hostname = "nuc2";     username = "root"; };
-        nuc3 =     libx.mkHost { systemType = "server"; hostname = "nuc3";     username = "root"; };
-        nuc4 =     libx.mkHost { systemType = "server"; hostname = "nuc4";     username = "root"; };
-        nuc5 =     libx.mkHost { systemType = "server"; hostname = "nuc5";     username = "root"; };
-        nuc6 =     libx.mkHost { systemType = "server"; hostname = "nuc6";     username = "root"; };
-        nuc7 =     libx.mkHost { systemType = "server"; hostname = "nuc7";     username = "root"; };
-        nuc8 =     libx.mkHost { systemType = "server"; hostname = "nuc8";     username = "root"; };
-        nuc9 =     libx.mkHost { systemType = "server"; hostname = "nuc9";     username = "root"; };
+        nuc-init = libx.mkHost { systemType = "server"; hostname = "nuc-init"; username = "nixos";  };
+        nuc0 =     libx.mkHost { systemType = "server"; hostname = "nuc0";     username = "archon"; };
+        nuc1 =     libx.mkHost { systemType = "server"; hostname = "nuc1";     username = "archon"; };
+        nuc2 =     libx.mkHost { systemType = "server"; hostname = "nuc2";     username = "archon"; };
+        nuc3 =     libx.mkHost { systemType = "server"; hostname = "nuc3";     username = "archon"; };
+        nuc4 =     libx.mkHost { systemType = "server"; hostname = "nuc4";     username = "archon"; };
+        nuc5 =     libx.mkHost { systemType = "server"; hostname = "nuc5";     username = "archon"; };
+        nuc6 =     libx.mkHost { systemType = "server"; hostname = "nuc6";     username = "archon"; };
+        nuc7 =     libx.mkHost { systemType = "server"; hostname = "nuc7";     username = "archon"; };
+        nuc8 =     libx.mkHost { systemType = "server"; hostname = "nuc8";     username = "archon"; };
+        nuc9 =     libx.mkHost { systemType = "server"; hostname = "nuc9";     username = "archon"; };
       };
 
       nixOnDroidConfigurations = {
@@ -163,17 +163,17 @@
         )
       // libx.forAllSystems
         (_system: {
-          nuc-init = mkNuc "nixos" "nuc-init";
-          nuc0 = mkNuc "root" "nuc0";
-          nuc1 = mkNuc "root" "nuc1";
-          nuc2 = mkNuc "root" "nuc2";
-          nuc3 = mkNuc "root" "nuc3";
-          nuc4 = mkNuc "root" "nuc4";
-          nuc5 = mkNuc "root" "nuc5";
-          nuc6 = mkNuc "root" "nuc6";
-          nuc7 = mkNuc "root" "nuc7";
-          nuc8 = mkNuc "root" "nuc8";
-          nuc9 = mkNuc "root" "nuc9";
+          nuc-init = mkNuc "nixos"  "nuc-init";
+          nuc0     = mkNuc "archon" "nuc0";
+          nuc1     = mkNuc "archon" "nuc1";
+          nuc2     = mkNuc "archon" "nuc2";
+          nuc3     = mkNuc "archon" "nuc3";
+          nuc4     = mkNuc "archon" "nuc4";
+          nuc5     = mkNuc "archon" "nuc5";
+          nuc6     = mkNuc "archon" "nuc6";
+          nuc7     = mkNuc "archon" "nuc7";
+          nuc8     = mkNuc "archon" "nuc8";
+          nuc9     = mkNuc "archon" "nuc9";
         }
         );
       # And custom nixos-generators definitions
