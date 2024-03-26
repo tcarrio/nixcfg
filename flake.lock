@@ -381,22 +381,6 @@
         "type": "github"
       }
     },
-    "neovim-kickstart": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1699242714,
-        "narHash": "sha256-LXXwG76L7a1ejADpqZsks3d0eHL3M2uW3ukYBqNOlkY=",
-        "owner": "tcarrio",
-        "repo": "kickstart.nvim",
-        "rev": "eb28e09eb4aa0fb652e6c5de6141983945e95704",
-        "type": "github"
-      },
-      "original": {
-        "owner": "tcarrio",
-        "repo": "kickstart.nvim",
-        "type": "github"
-      }
-    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -897,7 +881,6 @@
         "devshells": "devshells",
         "disko": "disko",
         "home-manager": "home-manager_2",
-        "neovim-kickstart": "neovim-kickstart",
         "nix-darwin": "nix-darwin",
         "nix-doom-emacs": "nix-doom-emacs",
         "nix-formatter-pack": "nix-formatter-pack",

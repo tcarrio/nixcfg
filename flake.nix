@@ -41,10 +41,6 @@
     # nixos-generators for sdcard and raw disk install generation
     nixos-generators.url = "github:tcarrio/nixos-generators";
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs-unstable";
-
-    # IDE starter config for Neovim
-    neovim-kickstart.url = "github:tcarrio/kickstart.nvim";
-    neovim-kickstart.flake = false;
   };
   outputs =
     { self
