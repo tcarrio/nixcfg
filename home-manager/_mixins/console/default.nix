@@ -144,6 +144,7 @@
       };
       plugins = with pkgs.fishPlugins; [
         { name = "foreign-env"; src = foreign-env.src; }
+        { name = "fzf"; src = fzf-fish.src; }
       ];
     };
     gh = {
