@@ -142,6 +142,9 @@
         '';
         deploy-nuc = "is-number $argv[1] && nixos-rebuild --fast --flake $HOME/0xc/nix-config#nuc$argv[1] --target-host root@192.168.40.20$argv[1] $argv[2..]";
       };
+      plugins = with pkgs.fishPlugins; [
+        { name = "foreign-env"; src = foreign-env.src; }
+      ];
     };
     gh = {
       enable = true;
