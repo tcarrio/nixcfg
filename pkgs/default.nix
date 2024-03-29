@@ -3,4 +3,5 @@
 
 { pkgs ? (import ../nixpkgs.nix) { } }: {
   auth0 = pkgs.callPackage ./auth0.nix { };
+  ente-photos-desktop = pkgs.callPackage ./ente/default.nix { };
 }

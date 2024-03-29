@@ -1,6 +1,6 @@
 # Gigabyte GB-BXCEH-2955 (Celeron 2955U: Haswell)
 
-{ inputs, lib, pkgs, ... }:
+{ inputs, lib, pkgs, sshMatrix, ... }:
 let
   mkNetwork = mac: ipSuffix: {
     matchConfig.MACAddress = mac;

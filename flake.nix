@@ -158,28 +158,27 @@
         mkNuc = user: name: libx.mkRawImage { systemType = "server"; hostname = name; username = user; };
       in libx.forAllSystems
         (system:
-          let pkgs = nixpkgs.legacyPackages.${system};
-          in import ./pkgs { inherit pkgs; }
-        )
-      // libx.forAllSystems
-        (_system: {
-          nuc-init = mkNuc "nixos"  "nuc-init";
-          nuc0     = mkNuc "archon" "nuc0";
-          nuc1     = mkNuc "archon" "nuc1";
-          nuc2     = mkNuc "archon" "nuc2";
-          nuc3     = mkNuc "archon" "nuc3";
-          nuc4     = mkNuc "archon" "nuc4";
-          nuc5     = mkNuc "archon" "nuc5";
-          nuc6     = mkNuc "archon" "nuc6";
-          nuc7     = mkNuc "archon" "nuc7";
-          nuc8     = mkNuc "archon" "nuc8";
-          nuc9     = mkNuc "archon" "nuc9";
-        }
+          let
+            pkgs = nixpkgs.legacyPackages.${system};
+          in 
+            (import ./pkgs { inherit pkgs; })
+            //
+            {
+              # nuc-init = mkNuc "nixos"  "nuc-init";
+              system-image-nuc0 = mkNuc "archon" "nuc0";
+              system-image-nuc1 = mkNuc "archon" "nuc1";
+              system-image-nuc2 = mkNuc "archon" "nuc2";
+              system-image-nuc3 = mkNuc "archon" "nuc3";
+              system-image-nuc4 = mkNuc "archon" "nuc4";
+              system-image-nuc5 = mkNuc "archon" "nuc5";
+              system-image-nuc6 = mkNuc "archon" "nuc6";
+              system-image-nuc7 = mkNuc "archon" "nuc7";
+              system-image-nuc8 = mkNuc "archon" "nuc8";
+              system-image-nuc9 = mkNuc "archon" "nuc9";
+            }
         );
       # And custom nixos-generators definitions
       # TODO: forAllSystems
-      # // libx.forAllSystems (_system: {
       #   tk1 = libx.mkSdImage { hostname = "tk1"; username = "root"; systemType = "server"; };
-      # });
     };
 }
