@@ -83,7 +83,7 @@ rec {
       sktc0.tcarrio
       glass.host
       glass.tcarrio
-      pixel6a
+      pixel6a.nix-on-droid
     ];
   };
 }
