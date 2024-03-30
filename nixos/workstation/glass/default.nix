@@ -18,6 +18,7 @@
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
     ../../_mixins/desktop/daw.nix
+    ../../_mixins/desktop/ente.nix
     ../../_mixins/desktop/logseq.nix
     ../../_mixins/desktop/steam.nix
     ../../_mixins/hardware/disable-nm-wait.nix
@@ -50,6 +51,4 @@
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-
-  environment.systemPackages = [pkgs.ente-photos-desktop];
 }
