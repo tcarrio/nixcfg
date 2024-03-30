@@ -3,6 +3,7 @@ let
   pname = "ente-photos-desktop";
   version = "1.6.63";
   shortName = "ente";
+  applicationName = "Ente";
   name = "${shortName}-${version}";
 
   # https://github.com/ente-io/photos-desktop/releases/download/v1.6.63/ente-1.6.63-amd64.AppImage
@@ -22,7 +23,9 @@ in appimageTools.wrapType2 {
 
     install -m 444 -D ${appimageContents}/${shortName}.desktop $out/share/applications/${pname}.desktop
     substituteInPlace $out/share/applications/${pname}.desktop \
-      --replace 'Exec=AppRun' 'Exec=${shortName}'
+      --replace 'Exec=AppRun' "Exec=$out/bin/${pname}"
+    substituteInPlace $out/share/applications/${pname}.desktop \
+      --replace 'Name=ente' "Name=${applicationName}"
     cp -r ${appimageContents}/usr/share/icons $out/share
   '';
 
