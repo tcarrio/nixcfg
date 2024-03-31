@@ -12,6 +12,8 @@ in
   "users/tcarrio/ssh.age".publicKeys = [ glass.tcarrio glass.host ];
   "services/netbird/token.age".publicKeys = autoMeshSystems;
   "services/tailscale/token.age".publicKeys = autoMeshSystems;
+  
+  "network-shares/ds418/smb.conf.age".publicKeys = [ glass.tcarrio ];
 
   # primarily maintained via agenix for convenience of scripting automations
   "hosts/nuc0/ssh_host_ed25519_key.age".publicKeys = [ glass.tcarrio ];
