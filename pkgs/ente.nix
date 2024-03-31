@@ -1,4 +1,4 @@
-{ appimageTools, lib, fetchurl }:
+{ appimageTools, lib, fetchurl, pkgs }:
 let
   pname = "ente-photos-desktop";
   version = "1.6.63";
@@ -6,7 +6,7 @@ let
   applicationName = "Ente";
   name = "${shortName}-${version}";
 
-  # https://github.com/ente-io/photos-desktop/releases/download/v1.6.63/ente-1.6.63-amd64.AppImage
+  # https://github.com/ente-io/photos-desktop/releases/download/v1.6.63/ente-1.6.63-arm64.AppImage
   # https://github.com/ente-io/photos-desktop/releases/download/v1.6.63/ente-1.6.63-x86_64.AppImage
   mirror = "https://github.com/ente-io/photos-desktop/releases/download";
   src = fetchurl {
@@ -24,10 +24,10 @@ in appimageTools.wrapType2 {
     install -m 444 -D ${appimageContents}/${shortName}.desktop $out/share/applications/${pname}.desktop
     substituteInPlace $out/share/applications/${pname}.desktop \
       --replace 'Exec=AppRun' "Exec=$out/bin/${pname}"
-    substituteInPlace $out/share/applications/${pname}.desktop \
-      --replace 'Name=ente' "Name=${applicationName}"
     cp -r ${appimageContents}/usr/share/icons $out/share
   '';
+
+  extraPkgs = pkgs: with pkgs; [ fuse ];
 
   meta = with lib; {
     description = "Fully open source, End to End Encrypted alternative to Google Photos and Apple Photos";
