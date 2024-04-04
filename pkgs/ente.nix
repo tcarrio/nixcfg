@@ -34,12 +34,7 @@ in appimageTools.wrapType2 {
     mainProgram = "ente-photos-desktop";
     homepage = "https://github.com/ente-io/photos-desktop";
     license = licenses.mit;
-    maintainers = [{
-      email = "tom@carrio.dev";
-      github = "tcarrio";
-      githubId = 8659099;
-      name = "Tom Carrio";
-    }];
+    maintainers = with maintainer; [ tcarrio ];
     platforms = [ "x86_64-linux" ];
   };
 }

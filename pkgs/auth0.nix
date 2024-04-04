@@ -21,7 +21,7 @@ buildGo120Module rec {
   meta = with lib; {
     description = "Build, manage and test your Auth0 integrations from the command line";
     homepage = "https://github.com/auth0/auth0-cli";
-    maintainers = with maintainers; [ ];
+    maintainers = with maintainers; [ tcarrio ];
     license = licenses.mit;
   };
 }
