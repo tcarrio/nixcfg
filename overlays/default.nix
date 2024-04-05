@@ -35,18 +35,22 @@
   # This one contains whatever you want to overlay
   # You can change versions, add patches, set compilation flags, anything really.
   # https://nixos.wiki/wiki/Overlays
-  modifications = _final: _prev: {
-    lib.maintainers.tcarrio = {
-      email = "tom@carrio.dev";
-      github = "tcarrio";
-      githubId = 8659099;
-      name = "Tom Carrio";
-    };
-
+  # Example usage
+  modifications = final: prev: {
     # example = prev.example.overrideAttrs (oldAttrs: rec {
     # ...
     # });
+
+    customMaintainer = prev.lib.maintainers.overrideAttrs (oldAttrs: oldAttrs // {
+      tcarrio = {
+        email = "tom@carrio.dev";
+        github = "tcarrio";
+        githubId = 8659099;
+        name = "Tom Carrio";
+      };
+    });
   };
+
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
   # be accessible through 'pkgs.unstable'
