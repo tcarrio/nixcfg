@@ -1,9 +1,9 @@
 { lib
-, buildGo120Module
+, buildGoModule
 , fetchFromGitHub
 }:
 
-buildGo120Module rec {
+buildGoModule rec {
   pname = "auth0-cli";
   version = "1.1.0";
 
