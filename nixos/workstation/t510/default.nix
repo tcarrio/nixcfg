@@ -5,14 +5,13 @@
 
 { inputs, lib, pkgs, ... }: {
   imports = [
-    # TODO: Incorporate diskos
     (import ./disks.nix { })
-    # ./hardware-configuration.nix
 
     inputs.nixos-hardware.nixosModules.common-cpu-intel
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
+    ../../_mixins/desktop/bitwarden.nix
     # fix for nixos-rebuild hangups on certain hardware
     ../../_mixins/hardware/disable-nm-wait.nix
     ../../_mixins/hardware/grub-legacy-boot.nix
@@ -34,7 +33,7 @@
   ];
 
   services.nbd.server = {
-    enable = true;
+    enable = false;
     listenAddress = "0.0.0.0";
     listenPort = 10809;
 
