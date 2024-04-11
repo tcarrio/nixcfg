@@ -15,6 +15,8 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
+    ../../_mixins/desktop/discord.nix
+
     # fix for nixos-rebuild hangups on certain hardware
     ../../_mixins/hardware/disable-nm-wait.nix
 
@@ -49,7 +51,6 @@
     google-chrome
 
     # communication
-    discord
     element-desktop
     slack
     zoom-us

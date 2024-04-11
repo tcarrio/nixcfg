@@ -1,6 +1,7 @@
 { desktop, pkgs, lib, ... }: {
   imports = [
     ../../desktop/chromium.nix
+    ../../desktop/discord.nix
     ../../desktop/element.nix
     ../../desktop/firefox.nix
     #../../desktop/evolution.nix
@@ -24,9 +25,6 @@
     netflix
     pick-colour-picker
     slack
-
-    # Fast moving apps use the unstable branch
-    unstable.discord
   ];
 
   # programs = {

@@ -2,6 +2,7 @@
   imports = [
     ../../desktop/beeper.nix
     ../../desktop/chromium.nix
+    ../../desktop/discord.nix
     ../../desktop/firefox.nix
     ../../desktop/google-chrome.nix
     ../../desktop/lutris.nix
@@ -24,8 +25,5 @@
     pick-colour-picker
     slack
     neovide
-
-    # Fast moving apps use the unstable branch
-    unstable.discord
   ];
 }

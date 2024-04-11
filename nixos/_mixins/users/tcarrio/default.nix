@@ -24,6 +24,7 @@ in
     ++ ifExists [
       "docker"
       "podman"
+      "nordvpn"
     ];
     # mkpasswd -m sha-512
     hashedPassword = "$6$uLtXsdZpgBd/iVao$L3Lk9vmQMOfZrARIyl6Sq6ZbU91d53dWQteZADxkgLJ8FZUet.L4E73LnmVccJUGdAUcMQ1cuISS9j0XygM2Q1";

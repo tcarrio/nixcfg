@@ -25,13 +25,14 @@
     ../../_mixins/hardware/gtx-1080ti.nix
     ../../_mixins/hardware/systemd-boot.nix
     ../../_mixins/network-shares/ds418-nfs.nix
+    ../../_mixins/services/nordvpn.nix
     ../../_mixins/services/pipewire.nix
     ../../_mixins/services/tailscale-autoconnect.nix
     ../../_mixins/virt
   ];
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_6_5;
+    kernelPackages = pkgs.linuxPackages_6_8;
     blacklistedKernelModules = lib.mkDefault [ "nouveau" ];
     extraModulePackages = [ ];
     initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
@@ -51,6 +52,4 @@
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-
-  environment.systemPackages = [ pkgs.unstable.jan ];
 }
