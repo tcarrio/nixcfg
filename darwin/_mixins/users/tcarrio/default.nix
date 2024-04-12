@@ -7,7 +7,6 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    awscli2
     bazelisk
     direnv
     dive
