@@ -10,7 +10,7 @@ in {
     KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0660", GROUP="${hidrawAccessGroup}"
   '';
 
-  users.groups.plugdev = {};
+  users.groups.${hidrawAccessGroup} = {};
 
   users.users.${username}.extraGroups = [ hidrawAccessGroup ];
 }
