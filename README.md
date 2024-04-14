@@ -253,6 +253,7 @@ MATE Desktop 🧉 and Pantheon 🏛️ are the two desktop options available. Th
 - [x] Support Raspberry Pi installer
   - [ ] With Nix flakes
 - [x] Support macOS with [nix-darwin]
+- [x] Support Roccat tools with group-based access control for hidraw
 
 ### Applications
 
