@@ -24,6 +24,7 @@
       entr # Modern Unix `watch`
       fd # Modern Unix `find`
       ffmpeg-headless # Terminal video encoder
+      fzf # Command-line fuzzy finder
       glow # Terminal Markdown renderer
       gping # Modern Unix `ping`
       hexyl # Modern Unix `hexedit`
