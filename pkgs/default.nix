@@ -3,6 +3,7 @@
 
 { pkgs ? (import ../nixpkgs.nix) { } }: {
   auth0 = pkgs.callPackage ./auth0.nix { };
+  encore-bin = pkgs.callPackage ./encore-bin.nix { };
   ente-photos-desktop = pkgs.callPackage ./ente.nix { };
   charm-freeze = pkgs.callPackage ./charm-freeze.nix { };
 }
