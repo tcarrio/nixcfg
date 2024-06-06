@@ -50,7 +50,7 @@
       LC_TIME = "en_US.utf8";
     };
   };
-  services.xserver.layout = "us";
+  services.xserver.xkb.layout = "us";
   time.timeZone = "America/Detroit";
 
   # Only install the docs I use

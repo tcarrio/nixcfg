@@ -7,7 +7,7 @@ let
 in
 {
   environment = {
-    systemPackages = with pkgs; [ vulkan-tools nvtop ];
+    systemPackages = with pkgs; [ vulkan-tools nvtopPackages.full ];
 
     variables = {
       VK_DRIVER_FILES = builtins.concatStringsSep ":" vulkanDriverFiles;

@@ -13,7 +13,6 @@
     packages = with pkgs; [
       asciinema # Terminal recorder
       breezy # Terminal bzr client
-      butler # Terminal Itch.io API client
       chafa # Terminal image viewer
       dconf2nix # Nix code from Dconf files
       diffr # Modern Unix `diff`
@@ -113,7 +112,7 @@
     };
     eza = {
       enable = true;
-      enableAliases = true;
+      enableFishIntegration = true;
       icons = true;
     };
     fish = {

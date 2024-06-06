@@ -15,5 +15,5 @@
     font-size=14
     xkb-layout=us
   '';
-  services.xserver.layout = lib.mkForce "us";
+  services.xserver.xkb.layout = lib.mkForce "us";
 }
