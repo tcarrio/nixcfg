@@ -9,6 +9,12 @@ let
   getListIf = isEnabled: list: if isEnabled then list else [ ];
 
   ext = {
+    # bun = {
+    #   name = "oven.bun-vscode";
+    #   publisher = "Oven";
+    #   version = "0.0.12";
+    #   sha256 = "sha256-9dp8/gLAb8OJnmsLVbOAKAYZ5whavDW2Ak+WhLqEbJk=";
+    # };
     language-hugo-vscode = {
       name = "language-hugo-vscode";
       publisher = "budparr";
@@ -105,6 +111,7 @@ let
     rust = getLangOr "rust" false;
     ssh = getLangOr "ssh" false;
     text = getLangOr "text" true;
+    tf = getLangOr "tf" true;
     vala = getLangOr "vala" false;
     xml = getLangOr "xml" true;
     yaml = getLangOr "yaml" true;
@@ -136,6 +143,7 @@ in
         ++ getListIf g.python [ ms-python.python ms-python.vscode-pylance ]
         ++ getListIf g.ssh [ ms-vscode-remote.remote-ssh ]
         ++ getListIf g.text [ streetsidesoftware.code-spell-checker yzhang.markdown-all-in-one ]
+        ++ getListIf g.tf [ hashicorp.terraform ]
         ++ getListIf g.xml [ dotjoshjohnson.xml ]
         ++ getListIf g.yaml [ redhat.vscode-yaml ]
 
