@@ -41,6 +41,11 @@
     kernelModules = [ "kvm-amd" "nvidia" ];
   };
 
+  environment.systemPackages = [
+    pkgs.google-fonts
+    pkgs.gnomeExtensions.gsconnect
+  ];
+
   # support for cross-platform NixOS builds
   boot.binfmt.emulatedSystems = [ "armv7l-linux" "aarch64-linux" ];
 
