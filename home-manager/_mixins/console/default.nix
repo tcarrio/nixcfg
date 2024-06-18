@@ -48,7 +48,7 @@
 
     sessionVariables = {
       EDITOR = "nvim";
-      PAGER = "page";
+      PAGER = "less";
       SYSTEMD_EDITOR = "nvim";
       VISUAL = "nvim";
     };
