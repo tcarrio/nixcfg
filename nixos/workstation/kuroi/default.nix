@@ -8,8 +8,7 @@
 {
   imports = [
     # TODO: Incorporate diskos
-    # (import ./disks.nix { })
-    ./hardware-configuration.nix
+    (import ./disks.nix { })
 
     inputs.nixos-hardware.nixosModules.common-cpu-intel
     inputs.nixos-hardware.nixosModules.common-pc
