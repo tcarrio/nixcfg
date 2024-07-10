@@ -2,7 +2,7 @@ _: {
   disko.devices = {
     disk = {
       sda = {
-        device = "/dev/disk/by-id/ata-ADATA_SP600NS34_2F4820062537";
+        device = "/dev/disk/by-id/ata-Samsung_SSD_850_PRO_512GB_S250NXAH211618D";
         name = "primary-disk";
         type = "disk";
         content = {
@@ -29,7 +29,7 @@ _: {
         };
       };
       sdb = {
-        device = "/dev/disk/by-id/ata-Samsung_SSD_850_PRO_512GB_S250NXAH211618D";
+        device = "/dev/disk/by-id/ata-ADATA_SP600NS34_2F4820062537";
         name = "home-disk";
         type = "disk";
         content = {
@@ -40,7 +40,7 @@ _: {
               content = {
                 type = "filesystem";
                 format = "ext4";
-                mountpoint = "/home";
+                mountpoint = "/data";
               };
             };
           };
