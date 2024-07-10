@@ -12,13 +12,13 @@
     dive
     fish
     fishPlugins.foreign-env
-    guile
     jdk11
     lazydocker
     lazygit
     mysql
     neofetch
     neovim
+    tailscale
     tmux
     tokei
     tree

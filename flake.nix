@@ -20,9 +20,6 @@
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     chaotic.inputs.nixpkgs.follows = "nixpkgs";
 
-    nix-doom-emacs.url = "github:nix-community/nix-doom-emacs";
-    nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs-unstable";
-
     nix-formatter-pack.url = "github:Gerschtli/nix-formatter-pack";
     nix-formatter-pack.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -33,10 +30,6 @@
 
     devshells.url = "github:tcarrio/devshells";
     devshells.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Android support with nix-on-droid. Currently not updated for 24.05
-    nix-on-droid.url = "github:nix-community/nix-on-droid/release-23.05";
-    nix-on-droid.inputs.nixpkgs.follows = "nixpkgs";
 
     # Darwin support with nix-darwin
     nix-darwin.url = "github:LnL7/nix-darwin";
@@ -51,7 +44,6 @@
     , nix-formatter-pack
     , nixpkgs
     , devshells
-    , nix-on-droid
     , ...
     } @ inputs:
     let
@@ -75,11 +67,6 @@
         "tcarrio@kuroi" = libx.mkHome { hostname = "kuroi"; username = "tcarrio"; desktop = "gnome"; };
         "tcarrio@t510" = libx.mkHome { hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
         "tcarrio@vm" = libx.mkHome { hostname = "vm"; username = "tcarrio"; desktop = "gnome"; };
-
-        # Servers
-        "tcarrio@brix" = libx.mkHome { hostname = "brix"; username = "tcarrio"; };
-        "tcarrio@skull" = libx.mkHome { hostname = "skull"; username = "tcarrio"; };
-        "tcarrio@vm-mini" = libx.mkHome { hostname = "vm-mini"; username = "tcarrio"; };
       };
 
       # Support for nix-darwin workstations
@@ -128,13 +115,6 @@
         nuc9 =     libx.mkHost { systemType = "server"; hostname = "nuc9";     username = "archon"; };
       };
 
-      nixOnDroidConfigurations = {
-        pixel6a-legacy = nix-on-droid.lib.nixOnDroidConfiguration {
-          modules = [ ./android/pixel6a/config.nix ];
-        };
-        pixel6a = libx.mkDroid { hostname = "pixel6a"; username = "tcarrio"; };
-      };
-
       # Devshell for bootstrapping; acessible via 'nix develop' or 'nix-shell' (legacy)
       inherit (devshells) devShells; # libx.forAllSystems (system:
       # let pkgs = nixpkgs.legacyPackages.${system};
@@ -164,7 +144,7 @@
         (system:
           let
             pkgs = nixpkgs.legacyPackages.${system};
-          in 
+          in
             (import ./pkgs { inherit pkgs; })
             //
             {

@@ -225,13 +225,12 @@
       '';
       shellAbbrs = {
         nix-gc = "sudo nix-collect-garbage --delete-older-than 28d";
-
-        rebuild-all = "sudo nix-collect-garbage --delete-older-than 28d && sudo nixos-rebuild switch --flake $HOME/0xc/nix-config && home-manager switch -b backup --flake $HOME/0xc/nix-config";
         rebuild-home = "home-manager switch -b backup --flake $HOME/0xc/nix-config";
         rebuild-host = "sudo nixos-rebuild switch --flake $HOME/0xc/nix-config";
+        rebuild-all = "nix-gc && rebuild-host && rebuild-home";
         rebuild-lock = "pushd $HOME/0xc/nix-config && nix flake lock --recreate-lock-file && popd";
 
-        modify-secret = "agenix -i ~/.ssh/id_rsa -e"; # the path relative to /secrets must be passed without `./`
+        modify-secret = "pushd $HOME/0xc/nix-config && agenix -i ~/.ssh/id_rsa -e && popd"; # the path relative to /secrets must be passed without `./`
 
         rebuild-iso-console = "sudo true && pushd $HOME/0xc/nix-config && nix build .#nixosConfigurations.iso-console.config.system.build.isoImage && set ISO (head -n1 result/nix-support/hydra-build-products | cut -d'/' -f6) && sudo cp result/iso/$ISO ~/Quickemu/nixos-console/nixos.iso && popd";
         test-iso-console = "pushd ~/Quickemu/ && quickemu --vm nixos-console.conf --ssh-port 54321 && popd";

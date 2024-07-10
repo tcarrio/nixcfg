@@ -125,7 +125,6 @@ _: {
         casks = [
             "amethyst"
             "docker"
-            "emacs"
             "rstudio"
             "secretive"
             "sequel-ace"

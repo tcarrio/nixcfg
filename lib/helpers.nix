@@ -84,15 +84,6 @@ in
     ];
   };
 
-  mkDroid = { hostname, username, platform ? "aarch64-linux" }: inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-    specialArgs = {
-      inherit self inputs outputs hostname username platform stateVersion sshMatrix;
-    };
-    modules = [
-      ../android
-    ];
-  };
-
   forAllSystems = inputs.nixpkgs.lib.genAttrs [
     "armv7l-linux" # 32-bit ARM Linux
     "aarch64-linux" # 64-bit ARM Linux
