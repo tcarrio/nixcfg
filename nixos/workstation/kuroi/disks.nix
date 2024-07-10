@@ -28,6 +28,24 @@ _: {
           };
         };
       };
+      sdb = {
+        device = "/dev/disk/by-id/ata-Samsung_SSD_850_PRO_512GB_S250NXAH211618D";
+        name = "home-disk";
+        type = "disk";
+        content = {
+          type = "gpt";
+          partitions = {
+            data = {
+              size = "100%";
+              content = {
+                type = "filesystem";
+                format = "ext4";
+                mountpoint = "/home";
+              };
+            };
+          };
+        };
+      };
     };
   };
 }
