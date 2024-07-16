@@ -1,7 +1,8 @@
 { pkgs, username, ... }:
-let 
+let
   hidrawAccessGroup = "plugdev";
-in {
+in
+{
   environment.systemPackages = with pkgs; [
     roccat-tools
   ];
@@ -10,7 +11,7 @@ in {
     KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0660", GROUP="${hidrawAccessGroup}"
   '';
 
-  users.groups.${hidrawAccessGroup} = {};
+  users.groups.${hidrawAccessGroup} = { };
 
   users.users.${username}.extraGroups = [ hidrawAccessGroup ];
 }

@@ -1,8 +1,8 @@
-{ lib, platform, ... }: {
+_: {
   homebrew = {
     enable = true;
 
-    taps = [];
+    taps = [ ];
 
     # the following sets up Homebrew to NEVER update implicitly
     # to update brew itself, use `brew upgrade`

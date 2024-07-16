@@ -102,17 +102,17 @@
         #  - nixos-rebuild switch --fast --flake .#${HOST} \
         #      --target-host ${USERNAME}@${HOST}.${TAILNET} \
         #      --build-host  ${USERNAME}@${HOST}.${TAILNET}
-        nuc-init = libx.mkHost { systemType = "server"; hostname = "nuc-init"; username = "nixos";  };
-        nuc0 =     libx.mkHost { systemType = "server"; hostname = "nuc0";     username = "archon"; };
-        nuc1 =     libx.mkHost { systemType = "server"; hostname = "nuc1";     username = "archon"; };
-        nuc2 =     libx.mkHost { systemType = "server"; hostname = "nuc2";     username = "archon"; };
-        nuc3 =     libx.mkHost { systemType = "server"; hostname = "nuc3";     username = "archon"; };
-        nuc4 =     libx.mkHost { systemType = "server"; hostname = "nuc4";     username = "archon"; };
-        nuc5 =     libx.mkHost { systemType = "server"; hostname = "nuc5";     username = "archon"; };
-        nuc6 =     libx.mkHost { systemType = "server"; hostname = "nuc6";     username = "archon"; };
-        nuc7 =     libx.mkHost { systemType = "server"; hostname = "nuc7";     username = "archon"; };
-        nuc8 =     libx.mkHost { systemType = "server"; hostname = "nuc8";     username = "archon"; };
-        nuc9 =     libx.mkHost { systemType = "server"; hostname = "nuc9";     username = "archon"; };
+        nuc-init = libx.mkHost { systemType = "server"; hostname = "nuc-init"; username = "nixos"; };
+        nuc0 = libx.mkHost { systemType = "server"; hostname = "nuc0"; username = "archon"; };
+        nuc1 = libx.mkHost { systemType = "server"; hostname = "nuc1"; username = "archon"; };
+        nuc2 = libx.mkHost { systemType = "server"; hostname = "nuc2"; username = "archon"; };
+        nuc3 = libx.mkHost { systemType = "server"; hostname = "nuc3"; username = "archon"; };
+        nuc4 = libx.mkHost { systemType = "server"; hostname = "nuc4"; username = "archon"; };
+        nuc5 = libx.mkHost { systemType = "server"; hostname = "nuc5"; username = "archon"; };
+        nuc6 = libx.mkHost { systemType = "server"; hostname = "nuc6"; username = "archon"; };
+        nuc7 = libx.mkHost { systemType = "server"; hostname = "nuc7"; username = "archon"; };
+        nuc8 = libx.mkHost { systemType = "server"; hostname = "nuc8"; username = "archon"; };
+        nuc9 = libx.mkHost { systemType = "server"; hostname = "nuc9"; username = "archon"; };
       };
 
       # Devshell for bootstrapping; acessible via 'nix develop' or 'nix-shell' (legacy)
@@ -138,13 +138,15 @@
       overlays = import ./overlays { inherit inputs; };
 
       # Custom packages; acessible via 'nix build', 'nix shell', etc
-      packages = let
-        mkNuc = user: name: libx.mkRawImage { systemType = "server"; hostname = name; username = user; };
-      in libx.forAllSystems
-        (system:
-          let
-            pkgs = nixpkgs.legacyPackages.${system};
-          in
+      packages =
+        let
+          mkNuc = user: name: libx.mkRawImage { systemType = "server"; hostname = name; username = user; };
+        in
+        libx.forAllSystems
+          (system:
+            let
+              pkgs = nixpkgs.legacyPackages.${system};
+            in
             (import ./pkgs { inherit pkgs; })
             //
             {
@@ -160,7 +162,7 @@
               system-image-nuc8 = mkNuc "archon" "nuc8";
               system-image-nuc9 = mkNuc "archon" "nuc9";
             }
-        );
+          );
       # And custom nixos-generators definitions
       # TODO: forAllSystems
       #   tk1 = libx.mkSdImage { hostname = "tk1"; username = "root"; systemType = "server"; };

@@ -1,6 +1,7 @@
 # Reference: https://carjorvaz.com/posts/the-holy-grail-nextcloud-setup-made-easy-by-nixos/
 
-{ self, config, lib, pkgs, ... }: let
+{ config, lib, pkgs, ... }:
+let
   fqdn = "onlyoffice.${config.domainName}";
 in
 {
@@ -14,7 +15,7 @@ in
       enable = true;
       hostName = fqdn;
 
-       # Need to manually increment with every major upgrade.
+      # Need to manually increment with every major upgrade.
       package = pkgs.nextcloud28;
 
       # Let NixOS install and configure the database automatically.

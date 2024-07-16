@@ -1,6 +1,6 @@
 # Reference: https://carjorvaz.com/posts/the-holy-grail-nextcloud-setup-made-easy-by-nixos/
 
-{ self, config, lib, pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   services = {
@@ -20,7 +20,7 @@
       enable = true;
       hostName = "cloud.example.com";
 
-       # Need to manually increment with every major upgrade.
+      # Need to manually increment with every major upgrade.
       package = pkgs.nextcloud27;
 
       # Let NixOS install and configure the database automatically.

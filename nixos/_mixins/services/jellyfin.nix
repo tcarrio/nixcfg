@@ -1,4 +1,5 @@
-{ pkgs, ... }: let
+{ pkgs, ... }:
+let
   jellyUserGroup = "jellyfin";
 in
 {
@@ -8,7 +9,7 @@ in
     isSystemUser = true;
     isNormalUser = false;
   };
-  users.groups."${jellyUserGroup}" = {};
+  users.groups."${jellyUserGroup}" = { };
 
   services.jellyfin = {
     enable = true;

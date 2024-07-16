@@ -1,25 +1,27 @@
-{ ... }: let
+_:
+let
   fullBlocklistProjectTrackerList = {
-    Abuse = ["https://blocklistproject.github.io/Lists/abuse.txt"];
-    Ads = ["https://blocklistproject.github.io/Lists/ads.txt"];
-    Crypto = ["https://blocklistproject.github.io/Lists/crypto.txt"];
-    Drugs = ["https://blocklistproject.github.io/Lists/drugs.txt"];
-    Everything = ["https://blocklistproject.github.io/Lists/everything.txt"];
-    Facebook = ["https://blocklistproject.github.io/Lists/facebook.txt"];
-    Fraud = ["https://blocklistproject.github.io/Lists/fraud.txt"];
-    Gambling = ["https://blocklistproject.github.io/Lists/gambling.txt"];
-    Malware = ["https://blocklistproject.github.io/Lists/malware.txt"];
-    Phishing = ["https://blocklistproject.github.io/Lists/phishing.txt"];
-    Piracy = ["https://blocklistproject.github.io/Lists/piracy.txt"];
-    Porn = ["https://blocklistproject.github.io/Lists/porn.txt"];
-    Ransomware = ["https://blocklistproject.github.io/Lists/ransomware.txt"];
-    Redirect = ["https://blocklistproject.github.io/Lists/redirect.txt"];
-    Scam = ["https://blocklistproject.github.io/Lists/scam.txt"];
-    TikTok = ["https://blocklistproject.github.io/Lists/tiktok.txt"];
-    Torrent = ["https://blocklistproject.github.io/Lists/torrent.txt"];
-    Tracking = ["https://blocklistproject.github.io/Lists/tracking.txt"];
+    Abuse = [ "https://blocklistproject.github.io/Lists/abuse.txt" ];
+    Ads = [ "https://blocklistproject.github.io/Lists/ads.txt" ];
+    Crypto = [ "https://blocklistproject.github.io/Lists/crypto.txt" ];
+    Drugs = [ "https://blocklistproject.github.io/Lists/drugs.txt" ];
+    Everything = [ "https://blocklistproject.github.io/Lists/everything.txt" ];
+    Facebook = [ "https://blocklistproject.github.io/Lists/facebook.txt" ];
+    Fraud = [ "https://blocklistproject.github.io/Lists/fraud.txt" ];
+    Gambling = [ "https://blocklistproject.github.io/Lists/gambling.txt" ];
+    Malware = [ "https://blocklistproject.github.io/Lists/malware.txt" ];
+    Phishing = [ "https://blocklistproject.github.io/Lists/phishing.txt" ];
+    Piracy = [ "https://blocklistproject.github.io/Lists/piracy.txt" ];
+    Porn = [ "https://blocklistproject.github.io/Lists/porn.txt" ];
+    Ransomware = [ "https://blocklistproject.github.io/Lists/ransomware.txt" ];
+    Redirect = [ "https://blocklistproject.github.io/Lists/redirect.txt" ];
+    Scam = [ "https://blocklistproject.github.io/Lists/scam.txt" ];
+    TikTok = [ "https://blocklistproject.github.io/Lists/tiktok.txt" ];
+    Torrent = [ "https://blocklistproject.github.io/Lists/torrent.txt" ];
+    Tracking = [ "https://blocklistproject.github.io/Lists/tracking.txt" ];
   };
-in {
+in
+{
   services.blocky = {
     enable = true;
     settings = rec {

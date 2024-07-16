@@ -125,7 +125,7 @@ in
     packages = [ pkgs.home-manager ];
     shell = pkgs.fish;
   };
-  config.users.groups.nixos = {};
+  config.users.groups.nixos = { };
 
   config.system.stateVersion = lib.mkForce lib.trivial.release;
   config.environment.systemPackages = [ install-system ];

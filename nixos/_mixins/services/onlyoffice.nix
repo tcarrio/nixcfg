@@ -1,6 +1,7 @@
 # Reference: https://carjorvaz.com/posts/the-holy-grail-nextcloud-setup-made-easy-by-nixos/
 
-{ self, config, lib, pkgs, ... }: let
+{ config, ... }:
+let
   fqdn = "onlyoffice.${config.domainName}";
 in
 {

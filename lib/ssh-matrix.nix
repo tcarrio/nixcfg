@@ -6,10 +6,10 @@ rec {
   # user@host matrix
   systems = {
     sktc0.tcarrio = parseFriendlyKey ''
-        ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAy
-        NTYAAABBBAl788s2f8cUb8v3pyqX1sv4jRpvBuWeC0pfp+p0Gq1eLKBv9GxENTl1
-        46PoqAMkXQB2CJE8KX7vbjZrrirJBBc= GitHub@secretive.alum.local
-      '';
+      ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAy
+      NTYAAABBBAl788s2f8cUb8v3pyqX1sv4jRpvBuWeC0pfp+p0Gq1eLKBv9GxENTl1
+      46PoqAMkXQB2CJE8KX7vbjZrrirJBBc= GitHub@secretive.alum.local
+    '';
 
     glass = {
       host = parseFriendlyKey ''
@@ -43,9 +43,9 @@ rec {
     };
 
     kuroi.host = parseFriendlyKey ''
-        ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAT4Z64F9AhDZ60xzv9TOAf/+PJQK
-        VQ+hf8ar3nEzpmm root@kuroinixu
-      '';
+      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAT4Z64F9AhDZ60xzv9TOAf/+PJQK
+      VQ+hf8ar3nEzpmm root@kuroinixu
+    '';
 
     pixel6a = {
       nix-on-droid = parseFriendlyKey ''

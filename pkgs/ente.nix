@@ -3,7 +3,6 @@ let
   pname = "ente-photos-desktop";
   version = "1.6.63";
   shortName = "ente";
-  applicationName = "Ente";
   name = "${shortName}-${version}";
 
   # https://github.com/ente-io/photos-desktop/releases/download/v1.6.63/ente-1.6.63-arm64.AppImage
@@ -15,7 +14,8 @@ let
   };
 
   appimageContents = appimageTools.extractType2 { inherit name src; };
-in appimageTools.wrapType2 {
+in
+appimageTools.wrapType2 {
   inherit name src;
 
   extraInstallCommands = ''

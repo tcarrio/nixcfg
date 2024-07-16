@@ -3,7 +3,7 @@
 # GPU: Intel Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx
 # Memory: 7877MiB
 
-{ inputs, lib, pkgs, ... }:
+{ ... }:
 {
   imports = [
     # base NUC configuration

@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ pkgs, ... }: {
   # more info in https://nixos.wiki/wiki/NFS
 
   services.rpcbind.enable = true; # needed for NFS

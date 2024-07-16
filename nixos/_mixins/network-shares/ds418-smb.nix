@@ -16,11 +16,11 @@ in
   fileSystems."/mnt/ds418" = {
     device = "//nas-ds418-00/homes/Tom";
     fsType = "cifs";
-    options = ["${automount_opts},credentials=${config.age.secrets.ds418-smb-conf.path}"];
+    options = [ "${automount_opts},credentials=${config.age.secrets.ds418-smb-conf.path}" ];
 
     # ensure the agenix file is mounted successfully
-    depends = [config.age.secrets.ds418-smb-conf.path]
-  };
+    depends = [ config.age.secrets.ds418-smb-conf.path ]
+      };
 
-  # TODO: Utilize systemd.mounts instead for better service dependency detection?
-}
+    # TODO: Utilize systemd.mounts instead for better service dependency detection?
+  }

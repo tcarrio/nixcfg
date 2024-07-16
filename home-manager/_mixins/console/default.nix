@@ -125,36 +125,38 @@
         top = "btm --basic --tree --hide_table_gap --dot_marker --mem_as_value";
         tree = "eza --tree";
       };
-      functions = let
-        doCurl = type: url: "$(curl -L \"${url}\" 2>/dev/null | ${type}sum | awk '{print $1}')";
-        makeSriHasher = type: content: "nix-hash --type ${type} --to-sri ${content}";
-        makeSriUrlHasher = url: type: makeSriHasher type (doCurl type url);
-        makeSriUrlHasherFishFunction = makeSriUrlHasher "$argv[1]";
-      in {
-        shell = ''
-          nix develop $HOME/0xc/nixcfg#$argv[1] || nix develop $HOME/0xc/nixcfg#( \
-            git remote -v \
-              | grep '(push)' \
-              | awk '{print $2}' \
-              | cut -d ':' -f 2 \
-              | rev \
-              | sed 's/tig.//' \
-              | rev \
-          )
-        '';
-        is-number = ''
-          string match --quiet --regex "^\d+\$" $argv[1]
-        '';
-        deploy-nuc = "is-number $argv[1] && nixos-rebuild --fast --flake $HOME/0xc/nixcfg#nuc$argv[1] --target-host root@192.168.40.20$argv[1] $argv[2..]";
+      functions =
+        let
+          doCurl = type: url: "$(curl -L \"${url}\" 2>/dev/null | ${type}sum | awk '{print $1}')";
+          makeSriHasher = type: content: "nix-hash --type ${type} --to-sri ${content}";
+          makeSriUrlHasher = url: type: makeSriHasher type (doCurl type url);
+          makeSriUrlHasherFishFunction = makeSriUrlHasher "$argv[1]";
+        in
+        {
+          shell = ''
+            nix develop $HOME/0xc/nixcfg#$argv[1] || nix develop $HOME/0xc/nixcfg#( \
+              git remote -v \
+                | grep '(push)' \
+                | awk '{print $2}' \
+                | cut -d ':' -f 2 \
+                | rev \
+                | sed 's/tig.//' \
+                | rev \
+            )
+          '';
+          is-number = ''
+            string match --quiet --regex "^\d+\$" $argv[1]
+          '';
+          deploy-nuc = "is-number $argv[1] && nixos-rebuild --fast --flake $HOME/0xc/nixcfg#nuc$argv[1] --target-host root@192.168.40.20$argv[1] $argv[2..]";
 
-        sriMd5Url = makeSriUrlHasherFishFunction "md5";
-        sriSha1Url = makeSriUrlHasherFishFunction "sha1";
-        sriSha256Url = makeSriUrlHasherFishFunction "sha256";
-        sriSha512Url = makeSriUrlHasherFishFunction "sha512";
-      };
+          sriMd5Url = makeSriUrlHasherFishFunction "md5";
+          sriSha1Url = makeSriUrlHasherFishFunction "sha1";
+          sriSha256Url = makeSriUrlHasherFishFunction "sha256";
+          sriSha512Url = makeSriUrlHasherFishFunction "sha512";
+        };
       plugins = with pkgs.fishPlugins; [
-        { name = "foreign-env"; src = foreign-env.src; }
-        { name = "fzf"; src = fzf-fish.src; }
+        { name = "foreign-env"; inherit (foreign-env) src; }
+        { name = "fzf"; inherit (fzf-fish) src; }
       ];
     };
     gh = {
