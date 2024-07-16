@@ -1,4 +1,4 @@
-# Tom's [NixOS]  & [Home Manager] Configurations
+# Tom's [Nix] Configurations
 
 [NixOS]: https://nixos.org/
 [Home Manager]: https://github.com/nix-community/home-manager
@@ -31,11 +31,11 @@ This repository contains a [Nix Flake](https://nixos.wiki/wiki/Flakes) for confi
 
 ## Respects
 
-This project was forked from Wimpy's nix-config repository, which you can find [here](https://github.com/wimpysworld/nix-config). There is plenty of documentation to update so you will see plenty that is out of date here.
+This project was forked from Wimpy's nixcfg repository, which you can find [here](https://github.com/wimpysworld/nix-config). There is plenty of documentation to update so you will see plenty that is out of date here.
 
 ## Structure
 
-- [.github]: GitHub CI/CD workflows Nix ❄️ supercharged ⚡️ by [**Determinate Systems**](https://determinate.systems) 
+- [.github]: GitHub CI/CD workflows Nix ❄️ supercharged ⚡️ by [**Determinate Systems**](https://determinate.systems)
   - [Nix Installer Action](https://github.com/marketplace/actions/the-determinate-nix-installer)
   - [Magic Nix Cache Action](https://github.com/marketplace/actions/magic-nix-cache)
   - [Flake Checker Action](https://github.com/marketplace/actions/nix-flake-checker)
@@ -67,7 +67,7 @@ The [nixos/_mixins] and [home-manager/_mixins] are a collection of composited co
     1. Use the graphical Calamares installer to install an adhoc system
     2. Run `install-system <hostname> <username>` from a terminal
        - The install script uses [Disko] to automatically partition and format the disks, then uses my flake via `nixos-install` to complete a full-system installation
-       - This flake is copied to the target user's home directory as `~/0xc/nix-config`
+       - This flake is copied to the target user's home directory as `~/0xc/nixcfg`
 - Make a cuppa 🫖
 - Reboot
 - Login and run `rebuild-home` (*see below*) from a terminal to complete the Home Manager configuration.
@@ -75,7 +75,7 @@ The [nixos/_mixins] and [home-manager/_mixins] are a collection of composited co
 If the target system is booted from something other than the .iso image created by this flake, you can still install the system using the following:
 
 ```bash
-curl -sL https://raw.githubusercontent.com/tcarrio/nix-config/main/scripts/install.sh | bash -s <hostname> <username> <type>
+curl -sL https://raw.githubusercontent.com/tcarrio/nixcfg/main/scripts/install.sh | bash -s <hostname> <username> <type>
 ```
 
 ### Installing Raspberry Pi 2 (WIP)
@@ -96,10 +96,10 @@ The [nix-darwin] project provides support for managing macOS systems with Nix in
 
 ## Applying Changes ✨
 
-I clone this repo to `~/0xc/nix-config`. NixOS and Home Manager changes are applied separately because I have some non-NixOS hosts.
+I clone this repo to `~/0xc/nixcfg`. NixOS and Home Manager changes are applied separately because I have some non-NixOS hosts.
 
 ```bash
-git clone git@github:tcarrio/nix-config ~/0xc/nix-config
+git clone git@github:tcarrio/nixcfg ~/0xc/nixcfg
 ```
 
 ### NixOS ❄️
@@ -107,7 +107,7 @@ git clone git@github:tcarrio/nix-config ~/0xc/nix-config
 A `rebuild-host` alias is provided that does the following:
 
 ```bash
-sudo nixos-rebuild switch --flake $HOME/0xc/nix-config
+sudo nixos-rebuild switch --flake $HOME/0xc/nixcfg
 ```
 
 ### Home Manager 🏠️
@@ -115,7 +115,7 @@ sudo nixos-rebuild switch --flake $HOME/0xc/nix-config
 A `rebuild-home` alias is provided that does the following:
 
 ```bash
-home-manager switch -b backup --flake $HOME/0xc/nix-config
+home-manager switch -b backup --flake $HOME/0xc/nixcfg
 ```
 
 ### ISO 📀
@@ -123,12 +123,12 @@ home-manager switch -b backup --flake $HOME/0xc/nix-config
 Aliases for `rebuild-iso-desktop` (*desktop*) and `rebuild-iso-console` (*console only*) are provided that create .iso images from this flake. They do the following:
 
 ```bash
-pushd $HOME/0xc/nix-config
+pushd $HOME/0xc/nixcfg
 nix build .#nixosConfigurations.iso.config.system.build.isoImage
 popd
 ```
 
-A live image will be left in `~/$HOME/0xc/nix-config/result/iso/`. These .iso images are also periodically built and published via [GitHub Actions](./.github/workflows) and available in [this project's Releases](https://github.com/tcarrio/nix-config/releases).
+A live image will be left in `~/$HOME/0xc/nixcfg/result/iso/`. These .iso images are also periodically built and published via [GitHub Actions](./.github/workflows) and available in [this project's Releases](https://github.com/tcarrio/nixcfg/releases).
 
 ## What's in the box? 🎁
 
@@ -315,7 +315,7 @@ MATE Desktop 🧉 and Pantheon 🏛️ are the two desktop options available. Th
 
 Before preparing my NixOS and Home Manager configurations I took a look at what other Nix users are doing. My colleagues shared their configs and tips which included [nome from Luc Perkins], [nixos-config from Cole Helbling], [flake from Ana Hoverbear] and her [Declarative GNOME configuration with NixOS] blog post. A couple of friends also shared their configurations and here's [Jon Seager's nixos-config] and [Aaron Honeycutt's nix-configs].
 
-While learning Nix I watched some talks/interviews with [Matthew Croughan](https://github.com/MatthewCroughan) and [Will Taylor's Nix tutorials on Youtube](https://www.youtube.com/playlist?list=PL-saUBvIJzOkjAw_vOac75v-x6EzNzZq-). [Will Taylor's dotfiles] are worth a look, as are his videos, and [Matthew Croughan's nixcfg] is also a useful reference. **After I created my initial flake I found [nix-starter-configs](https://github.com/Misterio77/nix-starter-configs) by [Gabriel Fontes](https://m7.rs) which is an excellent starting point**. I'll be incorporating many of the techniques it demonstrates in my nix-config.
+While learning Nix I watched some talks/interviews with [Matthew Croughan](https://github.com/MatthewCroughan) and [Will Taylor's Nix tutorials on Youtube](https://www.youtube.com/playlist?list=PL-saUBvIJzOkjAw_vOac75v-x6EzNzZq-). [Will Taylor's dotfiles] are worth a look, as are his videos, and [Matthew Croughan's nixcfg] is also a useful reference. **After I created my initial flake I found [nix-starter-configs](https://github.com/Misterio77/nix-starter-configs) by [Gabriel Fontes](https://m7.rs) which is an excellent starting point**. I'll be incorporating many of the techniques it demonstrates in my nixcfg.
 
 I like the directory hierarchy in [Jon Seager's nixos-config] and the mixin pattern used in [Matthew Croughan's nixcfg], so my initial Nix configuration is heavily influenced by both of those. Ana's excellent [Declarative GNOME configuration with NixOS] blog post was essential to get a personalised desktop. That said, there's plenty to learn from browsing other people's Nix configurations, not least for discovering cool software. I recommend a search of [GitHub nixos configuration] from time to time to see what interesting techniques you pick up and new tools you might discover.
 

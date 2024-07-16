@@ -43,11 +43,11 @@ let
       exit 1
     fi
 
-    if [ ! -d "$HOME/0xc/nix-config/.git" ]; then
-      git clone https://github.com/tcarrio/nix-config.git "$HOME/0xc/nix-config"
+    if [ ! -d "$HOME/0xc/nixcfg/.git" ]; then
+      git clone https://github.com/tcarrio/nixcfg.git "$HOME/0xc/nixcfg"
     fi
 
-    cd "$HOME/0xc/nix-config"
+    cd "$HOME/0xc/nixcfg"
 
     nixos-rebuild --flake .#$hostname
   '';

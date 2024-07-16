@@ -83,10 +83,10 @@
       '';
       shellAliases = {
         nix-gc = "sudo nix-collect-garbage --delete-older-than 14d";
-        rebuild-home = "home-manager switch -b backup --flake $HOME/0xc/nix-config";
-        rebuild-host = "darwin-rebuild switch --flake $HOME/0xc/nix-config";
+        rebuild-home = "home-manager switch -b backup --flake $HOME/0xc/nixcfg";
+        rebuild-host = "darwin-rebuild switch --flake $HOME/0xc/nixcfg";
         rebuild-all = "nix-gc && rebuild-host && rebuild-home";
-        rebuild-lock = "pushd $HOME/0xc/nix-config && nix flake lock --recreate-lock-file && popd";
+        rebuild-lock = "pushd $HOME/0xc/nixcfg && nix flake lock --recreate-lock-file && popd";
 
         # TODO: Support secrets management on macOS
         # modify-secret = "agenix -i ~/.ssh/id_rsa -e"; # the path relative to /secrets must be passed

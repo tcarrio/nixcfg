@@ -54,7 +54,7 @@
       libx = import ./lib { inherit self inputs outputs stateVersion; };
     in
     {
-      # home-manager switch -b backup --flake $HOME/0xc/nix-config
+      # home-manager switch -b backup --flake $HOME/0xc/nixcfg
       # nix build .#homeConfigurations."tcarrio@ripper".activationPackage
       homeConfigurations = {
         # .iso images
@@ -87,7 +87,7 @@
         iso-desktop = libx.mkHost { systemType = "iso"; hostname = "iso-desktop"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"; desktop = "gnome"; };
 
         # Workstations
-        #  - sudo nixos-rebuild switch --flake $HOME/0xc/nix-config
+        #  - sudo nixos-rebuild switch --flake $HOME/0xc/nixcfg
         #  - nix build .#nixosConfigurations.ripper.config.system.build.toplevel
         glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "kde6"; };
         # No longer an owned device
@@ -96,7 +96,7 @@
 
         # Servers
         # Can be executed locally:
-        #  - sudo nixos-rebuild switch --flake $HOME/0xc/nix-config
+        #  - sudo nixos-rebuild switch --flake $HOME/0xc/nixcfg
         #
         # Or remotely:
         #  - nixos-rebuild switch --fast --flake .#${HOST} \

@@ -15,11 +15,11 @@ let
       exit 1
     fi
 
-    if [ ! -d "$HOME/0xc/nix-config/.git" ]; then
-      git clone https://github.com/tcarrio/nix-config.git "$HOME/0xc/nix-config"
+    if [ ! -d "$HOME/0xc/nixcfg/.git" ]; then
+      git clone https://github.com/tcarrio/nixcfg.git "$HOME/0xc/nixcfg"
     fi
 
-    pushd "$HOME/0xc/nix-config"
+    pushd "$HOME/0xc/nixcfg"
 
     if [[ -z "$TARGET_HOST" ]]; then
       echo "ERROR! $(basename "$0") requires a hostname as the first argument"
@@ -79,11 +79,11 @@ let
         TARGET_USER_HOME="/mnt/home/$TARGET_USER"
       fi
 
-      # Rsync nix-config to the target install and set the remote origin to SSH.
+      # Rsync nixcfg to the target install and set the remote origin to SSH.
       mkdir -p "$TARGET_USER_HOME"
       rsync -a --delete "$HOME/0xc/" "$TARGET_USER_HOME/0xc/"
-      pushd "$TARGET_USER_HOME/0xc/nix-config"
-      git remote set-url origin git@github.com:tcarrio/nix-config.git
+      pushd "$TARGET_USER_HOME/0xc/nixcfg"
+      git remote set-url origin git@github.com:tcarrio/nixcfg.git
       popd
 
       # If there is a keyfile for a data disk, put copy it to the root partition and

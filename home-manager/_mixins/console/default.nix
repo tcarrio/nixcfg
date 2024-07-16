@@ -132,7 +132,7 @@
         makeSriUrlHasherFishFunction = makeSriUrlHasher "$argv[1]";
       in {
         shell = ''
-          nix develop $HOME/0xc/nix-config#$argv[1] || nix develop $HOME/0xc/nix-config#( \
+          nix develop $HOME/0xc/nixcfg#$argv[1] || nix develop $HOME/0xc/nixcfg#( \
             git remote -v \
               | grep '(push)' \
               | awk '{print $2}' \
@@ -145,7 +145,7 @@
         is-number = ''
           string match --quiet --regex "^\d+\$" $argv[1]
         '';
-        deploy-nuc = "is-number $argv[1] && nixos-rebuild --fast --flake $HOME/0xc/nix-config#nuc$argv[1] --target-host root@192.168.40.20$argv[1] $argv[2..]";
+        deploy-nuc = "is-number $argv[1] && nixos-rebuild --fast --flake $HOME/0xc/nixcfg#nuc$argv[1] --target-host root@192.168.40.20$argv[1] $argv[2..]";
 
         sriMd5Url = makeSriUrlHasherFishFunction "md5";
         sriSha1Url = makeSriUrlHasherFishFunction "sha1";

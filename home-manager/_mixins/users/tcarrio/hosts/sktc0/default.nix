@@ -67,7 +67,7 @@
         ip = lib.mkForce "ifconfig";
         show_open_ports = "lsof -nP -iTCP -sTCP:LISTEN";
 
-        rebuild-host = lib.mkForce "darwin-rebuild switch --flake $HOME/0xc/nix-config";
+        rebuild-host = lib.mkForce "darwin-rebuild switch --flake $HOME/0xc/nixcfg";
       };
   };
 
