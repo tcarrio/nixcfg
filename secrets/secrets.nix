@@ -3,15 +3,21 @@ let
   inherit (sshMatrix) systems;
   inherit (systems) glass;
 
+  ageMatrix = import ../lib/age-matrix.nix { };
+  inherit (ageMatrix.systems) sktc0;
+
   autoMeshSystems = [
     glass.tcarrio
     glass.host
   ];
+
+  macos = [ sktc0.tcarrio ];
 in
 {
   "users/tcarrio/ssh.age".publicKeys = [ glass.tcarrio glass.host ];
   "services/netbird/token.age".publicKeys = autoMeshSystems;
   "services/tailscale/token.age".publicKeys = autoMeshSystems;
+  "services/jira-cli/token.age".publicKeys = macos;
 
   "network-shares/ds418/smb.conf.age".publicKeys = [ glass.tcarrio ];
 

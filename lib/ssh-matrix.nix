@@ -6,9 +6,9 @@ rec {
   # user@host matrix
   systems = {
     sktc0.tcarrio = parseFriendlyKey ''
-      ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAy
-      NTYAAABBBAl788s2f8cUb8v3pyqX1sv4jRpvBuWeC0pfp+p0Gq1eLKBv9GxENTl1
-      46PoqAMkXQB2CJE8KX7vbjZrrirJBBc= GitHub@secretive.alum.local
+      ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTY
+      AAABBBADpxbxYDu9fhk30IeUP21WUGn4nyAX0uff4o7fF+memMmrR4A4/V8H7vj2ucN
+      unk4gbisvit1LQXEcINZVy+kk= GitHub-NoPrompt@secretive.alum.local
     '';
 
     glass = {
@@ -47,23 +47,6 @@ rec {
       VQ+hf8ar3nEzpmm root@kuroinixu
     '';
 
-    pixel6a = {
-      nix-on-droid = parseFriendlyKey ''
-        ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC68RU/lBgyjjlWjdxP2B8Yw8bYR
-        JNaniUkx1zjPkSr2lWU3nHHmaS43Q5lHGW58K+5tAJl+kRM8q7pgTfMT/cDomwYh+
-        ntAxG8afUmR2/5xQCNDa6tFHVVd3fIf11ZEZeGuZMGMSbejslAYAKcKALssR1xlwZ
-        quIGcHNJyRi/EfWD5LyDDPsS5UAQIJCshaflytK7zdXvlf32dL5QFKGF7JAKg0ij6
-        OKndei9iMwcYm9q5nKWZdUr60rcDF4nDhTrFrIq9W1UMP9/bdjA0IXDlOeJD5WjFU
-        psKtRoVwq53sES0ALfyvrpjmJFnz1H5A0G5lMGS6Sch9yt7QD6aBnxtUCB1OgkjAm
-        pStSLhl/kHDXWBJtJ5UJhFq7RKb0QIJOihn6mrC7v26NV/1d+ssfK1WDI185GyTIS
-        Q6cIVpWbZk0w8fslPrgCm9w+us6ow4ZYNY314FfLOZSIe+VdcmY8SZm+mhcFGEr6y
-        sLpSg8x1Ay9xWXA9Xq8sp5uGYW+gV8++S/OA5dWB8I8tWJk6aVeZwowUi9QXj056F
-        uWB9XsNDpELN7Mxssmg8biLK+yzu57ZuQ/p05zoLqV6HvfjO4QpehQ6yedGxqPNps
-        76CePCB4g3YIEd+YcwL2EswMmdfOx2YFr9V3JQ3uHfI1W/Q21bi338KC4EMa7Fxaj
-        EVzHMEQ== nix-on-droid@localhost
-      '';
-    };
-
     # NUC servers
     nuc0.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHkgTzsmgHcVE12Sc9EYPP29Ek8d++RKZCIVEGEmWJc9 nuc0.int.carrio.dev";
     nuc1.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBwF9SXi7HWdTTquPNm3eeznSKg+o7/TKvr36/L4boOG nuc1.int.carrio.dev";
@@ -83,7 +66,6 @@ rec {
       sktc0.tcarrio
       glass.host
       glass.tcarrio
-      pixel6a.nix-on-droid
     ];
   };
 }

@@ -2,6 +2,7 @@
   imports = [
     ./${hostname}
     ./_mixins/users/${username}
+    ./_mixins/desktop
   ];
 
   # List packages installed in system profile. To search by name, run:
@@ -11,15 +12,22 @@
     direnv
     glances
     home-manager
+    # squirreldisk
   ];
 
   fonts = {
     packages = with pkgs; [
-      iosevka
       font-awesome
+      powerline-fonts
+      powerline-symbols
       (nerdfonts.override {
         fonts = [
           "FiraCode"
+          "Iosevka"
+          "IosevkaTerm"
+          "IosevkaTermSlab"
+          "JetBrainsMono"
+          "NerdFontsSymbolsOnly"
         ];
       })
     ];
@@ -87,9 +95,6 @@
         rebuild-host = "darwin-rebuild switch --flake $HOME/0xc/nixcfg";
         rebuild-all = "nix-gc && rebuild-host && rebuild-home";
         rebuild-lock = "pushd $HOME/0xc/nixcfg && nix flake lock --recreate-lock-file && popd";
-
-        # TODO: Support secrets management on macOS
-        # modify-secret = "agenix -i ~/.ssh/id_rsa -e"; # the path relative to /secrets must be passed
 
         moon = "curl -s wttr.in/Moon";
         nano = "vim";

@@ -9,7 +9,10 @@ in
     extraSpecialArgs = {
       inherit inputs outputs desktop hostname platform username stateVersion sshMatrix;
     };
-    modules = [ ../home-manager ];
+    modules = [
+      ../home-manager
+      inputs.agenix.homeManagerModules.default
+    ];
   };
 
   # Helper function for generating host configs

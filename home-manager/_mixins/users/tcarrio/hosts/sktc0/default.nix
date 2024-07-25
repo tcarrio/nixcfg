@@ -1,7 +1,8 @@
-{ lib, config, ... }:
+{ lib, config, inputs, platform, ... }:
 {
   imports = [
     ../../../../console/asdf.nix
+    ../../../../console/jira.nix
     ../../../../desktop/skhd.nix
   ];
 
@@ -17,6 +18,9 @@
     file = {
       "${config.xdg.configHome}/direnv/direnv.toml".text = builtins.readFile ./direnv.toml;
     };
+    packages = [
+        inputs.agenix.packages.${platform}.default
+    ];
   };
 
   programs.fish = {
@@ -69,7 +73,13 @@
 
         rebuild-host = lib.mkForce "darwin-rebuild switch --flake $HOME/0xc/nixcfg";
       };
+      functions = {
+        # TODO: Support secrets management on macOS
+        modify-secret = "pushd $HOME/0xc/nixcfg && agenix -i ~/.config/age/key.txt -e $argv && popd"; # the path relative to /secrets must be passed without `./`
+      };
   };
 
   programs.git.userEmail = lib.mkForce "thomas.carrio@skillshare.com";
+
+  age.identityPaths = [ "/Users/tcarrio/.config/age/key.txt" ];
 }

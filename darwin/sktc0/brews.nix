@@ -1,7 +1,6 @@
 _: {
   homebrew = {
     taps = [
-      "auth0/auth0-cli"
       "ankitpokhrel/jira-cli"
       "codefresh-io/cli"
       "oven-sh/bun"
@@ -10,7 +9,6 @@ _: {
     brews = [
       "ansible"
       "asdf"
-      "auth0"
       "autoconf"
       "automake"
       "bash"
@@ -55,7 +53,6 @@ _: {
       "htop"
       "icu4c"
       "imagemagick"
-      "jira-cli"
       "jq"
       "k6"
       "k9s"
@@ -123,12 +120,11 @@ _: {
     ];
 
     casks = [
+      "age-plugin-se"
       "amethyst"
       "docker"
-      "rstudio"
       "secretive"
       "sequel-ace"
-      "talon"
     ];
   };
 }
