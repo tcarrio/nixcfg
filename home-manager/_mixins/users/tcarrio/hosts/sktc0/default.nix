@@ -72,6 +72,9 @@
         show_open_ports = "lsof -nP -iTCP -sTCP:LISTEN";
 
         rebuild-host = lib.mkForce "darwin-rebuild switch --flake $HOME/0xc/nixcfg";
+
+        js = "jira sprint list";
+        jsc = "js --current";
       };
       functions = {
         # TODO: Support secrets management on macOS
