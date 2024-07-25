@@ -19,7 +19,7 @@
       "${config.xdg.configHome}/direnv/direnv.toml".text = builtins.readFile ./direnv.toml;
     };
     packages = [
-        inputs.agenix.packages.${platform}.default
+      inputs.agenix.packages.${platform}.default
     ];
   };
 
@@ -76,10 +76,10 @@
         js = "jira sprint list";
         jsc = "js --current";
       };
-      functions = {
-        # TODO: Support secrets management on macOS
-        modify-secret = "pushd $HOME/0xc/nixcfg && agenix -i ~/.config/age/key.txt -e $argv && popd"; # the path relative to /secrets must be passed without `./`
-      };
+    functions = {
+      # TODO: Support secrets management on macOS
+      modify-secret = "pushd $HOME/0xc/nixcfg && agenix -i ~/.config/age/key.txt -e $argv && popd"; # the path relative to /secrets must be passed without `./`
+    };
   };
 
   programs.git.userEmail = lib.mkForce "thomas.carrio@skillshare.com";

@@ -1,4 +1,4 @@
-{ appimageTools, lib, fetchurl, pkgs }:
+{ appimageTools, lib, fetchurl, ... }:
 let
   pname = "ente-photos-desktop";
   version = "1.6.63";

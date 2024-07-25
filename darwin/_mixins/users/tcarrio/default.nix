@@ -1,4 +1,4 @@
-{ pkgs, inputs, platform, ... }: {
+{ pkgs, ... }: {
   imports = [
     ../../nixos/console/auth0.nix
     ../../nixos/console/direnv.nix
