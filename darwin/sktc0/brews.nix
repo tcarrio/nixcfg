@@ -120,7 +120,6 @@ _: {
     ];
 
     casks = [
-      "age-plugin-se"
       "amethyst"
       "docker"
       "secretive"
