@@ -242,7 +242,7 @@
         test-iso-nuc = "pushd ~/Quickemu/ && quickemu --vm nixos-nuc.conf     --ssh-port 54321 && popd";
       };
       shellAliases = {
-        moon = "curl -s wttr.in/Moon";
+        mooncycle = "curl -s wttr.in/Moon";
         nano = "vim";
         open = "xdg-open";
         pubip = "curl -s ifconfig.me/ip";

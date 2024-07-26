@@ -96,7 +96,7 @@
         rebuild-all = "nix-gc && rebuild-host && rebuild-home";
         rebuild-lock = "pushd $HOME/0xc/nixcfg && nix flake lock --recreate-lock-file && popd";
 
-        moon = "curl -s wttr.in/Moon";
+        mooncycle = "curl -s wttr.in/Moon";
         nano = "vim";
         pubip = "curl -s ifconfig.me/ip";
         #pubip = "curl -s https://api.ipify.org";
