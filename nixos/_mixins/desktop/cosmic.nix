@@ -1,21 +1,12 @@
-{ pkgs, ... }:
-{
-  imports = [
-    ../services/xdg-portal.nix
-  ];
+# NOTE: For COSMIC, the local build can consume a very large
+# amount of memory. From the COSMIC flake docs:
+#
+# > Generally you will need roughly 16 GiB of RAM and 40 GiB of disk space,
+# > but it can be built with less RAM by reducing build parallelism, either
+# > via --cores 1 or -j 1 or both, on nix build, nix-build, and
+# > nixos-rebuild commands.
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = false;
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
-  # Enable udev rules
-  services.udev.packages = with pkgs.unstable; [ gnome.cosmic-settings-daemon ];
-
-  environment.systemPackages = with pkgs.unstable; [
-    gnomeExtensions.appindicator
-    gnome3.gnome-tweaks
-  ];
+_: {
+  services.desktopManager.cosmic.enable = true;
+  services.displayManager.cosmic-greeter.enable = true;
 }

@@ -38,6 +38,10 @@
     # nixos-generators for sdcard and raw disk install generation
     nixos-generators.url = "github:tcarrio/nixos-generators";
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+    # COSMIC DE
+    nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
+    nixos-cosmic.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
   outputs =
     { self
@@ -65,7 +69,7 @@
         "tcarrio@sktc0" = libx.mkHome { hostname = "sktc0"; username = "tcarrio"; platform = "aarch64-darwin"; };
         "tcarrio@glass" = libx.mkHome { hostname = "glass"; username = "tcarrio"; desktop = "kde6"; };
         "tcarrio@kuroi" = libx.mkHome { hostname = "kuroi"; username = "tcarrio"; desktop = "pantheon"; };
-        "tcarrio@t510" = libx.mkHome { hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
+        "tcarrio@t510" = libx.mkHome { hostname = "t510"; username = "tcarrio"; desktop = "cosmic"; };
         "tcarrio@vm" = libx.mkHome { hostname = "vm"; username = "tcarrio"; desktop = "gnome"; };
       };
 
@@ -91,7 +95,7 @@
         #  - nix build .#nixosConfigurations.ripper.config.system.build.toplevel
         glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "kde6"; };
         kuroi = libx.mkHost { systemType = "workstation"; hostname = "kuroi"; username = "tcarrio"; desktop = "pantheon"; };
-        t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
+        t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "cosmic"; };
 
         # Servers
         # Can be executed locally:
