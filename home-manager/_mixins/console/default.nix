@@ -171,14 +171,15 @@
     git = {
       enable = true;
       delta = {
-        enable = true;
-        options = {
-          features = "decorations";
-          navigate = true;
-          line-numbers = true;
-          side-by-side = true;
-          syntax-theme = "GitHub";
-        };
+        enable = false;
+        # enable = true;
+        # options = {
+        #   features = "decorations";
+        #   navigate = true;
+        #   line-numbers = true;
+        #   side-by-side = true;
+        #   syntax-theme = "GitHub";
+        # };
       };
       aliases = {
         lg = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
