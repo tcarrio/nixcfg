@@ -1,5 +1,5 @@
 { desktop, lib, pkgs, ... }: {
-  imports = lib.optional (builtins.isString desktop) ../desktop/simple-scan.nix;
+  config.oxc.desktop.simple-scan.enable = true;
 
   hardware = {
     sane = {

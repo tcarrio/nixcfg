@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, config, pkgs, ... }:
 {
   imports = [../services/unfree.nix];
 
@@ -6,11 +6,11 @@
     enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
-      description = "Enable Spotify";
+      description = "Whether to enable the Spotify music streaming application";
     };
   };
 
-  config = lib.mkIf config.oxc.desktop.spotify.enabled {
-    environment.systemPackages = with pkgs; [ spotify ];
+  config = lib.mkIf config.oxc.desktop.spotify.enable {
+    environment.systemPackages = [ pkgs.spotify ];
   };
 }

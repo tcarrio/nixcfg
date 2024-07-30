@@ -1,4 +1,4 @@
-{ lib, ... }: {
+{ lib, config, ... }: {
   options.oxc.nix.unfree = {
     enable = lib.mkOption {
       default = true;
@@ -7,5 +7,5 @@
     };
   };
 
-  nixpkgs.config.allowUnfree = config.oxc.nix.unfree.enable;
+  config.nixpkgs.config.allowUnfree = config.oxc.nix.unfree.enable;
 }

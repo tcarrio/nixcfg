@@ -17,11 +17,6 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
-    ../../_mixins/desktop/daw.nix
-    ../../_mixins/desktop/ente.nix
-    ../../_mixins/desktop/logseq.nix
-    ../../_mixins/desktop/steam.nix
-    ../../_mixins/hardware/disable-nm-wait.nix
     ../../_mixins/hardware/gtx-1080ti.nix
     ../../_mixins/hardware/roccat.nix
     ../../_mixins/hardware/systemd-boot.nix
@@ -31,6 +26,16 @@
     ../../_mixins/services/tailscale-autoconnect.nix
     ../../_mixins/virt
   ];
+
+  config.oxc = {
+    desktop = {
+      daw.enable = true;
+      ente.enable = true;
+      logseq.enable = true;
+      steam.enable = true;
+    };
+    services.wait-online.disable = true;
+  };
 
   boot = {
     kernelPackages = pkgs.linuxPackages_6_8;

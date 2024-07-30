@@ -14,8 +14,6 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
-    ../../_mixins/desktop/discord.nix
-
     # fix for nixos-rebuild hangups on certain hardware
     ../../_mixins/hardware/disable-nm-wait.nix
 
@@ -23,8 +21,16 @@
     ../../_mixins/services/pipewire.nix
     ../../_mixins/services/tailscale.nix
     ../../_mixins/services/yubikey.nix
-    ../../_mixins/virt/podman.nix
   ];
+
+  config.oxc = {
+    containerization = {
+      enable = true;
+      engine = "podman";
+    };
+    desktop.discord.enable = true;
+    services.wait-online.disable = true;
+  };
 
   boot = {
     loader = {

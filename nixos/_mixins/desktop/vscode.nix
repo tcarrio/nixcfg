@@ -1,13 +1,5 @@
 args@{ pkgs, lib, ... }:
 let
-  codeServer = if builtins.hasAttr "codeServer" args then args.codeServer else { enable = false; };
-
-  languages = if builtins.hasAttr "languages" args then args.languages else { };
-
-  getLangOr = key: default: !!(if builtins.hasAttr key languages then languages [ key ] else default);
-
-  getListIf = isEnabled: list: if isEnabled then list else [ ];
-
   ext = {
     # bun = {
     #   name = "oven.bun-vscode";
@@ -88,98 +80,205 @@ let
       sha256 = "qttgUVpoYNEg2+ArYxnEHwM4AbChQiB6/JW46+cq7/w=";
     };
   };
-
-  g = {
-    ai = getLangOr "ai" false;
-    cpp = getLangOr "cpp" true;
-    diff = getLangOr "diff" true;
-    docker = getLangOr "docker" true;
-    editorconfig = getLangOr "editorconfig" true;
-    elm = getLangOr "elm" false;
-    fun = getLangOr "fun" false;
-    github = getLangOr "github" false;
-    gitlens = getLangOr "gitlens" false;
-    go = getLangOr "go" false;
-    hugo = getLangOr "hugo" false;
-    icons = getLangOr "icons" true;
-    js = getLangOr "js" true;
-    linux = getLangOr "linux" false;
-    nix = getLangOr "nix" true;
-    php = getLangOr "php" true;
-    prisma = getLangOr "prisma" true;
-    python = getLangOr "python" true;
-    rust = getLangOr "rust" false;
-    ssh = getLangOr "ssh" false;
-    text = getLangOr "text" true;
-    tf = getLangOr "tf" true;
-    vala = getLangOr "vala" false;
-    xml = getLangOr "xml" true;
-    yaml = getLangOr "yaml" true;
-  };
 in
 {
-  imports = lib.optional codeServer.enable ../services/vscode-server.nix
-  ;
+  options.oxc.desktop.vscode = {
+    enable = lib.mkOption {
+      type = types.bool;
+      default = false;
+      description = "Enable the Visual Studio Code editor.";
+    };
 
-  environment.systemPackages = with pkgs; [
-    (vscode-with-extensions.override {
-      inherit (trunk) vscode;
-      vscodeExtensions = with unstable.vscode-extensions;
-        # globally enabled extensions
-        getListIf g.cpp [ ms-vscode.cpptools ]
-        ++ getListIf g.diff [ ryu1kn.partial-diff ]
-        ++ getListIf g.docker [ ms-azuretools.vscode-docker ]
-        ++ getListIf g.editorconfig [ editorconfig.editorconfig ]
-        ++ getListIf g.elm [ elmtooling.elm-ls-vscode ]
-        ++ getListIf g.github [ github.vscode-github-actions ]
-        ++ getListIf g.gitlens [ eamodio.gitlens ]
-        ++ getListIf g.go [ golang.go ]
-        ++ getListIf g.icons [ vscode-icons-team.vscode-icons ]
-        ++ getListIf g.js [ esbenp.prettier-vscode ]
-        ++ getListIf g.linux [ coolbear.systemd-unit-file timonwong.shellcheck mads-hartmann.bash-ide-vscode ]
-        ++ getListIf g.nix [ bbenoist.nix jnoortheen.nix-ide ]
-        ++ getListIf g.php [ bmewburn.vscode-intelephense-client ]
-        ++ getListIf g.prisma [ prisma.prisma ]
-        ++ getListIf g.python [ ms-python.python ms-python.vscode-pylance ]
-        ++ getListIf g.ssh [ ms-vscode-remote.remote-ssh ]
-        ++ getListIf g.text [ streetsidesoftware.code-spell-checker yzhang.markdown-all-in-one ]
-        ++ getListIf g.tf [ hashicorp.terraform ]
-        ++ getListIf g.xml [ dotjoshjohnson.xml ]
-        ++ getListIf g.yaml [ redhat.vscode-yaml ]
+    support = {
+      ai = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Whether to enable VS Code support for AI tooling";
+      };
+      cpp = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Whether to enable VS Code support for CPP development";
+      };
+      diff = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Whether to enable VS Code support for diff tooling";
+      };
+      docker = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Whether to enable VS Code support for Docker development";
+      };
+      editorconfig = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Whether to enable VS Code support for EditorConfig";
+      };
+      elm = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Whether to enable VS Code support for Elm development";
+      };
+      fun = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Whether to enable VS Code support for fun extensions like POWER MODEEEE";
+      };
+      github = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Whether to enable VS Code support for GitHub tooling";
+      };
+      gitlens = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Whether to enable VS Code support for the GitLens extension";
+      };
+      go = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Whether to enable VS Code support for Go development";
+      };
+      hugo = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Whether to enable VS Code support for Hugo development";
+      };
+      icons = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Whether to enable VS Code support for additional icons support";
+      };
+      js = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Whether to enable VS Code support for JavaScript development";
+      };
+      linux = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Whether to enable VS Code support for Linux development";
+      };
+      nix = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Whether to enable VS Code support for Nix development";
+      };
+      php = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Whether to enable VS Code support for PHP development";
+      };
+      prisma = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Whether to enable VS Code support for Prisma ORM tooling";
+      };
+      python = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Whether to enable VS Code support for Python development";
+      };
+      rust = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Whether to enable VS Code support for Rust development";
+      };
+      ssh = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Whether to enable VS Code support for SSH tooling";
+      };
+      text = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Whether to enable VS Code support for text editing";
+      };
+      tf = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Whether to enable VS Code support for Terraform / OpenTofu";
+      };
+      vala = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Whether to enable VS Code support for Vala development";
+      };
+      xml = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Whether to enable VS Code support for XML editing";
+      };
+      yaml = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Whether to enable VS Code support for YAML editing";
+      };
+    }
+  };
 
-        # the most simple way to calculate a package's SHA256 is to simply
-        # copy over an invalid SHA256 and the nixos-rebuild will fail,
-        # with output for the specified and actual hash values.
-        ++ (pkgs.unstable.vscode-utils.extensionsFromVscodeMarketplace
+  config = lib.mkIf config.oxc.dekstop.vscode.enable {
+    environment.systemPackages = with pkgs; [
+      (vscode-with-extensions.override {
+        inherit (trunk) vscode;
+        vscodeExtensions = with unstable.vscode-extensions;
           # globally enabled extensions
-          [ ext.non-breaking-space-highlighter ]
-        ++ getListIf g.cpp [ ]
-        ++ getListIf g.diff [ ]
-        ++ getListIf g.docker [ ]
-        ++ getListIf g.editorconfig [ ]
-        ++ getListIf g.elm [ ]
-        ++ getListIf g.fun [ ext.vscode-power-mode ]
-        ++ getListIf g.github [ ]
-        ++ getListIf g.gitlens [ ]
-        ++ getListIf g.go [ ]
-        ++ getListIf g.hugo [ ext.language-hugo-vscode ]
-        ++ getListIf g.icons [ ]
-        ++ getListIf g.js [ ]
-        ++ getListIf g.linux [ ext.linux-desktop-file ]
-        ++ getListIf g.nix [ ]
-        ++ getListIf g.php [ ]
-        ++ getListIf g.python [ ]
-        ++ getListIf g.rust [ ext.rust-analyzer ]
-        ++ getListIf g.ssh [ ext.remote-ssh-edit ]
-        # TODO: Determine root cause of manifest issues
-        # ++ getListIf g.text [ext.simple-rst ext.vscode-mdx ext.vscode-mdx-preview]
-        ++ getListIf g.xml [ ]
-        ++ getListIf g.yaml [ ]
-        )
-      ;
-    })
-  ];
+          lib.optionals config.oxc.desktop.vscode.support.cpp [ ms-vscode.cpptools ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.diff [ ryu1kn.partial-diff ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.docker [ ms-azuretools.vscode-docker ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.editorconfig [ editorconfig.editorconfig ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.elm [ elmtooling.elm-ls-vscode ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.github [ github.vscode-github-actions ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.gitlens [ eamodio.gitlens ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.go [ golang.go ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.icons [ vscode-icons-team.vscode-icons ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.js [ esbenp.prettier-vscode ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.linux [ coolbear.systemd-unit-file timonwong.shellcheck mads-hartmann.bash-ide-vscode ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.nix [ bbenoist.nix jnoortheen.nix-ide ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.php [ bmewburn.vscode-intelephense-client ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.prisma [ prisma.prisma ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.python [ ms-python.python ms-python.vscode-pylance ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.ssh [ ms-vscode-remote.remote-ssh ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.text [ streetsidesoftware.code-spell-checker yzhang.markdown-all-in-one ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.tf [ hashicorp.terraform ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.xml [ dotjoshjohnson.xml ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.yaml [ redhat.vscode-yaml ]
 
-  # May require the service to be enable/started for the user
-  # - systemctl --user enable auto-fix-vscode-server.service --now
+          # the most simple way to calculate a package's SHA256 is to simply
+          # copy over an invalid SHA256 and the nixos-rebuild will fail,
+          # with output for the specified and actual hash values.
+          ++ (pkgs.unstable.vscode-utils.extensionsFromVscodeMarketplace
+            # globally enabled extensions
+            [ ext.non-breaking-space-highlighter ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.cpp [ ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.diff [ ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.docker [ ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.editorconfig [ ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.elm [ ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.fun [ ext.vscode-power-mode ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.github [ ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.gitlens [ ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.go [ ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.hugo [ ext.language-hugo-vscode ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.icons [ ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.js [ ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.linux [ ext.linux-desktop-file ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.nix [ ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.php [ ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.python [ ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.rust [ ext.rust-analyzer ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.ssh [ ext.remote-ssh-edit ]
+          # TODO: Determine root cause of manifest issues
+          # ++ lib.optionals config.oxc.desktop.vscode.support.text [ext.simple-rst ext.vscode-mdx ext.vscode-mdx-preview]
+          ++ lib.optionals config.oxc.desktop.vscode.support.xml [ ]
+          ++ lib.optionals config.oxc.desktop.vscode.support.yaml [ ]
+          )
+        ;
+      })
+    ];
+
+    # May require the service to be enable/started for the user
+    # - systemctl --user enable auto-fix-vscode-server.service --now
+  };
 }

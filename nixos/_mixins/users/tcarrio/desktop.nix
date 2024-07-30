@@ -1,4 +1,4 @@
-{ desktop, pkgs, lib, ... }: {
+{ desktop, pkgs, lib, config, ... }: {
   imports = [
     ../../desktop/beeper.nix
     ../../desktop/chromium.nix
@@ -27,4 +27,10 @@
     slack
     neovide
   ];
+
+  config.oxc.desktop = {
+    beeper.enable = true;
+    spotify.enable = true;
+    zed.enable = true;
+  };
 }

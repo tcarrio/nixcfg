@@ -3,6 +3,7 @@
     inputs.disko.nixosModules.disko
     (modulesPath + "/installer/scan/not-detected.nix")
     ./${systemType}/${hostname}
+    ./_mixins/hardware/disable-nm-wait.nix
     ./_mixins/services/firewall.nix
     ./_mixins/services/fwupd.nix
     ./_mixins/services/kmscon.nix
