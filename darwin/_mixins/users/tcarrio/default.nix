@@ -13,6 +13,7 @@
     fish
     fishPlugins.foreign-env
     jdk11
+    kitty
     lazydocker
     lazygit
     mysql
