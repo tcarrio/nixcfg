@@ -1,7 +1,6 @@
 _: {
   homebrew = {
     taps = [
-      "ankitpokhrel/jira-cli"
       "codefresh-io/cli"
       "oven-sh/bun"
     ];
