@@ -14,9 +14,6 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
-    # fix for nixos-rebuild hangups on certain hardware
-    ../../_mixins/hardware/disable-nm-wait.nix
-
     ../../_mixins/hardware/systemd-boot.nix
     ../../_mixins/services/pipewire.nix
     ../../_mixins/services/yubikey.nix
@@ -28,7 +25,7 @@
       engine = "podman";
     };
     desktop.discord.enable = true;
-    services.wait-online.disable = true;
+    services.wait-online.enable = false;
     services.tailscale.enable = true;
   };
 

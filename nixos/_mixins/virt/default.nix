@@ -4,7 +4,7 @@
     containerisation = {
       enable = lib.mkOption {
         type = lib.types.bool;
-        default = true;
+        default = false;
         description = "Enable containerisation.";
       };
       engine = lib.mkOption {
@@ -16,6 +16,11 @@
         type = lib.types.bool;
         default = true;
         description = "Enable Docker compatibility mode for non-Docker engines.";
+      };
+      desktopApp = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Enable the desktop application for managing the containers";
       };
     };
     virtualisation = {
@@ -35,6 +40,7 @@
       packages = {
         docker = with pkgs; [
           docker-compose
+          lazydocker
         ];
         podman = with pkgs; [
           buildah
@@ -42,13 +48,13 @@
           fuse-overlayfs
           podman-compose
           podman-tui
-        ];
+        ] ++ lib.optionals config.oxc.containerisation.desktopApp [ podman-desktop ];
       };
 
-      virtualisationPackages = if config.oxc.virtualisation.enable then (with pkgs; [
+      virtualisationPackages = lib.optionals config.oxc.virtualisation.enable (with pkgs; [
         unstable.quickemu
         xorg.xhost # for running X11 apps in distrobox
-      ]) else [];
+      ]);
     in {
       environment.systemPackages = packages.${config.oxc.containerisation.engine} ++ virtualisationPackages;
 

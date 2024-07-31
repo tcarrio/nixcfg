@@ -1,5 +1,5 @@
 _: {
   imports = [
-    ./disable-nm-wait.nix
+    ./network-wait-online.nix
   ];
 }

@@ -7,7 +7,7 @@
     };
   };
 
-  config = lib.mkIf (config.oxc.services.tailscale.enable && !config.oxc.services.tailscale.autoconnect) {
+  config = lib.mkIf config.oxc.services.tailscale.enable {
     # tailscale CLI
     environment.systemPackages = [ pkgs.tailscale ];
 

@@ -5,5 +5,6 @@ _: {
     ./tailscale.nix
     ./tailscale-autoconnect.nix
     ./unfree.nix
+    ./vscode-server.nix
   ];
 }

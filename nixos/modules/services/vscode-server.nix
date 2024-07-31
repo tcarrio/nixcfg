@@ -1,5 +1,5 @@
 { lib, config, inputs, ... }: {
-  options.oxc.services.vscode-server = {
+  options.oxc.desktop.vscode.server = {
     enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
@@ -11,5 +11,7 @@
     inputs.vscode-server.nixosModules.default
   ];
 
-  services.vscode-server.enable = config.oxc.services.vscode-server.enable;
+  config = lib.mkIf config.oxc.desktop.vscode.server.enable {
+    services.vscode-server.enable = true;
+  };
 }

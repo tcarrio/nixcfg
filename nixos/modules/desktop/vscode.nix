@@ -239,7 +239,7 @@ in
           ++ lib.optionals vscode.support.icons [ vscode-icons-team.vscode-icons ]
           ++ lib.optionals vscode.support.js [ esbenp.prettier-vscode ]
           ++ lib.optionals vscode.support.linux [ coolbear.systemd-unit-file timonwong.shellcheck mads-hartmann.bash-ide-vscode ]
-          ++ lib.optionals vscode.support.nix [ bbenoist.nix jnoortheen.nix-ide ]
+          ++ lib.optionals vscode.support.nix [ bbenoist.nix jnoortheen.nix-ide arrterian.nix-env-selector]
           ++ lib.optionals vscode.support.php [ bmewburn.vscode-intelephense-client ]
           ++ lib.optionals vscode.support.prisma [ prisma.prisma ]
           ++ lib.optionals vscode.support.python [ ms-python.python ms-python.vscode-pylance ]

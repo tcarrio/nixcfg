@@ -44,14 +44,21 @@
           # rust = true;
           # ssh = true;
         };
+        server.enable = true;
       };
     };
     services = {
       nordvpn.enable = true;
-      wait-online.disable = true;
+      wait-online.enable = false;
       tailscale.enable = true;
       tailscale.autoconnect = true;
     };
+    containerisation = {
+      enable = true;
+      engine = "podman";
+      desktopApp = true;
+    };
+    virtualisation.enable = true;
   };
 
   boot = {
