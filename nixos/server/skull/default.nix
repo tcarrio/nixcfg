@@ -7,11 +7,11 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     (import ./disks.nix { })
-    ../_mixins/hardware/systemd-boot.nix
-    ../_mixins/services/bluetooth.nix
-    ../_mixins/services/maestral.nix
-    ../_mixins/services/zerotier.nix
-    ../_mixins/virt
+    ../mixins/hardware/systemd-boot.nix
+    ../mixins/services/bluetooth.nix
+    ../mixins/services/maestral.nix
+    ../mixins/services/zerotier.nix
+    ../mixins/virt
   ];
 
   # disko does manage mounting of / /boot /home, but I want to mount by-partlabel

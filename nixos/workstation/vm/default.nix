@@ -3,8 +3,8 @@
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
     (import ./disks.nix { })
-    ../_mixins/hardware/systemd-boot.nix
-    ../_mixins/services/pipewire.nix
+    ../mixins/hardware/systemd-boot.nix
+    ../mixins/services/pipewire.nix
   ];
 
   swapDevices = [{

@@ -11,12 +11,12 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
-    ../../_mixins/desktop/bitwarden.nix
+    ../../mixins/desktop/bitwarden.nix
     # fix for nixos-rebuild hangups on certain hardware
-    ../../_mixins/hardware/disable-nm-wait.nix
-    ../../_mixins/hardware/grub-legacy-boot.nix
-    ../../_mixins/services/pipewire.nix
-    ../../_mixins/virt
+    ../../mixins/hardware/disable-nm-wait.nix
+    ../../mixins/hardware/grub-legacy-boot.nix
+    ../../mixins/services/pipewire.nix
+    ../../mixins/virt
   ];
 
   oxc.services.tailscale.enable = true;

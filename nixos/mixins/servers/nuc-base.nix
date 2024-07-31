@@ -5,9 +5,9 @@
     inputs.nixos-hardware.nixosModules.common-gpu-intel
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
-    ../../_mixins/hardware/disable-nm-wait.nix
-    ../../_mixins/hardware/systemd-boot.nix
-    ../../_mixins/virt
+    ../../mixins/hardware/disable-nm-wait.nix
+    ../../mixins/hardware/systemd-boot.nix
+    ../../mixins/virt
   ];
 
   oxc.services.tailscale.enable = true;

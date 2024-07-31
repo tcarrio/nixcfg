@@ -47,13 +47,13 @@ This project was forked from Wimpy's nixcfg repository, which you can find [here
 - [scripts]: Helper scripts
 - [shells]: [Nix shell environments using direnv](https://determinate.systems/posts/nix-direnv) for infrequently used tools
 
-The [nixos/_mixins] and [home-manager/_mixins] are a collection of composited configurations based on the arguments defined in [flake.nix].
+The [nixos/mixins] and [home-manager/mixins] are a collection of composited configurations based on the arguments defined in [flake.nix].
 
 [.github]: ./github/workflows
 [home-manager]: ./home-manager
 [nixos]: ./nixos
-[nixos/_mixins]: ./nixos/_mixins
-[home-manager/_mixins]: ./home-manager/_mixins
+[nixos/mixins]: ./nixos/mixins
+[home-manager/mixins]: ./home-manager/mixins
 [flake.nix]: ./flake.nix
 [scripts]: ./scripts
 [shells]: ./shells
@@ -141,15 +141,15 @@ Here is the directory structure I'm using.
 ```
 .
 ├── android
-│  ├── _mixins -> ../nixos/_mixins/
+│  ├── mixins -> ../nixos/mixins/
 │  ├── default.nix
 │  └── pixel6a
 ├── darwin
-│  ├── _mixins -> ../nixos/_mixins/
+│  ├── mixins -> ../nixos/mixins/
 │  ├── default.nix
 │  └── sktc0
 ├── home-manager
-│  ├── _mixins
+│  ├── mixins
 │  │  ├── console
 │  │  ├── desktop
 │  │  ├── services
@@ -161,7 +161,7 @@ Here is the directory structure I'm using.
 │  └── ssh-matrix.nix
 ├── LICENSE
 ├── nixos
-│  ├── _mixins
+│  ├── mixins
 │  │  ├── av
 │  │  ├── console
 │  │  ├── desktop
@@ -203,10 +203,10 @@ Here is the directory structure I'm using.
 [Fish shell] with [powerline-go](https://github.com/justjanne/powerline-go) and a collection of tools that deliver a somewhat *"[Modern Unix]"* experience. The base system has a firewall enabled and also includes [OpenSSH], [ZeroTier], [Podman & Distrobox] and, of course, a delightfully configured [micro]. (*Fight me!* 🥊)
 
 [Fish shell]: ./nixos/default.nix
-[Modern Unix]: ./home-manager/_mixins/console/default.nix
-[OpenSSH]: ./nixos/_mixins/services/openssh.nix
-[ZeroTier]: ./nixos/_mixins/services/zerotier.nix
-[Podman & Distrobox]: ./nixos/_mixins/virt/podman.nix
+[Modern Unix]: ./home-manager/mixins/console/default.nix
+[OpenSSH]: ./nixos/mixins/services/openssh.nix
+[ZeroTier]: ./nixos/mixins/services/zerotier.nix
+[Podman & Distrobox]: ./nixos/mixins/virt/podman.nix
 [micro]: [https://micro-editor.github.io/]
 
 ![neofetch on Designare](.github/screenshots/neofetch.png)
@@ -215,22 +215,22 @@ Here is the directory structure I'm using.
 
 MATE Desktop 🧉 and Pantheon 🏛️ are the two desktop options available. The [font configuration] is common with both desktops using [Work Sans](https://fonts.google.com/specimen/Work+Sans) and [Fira Code](https://fonts.google.com/specimen/Fira+Code). The usual creature comforts you'd expect to find in a Linux Desktop are integrated such as [Pipewire], Bluetooth, [Avahi], [CUPS], [SANE] and [NetworkManager].
 
-[font configuration]: ./nixos/_mixins/desktop/default.nix
-[Pipewire]: ./nixos/_mixins/services/pipewire.nix
-[Avahi]: ./nixos/_mixins/services/avahi.nix
-[CUPS]: ./nixos/_mixins/services/cups.nix
-[SANE]: ./nixos/_mixins/services/sane.nix
-[NetworkManager]: ./nixos/_mixins/services/networkmanager.nix
+[font configuration]: ./nixos/mixins/desktop/default.nix
+[Pipewire]: ./nixos/mixins/services/pipewire.nix
+[Avahi]: ./nixos/mixins/services/avahi.nix
+[CUPS]: ./nixos/mixins/services/cups.nix
+[SANE]: ./nixos/mixins/services/sane.nix
+[NetworkManager]: ./nixos/mixins/services/networkmanager.nix
 
 |  Desktop  |       System       |       Configuration       |             Theme            |
 | :-------: | :----------------: | :-----------------------: | :--------------------------: |
 | MATE      | [MATE Install]     | [MATE Configuration]      | Yaru Magenta (Dark)          |
 | Pantheon  | [Pantheon Install] | [Pantheon Configuration]  | elementary Bubble Gum (Dark) |
 
-[MATE Install]: ./nixos/_mixins/desktop/mate.nix
-[Pantheon Install]: ./nixos/_mixins/desktop/pantheon.nix
-[MATE Configuration]: ./home-manager/_mixins/desktop/mate.nix
-[Pantheon Configuration]: ./home-manager/_mixins/desktop/pantheon.nix
+[MATE Install]: ./nixos/mixins/desktop/mate.nix
+[Pantheon Install]: ./nixos/mixins/desktop/pantheon.nix
+[MATE Configuration]: ./home-manager/mixins/desktop/mate.nix
+[Pantheon Configuration]: ./home-manager/mixins/desktop/pantheon.nix
 
 ## Eye Candy 👀🍬
 
@@ -281,7 +281,7 @@ MATE Desktop 🧉 and Pantheon 🏛️ are the two desktop options available. Th
 
 ### Configuration
 
-- [x] Embed [install script in the ISO](./nixos/_mixins/users/nixos/console.nix)
+- [x] Embed [install script in the ISO](./nixos/mixins/users/nixos/console.nix)
 - [x] Integrate [agenix](https://github.com/ryantm/agenix) ~~or [sops-nix](https://github.com/Mic92/sops-nix)~~
 - [x] Integrate capabilities from [nix-starter-configs](https://github.com/Misterio77/nix-starter-configs)
 - [x] Integrate wallpapers

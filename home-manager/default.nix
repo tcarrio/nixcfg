@@ -13,10 +13,10 @@ in
     # inputs.nix-colors.homeManagerModules.default
 
     # You can also split up your configuration and import pieces of it here:
-    ./_mixins/console
+    ./mixins/console
   ]
-  ++ lib.optional (builtins.isString desktop) ./_mixins/desktop
-  ++ lib.optional (builtins.isPath (./. + "/_mixins/users/${username}")) ./_mixins/users/${username};
+  ++ lib.optional (builtins.isString desktop) ./mixins/desktop
+  ++ lib.optional (builtins.isPath (./. + "/mixins/users/${username}")) ./mixins/users/${username};
 
   home = {
     # activation.report-changes = if isDarwin then "" else config.lib.dag.entryAnywhere ''

@@ -27,14 +27,14 @@ fi
 if [[ -z "$TARGET_USER" ]]; then
   echo "ERROR! $(basename "$0") requires a username as the second argument"
   echo "       The following users are available"
-  ls -1 nixos/_mixins/users/ | grep -v -E "nixos|root"
+  ls -1 nixos/mixins/users/ | grep -v -E "nixos|root"
   exit 1
 fi
 
 if [[ -z "$TARGET_TYPE" ]]; then
   echo "ERROR! $(basename "$0") requires a type as the third argument"
   echo "       The following types are available"
-  ls -1 nixos/ | grep -v -E "nixos|root|_mixins"
+  ls -1 nixos/ | grep -v -E "nixos|root|mixins"
   exit 1
 fi
 

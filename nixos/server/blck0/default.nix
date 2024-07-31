@@ -7,9 +7,9 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     (import ./disks.nix { })
-    ../_mixins/hardware/systemd-boot.nix
-    ../_mixins/services/bluetooth.nix
-    ../_mixins/virt
+    ../mixins/hardware/systemd-boot.nix
+    ../mixins/services/bluetooth.nix
+    ../mixins/virt
   ];
 
   boot = {

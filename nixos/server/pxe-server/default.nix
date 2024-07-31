@@ -11,11 +11,11 @@ in
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     (import ./disks.nix { })
-    ../_mixins/hardware/systemd-boot.nix
-    ../_mixins/services/bluetooth.nix
-    ../_mixins/users/tcarrio
-    ../_mixins/users/pxe
-    ../_mixins/virt
+    ../mixins/hardware/systemd-boot.nix
+    ../mixins/services/bluetooth.nix
+    ../mixins/users/tcarrio
+    ../mixins/users/pxe
+    ../mixins/virt
   ];
 
   boot = {

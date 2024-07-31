@@ -1,8 +1,9 @@
-{ self, pkgs, hostname, username, platform, stateVersion, outputs, ... /* lib, config */ }: {
+{ self, pkgs, hostname, username, platform, stateVersion, outputs, lib, ... /* lib, config */ }: {
   imports = [
-    ./${hostname}
-    ./_mixins/users/${username}
-    ./_mixins/desktop
+    ./mixins/users/${username}
+    ./mixins/desktop
+  ] ++ lib.optionals (builtins.pathExists (./workstation/${hostname})) [
+    ./workstation/${hostname}
   ];
 
   # List packages installed in system profile. To search by name, run:

@@ -17,12 +17,12 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
-    ../../_mixins/hardware/gtx-1080ti.nix
-    ../../_mixins/hardware/roccat.nix
-    ../../_mixins/hardware/systemd-boot.nix
-    ../../_mixins/network-shares/ds418-nfs.nix
-    ../../_mixins/services/pipewire.nix
-    ../../_mixins/virt
+    ../../mixins/hardware/gtx-1080ti.nix
+    ../../mixins/hardware/roccat.nix
+    ../../mixins/hardware/systemd-boot.nix
+    ../../mixins/network-shares/ds418-nfs.nix
+    ../../mixins/services/pipewire.nix
+    ../../mixins/virt
   ];
 
   oxc = {

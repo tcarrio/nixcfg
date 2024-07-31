@@ -14,9 +14,9 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
-    ../../_mixins/hardware/systemd-boot.nix
-    ../../_mixins/services/pipewire.nix
-    ../../_mixins/services/yubikey.nix
+    ../../mixins/hardware/systemd-boot.nix
+    ../../mixins/services/pipewire.nix
+    ../../mixins/services/yubikey.nix
   ];
 
   config.oxc = {

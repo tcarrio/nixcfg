@@ -4,15 +4,15 @@
     ./modules
     (modulesPath + "/installer/scan/not-detected.nix")
     ./${systemType}/${hostname}
-    ./_mixins/services/firewall.nix
-    ./_mixins/services/fwupd.nix
-    ./_mixins/services/kmscon.nix
-    ./_mixins/services/openssh.nix
-    ./_mixins/services/smartmon.nix
-    ./_mixins/users/root
+    ./mixins/services/firewall.nix
+    ./mixins/services/fwupd.nix
+    ./mixins/services/kmscon.nix
+    ./mixins/services/openssh.nix
+    ./mixins/services/smartmon.nix
+    ./mixins/users/root
   ]
-  ++ lib.optional (builtins.isString username) ./_mixins/users/${username}
-  ++ lib.optional (builtins.isString desktop) ./_mixins/desktop;
+  ++ lib.optional (builtins.isString username) ./mixins/users/${username}
+  ++ lib.optional (builtins.isString desktop) ./mixins/desktop;
 
   boot = {
     consoleLogLevel = 0;

@@ -4,7 +4,7 @@
 {
   imports = [
     # TODO: Enable virtualization
-    # ../_mixins/virt
+    # ../mixins/virt
   ];
 
   boot = {

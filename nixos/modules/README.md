@@ -4,7 +4,7 @@ The `nixos/modules` directory houses NixOS modules, unsurprisingly.
 
 ## Comparison to mixins
 
-The major difference between modules and mixins (see `nixos/_mixins`) is that mixins are not typically configurable, by applying a mixin you get an opinionated declaration applied to the current NixOS module.
+The major difference between modules and mixins (see `nixos/mixins`) is that mixins are not typically configurable, by applying a mixin you get an opinionated declaration applied to the current NixOS module.
 
 Importing a NixOS module may have side effects, if certain defaults are `true` for e.g. `oxc.services.some-service.enable`, but often times the defaults are `false`.
 
