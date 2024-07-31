@@ -9,7 +9,7 @@
       }];
       extraConfig = ''
         font-size=14
-        xkb-layout=gb
+        xkb-layout=us
       '';
     };
   };

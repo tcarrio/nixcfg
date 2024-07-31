@@ -1,7 +1,7 @@
 { config, ... }:
 {
   home.file = {
-    "${config.xdg.configHome}/zed/settings.json".text = toJSON {
+    "${config.xdg.configHome}/zed/settings.json".text = builtins.toJSON {
       # Zed settings
       #
       # For information on how to configure Zed, see the Zed

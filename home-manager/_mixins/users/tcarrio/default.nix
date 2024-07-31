@@ -7,6 +7,7 @@ in
   imports =
     [
       ../../console/charm-freeze.nix
+      ../../desktop/discord.nix
     ]
     ++ lib.optional (builtins.pathExists (./. + "/hosts/${hostname}.nix")) ./hosts/${hostname}.nix
     ++ lib.optional (builtins.pathExists (./. + "/hosts/${hostname}/default.nix")) ./hosts/${hostname}/default.nix
