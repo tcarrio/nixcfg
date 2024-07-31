@@ -1,10 +1,9 @@
-{ desktop, ... }: {
+{ desktop, lib, ... }: {
   imports = [
     ./neovide.nix
     ./emote.nix
     ./tilix.nix
-    (./. + "/${desktop}.nix")
-  ];
+  ] ++ lib.optional (builtins.pathExists (./. + "/${desktop}.nix")) ./${desktop}.nix;
 
   xresources.properties = {
     "XTerm*background" = "#121214";
