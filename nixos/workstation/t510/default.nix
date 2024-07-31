@@ -16,9 +16,10 @@
     ../../_mixins/hardware/disable-nm-wait.nix
     ../../_mixins/hardware/grub-legacy-boot.nix
     ../../_mixins/services/pipewire.nix
-    ../../_mixins/services/tailscale.nix
     ../../_mixins/virt
   ];
+
+  oxc.services.tailscale.enable = true;
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;

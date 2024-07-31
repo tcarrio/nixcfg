@@ -1,5 +1,5 @@
 { lib, config, pkgs, ... }: {
-  options.oxc.desktop.chrome = {
+  options.oxc.desktop.google-chrome = {
     enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
@@ -10,10 +10,10 @@
       type = lib.types.package;
       default = pkgs.unstable.google-chrome;
       description = "The package to use for the Chrome web browser";
-    }
+    };
   };
 
-  config = lib.mkIf config.oxc.desktop.chrome.enable {
-    environment.systemPackages = [config.oxc.desktop.chrome.package];
+  config = lib.mkIf config.oxc.desktop.google-chrome.enable {
+    environment.systemPackages = [config.oxc.desktop.google-chrome.package];
   };
 }

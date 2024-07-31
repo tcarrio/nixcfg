@@ -1,16 +1,16 @@
-{ desktop, lib, ... }:
+{ desktop, lib, config, pkgs, ... }:
 {
   options.oxc = {
-    containerization = {
+    containerisation = {
       enable = lib.mkOption {
         type = lib.types.bool;
         default = true;
-        description = "Enable containerization.";
+        description = "Enable containerisation.";
       };
       engine = lib.mkOption {
         type = lib.types.enum ["docker" "podman"];
         default = "docker";
-        description = "The containerization tool to use.";
+        description = "The containerisation tool to use.";
       };
       dockerCompatibility = lib.mkOption {
         type = lib.types.bool;
@@ -18,19 +18,19 @@
         description = "Enable Docker compatibility mode for non-Docker engines.";
       };
     };
-    virtualization = {
+    virtualisation = {
       enable = lib.mkOption {
         type = lib.types.bool;
         default = false;
-        description = "Enable virtualization.";
+        description = "Enable virtualisation.";
       };
     };
   };
 
-  config = lib.mkIf config.oxc.containerization.enable (
+  config = lib.mkIf config.oxc.containerisation.enable (
     let
-      isDocker = config.oxc.containerization.engine == "docker";
-      isPodman = config.oxc.containerization.engine == "podman";
+      isDocker = config.oxc.containerisation.engine == "docker";
+      isPodman = config.oxc.containerisation.engine == "podman";
 
       packages = {
         docker = with pkgs; [
@@ -45,14 +45,14 @@
         ];
       };
 
-      virtualizationPackages = if config.oxc.virtualization.enable then (with pkgs; [
+      virtualisationPackages = if config.oxc.virtualisation.enable then (with pkgs; [
         unstable.quickemu
         xorg.xhost # for running X11 apps in distrobox
       ]) else [];
     in {
-      environment.systemPackages = packages.${config.oxc.containerization.engine} ++ virtualizationPackages;
+      environment.systemPackages = packages.${config.oxc.containerisation.engine} ++ virtualisationPackages;
 
-      virtualization = {
+      virtualisation = {
         docker = lib.mkIf isDocker {
           enable = isDocker;
           storageDriver = lib.mkDefault "overlay2";
@@ -62,11 +62,11 @@
           defaultNetwork.settings = {
             dns_enabled = true;
           };
-          dockerCompat = config.oxc.containerization.dockerCompatibility;
+          dockerCompat = config.oxc.containerisation.dockerCompatibility;
           enable = isPodman;
           enableNvidia = lib.elem "nvidia" config.services.xserver.videoDrivers;
         };
       };
-    };
+    }
   );
 }

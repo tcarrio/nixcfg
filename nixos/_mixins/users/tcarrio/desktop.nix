@@ -1,18 +1,20 @@
-{ desktop, pkgs, lib, config, ... }: {
-  imports = [
-    ../../desktop/beeper.nix
-    ../../desktop/chromium.nix
-    ../../desktop/discord.nix
-    ../../desktop/firefox.nix
-    ../../desktop/google-chrome.nix
-    ../../desktop/lutris.nix
-    ../../desktop/spotify.nix
-    ../../desktop/tilix.nix
-    ../../desktop/vscode.nix
-    ../../desktop/zed.nix
-  ]
+{ desktop, pkgs, lib, ... }: {
+  imports = []
   ++ lib.optional (builtins.pathExists (../.. + "/desktop/${desktop}.nix")) ../../desktop/${desktop}.nix
   ++ lib.optional (builtins.pathExists (../.. + "/desktop/${desktop}-apps.nix")) ../../desktop/${desktop}-apps.nix;
+
+  oxc.desktop = {
+    beeper.enable = true;
+    chromium.enable = true;
+    discord.enable = true;
+    firefox.enable = true;
+    google-chrome.enable = true;
+    lutris.enable = true;
+    spotify.enable = true;
+    tilix.enable = true;
+    vscode.enable = true;
+    zed.enable = false;
+  };
 
   environment.systemPackages = with pkgs; [
     audio-recorder
@@ -27,10 +29,4 @@
     slack
     neovide
   ];
-
-  config.oxc.desktop = {
-    beeper.enable = true;
-    spotify.enable = true;
-    zed.enable = true;
-  };
 }

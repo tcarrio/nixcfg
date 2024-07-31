@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, lib, config, ... }: {
   options.oxc.desktop.zed = {
     enable = lib.mkOption {
       type = lib.types.bool;

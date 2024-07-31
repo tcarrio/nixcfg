@@ -7,9 +7,10 @@
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     ../../_mixins/hardware/disable-nm-wait.nix
     ../../_mixins/hardware/systemd-boot.nix
-    ../../_mixins/services/tailscale.nix
     ../../_mixins/virt
   ];
+
+  oxc.services.tailscale.enable = true;
 
   # based on nixos-generators raw + raw-efi formats, see linked references
   fileSystems = {

@@ -22,14 +22,6 @@
       };
     };
 
-    java = {
-      enable = lib.mkOption {
-        type = lib.types.bool;
-        default = false;
-        description = "Whether to enable Java support";
-      };
-    };
-
     audioSupport = {
       jack = lib.mkOption {
         type = lib.types.bool;
@@ -56,9 +48,6 @@
 
     programs.steam = {
       enable = true;
-      package = pkgs.steam.override {
-        withJava = config.oxc.desktop.steam.java.enable;
-      };
       # Open ports in the firewall for Steam Remote Play
       remotePlay.openFirewall = config.oxc.desktop.steam.steamPlay.firewall.open;
       # Open ports in the firewall for Source Dedicated Server

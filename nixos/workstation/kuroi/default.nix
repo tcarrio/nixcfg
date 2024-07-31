@@ -19,7 +19,6 @@
 
     ../../_mixins/hardware/systemd-boot.nix
     ../../_mixins/services/pipewire.nix
-    ../../_mixins/services/tailscale.nix
     ../../_mixins/services/yubikey.nix
   ];
 
@@ -30,6 +29,7 @@
     };
     desktop.discord.enable = true;
     services.wait-online.disable = true;
+    services.tailscale.enable = true;
   };
 
   boot = {

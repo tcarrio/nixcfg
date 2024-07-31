@@ -1,7 +1,5 @@
 { lib, config, pkgs, ... }:
 {
-  imports = [../services/unfree.nix];
-
   options.oxc.desktop.spotify = {
     enable = lib.mkOption {
       type = lib.types.bool;

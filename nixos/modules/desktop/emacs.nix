@@ -8,8 +8,6 @@
   };
 
   config = lib.mkIf config.oxc.desktop.emacs.enable {
-    environment.systemPackages = [
-      emacs
-    ];
+    environment.systemPackages = [ pkgs.emacs ];
   };
 }

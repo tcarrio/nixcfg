@@ -21,20 +21,37 @@
     ../../_mixins/hardware/roccat.nix
     ../../_mixins/hardware/systemd-boot.nix
     ../../_mixins/network-shares/ds418-nfs.nix
-    ../../_mixins/services/nordvpn.nix
     ../../_mixins/services/pipewire.nix
-    ../../_mixins/services/tailscale-autoconnect.nix
     ../../_mixins/virt
   ];
 
-  config.oxc = {
+  oxc = {
     desktop = {
       daw.enable = true;
       ente.enable = true;
       logseq.enable = true;
-      steam.enable = true;
+      steam = {
+        enable = true;
+        audioSupport.jack = true;
+        audioSupport.pipewire = true;
+        steamPlay.enable = true;
+        steamPlay.firewall.open = true;
+      };
+      vscode = {
+        enable = true;
+        support = {
+          # linux = true;
+          # rust = true;
+          # ssh = true;
+        };
+      };
     };
-    services.wait-online.disable = true;
+    services = {
+      nordvpn.enable = true;
+      wait-online.disable = true;
+      tailscale.enable = true;
+      tailscale.autoconnect = true;
+    };
   };
 
   boot = {
