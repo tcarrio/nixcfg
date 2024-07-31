@@ -1,4 +1,4 @@
-{ desktop, lib, config, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 {
   options.oxc = {
     containerisation = {
@@ -8,7 +8,7 @@
         description = "Enable containerisation.";
       };
       engine = lib.mkOption {
-        type = lib.types.enum ["docker" "podman"];
+        type = lib.types.enum [ "docker" "podman" ];
         default = "docker";
         description = "The containerisation tool to use.";
       };
@@ -55,7 +55,8 @@
         unstable.quickemu
         xorg.xhost # for running X11 apps in distrobox
       ]);
-    in {
+    in
+    {
       environment.systemPackages = packages.${config.oxc.containerisation.engine} ++ virtualisationPackages;
 
       virtualisation = {

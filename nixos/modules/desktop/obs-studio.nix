@@ -26,13 +26,14 @@
 
   config = lib.mkIf config.oxc.desktop.obs-studio.enable {
     # https://nixos.wiki/wiki/OBS_Studio
-    boot = if config.oxc.desktop.obs-studio.virtualCamera.enable
+    boot =
+      if config.oxc.desktop.obs-studio.virtualCamera.enable
       then {
         extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
         extraModprobeConfig = ''
           options v4l2loopback devices=1 video_nr=13 card_label="OBS Virtual Camera" exclusive_caps=1
         '';
-      } else {};
+      } else { };
 
     environment.systemPackages = [
       pkgs.bc
@@ -61,7 +62,7 @@
           obs-vintage-filter
           obs-websocket
           waveform
-        ] else [];
+        ] else [ ];
       })
     ];
   };

@@ -14,6 +14,6 @@
   };
 
   config = lib.mkIf config.oxc.desktop.opera.enable {
-    environment.systemPackages = [config.oxc.desktop.opera.package];
+    environment.systemPackages = [ config.oxc.desktop.opera.package ];
   };
 }

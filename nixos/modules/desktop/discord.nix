@@ -15,8 +15,9 @@
   };
 
   config = lib.mkIf config.oxc.desktop.discord.enable {
-    environment.systemPackages = if config.oxc.desktop.discord.krisp
-    then [ pkgs.discord-krisp ]
-    else [ pkgs.unstable.discord ];
+    environment.systemPackages =
+      if config.oxc.desktop.discord.krisp
+      then [ pkgs.discord-krisp ]
+      else [ pkgs.unstable.discord ];
   };
 }

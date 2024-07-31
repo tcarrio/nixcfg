@@ -1,4 +1,4 @@
-{ desktop, lib, pkgs, ... }: {
+{ desktop, pkgs, ... }: {
   config.oxc.desktop.simple-scan.enable = true;
 
   hardware = {

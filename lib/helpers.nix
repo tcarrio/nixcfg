@@ -28,15 +28,15 @@ in
       inputs.agenix.nixosModules.default
       inputs.chaotic.nixosModules.default
     ] ++ (inputs.nixpkgs.lib.optionals (installer != null) [ installer ])
-     ++ (inputs.nixpkgs.lib.optionals (desktop == "cosmic") [
-        {
-            nix.settings = {
-                substituters = [ "https://cosmic.cachix.org/" ];
-                trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
-            };
-        }
-        inputs.nixos-cosmic.nixosModules.default
-     ]);
+    ++ (inputs.nixpkgs.lib.optionals (desktop == "cosmic") [
+      {
+        nix.settings = {
+          substituters = [ "https://cosmic.cachix.org/" ];
+          trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
+        };
+      }
+      inputs.nixos-cosmic.nixosModules.default
+    ]);
   };
 
   mkDarwin = { hostname, username, stateVersion ? 4, platform ? "aarch64-darwin" }: inputs.nix-darwin.lib.darwinSystem {

@@ -18,7 +18,7 @@
   config = lib.mkIf config.oxc.services.nordvpn.enable {
     chaotic.nordvpn.enable = true;
 
-    networking.firewall = if !config.oxc.services.nordvpn.firewall.open then {} else {
+    networking.firewall = if !config.oxc.services.nordvpn.firewall.open then { } else {
       allowedTCPPorts = [ 443 ];
       allowedUDPPorts = [ 1194 ];
     };

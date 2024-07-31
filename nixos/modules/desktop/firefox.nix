@@ -21,7 +21,7 @@
     programs.firefox = {
       enable = true;
       languagePacks = config.oxc.desktop.firefox.languages;
-      package = config.oxc.desktop.firefox.package;
+      inherit (config.oxc.desktop.firefox) package;
     };
   };
 }

@@ -14,6 +14,6 @@
   };
 
   config = lib.mkIf config.oxc.desktop.google-chrome.enable {
-    environment.systemPackages = [config.oxc.desktop.google-chrome.package];
+    environment.systemPackages = [ config.oxc.desktop.google-chrome.package ];
   };
 }
