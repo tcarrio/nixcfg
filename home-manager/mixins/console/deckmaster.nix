@@ -4,7 +4,7 @@
   home.packages = with pkgs; [
     deckmaster
     hueadm
-    unstable.obs-cli
+    obs-cli
     playerctl
   ];
 }

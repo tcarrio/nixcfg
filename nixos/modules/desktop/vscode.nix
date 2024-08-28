@@ -227,7 +227,7 @@ in
       environment.systemPackages = with pkgs; [
         (vscode-with-extensions.override {
           inherit (trunk) vscode;
-          vscodeExtensions = with unstable.vscode-extensions;
+          vscodeExtensions = with vscode-extensions;
             # globally enabled extensions
             lib.optionals vscode.support.cpp [ ms-vscode.cpptools ]
             ++ lib.optionals vscode.support.diff [ ryu1kn.partial-diff ]
@@ -253,7 +253,7 @@ in
             # the most simple way to calculate a package's SHA256 is to simply
             # copy over an invalid SHA256 and the nixos-rebuild will fail,
             # with output for the specified and actual hash values.
-            ++ (unstable.vscode-utils.extensionsFromVscodeMarketplace
+            ++ (vscode-utils.extensionsFromVscodeMarketplace
               # globally enabled extensions
               [ ext.non-breaking-space-highlighter ]
             ++ lib.optionals vscode.support.cpp [ ]

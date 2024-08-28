@@ -8,7 +8,7 @@
 
     package = lib.mkOption {
       type = lib.types.package;
-      default = pkgs.unstable.opera;
+      default = pkgs.opera;
       description = "The package to install for the Opera web browser";
     };
   };

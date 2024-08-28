@@ -52,7 +52,7 @@
       };
 
       virtualisationPackages = lib.optionals config.oxc.virtualisation.enable (with pkgs; [
-        unstable.quickemu
+        quickemu
         xorg.xhost # for running X11 apps in distrobox
       ]);
     in

@@ -32,9 +32,9 @@
   };
 
   console = {
-    font = "${pkgs.tamzen}/share/consolefonts/TamzenForPowerline10x20.psf";
+    # font = "${pkgs.tamzen}/share/consolefonts/TamzenForPowerline10x20.psf";
     keyMap = "us";
-    packages = with pkgs; [ tamzen ];
+    # packages = with pkgs; [ tamzen ];
   };
 
   i18n = {
@@ -55,11 +55,11 @@
   time.timeZone = "America/Detroit";
 
   # Only install the docs I use
-  documentation.enable = true;
-  documentation.nixos.enable = false;
-  documentation.man.enable = true;
-  documentation.info.enable = false;
-  documentation.doc.enable = false;
+  documentation.enable = lib.mkDefault true;
+  documentation.nixos.enable = lib.mkDefault false;
+  documentation.man.enable = lib.mkDefault true;
+  documentation.info.enable = lib.mkDefault false;
+  documentation.doc.enable = lib.mkDefault false;
 
   environment = {
     # Eject nano and perl from the system
@@ -86,57 +86,57 @@
   fonts = {
     fontDir.enable = true;
     packages = with pkgs; [
-      (nerdfonts.override { fonts = [ "FiraCode" "SourceCodePro" "UbuntuMono" ]; })
-      fira
-      fira-go
-      ipafont #Japanese characters
-      kochi-substitute # Japanese characters
-      joypixels # Emojis
-      liberation_ttf
-      noto-fonts-emoji # Emojis
-      source-serif
-      ubuntu_font_family
-      work-sans
+      # (nerdfonts.override { fonts = [ "FiraCode" "SourceCodePro" "UbuntuMono" ]; })
+      # fira
+      # fira-go
+      # ipafont # Japanese characters
+      # kochi-substitute # Japanese characters
+      # joypixels # Emojis
+      # liberation_ttf
+      # noto-fonts-emoji # Emojis
+      # source-serif
+      # ubuntu_font_family
+      # work-sans
     ];
 
     # Enable a basic set of fonts providing several font styles and families and reasonable coverage of Unicode.
     enableDefaultPackages = false;
 
-    fontconfig = {
-      antialias = true;
-      defaultFonts = {
-        serif = [ "Source Serif" "IPAPMincho" ];
-        sansSerif = [ "Work Sans" "Fira Sans" "FiraGO" "IPAGothic" ];
-        monospace = [ "FiraCode Nerd Font Mono" "SauceCodePro Nerd Font Mono" "IPAGothic" ];
-        emoji = [ "Joypixels" "Noto Color Emoji" ];
-      };
-      enable = true;
-      hinting = {
-        autohint = false;
-        enable = true;
-        style = "slight";
-      };
-      subpixel = {
-        rgba = "rgb";
-        lcdfilter = "light";
-      };
-    };
+    # fontconfig = {
+    #   antialias = true;
+    #   defaultFonts = {
+    #     serif = [ "Source Serif" "IPAPMincho" ];
+    #     sansSerif = [ "Work Sans" "Fira Sans" "FiraGO" "IPAGothic" ];
+    #     monospace = [ "FiraCode Nerd Font Mono" "SauceCodePro Nerd Font Mono" "IPAGothic" ];
+    #     emoji = [ "Joypixels" "Noto Color Emoji" ];
+    #   };
+    #   enable = true;
+    #   hinting = {
+    #     autohint = false;
+    #     enable = true;
+    #     style = "slight";
+    #   };
+    #   subpixel = {
+    #     rgba = "rgb";
+    #     lcdfilter = "light";
+    #   };
+    # };
   };
 
   # Use passed hostname to configure basic networking
-  networking = {
-    hostName = hostname;
-    useDHCP = lib.mkDefault true;
-  };
+  # networking = {
+  #   hostName = hostname;
+  #   useDHCP = lib.mkDefault true;
+  # };
 
   nixpkgs = {
     # You can add overlays here
     overlays = [
       # Add overlays your own flake exports (from overlays and pkgs dir):
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.unstable-packages
-      outputs.overlays.trunk-packages
+      # outputs.overlays.additions
+      # outputs.overlays.modifications
+      # outputs.overlays.stable-packages
+      # outputs.overlays.trunk-packages
 
       # You can also add overlays exported from other flakes:
       # neovim-nightly-overlay.overlays.default
@@ -173,7 +173,7 @@
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
 
     optimise.automatic = true;
-    package = pkgs.unstable.nix;
+    package = pkgs.nix;
     settings = {
       auto-optimise-store = true;
       experimental-features = [ "nix-command" "flakes" ];

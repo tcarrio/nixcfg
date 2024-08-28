@@ -140,10 +140,6 @@ Here is the directory structure I'm using.
 
 ```
 .
-├── android
-│  ├── mixins -> ../nixos/mixins/
-│  ├── default.nix
-│  └── pixel6a
 ├── darwin
 │  ├── mixins -> ../nixos/mixins/
 │  ├── default.nix

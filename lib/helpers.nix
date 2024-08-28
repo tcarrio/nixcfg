@@ -73,26 +73,24 @@ in
     ];
   };
 
-  mkRawImage = { hostname, username, systemType, desktop ? null, platform ? "x86_64-linux" }: inputs.nixos-generators.nixosGenerate {
+  mkGeneratorImage = { hostname, username, systemType, desktop ? null, platform ? "x86_64-linux", format ? "raw-efi", ... }@extraSpecialArgs: inputs.nixos-generators.nixosGenerate {
     specialArgs = {
       inherit self inputs outputs desktop hostname username stateVersion systemType sshMatrix;
-    };
+    } // extraSpecialArgs;
 
     system = platform;
-    format =
-      if platform == "x86_64-linux"
-      then "raw-efi"
-      else "raw";
-
+    format = format;
     # pkgs = inputs.nixpkgs.legacyPackages."${platform}";
     # lib = inputs.nixpkgs.legacyPackages."${platform}".lib;
 
     modules = [
+      ({ ... }: { nix.registry.nixpkgs.flake = inputs.nixpkgs; })
       ../nixos
       inputs.agenix.nixosModules.default
-      {
-        boot.kernelParams = [ "console=tty0" ]; # enable physical display tty, not serial port
-      }
+      # inputs.chaotic.nixosModules.default
+      # {
+      #   boot.kernelParams = [ "console=tty0" ]; # enable physical display tty, not serial port
+      # }
     ];
   };
 

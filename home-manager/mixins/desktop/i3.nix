@@ -1,4 +1,4 @@
-{ pkgs, ... }: with pkgs.unstable; {
+{ pkgs, ... }: with pkgs; {
 
   home.file = {
     ".config/i3/config".text = builtins.readFile ./i3.config;
@@ -17,7 +17,7 @@
 
   # programs.i3status-rust = {
   #   enable = true;
-  #   package = pkgs.unstable.i3status-rust;
+  #   package = pkgs.i3status-rust;
   #   bars = {
   #     top = {
   #       blocks = [

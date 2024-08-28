@@ -21,6 +21,7 @@
     ../../mixins/hardware/roccat.nix
     ../../mixins/hardware/systemd-boot.nix
     ../../mixins/network-shares/ds418-nfs.nix
+    ../../mixins/services/nordvpn.nix
     ../../mixins/services/pipewire.nix
     ../../mixins/virt
   ];
@@ -48,7 +49,6 @@
       };
     };
     services = {
-      nordvpn.enable = true;
       wait-online.enable = false;
       tailscale.enable = true;
       tailscale.autoconnect = true;

@@ -8,7 +8,7 @@
   };
 
   config = lib.mkIf config.oxc.desktop.element.enable {
-    environment.systemPackages = with pkgs.unstable; [
+    environment.systemPackages = with pkgs; [
       element-desktop
     ];
   };

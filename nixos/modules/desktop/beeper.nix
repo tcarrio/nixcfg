@@ -8,7 +8,7 @@
   };
 
   config = lib.mkIf config.oxc.desktop.beeper.enable {
-    environment.systemPackages = with pkgs.unstable; [
+    environment.systemPackages = with pkgs; [
       beeper
     ];
   };

@@ -8,7 +8,7 @@
 
     package = lib.mkOption {
       type = lib.types.package;
-      default = pkgs.unstable.microsoft-edge;
+      default = pkgs.microsoft-edge;
       description = "The package to install for the Edge web browser";
     };
   };

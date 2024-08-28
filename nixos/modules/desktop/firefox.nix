@@ -12,7 +12,7 @@
     };
     package = lib.mkOption {
       type = lib.types.package;
-      default = pkgs.unstable.firefox;
+      default = pkgs.firefox;
       description = "Firefox package to install";
     };
   };

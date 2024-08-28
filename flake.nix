@@ -1,10 +1,10 @@
 {
   description = "tcarrio's NixOS and Home Manager Configuration";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     # You can access packages and modules from different nixpkgs revs at the
-    # same time. See 'unstable-packages' overlay in 'overlays/default.nix'.
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    # same time. See 'stable-packages' overlay in 'overlays/default.nix'.
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
     nixpkgs-trunk.url = "github:nixos/nixpkgs/master";
 
     agenix.url = "github:ryantm/agenix";
@@ -14,7 +14,7 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
     home-manager.url = "github:nix-community/home-manager/release-24.05";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Chaotic's Nyx provides many additional packages like NordVPN
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
@@ -33,15 +33,15 @@
 
     # Darwin support with nix-darwin
     nix-darwin.url = "github:LnL7/nix-darwin";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     # nixos-generators for sdcard and raw disk install generation
     nixos-generators.url = "github:tcarrio/nixos-generators";
-    nixos-generators.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
 
     # COSMIC DE
     nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
-    nixos-cosmic.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    nixos-cosmic.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs =
     { self
@@ -143,9 +143,9 @@
       # Custom packages; acessible via 'nix build', 'nix shell', etc
       packages =
         let
-          mkNuc = user: name: libx.mkRawImage { systemType = "server"; hostname = name; username = user; };
+          mkNuc = user: name: libx.mkGeneratorImage { systemType = "server"; hostname = name; username = user; };
         in
-        libx.forAllSystems
+        (libx.forAllSystems
           (system:
             let
               pkgs = nixpkgs.legacyPackages.${system};
@@ -165,7 +165,12 @@
               system-image-nuc8 = mkNuc "archon" "nuc8";
               system-image-nuc9 = mkNuc "archon" "nuc9";
             }
-          );
+          )) // {
+            x86_64-linux = {
+              # image is still too large: reduce with `qemu-img resize --shrink ./nixos.img 5.5G`
+              linode-test = libx.mkGeneratorImage { systemType = "server"; hostname = "linode-test"; username = "archon"; format = "linode"; diskSize = 5120; };
+            };
+          };
       # And custom nixos-generators definitions
       # TODO: forAllSystems
       #   tk1 = libx.mkSdImage { hostname = "tk1"; username = "root"; systemType = "server"; };

@@ -3,9 +3,7 @@ let
   ifExists = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 in
 {
-  environment.systemPackages = with pkgs; [
-    neovim
-  ];
+  environment.systemPackages = with pkgs; [];
 
   users.users.archon = {
     description = "Archon";
@@ -29,7 +27,6 @@ in
       # Add any authorized keys for SSH access here
       glass.tcarrio
       sktc0.tcarrio
-      pixel6a.nix-on-droid
     ];
     packages = [ pkgs.home-manager ];
     shell = pkgs.fish;

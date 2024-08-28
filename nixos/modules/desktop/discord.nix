@@ -18,6 +18,6 @@
     environment.systemPackages =
       if config.oxc.desktop.discord.krisp
       then [ pkgs.discord-krisp ]
-      else [ pkgs.unstable.discord ];
+      else [ pkgs.discord ];
   };
 }

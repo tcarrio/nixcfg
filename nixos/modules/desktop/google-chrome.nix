@@ -8,7 +8,7 @@
 
     package = lib.mkOption {
       type = lib.types.package;
-      default = pkgs.unstable.google-chrome;
+      default = pkgs.google-chrome;
       description = "The package to use for the Chrome web browser";
     };
   };

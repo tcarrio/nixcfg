@@ -39,8 +39,8 @@
       pkgs.bc
       pkgs.google-fonts
       pkgs.libnotify
-      (pkgs.unstable.wrapOBS {
-        plugins = with pkgs.unstable.obs-studio-plugins; if config.oxc.desktop.obs-studio.bellsAndWhistles.all then [
+      (pkgs.wrapOBS {
+        plugins = with pkgs.obs-studio-plugins; if config.oxc.desktop.obs-studio.bellsAndWhistles.all then [
           obs-3d-effect
           obs-command-source
           obs-gradient-source

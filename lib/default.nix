@@ -7,7 +7,7 @@ in
     mkHome
     mkHost
     mkDarwin
-    mkRawImage
+    mkGeneratorImage
     mkSdImage
     forAllSystems;
 }

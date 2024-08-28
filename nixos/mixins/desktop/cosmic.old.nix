@@ -12,9 +12,9 @@
   services.xserver.desktopManager.gnome.enable = true;
 
   # Enable udev rules
-  services.udev.packages = with pkgs.unstable; [ gnome.cosmic-settings-daemon ];
+  services.udev.packages = with pkgs; [ gnome.cosmic-settings-daemon ];
 
-  environment.systemPackages = with pkgs.unstable; [
+  environment.systemPackages = with pkgs; [
     gnomeExtensions.appindicator
     gnome3.gnome-tweaks
   ];
