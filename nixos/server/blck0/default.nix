@@ -9,8 +9,10 @@
     (import ./disks.nix { })
     ../mixins/hardware/systemd-boot.nix
     ../mixins/services/bluetooth.nix
-    ../mixins/virt
   ];
+
+  oxc.containerisation.enable = true;
+  oxc.virtualisation.enable = true;
 
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" ];

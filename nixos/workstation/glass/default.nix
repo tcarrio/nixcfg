@@ -23,7 +23,6 @@
     ../../mixins/network-shares/ds418-nfs.nix
     ../../mixins/services/nordvpn.nix
     ../../mixins/services/pipewire.nix
-    ../../mixins/virt
   ];
 
   oxc = {
@@ -61,8 +60,10 @@
     virtualisation.enable = true;
   };
 
+  services.vscode-server.enable = true;
+
   boot = {
-    kernelPackages = pkgs.linuxPackages_6_8;
+    kernelPackages = pkgs.linuxPackages_latest;
     blacklistedKernelModules = lib.mkDefault [ "nouveau" ];
     extraModulePackages = [ ];
     initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];

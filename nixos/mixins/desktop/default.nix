@@ -17,12 +17,7 @@
     ydotool
   ];
 
-  hardware = {
-    opengl = {
-      enable = true;
-      driSupport = true;
-    };
-  };
+  hardware.opengl.enable = true;
 
   programs.dconf.enable = true;
 

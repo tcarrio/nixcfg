@@ -15,8 +15,10 @@ in
     ../mixins/services/bluetooth.nix
     ../mixins/users/tcarrio
     ../mixins/users/pxe
-    ../mixins/virt
   ];
+
+  oxc.containerisation.enable = true;
+  oxc.virtualisation.enable = true;
 
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" ];

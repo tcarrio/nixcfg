@@ -2,10 +2,9 @@
 
 { lib, pkgs, ... }:
 {
-  imports = [
-    # TODO: Enable virtualization
-    # ../mixins/virt
-  ];
+  # TODO: Enable virtualization
+  oxc.containerisation.enable = false;
+  oxc.virtualisation.enable = false;
 
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" ];

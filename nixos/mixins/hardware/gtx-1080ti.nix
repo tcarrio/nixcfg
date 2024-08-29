@@ -35,11 +35,9 @@ in
       nvidiaSettings = true;
     };
 
-    opengl = {
+    graphics = {
       enable = true;
       inherit (config.hardware.nvidia) package;
-      driSupport = true;
-      driSupport32Bit = true;
     };
 
     pulseaudio.support32Bit = true;

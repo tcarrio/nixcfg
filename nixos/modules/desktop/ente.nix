@@ -13,5 +13,7 @@
     environment.systemPackages = with pkgs; [
       ente-photos-desktop
     ];
+
+    nixpkgs.config.permittedInsecurePackages = ["electron-27.3.11"];
   };
 }

@@ -71,8 +71,11 @@
           };
           dockerCompat = config.oxc.containerisation.dockerCompatibility;
           enable = isPodman;
-          enableNvidia = lib.elem "nvidia" config.services.xserver.videoDrivers;
         };
+      };
+
+      hardware = lib.mkIf (lib.elem "nvidia" config.services.xserver.videoDrivers) {
+        nvidia-container-toolkit.enable = true;
       };
     }
   );

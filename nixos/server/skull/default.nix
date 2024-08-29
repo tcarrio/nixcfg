@@ -11,8 +11,10 @@
     ../mixins/services/bluetooth.nix
     ../mixins/services/maestral.nix
     ../mixins/services/zerotier.nix
-    ../mixins/virt
   ];
+
+  oxc.containerisation.enable = true;
+  oxc.virtualisation.enable = true;
 
   # disko does manage mounting of / /boot /home, but I want to mount by-partlabel
   fileSystems."/" = lib.mkForce {

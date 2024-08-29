@@ -169,6 +169,7 @@
             x86_64-linux = {
               # image is still too large: reduce with `qemu-img resize --shrink ./nixos.img 5.5G`
               linode-test = libx.mkGeneratorImage { systemType = "server"; hostname = "linode-test"; username = "archon"; format = "linode"; diskSize = 5120; };
+              digital-ocean-test = libx.mkGeneratorImage { systemType = "server"; hostname = "digital-ocean-test"; username = "archon"; format = "do"; };
             };
           };
       # And custom nixos-generators definitions
