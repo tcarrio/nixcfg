@@ -3,7 +3,7 @@
     enable = lib.mkOption {
       type = lib.types.bool;
       default = true;
-      description = "Disable the wait-online service";
+      description = "Enable the wait-online service";
     };
   };
 

@@ -11,15 +11,29 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
-    ../../mixins/desktop/bitwarden.nix
     # fix for nixos-rebuild hangups on certain hardware
-    ../../mixins/hardware/disable-nm-wait.nix
     ../../mixins/hardware/grub-legacy-boot.nix
     ../../mixins/services/pipewire.nix
-    ../../mixins/virt
   ];
 
-  oxc.services.tailscale.enable = true;
+  oxc = {
+    desktop = {
+      bitwarden.enable = true;
+      zed.enable = true;
+
+      vscode.support = {
+        deno = true;
+      };
+    };
+    services = {
+      tailscale.enable = true;
+    };
+    containerisation = {
+      enable = true;
+      engine = "podman";
+    };
+    virtualisation.enable = true;
+  };
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;

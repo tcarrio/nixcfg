@@ -1,8 +1,9 @@
 { pkgs, ... }: {
   imports = [
-    ../services/flatpak.nix
     ../services/sane.nix
   ];
+
+  oxc.services.flatpak.enable = true;
 
   # Add some packages to complete the MATE desktop
   environment.systemPackages = with pkgs; [

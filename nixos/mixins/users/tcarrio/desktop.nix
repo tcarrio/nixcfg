@@ -12,7 +12,6 @@
     spotify.enable = true;
     tilix.enable = true;
     vscode.enable = true;
-    zed.enable = false;
   };
 
   environment.systemPackages = with pkgs; [

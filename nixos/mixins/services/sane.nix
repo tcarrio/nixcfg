@@ -1,5 +1,5 @@
 { desktop, pkgs, ... }: {
-  config.oxc.desktop.simple-scan.enable = true;
+  oxc.desktop.simple-scan.enable = true;
 
   hardware = {
     sane = {

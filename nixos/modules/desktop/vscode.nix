@@ -101,6 +101,11 @@ in
         default = true;
         description = "Whether to enable VS Code support for CPP development";
       };
+      deno = mkOption {
+        type = types.bool;
+        default = true;
+        description = "Whether to enable VS Code support for Deno development";
+      };
       diff = mkOption {
         type = types.bool;
         default = true;
@@ -230,6 +235,7 @@ in
           vscodeExtensions = with vscode-extensions;
             # globally enabled extensions
             lib.optionals vscode.support.cpp [ ms-vscode.cpptools ]
+            ++ lib.optionals vscode.support.deno [ denoland.vscode-deno ]
             ++ lib.optionals vscode.support.diff [ ryu1kn.partial-diff ]
             ++ lib.optionals vscode.support.docker [ ms-azuretools.vscode-docker ]
             ++ lib.optionals vscode.support.editorconfig [ editorconfig.editorconfig ]

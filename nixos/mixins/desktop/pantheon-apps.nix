@@ -1,8 +1,9 @@
 { pkgs, ... }: {
   imports = [
-    ../services/flatpak.nix
     ../services/sane.nix
   ];
+
+  oxc.services.flatpak.enable = true;
 
   # Add additional apps and include Yaru for syntax highlighting
   environment.systemPackages = with pkgs; [
