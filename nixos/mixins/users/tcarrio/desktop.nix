@@ -16,15 +16,15 @@
 
   environment.systemPackages = with pkgs; [
     audio-recorder
+    dconf-editor
     gimp-with-plugins
-    gnome.gnome-clocks
-    gnome.dconf-editor
-    gnome.gnome-sound-recorder
+    gnome-clocks
+    gnome-sound-recorder
     inkscape
     libreoffice
     meld
+    neovide
     pick-colour-picker
     slack
-    neovide
   ];
 }
