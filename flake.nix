@@ -116,10 +116,13 @@
         nuc7 = libx.mkHost { systemType = "server"; hostname = "nuc7"; username = "archon"; };
         nuc8 = libx.mkHost { systemType = "server"; hostname = "nuc8"; username = "archon"; };
         nuc9 = libx.mkHost { systemType = "server"; hostname = "nuc9"; username = "archon"; };
+
+        "dotest.carrio.dev" = libx.mkHost { systemType = "server"; hostname = "dotest.carrio.dev"; username = "archon"; };
       };
 
       # Devshell for bootstrapping; acessible via 'nix develop' or 'nix-shell' (legacy)
-      inherit (devshells) devShells; # libx.forAllSystems (system:
+      inherit (devshells) devShells;
+      # libx.forAllSystems (system:
       # let pkgs = nixpkgs.legacyPackages.${system};
       # in import ./shell.nix { inherit pkgs; }
       # );
@@ -167,9 +170,10 @@
             }
           )) // {
             x86_64-linux = {
-              # image is still too large: reduce with `qemu-img resize --shrink ./nixos.img 5.5G`
-              linode-test = libx.mkGeneratorImage { systemType = "server"; hostname = "linode-test"; username = "archon"; format = "linode"; diskSize = 5120; };
-              digital-ocean-test = libx.mkGeneratorImage { systemType = "server"; hostname = "digital-ocean-test"; username = "archon"; format = "do"; };
+              # TODO: image is still too large: reduction with `qemu-img resize --shrink ./nixos.img 5.5G` didn't error out but image will not boot
+              # linode-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "generic-base-image"; username = "archon"; format = "linode"; diskSize = 5120; };
+
+              digital-ocean-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "generic-base-image"; username = "archon"; format = "do"; };
             };
           };
       # And custom nixos-generators definitions

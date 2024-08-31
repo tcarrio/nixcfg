@@ -16,4 +16,6 @@ in
       hostname = fqdn;
     };
   };
+
+  oxc.services.acme.enable = true;
 }

@@ -2,7 +2,7 @@
 
 { config, lib, pkgs, ... }:
 let
-  fqdn = "onlyoffice.${config.domainName}";
+  fqdn = "nextcloud.${config.domainName}";
 in
 {
   services = {
@@ -49,8 +49,10 @@ in
         defaultPhoneRegion = "PT";
         dbtype = "pgsql";
         adminuser = "admin";
-        adminpassFile = "/path/to/nextcloud-admin-pass";
+        adminpassFile = "/etc/nextcloud/postgres/pswd";
       };
     };
+
+    oxc.services.acme.enable = true;
   };
 }
