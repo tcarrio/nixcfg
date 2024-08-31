@@ -11,6 +11,13 @@ in
     neovim
   ];
 
+  # enable GPG agent with full support
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = !config.services.openssh.enable;
+  };
+  services.pcscd.enable = true;
+
   users.users.tcarrio = {
     description = "Tom Carrio";
     extraGroups = [

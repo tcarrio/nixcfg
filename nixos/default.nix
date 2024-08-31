@@ -124,10 +124,10 @@
   };
 
   # Use passed hostname to configure basic networking
-  # networking = {
-  #   hostName = hostname;
-  #   useDHCP = lib.mkDefault true;
-  # };
+  networking = {
+    hostName = hostname;
+    useDHCP = lib.mkDefault true;
+  };
 
   nixpkgs = {
     # You can add overlays here
