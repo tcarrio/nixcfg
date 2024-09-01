@@ -11,6 +11,7 @@
     celluloid
     gthumb
     formatter
+    pantheon-tweaks
     usbimager
     yaru-theme
   ];
@@ -18,7 +19,6 @@
   # Add GNOME Disks, Pantheon Tweaks and Seahorse
   programs = {
     gnome-disks.enable = true;
-    pantheon-tweaks.enable = true;
     seahorse.enable = true;
   };
 
