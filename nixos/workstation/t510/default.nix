@@ -29,10 +29,10 @@
       tailscale.enable = true;
     };
     containerisation = {
-      enable = false;
+      enable = true;
       engine = "podman";
     };
-    virtualisation.enable = false;
+    virtualisation.enable = true;
   };
 
   boot = {
