@@ -19,7 +19,7 @@
   oxc = {
     desktop = {
       bitwarden.enable = true;
-      zed.enable = true;
+      # zed.enable = true;
 
       vscode.support = {
         deno = true;
@@ -29,10 +29,10 @@
       tailscale.enable = true;
     };
     containerisation = {
-      enable = true;
+      enable = false;
       engine = "podman";
     };
-    virtualisation.enable = true;
+    virtualisation.enable = false;
   };
 
   boot = {
@@ -42,10 +42,6 @@
     kernelModules = [ ];
     extraModulePackages = [ ];
   };
-
-  environment.systemPackages = with pkgs; [
-    zoom-us
-  ];
 
   services.nbd.server = {
     enable = false;
