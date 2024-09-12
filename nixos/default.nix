@@ -225,12 +225,6 @@
         set -U fish_pager_color_progress brwhite '--background=cyan'
       '';
       shellAbbrs = {
-        nix-gc = "sudo nix-collect-garbage --delete-older-than 28d";
-        rebuild-home = "home-manager switch -b backup --flake $HOME/0xc/nixcfg";
-        rebuild-host = "sudo nixos-rebuild switch --flake $HOME/0xc/nixcfg";
-        rebuild-all = "nix-gc && rebuild-host && rebuild-home";
-        rebuild-lock = "pushd $HOME/0xc/nixcfg && nix flake lock --recreate-lock-file && popd";
-
         modify-secret = "pushd $HOME/0xc/nixcfg && agenix -i ~/.ssh/id_rsa -e && popd"; # the path relative to /secrets must be passed without `./`
 
         rebuild-iso-console = "sudo true && pushd $HOME/0xc/nixcfg && nix build .#nixosConfigurations.iso-console.config.system.build.isoImage && set ISO (head -n1 result/nix-support/hydra-build-products | cut -d'/' -f6) && sudo cp result/iso/$ISO ~/Quickemu/nixos-console/nixos.iso && popd";
@@ -243,6 +237,12 @@
         test-iso-nuc = "pushd ~/Quickemu/ && quickemu --vm nixos-nuc.conf     --ssh-port 54321 && popd";
       };
       shellAliases = {
+        nix-gc = "sudo nix-collect-garbage --delete-older-than 28d";
+        rebuild-home = "home-manager switch -b backup --flake $HOME/0xc/nixcfg";
+        rebuild-host = "sudo nixos-rebuild switch --flake $HOME/0xc/nixcfg";
+        rebuild-all = "nix-gc && rebuild-host && rebuild-home";
+        rebuild-lock = "pushd $HOME/0xc/nixcfg && nix flake lock --recreate-lock-file && popd";
+
         mooncycle = "curl -s wttr.in/Moon";
         nano = "vim";
         open = "xdg-open";
