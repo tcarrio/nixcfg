@@ -5,7 +5,7 @@
 
 _: {
   imports = [
-    ../mixins/console/homebrew.nix
+    ../../mixins/console/homebrew.nix
     ./brews.nix
   ];
 

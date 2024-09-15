@@ -9,11 +9,9 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    # SYSTEM packages, for all users
     direnv
     glances
     home-manager
-    # squirreldisk
   ];
 
   fonts = {
@@ -47,7 +45,7 @@
       # Add overlays your own flake exports (from overlays and pkgs dir):
       outputs.overlays.additions
       outputs.overlays.modifications
-      outputs.overlays.unstable-packages
+      outputs.overlays.stable-packages
       outputs.overlays.trunk-packages
     ];
   };
