@@ -10,7 +10,6 @@ _: {
       "asdf"
       "autoconf"
       "automake"
-      "bash"
       "bats-core"
       "bison"
       "bpython"
@@ -69,8 +68,6 @@ _: {
       "libzip"
       "m4"
       "mkcert"
-      "mysql-client"
-      "mysql"
       "ncdu"
       "ninja"
       "node"
@@ -79,7 +76,6 @@ _: {
       "pandoc"
       "pango"
       "pcre"
-      "percona-toolkit"
       "pkg-config"
       "podman"
       "portaudio"
@@ -119,6 +115,7 @@ _: {
     ];
 
     casks = [
+      "alfred"
       "amethyst"
       "docker"
       "secretive"
