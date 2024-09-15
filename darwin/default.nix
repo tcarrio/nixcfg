@@ -106,8 +106,7 @@
   };
 
   # Set Git commit hash for darwin-version.
-  system.configurationRevision = self.dirtyRev || null; # TODO: Not compatible after moving to unstable
-  # system.configurationRevision = self.rev || self.dirtyRev || null;
+  system.configurationRevision = null; # TODO: Not compatible after moving to unstable
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
