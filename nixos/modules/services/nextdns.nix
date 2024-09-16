@@ -7,7 +7,7 @@
     };
 
     profile = lib.mkOption {
-      type = lib.types.string;
+      type = lib.types.str;
       default = "ecefa7";
       description = "Set the profile ID to use for the hosted NextDNS service";
     };
