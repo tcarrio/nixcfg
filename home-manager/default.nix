@@ -14,6 +14,7 @@ in
 
     # You can also split up your configuration and import pieces of it here:
     ./mixins/console
+    ./modules
   ]
   ++ lib.optional (builtins.isString desktop) ./mixins/desktop
   ++ lib.optional (builtins.isPath (./. + "/mixins/users/${username}")) ./mixins/users/${username};

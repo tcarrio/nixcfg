@@ -3,6 +3,7 @@
 
   home.packages = with pkgs; [
     gcc
+    neovim
     nnn
     zig
   ];

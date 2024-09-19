@@ -23,6 +23,8 @@
     ];
   };
 
+  oxc.console.atuin.enable = false;
+
   programs.fish = {
     interactiveShellInit = ''
       function default_set --no-scope-shadowing

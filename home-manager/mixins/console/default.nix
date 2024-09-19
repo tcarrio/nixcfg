@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
   imports = [
     ./neovim.nix
     ./tmux.nix
@@ -8,6 +8,7 @@
     file = {
       "${config.xdg.configHome}/neofetch/config.conf".text = builtins.readFile ./neofetch.conf;
     };
+
     # A Modern Unix experience
     # https://jvns.ca/blog/2022/04/12/a-list-of-new-ish--command-line-tools/
     packages = with pkgs; [
@@ -54,25 +55,9 @@
     };
   };
 
+  oxc.console.atuin.enable = lib.mkDefault true;
+
   programs = {
-    atuin = {
-      enable = true;
-      enableBashIntegration = true;
-      enableFishIntegration = true;
-      flags = [
-        "--disable-up-arrow"
-      ];
-      package = pkgs.atuin;
-      settings = {
-        auto_sync = true;
-        dialect = "us";
-        show_preview = true;
-        style = "compact";
-        sync_frequency = "1h";
-        sync_address = "https://api.atuin.sh";
-        update_check = false;
-      };
-    };
     bottom = {
       enable = true;
       settings = {
