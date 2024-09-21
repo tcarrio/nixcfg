@@ -19,7 +19,7 @@
     ];
     services.nextdns = {
       enable = true;
-      arguments = [ "-profile" config.oxc.services.nextdns.profile "-cache-size" "10MB" ];
+      arguments = [ "-profile" config.oxc.services.nextdns.profile "-cache-size" "10MB" "-report-client-info" "-auto-activate" ];
     };
   };
 }

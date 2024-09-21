@@ -48,6 +48,7 @@
       };
     };
     services = {
+      nextdns.enable = true;
       wait-online.enable = false;
       tailscale.enable = true;
       tailscale.autoconnect = true;
