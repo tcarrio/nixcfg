@@ -40,9 +40,14 @@
       vscode = {
         enable = true;
         support = {
-          # linux = true;
-          # rust = true;
-          # ssh = true;
+          elm = true;
+          github = true;
+          gitlens = true;
+          go = true;
+          grpc = true;
+          linux = true;
+          rust = true;
+          ssh = true;
         };
         server.enable = true;
       };
@@ -72,9 +77,9 @@
     kernelModules = [ "kvm-amd" "nvidia" ];
   };
 
-  environment.systemPackages = [
-    pkgs.google-fonts
-    pkgs.gnomeExtensions.gsconnect
+  environment.systemPackages = with pkgs; [
+    google-fonts
+    gnomeExtensions.gsconnect
   ];
 
   # support for cross-platform NixOS builds
