@@ -146,6 +146,11 @@ in
         default = false;
         description = "Whether to enable VS Code support for Go development";
       };
+      grpc = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Whether to enable VS Code support for gRPC development";
+      };
       hugo = mkOption {
         type = types.bool;
         default = false;
@@ -243,6 +248,7 @@ in
             ++ lib.optionals cfgx.support.github [ github.vscode-github-actions ]
             ++ lib.optionals cfgx.support.gitlens [ eamodio.gitlens ]
             ++ lib.optionals cfgx.support.go [ golang.go ]
+            ++ lib.optionals cfgx.support.grpc [ zxh404.vscode-proto3 ]
             ++ lib.optionals cfgx.support.icons [ vscode-icons-team.vscode-icons ]
             ++ lib.optionals cfgx.support.js [ esbenp.prettier-vscode ]
             ++ lib.optionals cfgx.support.linux [ coolbear.systemd-unit-file timonwong.shellcheck mads-hartmann.bash-ide-vscode ]
