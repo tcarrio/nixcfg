@@ -19,15 +19,30 @@ in
   # - installer: can be one of the following:
   #    - "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
   #    - "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"
-  mkHost = { hostname, username, systemType, desktop ? null, installer ? null }: inputs.nixpkgs.lib.nixosSystem {
+  mkHost = { hostname, username, systemType, desktop ? null, installer ? null, useHomeManager ? false, platform ? "x86_64-linux" }: inputs.nixpkgs.lib.nixosSystem {
     specialArgs = {
-      inherit inputs outputs desktop hostname username stateVersion systemType sshMatrix;
+      inherit inputs outputs desktop hostname username platform stateVersion systemType sshMatrix;
     };
     modules = [
       ../nixos
       inputs.agenix.nixosModules.default
       inputs.chaotic.nixosModules.default
-    ] ++ (inputs.nixpkgs.lib.optionals (installer != null) [ installer ])
+    ]
+    ++ (inputs.nixpkgs.lib.optionals (useHomeManager == true) ([
+      inputs.home-manager.nixosModules.home-manager
+      # inputs.agenix.homeManagerModules.default
+    ] ++ [{
+      home-manager.users.${username} = { config, ... }: let
+        extraSpecialArgs = {
+          inherit inputs outputs desktop hostname platform username stateVersion sshMatrix;
+        };
+      in import ../home-manager {
+        inherit inputs outputs config desktop hostname username platform stateVersion systemType sshMatrix;
+        pkgs = inputs.nixpkgs.legacyPackages.${platform};
+        lib = inputs.nixpkgs.legacyPackages."${platform}".lib;
+      };
+    }]))
+    ++ (inputs.nixpkgs.lib.optionals (installer != null) [ installer ])
     ++ (inputs.nixpkgs.lib.optionals (desktop == "cosmic") [
       {
         nix.settings = {
