@@ -1,7 +1,7 @@
 { self, pkgs, hostname, username, platform, stateVersion, outputs, lib, ... /* lib, config */ }: {
   imports = [
     ./mixins/users/${username}
-    ./mixins/desktop
+    ./modules
   ] ++ lib.optionals (builtins.pathExists (./workstation/${hostname})) [
     ./workstation/${hostname}
   ];

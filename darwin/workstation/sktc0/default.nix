@@ -9,6 +9,8 @@ _: {
     ./brews.nix
   ];
 
+  oxc.services.xcode.acceptLicense = true;
+
   networking.hostName = "sktc0";
 
   system = {

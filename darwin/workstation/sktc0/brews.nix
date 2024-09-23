@@ -95,7 +95,7 @@ _: {
       "readline"
       "redis"
       "ripgrep"
-      "rustup-init"
+      "rustup"
       "shellcheck"
       "shfmt"
       "six"
@@ -120,6 +120,7 @@ _: {
       "docker"
       "secretive"
       "sequel-ace"
+      "zen-browser"
     ];
   };
 }
