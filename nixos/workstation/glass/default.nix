@@ -51,6 +51,7 @@
         };
         server.enable = true;
       };
+      zen-browser.enable = true;
     };
     services = {
       nextdns.enable = true;

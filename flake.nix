@@ -42,6 +42,10 @@
     # COSMIC DE
     nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
     nixos-cosmic.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Zen Browser
+    zen-browser.url = "github:MarceColl/zen-browser-flake";
+    zen-browser.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs =
     { self

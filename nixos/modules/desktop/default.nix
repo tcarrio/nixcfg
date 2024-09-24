@@ -26,5 +26,6 @@ _: {
     ./vivaldi.nix
     ./vscode.nix
     ./zed.nix
+    ./zen-browser.nix
   ];
 }
