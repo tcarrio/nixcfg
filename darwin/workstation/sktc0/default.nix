@@ -10,6 +10,7 @@ _: {
   ];
 
   oxc.services.xcode.acceptLicense = true;
+  oxc.services.nextdns.enable = false;
 
   networking.hostName = "sktc0";
 

@@ -1,6 +1,5 @@
 { pkgs, ... }: {
   imports = [
-    ../../console/nextdns.nix
     ../../nixos/console/auth0.nix
     ../../nixos/console/direnv.nix
     ../../nixos/console/kubectl.nix
