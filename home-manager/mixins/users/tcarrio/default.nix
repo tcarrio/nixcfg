@@ -16,9 +16,13 @@ in
   home = {
     file."0xc/devshells".source = inputs.devshells;
     file.".ssh/config".text = "
-      Host github.com
-        HostName github.com
-        User git
+Host github.com
+  HostName github.com
+  User git
+
+Host glass
+  Hostname glass
+  User tcarrio
     ";
     sessionVariables = {
       # ...
