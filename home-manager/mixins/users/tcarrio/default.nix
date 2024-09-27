@@ -102,6 +102,11 @@ Host glass
     git = {
       userEmail = lib.mkDefault "tom@carrio.dev";
       userName = lib.mkDefault "Tom Carrio";
+      extraConfig = {
+        absorb = {
+          maxStack = 50;
+        };
+      };
     };
   };
 }
