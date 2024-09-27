@@ -34,6 +34,7 @@ Host glass
     '';
 
     packages = with pkgs; [
+      git-absorb
       thefuck
       tte
     ];
