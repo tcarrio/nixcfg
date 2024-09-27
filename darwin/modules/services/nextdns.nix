@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }: {
   options.oxc.services.nextdns = {
-    enabled = lib.mkOption {
+    enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
       description = "Whether to enable the NextDNS service";
@@ -12,7 +12,7 @@
     };
   };
 
-  config = lib.mkIf config.oxc.services.nextdns {
+  config = lib.mkIf config.oxc.services.nextdns.enable {
     environment.systemPackages = with pkgs; [
       nextdns
     ];
@@ -21,5 +21,5 @@
       enable = true;
       arguments = ["-profile" "${config.oxc.services.nextdns.id}" "-report-client-info" "-auto-activate"];
     };
-  }
+  };
 }
