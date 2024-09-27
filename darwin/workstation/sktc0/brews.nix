@@ -120,7 +120,6 @@ _: {
       "docker"
       "secretive"
       "sequel-ace"
-      "zen-browser"
     ];
   };
 }
