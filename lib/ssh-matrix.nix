@@ -47,6 +47,20 @@ rec {
       VQ+hf8ar3nEzpmm root@kuroinixu
     '';
 
+    t510.tcarrio = parseFriendlyKey ''
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC8RPgN737yyLRhQPTymsA/6x9aUS0V
+      vP3dy4Bk8vHT24ownN01UU5V9n6nRn9IbkejpCZhdFBK2E8h9RdVUfkdV6CC6L2ved2w
+      cS4dA/klzRXSGKTKTaAhYf/ykfPdh1wfq/QEpAiDUWaTb8uVGaHIO0VtTNGpCDyUziUm
+      sRrbAn/ET2Ux++fLcVq/1i7y8cW/BMb4UB4WnkqVZB7vBqyLO7x+TFsKALcS5fC94xVt
+      wezZFg17BaaEPd0Uz0ONv+I0bZQ3GQ6+ooXw41osWev/Ntq9whcUI60LFtt6t5x5aGen
+      fqvyFmk5ZMA5Wjj4WHllfWF4cQ9PitVJ2NkBUCFqgj/MRDtl+0zYfIFKew6VvlawSxr2
+      6HM9DzVD2YLDkSavstFsRc+m4oUYYd2uVZK2+9Zcee4gjfjozg5EgXY063mBZ4McxCSF
+      41hn1Aghzk6MiYpqCaerqWkJ0xA28mxPSYxKbOe0DffDjIua2ByH4Jq3Vho00Vy5Lwo4
+      +7oyLDJrS0lS3QwvLPsKHDnekeknsOtA8UQ0GtJ3zDh4SO38HXJCHSH1Oo9W1slyRj8F
+      8BKmUlu2zLuv0zEDMzg151I1mUuDKbgTEX92mJLPE1SKQBw9xF8q9nEw06CViH1IVSzu
+      Hw6+/5u5hjPYyv2i5d04wDox0ngFw/wzV7H5gHYs1Q== tcarrio@t510
+    '';
+
     # NUC servers
     nuc0.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHkgTzsmgHcVE12Sc9EYPP29Ek8d++RKZCIVEGEmWJc9 nuc0.int.carrio.dev";
     nuc1.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBwF9SXi7HWdTTquPNm3eeznSKg+o7/TKvr36/L4boOG nuc1.int.carrio.dev";
@@ -66,6 +80,7 @@ rec {
       sktc0.tcarrio
       glass.host
       glass.tcarrio
+      t510.tcarrio
     ];
   };
 }
