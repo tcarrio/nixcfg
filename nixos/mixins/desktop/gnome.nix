@@ -22,5 +22,7 @@
   environment.systemPackages = with pkgs; [
     gnomeExtensions.appindicator
     gnome3.gnome-tweaks
+    gnome-clocks
+    gnome-sound-recorder
   ];
 }

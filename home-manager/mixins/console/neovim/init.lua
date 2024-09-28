@@ -223,6 +223,13 @@ require('lazy').setup({
   },
 
   {
+    -- Terminal enhancements
+    'akinsho/toggleterm.nvim',
+    version = "*",
+    config = true
+  },
+
+  {
     -- File explorer with nnn
     -- 'luukvbaal/nnn.nvim',
     -- config = function()

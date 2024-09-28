@@ -2,6 +2,7 @@
   imports = [
     ./neovide.nix
     ./emote.nix
+    ./alacritty.nix
     ./tilix.nix
   ] ++ lib.optional (builtins.pathExists (./. + "/${desktop}.nix")) ./${desktop}.nix;
 

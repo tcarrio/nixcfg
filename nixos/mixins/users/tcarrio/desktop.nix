@@ -10,7 +10,6 @@
     google-chrome.enable = true;
     lutris.enable = true;
     spotify.enable = true;
-    tilix.enable = true;
     vscode.enable = true;
   };
 
@@ -18,12 +17,9 @@
     audio-recorder
     dconf-editor
     gimp-with-plugins
-    gnome-clocks
-    gnome-sound-recorder
     inkscape
     libreoffice
     meld
-    neovide
     pick-colour-picker
     slack
   ];
