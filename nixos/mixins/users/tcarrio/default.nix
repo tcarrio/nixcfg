@@ -9,6 +9,7 @@ in
   environment.systemPackages = with pkgs; [
     yadm # Terminal dot file manager
     neovim
+    pinentry-tty
   ];
 
   # enable GPG agent with full support
