@@ -40,6 +40,7 @@
       vscode = {
         enable = true;
         support = {
+          bazel = true;
           elm = true;
           github = true;
           gitlens = true;

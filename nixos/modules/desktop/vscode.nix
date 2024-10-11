@@ -96,6 +96,11 @@ in
         default = false;
         description = "Whether to enable VS Code support for AI tooling";
       };
+      bazel = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Whether to enable VS Code support for Bazel";
+      };
       cpp = mkOption {
         type = types.bool;
         default = true;
@@ -239,7 +244,8 @@ in
           inherit (trunk) vscode;
           vscodeExtensions = with vscode-extensions;
             # globally enabled extensions
-            lib.optionals cfgx.support.cpp [ ms-vscode.cpptools ]
+            lib.optionals cfgx.support.bazel [ bazelbuild.vscode-bazel ]
+            ++ lib.optionals cfgx.support.cpp [ ms-vscode.cpptools ]
             ++ lib.optionals cfgx.support.deno [ denoland.vscode-deno ]
             ++ lib.optionals cfgx.support.diff [ ryu1kn.partial-diff ]
             ++ lib.optionals cfgx.support.docker [ ms-azuretools.vscode-docker ]
