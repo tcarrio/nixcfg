@@ -6,7 +6,7 @@
         name = "Samsung 500GB 2.5\" SATA";
         type = "disk";
         content = {
-          type = "gpt";
+          type = "mbr";
           partitions = {
             root = {
               name = "root";
