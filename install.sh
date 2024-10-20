@@ -80,7 +80,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   sudo chown $(whoami):root -R "$TARGET_USER_HOME"
   rsync -a --delete "$HOME/0xc/" "$TARGET_USER_HOME/0xc/"
   pushd "$TARGET_USER_HOME/0xc/nix-config"
-  git remote set-url origin git@github.com:tcarrio/nix-config.git
+  git remote set-url origin git@github.com:tcarrio/nixcfg.git
   popd
 
   # If there is a keyfile for a data disk, put copy it to the root partition and
