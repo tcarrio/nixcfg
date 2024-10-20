@@ -1,23 +1,35 @@
 { disks ? [ "/dev/sda" ], ... }: {
   disko.devices = {
     disk = {
-      sda = {
-        device = builtins.elemAt disks 0;
+      main = {
+        device = "ata-Samsung_SSD_850_PRO_512GB_S250NXAH211618D";
+        name = "Samsung 500GB 2.5\" SATA";
         type = "disk";
         content = {
           type = "gpt";
           partitions = {
-            boot = {
-              size = "1M";
-              # for grub MBR
-              type = "EF02";
-            };
             root = {
-              size = "100%";
+              name = "root";
+              end = "-0";
               content = {
                 type = "filesystem";
-                format = "ext4";
+                format = "f2fs";
                 mountpoint = "/";
+                extraArgs = [
+                  "-O"
+                  "extra_attr,inode_checksum,sb_checksum,compression"
+                ];
+                mountOptions = [
+                  "compress_algorithm=zstd:6,compress_chksum,atgc,gc_merge,lazytime,nodiscard"
+                ];
+              };
+            };
+						swap = {
+							size = "8G";
+              content = {
+                type = "swap";
+                discardPolicy = "both";
+                resumeDevice = true; # resume from hiberation from this device
               };
             };
           };
