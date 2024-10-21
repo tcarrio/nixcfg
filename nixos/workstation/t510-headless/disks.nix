@@ -2,7 +2,7 @@
   disko.devices = {
     disk = {
       sda = {
-        device = builtins.elemAt disks 0;
+        device = "/dev/disk/by-id/ata-Samsung_SSD_850_PRO_512GB_S250NXAH211618D";
         type = "disk";
         content = {
           type = "gpt";

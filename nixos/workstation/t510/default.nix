@@ -1,11 +1,11 @@
 # Device:      Lenovo ThinkPad T510
 # CPU:         Intel i5 M 520
 # RAM:         8GB DDR2
-# SATA:        120GB SSD
+# SATA:        500GB SSD
 
 { inputs, lib, pkgs, ... }: {
   imports = [
-    (import ./disks.nix { })
+    (import ../t510-headless/disks.nix { })
 
     inputs.nixos-hardware.nixosModules.common-cpu-intel
     inputs.nixos-hardware.nixosModules.common-pc
@@ -74,3 +74,4 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
+

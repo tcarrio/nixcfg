@@ -1,26 +1,37 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #set -euo pipefail
 
 TARGET_HOST="${1:-}"
 TARGET_USER="${2:-tcarrio}"
 TARGET_TYPE="${3:-}"
+TARGET_NIXOS_CONFIG_NAME="${4:-$TARGET_HOST}"
+
+function usage() {
+  echo """
+install.sh <host> <user> <system-type> [nixos-config-name]
+
+example: install.sh t510 tcarrio workstation t510-headless
+"""
+}
 
 if [ "$(id -u)" -eq 0 ]; then
   echo "ERROR! $(basename "$0") should be run as a regular user"
   exit 1
 fi
 
-if [ ! -d "$HOME/0xc/nix-config/.git" ]; then
-  git clone https://github.com/tcarrio/nix-config.git "$HOME/0xc/nix-config"
+if [ ! -d "$HOME/0xc/nixcfg/.git" ]; then
+  git clone https://github.com/tcarrio/nixcfg.git "$HOME/0xc/nixcfg"
 fi
 
-pushd "$HOME/0xc/nix-config"
+pushd "$HOME/0xc/nixcfg"
 
 if [[ -z "$TARGET_HOST" ]]; then
   echo "ERROR! $(basename "$0") requires a hostname as the first argument"
   echo "       The following hosts are available"
   ls -1 nixos/*/default.nix | cut -d'/' -f2 | grep -v iso
+  echo ""
+  usage
   exit 1
 fi
 
@@ -28,6 +39,8 @@ if [[ -z "$TARGET_USER" ]]; then
   echo "ERROR! $(basename "$0") requires a username as the second argument"
   echo "       The following users are available"
   ls -1 nixos/mixins/users/ | grep -v -E "nixos|root"
+  echo ""
+  usage
   exit 1
 fi
 
@@ -35,6 +48,8 @@ if [[ -z "$TARGET_TYPE" ]]; then
   echo "ERROR! $(basename "$0") requires a type as the third argument"
   echo "       The following types are available"
   ls -1 nixos/ | grep -v -E "nixos|root|mixins"
+  echo ""
+  usage
   exit 1
 fi
 
@@ -67,7 +82,9 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     --mode zap_create_mount \
     "$TARGET_HOST_ROOT/disks.nix"
 
-  sudo nixos-install --no-root-password --flake ".#$TARGET_HOST"
+  MAX_CONCURRENCY=$(($(nproc) - 1))
+
+  sudo nixos-install -j $MAX_CONCURRENCY --cores $MAX_CONCURRENCY --no-root-password --flake ".#$TARGET_NIXOS_CONFIG_NAME"
 
   if [[ "$TARGET_USER" == "root" ]]; then
     TARGET_USER_HOME="/mnt/root"
@@ -75,12 +92,12 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     TARGET_USER_HOME="/mnt/home/$TARGET_USER"
   fi
 
-  # Rsync nix-config to the target install and set the remote origin to SSH.
+  # Rsync nixcfg to the target install and set the remote origin to SSH.
   sudo mkdir -p "$TARGET_USER_HOME"
   sudo chown $(whoami):root -R "$TARGET_USER_HOME"
   rsync -a --delete "$HOME/0xc/" "$TARGET_USER_HOME/0xc/"
-  pushd "$TARGET_USER_HOME/0xc/nix-config"
-  git remote set-url origin git@github.com:tcarrio/nix-config.git
+  pushd "$TARGET_USER_HOME/0xc/nixcfg"
+  git remote set-url origin git@github.com:tcarrio/nixcfg.git
   popd
 
   # If there is a keyfile for a data disk, put copy it to the root partition and
