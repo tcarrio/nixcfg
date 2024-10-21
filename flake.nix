@@ -100,7 +100,7 @@
         glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "kde6"; };
         kuroi = libx.mkHost { systemType = "workstation"; hostname = "kuroi"; username = "tcarrio"; desktop = "pantheon"; };
         t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "i3"; };
-        t510-headless = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; };
+        t510-headless = libx.mkHost { systemType = "workstation"; hostname = "t510-headless"; username = "tcarrio"; };
 
         # Servers
         # Can be executed locally:
