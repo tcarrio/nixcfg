@@ -5,12 +5,13 @@
 TARGET_HOST="${1:-}"
 TARGET_USER="${2:-tcarrio}"
 TARGET_TYPE="${3:-}"
+TARGET_NIXOS_CONFIG_NAME="${4:-$TARGET_HOST}"
 
 function usage() {
   echo """
-install.sh <host> <user> <system-type>
+install.sh <host> <user> <system-type> [nixos-config-name]
 
-example: install.sh t510 tcarrio workstation
+example: install.sh t510 tcarrio workstation t510-headless
 """
 }
 
@@ -83,7 +84,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
   MAX_CONCURRENCY=$(($(nproc) - 1))
 
-  sudo nixos-install -j $MAX_CONCURRENCY --cores $MAX_CONCURRENCY --no-root-password --flake ".#$TARGET_HOST"
+  sudo nixos-install -j $MAX_CONCURRENCY --cores $MAX_CONCURRENCY --no-root-password --flake ".#$TARGET_NIXOS_CONFIG_NAME"
 
   if [[ "$TARGET_USER" == "root" ]]; then
     TARGET_USER_HOME="/mnt/root"
