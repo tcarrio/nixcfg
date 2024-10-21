@@ -5,7 +5,7 @@
 
 { inputs, lib, pkgs, ... }: {
   imports = [
-    (import ./disks.nix { })
+    (import ../t510-headless/disks.nix { })
 
     inputs.nixos-hardware.nixosModules.common-cpu-intel
     inputs.nixos-hardware.nixosModules.common-pc
