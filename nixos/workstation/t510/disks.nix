@@ -6,8 +6,13 @@
         name = "Samsung 500GB 2.5\" SATA";
         type = "disk";
         content = {
-          type = "mbr";
+          type = "gpt";
           partitions = {
+            # compatibility for BIOS 
+            boot = {
+              size = "1M";
+              type = "EF02";
+            };
             root = {
               name = "root";
               end = "-0";
@@ -24,8 +29,8 @@
                 ];
               };
             };
-						swap = {
-							size = "8G";
+            swap = {
+              size = "16G";
               content = {
                 type = "swap";
                 discardPolicy = "both";
