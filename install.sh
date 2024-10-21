@@ -81,7 +81,9 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     --mode zap_create_mount \
     "$TARGET_HOST_ROOT/disks.nix"
 
-  sudo nixos-install --no-root-password --flake ".#$TARGET_HOST"
+  MAX_CONCURRENCY=$(($(nproc) - 1))
+
+  sudo nixos-install -j $MAX_CONCURRENCY --cores $MAX_CONCURRENCY --no-root-password --flake ".#$TARGET_HOST"
 
   if [[ "$TARGET_USER" == "root" ]]; then
     TARGET_USER_HOME="/mnt/root"
