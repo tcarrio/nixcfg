@@ -80,6 +80,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    distrobox
     google-fonts
     gnomeExtensions.gsconnect
   ];
