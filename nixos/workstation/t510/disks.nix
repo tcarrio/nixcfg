@@ -2,7 +2,7 @@
   disko.devices = {
     disk = {
       main = {
-        device = "ata-Samsung_SSD_850_PRO_512GB_S250NXAH211618D";
+        device = "/dev/disk/by-id/ata-Samsung_SSD_850_PRO_512GB_S250NXAH211618D";
         name = "Samsung 500GB 2.5\" SATA";
         type = "disk";
         content = {
