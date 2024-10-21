@@ -7,6 +7,7 @@
     ./mixins/services/firewall.nix
     ./mixins/services/fwupd.nix
     ./mixins/services/kmscon.nix
+    ./mixins/services/networkmanager.nix
     ./mixins/services/openssh.nix
     ./mixins/services/smartmon.nix
     ./mixins/users/root
