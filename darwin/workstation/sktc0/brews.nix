@@ -3,6 +3,7 @@ _: {
     taps = [
       "codefresh-io/cli"
       "oven-sh/bun"
+      "darrenburns/homebrew"
     ];
 
     brews = [
@@ -81,6 +82,7 @@ _: {
       "portaudio"
       "postgresql"
       "postgresql@14"
+      "darrenburns/homebrew/posting"
       "protobuf"
       "protobuf@21"
       "pyenv"
@@ -120,7 +122,6 @@ _: {
       "docker"
       "secretive"
       "sequel-ace"
-
     ];
   };
 }
