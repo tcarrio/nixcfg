@@ -195,10 +195,12 @@
         am = "!git cm --amend --no-edit --date=\"$(date +'%Y %D')\"";
         # push to origin HEAD
         poh = "p origin HEAD";
-        # force with lease
-        pf = "poh --force-with-lease";
+        # push remote branch- defaults to 'origin' but can accept a remote name
+        prb = "!gitprb() { local remote=\"$1\"; test -z \"$remote\" && remote=\"$(git cdr)\"; test -z \"$remote\" && remote=\"origin\"; test -n \"$remote\" && git p $remote $(git bn); }; gitprb";
+        # force with lease, please, if you would
+        pf = "!gitpf() { git prb $1 --force-with-lease; }; gitpf";
         # FORCEEEE
-        pff = "poh --force";
+        pff = "!gitpff() { git prb $1 --force; }; gitpff";
         # push and open pr
         ppr = "!git poh; !git pr";
         # open pr
@@ -210,6 +212,10 @@
         cob = "co -b";
         rh = "rs --hard";
         rho = "!git rh origin/$(git bn)";
+
+        # default remote configurations
+        sdr = "config checkout.defaultRemote";
+        cdr = "config --get checkout.defaultRemote";
 
         # short-hands for ignoring and unignoring files without .gitignore
         ignore = "update-index --assume-unchanged";
