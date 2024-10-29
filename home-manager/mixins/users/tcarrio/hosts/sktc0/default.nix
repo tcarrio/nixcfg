@@ -41,6 +41,9 @@
       thefuck --alias | source
       source $HOME/.nix-profile/share/asdf-vm/asdf.fish
 
+      # add existing gcloud to PATH
+      [ -f $HOME/sdks/google-cloud-sdk/path.fish.inc ] && source $HOME/sdks/google-cloud-sdk/path.fish.inc
+
       fenv source $HOME/Developer/workstation/workstation.sh
     '';
     shellAliases =
