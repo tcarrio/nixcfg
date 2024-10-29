@@ -187,6 +187,7 @@
         # gets latest shared commit
         sr = "merge-base HEAD";
         aa = "!git a $(git rd)";
+        rsa = "!git rs $(git rd)";
         fa = "f --all";
         # shows commit history
         hist = "log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short";
@@ -209,6 +210,14 @@
         cob = "co -b";
         rh = "rs --hard";
         rho = "!git rh origin/$(git bn)";
+
+        # short-hands for ignoring and unignoring files without .gitignore
+        ignore = "update-index --assume-unchanged";
+        ig = "ignore";
+        unignore = "update-index --no-assume-unchanged";
+        unig = "unignore";
+        ignored = "!git ls-files -v | grep \"^[[:lower:]]\"";
+        ls-ig = "ignored";
       };
       extraConfig = {
         push = {
