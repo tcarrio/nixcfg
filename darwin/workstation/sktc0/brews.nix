@@ -120,6 +120,7 @@ _: {
       "alfred"
       "amethyst"
       "docker"
+      "insomnia"
       "secretive"
       "sequel-ace"
     ];
