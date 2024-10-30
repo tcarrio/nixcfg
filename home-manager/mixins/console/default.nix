@@ -198,9 +198,9 @@
         # push remote branch- defaults to 'origin' but can accept a remote name
         prb = "!gitprb() { local remote=\"$1\"; test -z \"$remote\" && remote=\"$(git cdr)\"; test -z \"$remote\" && remote=\"origin\"; test -n \"$remote\" && git p $remote $(git bn); }; gitprb";
         # force with lease, please, if you would
-        pf = "!gitpf() { git prb $1 --force-with-lease; }; gitpf";
+        pf = "!git prb $(git cdr || echo -n 'origin') --force-with-lease";
         # FORCEEEE
-        pff = "!gitpff() { git prb $1 --force; }; gitpff";
+        pff = "!git prb $(git cdr || echo -n 'origin') --force";
         # push and open pr
         ppr = "!git poh; !git pr";
         # open pr
