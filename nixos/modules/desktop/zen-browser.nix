@@ -1,8 +1,4 @@
-{ lib, config, platform, inputs, ... }:
-let
-  debugValue = builtins.trace "Value of system (trace)" config.system;
-  debugSystem = lib.debug.traceVal "Value of system (traceVal)" config.system;
-in
+{ lib, config, inputs, ... }:
 {
   options.oxc.desktop.zen-browser = {
     enable = lib.mkOption {

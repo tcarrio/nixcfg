@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }: {
+{ lib, config, ... }: {
   options.oxc.services.xcode = {
     acceptLicense = lib.mkOption {
       default = true;

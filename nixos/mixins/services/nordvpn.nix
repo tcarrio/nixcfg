@@ -1,4 +1,4 @@
-{ config, lib, ... }: {
+_: {
   chaotic.nordvpn.enable = true;
 
   networking.firewall = {

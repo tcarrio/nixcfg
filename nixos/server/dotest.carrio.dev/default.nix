@@ -1,7 +1,9 @@
-{ ... }: let
+_:
+let
   webRootHostDir = "/etc/web-server/";
   fqdn = "dotest.carrio.dev";
-in {
+in
+{
   security.acme = {
     acceptTerms = true;
     defaults.email = "tom@carrio.dev";
@@ -39,9 +41,9 @@ in {
   };
 
   # Now we need to override some things in the systemd unit files to allow access to those TLS certs, starting with creating a new Linux group:
-  users.groups.www-data = {};
+  users.groups.www-data = { };
 
   # This strategy can be useful to override other advanced features as-needed
   systemd.services.static-web-server.serviceConfig.SupplementaryGroups = pkgs.lib.mkForce [ "" "www-data" ];
-  systemd.services.static-web-server.serviceConfig.BindReadOnlyPaths = pkgs.lib.mkForce [webRootHostDir "/var/lib/acme/${fqdn}"];
+  systemd.services.static-web-server.serviceConfig.BindReadOnlyPaths = pkgs.lib.mkForce [ webRootHostDir "/var/lib/acme/${fqdn}" ];
 }

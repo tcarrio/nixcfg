@@ -174,13 +174,13 @@
               system-image-nuc9 = mkNuc "archon" "nuc9";
             }
           )) // {
-            x86_64-linux = {
-              # TODO: image is still too large: reduction with `qemu-img resize --shrink ./nixos.img 5.5G` didn't error out but image will not boot
-              # linode-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "generic-base-image"; username = "archon"; format = "linode"; diskSize = 5120; };
+          x86_64-linux = {
+            # TODO: image is still too large: reduction with `qemu-img resize --shrink ./nixos.img 5.5G` didn't error out but image will not boot
+            # linode-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "generic-base-image"; username = "archon"; format = "linode"; diskSize = 5120; };
 
-              digital-ocean-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "generic-base-image"; username = "archon"; format = "do"; };
-            };
+            digital-ocean-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "generic-base-image"; username = "archon"; format = "do"; };
           };
+        };
       # And custom nixos-generators definitions
       # TODO: forAllSystems
       #   tk1 = libx.mkSdImage { hostname = "tk1"; username = "root"; systemType = "server"; };

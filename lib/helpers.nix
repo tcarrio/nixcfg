@@ -79,12 +79,12 @@ in
     } // extraSpecialArgs;
 
     system = platform;
-    format = format;
+    inherit format;
     # pkgs = inputs.nixpkgs.legacyPackages."${platform}";
     # lib = inputs.nixpkgs.legacyPackages."${platform}".lib;
 
     modules = [
-      ({ ... }: { nix.registry.nixpkgs.flake = inputs.nixpkgs; })
+      (_: { nix.registry.nixpkgs.flake = inputs.nixpkgs; })
       ../nixos
       inputs.agenix.nixosModules.default
       # inputs.chaotic.nixosModules.default

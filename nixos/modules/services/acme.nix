@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }: {
+{ lib, config, ... }: {
   options.oxc.services.acme = {
     enable = lib.mkOption {
       type = lib.types.bool;

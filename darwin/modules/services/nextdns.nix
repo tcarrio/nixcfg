@@ -19,7 +19,7 @@
 
     services.nextdns = {
       enable = true;
-      arguments = ["-profile" "${config.oxc.services.nextdns.id}" "-report-client-info" "-auto-activate"];
+      arguments = [ "-profile" "${config.oxc.services.nextdns.id}" "-report-client-info" "-auto-activate" ];
     };
   };
 }
