@@ -215,7 +215,7 @@
 
         # default remote configurations
         sdr = "config checkout.defaultRemote";
-        cdr = "config --get checkout.defaultRemote";
+        cdr = "!gitcdr() { git config --get checkout.defaultRemote || printf 'origin' ; }; gitcdr";
 
         # short-hands for ignoring and unignoring files without .gitignore
         ignore = "update-index --assume-unchanged";
