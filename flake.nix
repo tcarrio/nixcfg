@@ -52,6 +52,7 @@
     , nix-formatter-pack
     , nixpkgs
     , devshells
+    , nix-darwin
     , ...
     } @ inputs:
     let
@@ -126,11 +127,30 @@
       };
 
       # Devshell for bootstrapping; acessible via 'nix develop' or 'nix-shell' (legacy)
-      inherit (devshells) devShells;
-      # libx.forAllSystems (system:
-      # let pkgs = nixpkgs.legacyPackages.${system};
-      # in import ./shell.nix { inherit pkgs; }
-      # );
+      devShells = devshells.devShells //
+        (libx.forAllDarwin (system:
+          let
+            pkgs = nixpkgs.legacyPackages.${system};
+            darwinNixPkgs = nix-darwin.packages.${system};
+          in
+          {
+            default = pkgs.mkShell {
+              NIX_CONFIG = "experimental-features = nix-command flakes";
+              packages = with pkgs; [ home-manager darwinNixPkgs.darwin-rebuild git ];
+            };
+          }
+        )) //
+        (libx.forAllLinux (system:
+          let
+            pkgs = nixpkgs.legacyPackages.${system};
+          in
+          {
+            default = pkgs.mkShell {
+              NIX_CONFIG = "experimental-features = nix-command flakes";
+              packages = with pkgs; [ nix home-manager git ];
+            };
+          }
+        ));
 
       # nix fmt
       formatter = libx.forAllSystems (system:

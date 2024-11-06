@@ -9,5 +9,7 @@ in
     mkDarwin
     mkGeneratorImage
     mkSdImage
-    forAllSystems;
+    forAllSystems
+    forAllLinux
+    forAllDarwin;
 }
