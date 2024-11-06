@@ -91,7 +91,6 @@ _: {
       "python@3.12"
       "python@3.9"
       "pyyaml"
-      "qemu"
       "r"
       "re2c"
       "readline"
