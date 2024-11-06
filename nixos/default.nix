@@ -239,6 +239,7 @@
       };
       shellAliases = {
         nix-gc = "sudo nix-collect-garbage --delete-older-than 28d";
+        nix-repair = "sudo nix-store --repair --verify --check-contents";
         rebuild-home = "home-manager switch -b backup --flake $HOME/0xc/nixcfg";
         rebuild-host = "sudo nixos-rebuild switch --flake $HOME/0xc/nixcfg";
         rebuild-all = "nix-gc && rebuild-host && rebuild-home";

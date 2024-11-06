@@ -94,6 +94,10 @@
       motherboard = "amd";
       package = pkgs.openrgb-with-all-plugins;
     };
+    jellyfin = {
+      enable = true;
+      openFirewall = true;
+    };
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
