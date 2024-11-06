@@ -72,7 +72,6 @@ _: {
       "ncdu"
       "ninja"
       "node"
-      "openssl@1.1"
       "openssl"
       "pandoc"
       "pango"
