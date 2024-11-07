@@ -3,7 +3,7 @@
 # RAM:         16GB DDR4
 # SATA:        500GB SSD
 
-_: {
+{ pkgs, ... }: {
   imports = [
     ../../mixins/console/homebrew.nix
     ./brews.nix
@@ -11,6 +11,12 @@ _: {
 
   oxc.services.xcode.acceptLicense = true;
   oxc.services.nextdns.enable = false;
+  oxc.services.colima.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    docker_27
+    docker-compose
+  ];
 
   networking.hostName = "sktc0";
 

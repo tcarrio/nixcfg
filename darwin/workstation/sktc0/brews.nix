@@ -28,7 +28,6 @@ _: {
       "dbus"
       "deno"
       "dive"
-      "docker-compose"
       "editorconfig"
       "flarectl"
       "freetype"
@@ -77,7 +76,6 @@ _: {
       "pango"
       "pcre"
       "pkg-config"
-      "podman"
       "portaudio"
       "postgresql"
       "postgresql@14"
@@ -117,7 +115,6 @@ _: {
     casks = [
       "alfred"
       "amethyst"
-      "docker"
       "insomnia"
       "secretive"
       "sequel-ace"
