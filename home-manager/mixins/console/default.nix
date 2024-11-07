@@ -119,15 +119,24 @@
         in
         {
           shell = ''
-            nix develop $HOME/0xc/nixcfg#$argv[1] || nix develop $HOME/0xc/nixcfg#( \
-              git remote -v \
-                | grep '(push)' \
-                | awk '{print $2}' \
-                | cut -d ':' -f 2 \
-                | rev \
-                | sed 's/tig.//' \
-                | rev \
-            )
+            set shellArgs ""
+            if [ -n "$SHELL" ]
+              set shellArgs "-c $SHELL"
+            end
+
+            if [ -d $HOME/0xc/nixcfg ]
+              nix develop $HOME/0xc/nixcfg#$argv[1]
+            else
+              nix develop github:( \
+                git remote -v \
+                  | grep '(push)' \
+                  | awk '{print $2}' \
+                  | cut -d ':' -f 2 \
+                  | rev \
+                  | sed 's/tig.//' \
+                  | rev \
+              )#$argv[1];
+            end
           '';
           is-number = ''
             string match --quiet --regex "^\d+\$" $argv[1]
