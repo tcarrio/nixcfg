@@ -134,8 +134,7 @@
       };
 
       # Devshell for bootstrapping; acessible via 'nix develop' or 'nix-shell' (legacy)
-      devShells = devshells.devShells //
-        (libx.forAllDarwin (system:
+      devShells = (libx.forAllDarwin (system:
           let
             pkgs = nixpkgs.legacyPackages.${system};
             darwinNixPkgs = nix-darwin.packages.${system};
@@ -145,7 +144,7 @@
               NIX_CONFIG = "experimental-features = nix-command flakes";
               packages = with pkgs; [ home-manager darwinNixPkgs.darwin-rebuild git ];
             };
-          }
+          } // devshells.devShells.${system}
         )) //
         (libx.forAllLinux (system:
           let
@@ -156,7 +155,7 @@
               NIX_CONFIG = "experimental-features = nix-command flakes";
               packages = with pkgs; [ nix home-manager git ];
             };
-          }
+          } // devshells.devShells.${system}
         ));
 
       # nix fmt
