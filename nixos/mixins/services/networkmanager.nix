@@ -7,5 +7,6 @@ _:
         backend = "iwd";
       };
     };
+    wireless.enable = false;
   };
 }
