@@ -86,7 +86,7 @@ in
     };
   };
 
-  config.environment.systemPackages = [ auto-install-system ];
+  environment.systemPackages = [ auto-install-system ];
 
   programs.fish.interactiveShellInit = ''
     auto-install-system
