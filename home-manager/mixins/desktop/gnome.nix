@@ -46,7 +46,7 @@ with lib.hm.gvariant;
       cursor-size = 24;
       cursor-theme = "adwaita";
       document-font-name = "Work Sans 12";
-      font-name = "Work Sans 12";
+      font-name = lib.mkDefault "Work Sans 12";
       gtk-theme = "org.gnome.theme";
       gtk-enable-primary-paste = true;
       icon-theme = "adwaita";
