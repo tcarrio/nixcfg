@@ -19,8 +19,8 @@
     ../../mixins/services/yubikey.nix
   ];
 
-  config.oxc = {
-    containerization = {
+  oxc = {
+    containerisation = {
       enable = true;
       engine = "podman";
     };
