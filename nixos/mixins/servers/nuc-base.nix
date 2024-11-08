@@ -5,11 +5,11 @@
     inputs.nixos-hardware.nixosModules.common-gpu-intel
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
-    ../../mixins/hardware/disable-nm-wait.nix
     ../../mixins/hardware/systemd-boot.nix
   ];
 
   oxc.services.tailscale.enable = true;
+  oxc.services.wait-online.enable = true;
   oxc.containerisation.enable = true;
   oxc.virtualisation.enable = true;
 
