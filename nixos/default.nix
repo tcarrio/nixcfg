@@ -1,4 +1,10 @@
-{ config, desktop, hostname, inputs, lib, modulesPath, outputs, pkgs, stateVersion, systemType, username, ... }: {
+{ config, desktop, hostname, inputs, lib, modulesPath, outputs, pkgs, stateVersion, systemType, username, ... }:
+let
+  parts = lib.strings.splitString "." hostname;
+  hostName = if (builtins.length parts > 1) then builtins.head parts else hostname;
+  domain = if (builtins.length parts > 1) then builtins.concatStringsSep "." (builtins.tail parts) else null;
+in
+{
   imports = [
     inputs.disko.nixosModules.disko
     ./modules
@@ -126,7 +132,7 @@
 
   # Use passed hostname to configure basic networking
   networking = {
-    hostName = hostname;
+    inherit hostName domain;
     useDHCP = lib.mkDefault true;
   };
 

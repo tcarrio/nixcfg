@@ -1,9 +1,13 @@
-_:
+{ pkgs, lib, ... }:
 let
   webRootHostDir = "/etc/web-server/";
   fqdn = "dotest.carrio.dev";
 in
 {
+  imports = [
+    ../../mixins/disks/do.nix
+  ];
+
   security.acme = {
     acceptTerms = true;
     defaults.email = "tom@carrio.dev";
@@ -20,7 +24,7 @@ in
   networking.firewall.allowedTCPPorts = [ 80 443 ];
 
   # Configure hosted web content
-  etc.web-server.source = ./webroot;
+  environment.etc.web-server.source = ./webroot;
 
   # Configure SWS to use the generated TLS certs
   services.static-web-server = {
@@ -46,4 +50,6 @@ in
   # This strategy can be useful to override other advanced features as-needed
   systemd.services.static-web-server.serviceConfig.SupplementaryGroups = pkgs.lib.mkForce [ "" "www-data" ];
   systemd.services.static-web-server.serviceConfig.BindReadOnlyPaths = pkgs.lib.mkForce [ webRootHostDir "/var/lib/acme/${fqdn}" ];
+
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
