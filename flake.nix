@@ -47,9 +47,9 @@
     zen-browser.url = "github:MarceColl/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
 
-    # IaC
-    inputs.terranix.url = "github:terranix/terranix";
-    inputs.terranix.inputs.nixpkgs.follows = "nixpkgs";
+    # IaC (WIP)
+    # inputs.terranix.url = "github:terranix/terranix";
+    # inputs.terranix.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs =
     { self

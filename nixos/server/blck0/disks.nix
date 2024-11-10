@@ -18,10 +18,14 @@ in
         type = "disk";
         device = "/dev/sdj";
         content = {
-          type = "table";
-          format = "msdos";
-          partitions = [
-            {
+          type = "gpt";
+          partitions = {
+            boot = {
+              size = "1M";
+              # for grub MBR
+              type = "EF02";
+            };
+            root = {
               start = "1M";
               end = "-16G";
               content = {
@@ -29,8 +33,16 @@ in
                 format = "ext4";
                 mountpoint = "/";
               };
-            }
-          ];
+            };
+            swap = {
+              size = "100%";
+              content = {
+                type = "swap";
+                discardPolicy = "both";
+                resumeDevice = true;
+              };
+            }; 
+          };
         };
       };
 
