@@ -28,11 +28,11 @@
     ../../mixins/services/bluetooth.nix
   ];
 
-  boot.swraid.enable = true;
-  systemd.services."mdmonitor".environment = {
-    # Override mdmonitor to log to syslog instead of emailing or alerting
-    MDADM_MONITOR_ARGS = "--scan --syslog";
-  };
+  # boot.swraid.enable = true;
+  # systemd.services."mdmonitor".environment = {
+  #   # Override mdmonitor to log to syslog instead of emailing or alerting
+  #   MDADM_MONITOR_ARGS = "--scan --syslog";
+  # };
 
   oxc.containerisation.enable = true;
   oxc.virtualisation.enable = true;
