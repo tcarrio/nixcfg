@@ -35,14 +35,10 @@ in
         content = {
           type = "gpt";
           partitions = {
-            ESP = {
-              type = "EF00";
-              size = "1G";
-              content = {
-                type = "filesystem";
-                format = "vfat";
-                mountpoint = "/boot";
-              };
+            boot = {
+              size = "1M";
+              # for grub MBR
+              type = "EF02";
             };
             root = {
               start = "1M";

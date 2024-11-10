@@ -24,7 +24,7 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     (import ./disks.nix { })
-    ../../mixins/hardware/systemd-boot.nix
+    ../../mixins/hardware/grub-legacy-boot.nix
     ../../mixins/services/bluetooth.nix
   ];
 
