@@ -132,7 +132,7 @@
         nuc8 = libx.mkHost { systemType = "server"; hostname = "nuc8"; username = "archon"; };
         nuc9 = libx.mkHost { systemType = "server"; hostname = "nuc9"; username = "archon"; };
 
-        blck0 = libx.mkHost { systemType = "server"; hostname = "blck0"; username = "archon"; };
+        shiroi = libx.mkHost { systemType = "server"; hostname = "shiroi"; username = "archon"; };
 
         "dotest.carrio.dev" = libx.mkHost { systemType = "server"; hostname = "dotest.carrio.dev"; username = "archon"; };
       };
