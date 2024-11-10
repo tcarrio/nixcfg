@@ -46,6 +46,10 @@
     # Zen Browser
     zen-browser.url = "github:MarceColl/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
+
+    # IaC
+    inputs.terranix.url = "github:terranix/terranix";
+    inputs.terranix.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs =
     { self
@@ -127,6 +131,8 @@
         nuc7 = libx.mkHost { systemType = "server"; hostname = "nuc7"; username = "archon"; };
         nuc8 = libx.mkHost { systemType = "server"; hostname = "nuc8"; username = "archon"; };
         nuc9 = libx.mkHost { systemType = "server"; hostname = "nuc9"; username = "archon"; };
+
+        blck0 = libx.mkHost { systemType = "server"; hostname = "blck0"; username = "archon"; };
 
         "dotest.carrio.dev" = libx.mkHost { systemType = "server"; hostname = "dotest.carrio.dev"; username = "archon"; };
       };

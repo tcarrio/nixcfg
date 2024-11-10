@@ -30,13 +30,6 @@ in
                 mountpoint = "/";
               };
             }
-            {
-              size = "100%";
-              content = {
-                type = "swap";
-                resumeDevice = true;
-              };
-            }
           ];
         };
       };

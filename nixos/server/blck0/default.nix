@@ -1,18 +1,19 @@
 # Gigabyte GB-BXCEH-2955 (Celeron 2955U: Haswell)
 
-{ inputs, lib, pkgs, ... }:
+{ inputs, lib, pkgs, hostname, ... }:
 {
   imports = [
     inputs.nixos-hardware.nixosModules.common-cpu-intel
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     (import ./disks.nix { })
-    ../mixins/hardware/systemd-boot.nix
-    ../mixins/services/bluetooth.nix
+    ../../mixins/hardware/systemd-boot.nix
+    ../../mixins/services/bluetooth.nix
   ];
 
   oxc.containerisation.enable = true;
   oxc.virtualisation.enable = true;
+  oxc.services.remote-builder.enable = true;
 
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" ];
