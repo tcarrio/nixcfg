@@ -1,4 +1,21 @@
-# Gigabyte GB-BXCEH-2955 (Celeron 2955U: Haswell)
+# Motherboard: Supermicro X9SCL/X9SCM
+# CPU:         Intel Celeron G1610T (2) @ 2.300GHz
+# GPU:         Matrox Electronics Systems Ltd. X9SCM-F Motherboard
+# RAM:         16GB DDR3
+# SATA:        WD 300GB HDD
+# SATA:        Corsair 256G
+# SATA:        WD Red 1TB HDD
+# SATA:        WD Red 1TB HDD
+# SATA:        WD Red 1TB HDD
+# SATA:        WD Red 1TB HDD
+# SATA:        WD 120GB SDD
+# SATA:        WD 120GB SDD
+# SATA:        WD 120GB SDD
+# SATA:        WD 120GB SDD
+# SATA:        WD 120GB SDD
+# SATA:        WD 120GB SDD
+# SATA:        WD 120GB SDD
+# SATA:        WD 120GB SDD
 
 { inputs, lib, pkgs, hostname, ... }:
 {
