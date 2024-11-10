@@ -29,9 +29,9 @@ in
 {
   disko.devices = {
     disk = {
-      root = {
-        type = "disk";
+      sda = {
         device = "/dev/disk/by-id/ata-Corsair_CMFSSD-256D1_131801888FF00002";
+        type = "disk";
         content = {
           type = "gpt";
           partitions = {
@@ -41,41 +41,32 @@ in
               type = "EF02";
             };
             root = {
-              start = "1M";
-              end = "-16G";
+              size = "100%";
               content = {
                 type = "filesystem";
                 format = "ext4";
                 mountpoint = "/";
               };
             };
-            swap = {
-              size = "100%";
-              content = {
-                type = "swap";
-                discardPolicy = "both";
-                resumeDevice = true;
-              };
-            }; 
           };
         };
       };
 
 
 
-      # ssd-a = mkSsdRaidDisk "/dev/disk/by-id/ata-WDC_WDS120G2G0A-00JH30_19166R479906";
-      # ssd-b = mkSsdRaidDisk "/dev/disk/by-id/ata-WDC_WDS120G2G0A-00JH30_19166R479914";
-      # ssd-c = mkSsdRaidDisk "/dev/disk/by-id/ata-WDC_WDS120G2G0A-00JH30_19166R440706";
-      # ssd-d = mkSsdRaidDisk "/dev/disk/by-id/ata-WDC_WDS120G2G0A-00JH30_19166R471806";
-      # ssd-e = mkSsdRaidDisk "/dev/disk/by-id/ata-WDC_WDS120G2G0A-00JH30_19166R463915";
-      # ssd-f = mkSsdRaidDisk "/dev/disk/by-id/ata-WDC_WDS120G2G0A-00JH30_19166R458505";
-      # ssd-g = mkSsdRaidDisk "/dev/disk/by-id/ata-WDC_WDS120G2G0A-00JH30_19166R463905";
-      # ssd-h = mkSsdRaidDisk "/dev/disk/by-id/ata-WDC_WDS120G2G0A-00JH30_19166R451904";
+      # ssd-0 = mkSsdRaidDisk "/dev/disk/by-id/ata-WDC_WDS120G2G0A-00JH30_19166R479906";
+      # ssd-1 = mkSsdRaidDisk "/dev/disk/by-id/ata-WDC_WDS120G2G0A-00JH30_19166R479914";
+      # ssd-2 = mkSsdRaidDisk "/dev/disk/by-id/ata-WDC_WDS120G2G0A-00JH30_19166R440706";
+      # ssd-3 = mkSsdRaidDisk "/dev/disk/by-id/ata-WDC_WDS120G2G0A-00JH30_19166R471806";
+      # ssd-4 = mkSsdRaidDisk "/dev/disk/by-id/ata-WDC_WDS120G2G0A-00JH30_19166R463915";
+      # ssd-5 = mkSsdRaidDisk "/dev/disk/by-id/ata-WDC_WDS120G2G0A-00JH30_19166R458505";
+      # ssd-6 = mkSsdRaidDisk "/dev/disk/by-id/ata-WDC_WDS120G2G0A-00JH30_19166R463905";
+      # ssd-7 = mkSsdRaidDisk "/dev/disk/by-id/ata-WDC_WDS120G2G0A-00JH30_19166R451904";
 
-      # hdd-k = mkHddRaidDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J7TLCSNX";
-      # hdd-l = mkHddRaidDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XV4KDD";
-      # hdd-m = mkHddRaidDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XR859D";
-      # hdd-n = mkHddRaidDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J2TJHS9P";
+      # hdd-0 = mkHddRaidDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J7TLCSNX";
+      # hdd-1 = mkHddRaidDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XV4KDD";
+      # hdd-2 = mkHddRaidDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XR859D";
+      # hdd-3 = mkHddRaidDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J2TJHS9P";
     };
 
     # mdadm = {
