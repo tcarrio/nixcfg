@@ -118,14 +118,9 @@
           makeSriUrlHasherFishFunction = makeSriUrlHasher "$argv[1]";
         in
         {
-          shell = ''
-            set shellArgs ""
-            if [ -n "$SHELL" ]
-              set shellArgs "-c $SHELL"
-            end
-
+          dev = ''
             if [ -d $HOME/0xc/nixcfg ]
-              nix develop $HOME/0xc/nixcfg#$argv[1]
+              nix develop $HOME/0xc/nixcfg#$argv[1] -c fish
             else
               nix develop github:( \
                 git remote -v \
@@ -135,7 +130,7 @@
                   | rev \
                   | sed 's/tig.//' \
                   | rev \
-              )#$argv[1];
+              )#$argv[1] -c fish;
             end
           '';
           is-number = ''

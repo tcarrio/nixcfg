@@ -44,6 +44,7 @@ Host glass
     fish = {
       enable = true;
       interactiveShellInit = ''
+        set -U fish_greeting ""
         set fish_cursor_default block blink
         set fish_cursor_insert line blink
         set fish_cursor_replace_one underscore blink
@@ -79,7 +80,7 @@ Host glass
       shellAliases =
         let
           #                         determines directory path of symbol link
-          sh = target: "nix develop $(readlink -f ~/0xc/devshells)#${target} --command \$SHELL";
+          dev = target: "nix develop $(readlink -f ~/0xc/devshells)#${target} --command \$SHELL";
           git = "git";
         in
         {
@@ -88,14 +89,14 @@ Host glass
 
           lg = "lazygit";
 
-          "sh:php80" = sh "php80";
-          "sh:php81" = sh "php81";
-          "sh:php82" = sh "php82";
-          "sh:node" = sh "node";
-          "sh:node16" = sh "node16";
-          "sh:node18" = sh "node18";
-          "sh:node20" = sh "node20";
-          "sh:python" = sh "python";
+          "dev:php80" = dev "php80";
+          "dev:php81" = dev "php81";
+          "dev:php82" = dev "php82";
+          "dev:node" = dev "node";
+          "dev:node16" = dev "node16";
+          "dev:node18" = dev "node18";
+          "dev:node20" = dev "node20";
+          "dev:python" = dev "python";
         };
     };
 

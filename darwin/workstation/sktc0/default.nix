@@ -11,12 +11,7 @@
 
   oxc.services.xcode.acceptLicense = true;
   oxc.services.nextdns.enable = false;
-  oxc.services.colima.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    docker_27
-    docker-compose
-  ];
+  oxc.services.colima.enable = false;
 
   networking.hostName = "sktc0";
 
