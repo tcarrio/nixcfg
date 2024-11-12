@@ -7,6 +7,7 @@ in
   imports =
     [
       ../../console/charm-freeze.nix
+      ../../console/zeit.nix
       ../../desktop/discord.nix
     ]
     ++ lib.optional (builtins.pathExists (./. + "/hosts/${hostname}.nix")) ./hosts/${hostname}.nix
@@ -36,7 +37,7 @@ Host glass
     packages = with pkgs; [
       git-absorb
       thefuck
-      tte
+      cmatrix
     ];
   };
 

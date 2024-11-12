@@ -5,7 +5,7 @@
   additions = final: prev:
     (import ../pkgs { pkgs = final; })
     // rec {
-      templateFile = name: template: data:
+      mustacheTemplate = name: template: data:
         prev.stdenv.mkDerivation {
           name = "${name}";
 
@@ -29,7 +29,7 @@
           '';
         };
 
-      templateFileContent = n: t: d: builtins.readFile "${templateFile n t d}";
+      mustacheTemplateContent = n: t: d: builtins.readFile "${mustacheTemplate n t d}";
     };
 
   # This one contains whatever you want to overlay
