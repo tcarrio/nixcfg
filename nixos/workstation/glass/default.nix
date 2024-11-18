@@ -58,7 +58,7 @@
       nextdns.enable = true;
       wait-online.enable = false;
       tailscale.enable = true;
-      tailscale.autoconnect = true;
+      tailscale.autoconnect = false;
     };
     containerisation = {
       enable = true;
@@ -83,6 +83,8 @@
     distrobox
     google-fonts
     gnomeExtensions.gsconnect
+    publii
+    transmission_4-qt
   ];
 
   # support for cross-platform NixOS builds
