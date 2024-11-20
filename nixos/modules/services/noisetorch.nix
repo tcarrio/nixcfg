@@ -21,16 +21,13 @@ in
         #!/bin/bash
         exec ${config.security.wrapperDir}/noisetorch "$@"
       '')
+      (pkgs.makeDesktopItem {
+        name = "noisetorch-desktop";
+        desktopName = "NoiseTorch";
+        exec = ''
+          ${config.security.wrapperDir}/noisetorch %F
+        '';
+      })
     ];
-    # systemd.user.services.noisetorch = {
-    #   description = "noisetorch";
-    #   startLimitBurst = 5;
-    #   startLimitIntervalSec = 500;
-    #   serviceConfig = {
-    #     ExecStart = "${config.security.wrapperDir}/noisetorch";
-    #     Restart = "on-failure";
-    #     RestartSec = "5s";
-    #   };
-    # };
   };
 }
