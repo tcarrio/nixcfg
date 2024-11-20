@@ -30,6 +30,7 @@
       daw.enable = true;
       ente.enable = true;
       logseq.enable = true;
+      obs-studio.enable = true;
       steam = {
         enable = true;
         audioSupport.jack = true;
@@ -56,6 +57,7 @@
     };
     services = {
       nextdns.enable = true;
+      noisetorch.enable = true;
       wait-online.enable = false;
       tailscale.enable = true;
       tailscale.autoconnect = false;

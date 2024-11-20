@@ -1,4 +1,8 @@
-{ lib, config, pkgs, ... }: {
+{ lib, config, pkgs, ... }:
+let
+  cfg = config.oxc.desktop.obs-studio;
+in
+{
   options.oxc.desktop.obs-studio = {
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -24,10 +28,10 @@
     };
   };
 
-  config = lib.mkIf config.oxc.desktop.obs-studio.enable {
+  config = lib.mkIf cfg.enable {
     # https://nixos.wiki/wiki/OBS_Studio
     boot =
-      if config.oxc.desktop.obs-studio.virtualCamera.enable
+      if cfg.virtualCamera.enable
       then {
         extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
         extraModprobeConfig = ''
@@ -40,7 +44,7 @@
       pkgs.google-fonts
       pkgs.libnotify
       (pkgs.wrapOBS {
-        plugins = with pkgs.obs-studio-plugins; if config.oxc.desktop.obs-studio.bellsAndWhistles.all then [
+        plugins = with pkgs.obs-studio-plugins; if cfg.bellsAndWhistles.all then [
           obs-3d-effect
           obs-command-source
           obs-gradient-source
@@ -57,7 +61,7 @@
           obs-source-clone
           obs-source-record
           obs-source-switcher
-          obs-transition-table
+          # obs-transition-table
           obs-vaapi
           obs-vintage-filter
           obs-websocket

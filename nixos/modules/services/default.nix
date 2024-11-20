@@ -3,6 +3,7 @@ _: {
     ./acme.nix
     ./flatpak.nix
     ./nextdns.nix
+    ./noisetorch.nix
     ./remote-builder.nix
     ./tailscale.nix
     ./tailscale-autoconnect.nix
