@@ -3,8 +3,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     # You can access packages and modules from different nixpkgs revs at the
-    # same time. See 'stable-packages' overlay in 'overlays/default.nix'.
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
+    # same time. See 'unstable-packages' overlay in 'overlays/default.nix'.
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-trunk.url = "github:nixos/nixpkgs/master";
 
     agenix.url = "github:ryantm/agenix";
@@ -18,7 +18,7 @@
 
     # Chaotic's Nyx provides many additional packages like NordVPN
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
-    chaotic.inputs.nixpkgs.follows = "nixpkgs";
+    chaotic.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     nix-formatter-pack.url = "github:Gerschtli/nix-formatter-pack";
     nix-formatter-pack.inputs.nixpkgs.follows = "nixpkgs";
@@ -38,10 +38,6 @@
     # nixos-generators for sdcard and raw disk install generation
     nixos-generators.url = "github:tcarrio/nixos-generators";
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
-
-    # COSMIC DE
-    nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
-    nixos-cosmic.inputs.nixpkgs.follows = "nixpkgs";
 
     # Zen Browser
     zen-browser.url = "github:MarceColl/zen-browser-flake";

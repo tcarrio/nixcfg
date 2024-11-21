@@ -18,7 +18,7 @@ in
 
   hardware = {
     nvidia = {
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      package = config.boot.kernelPackages.nvidiaPackages.beta;
 
       modesetting.enable = true;
 
@@ -43,5 +43,5 @@ in
     pulseaudio.support32Bit = true;
   };
 
-  virtualisation.docker.enableNvidia = true;
+  virtualisation.docker.enableNvidia = config.oxc.virtualisation.enable;
 }
