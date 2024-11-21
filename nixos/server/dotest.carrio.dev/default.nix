@@ -5,7 +5,7 @@ let
 in
 {
   imports = [
-    ../../mixins/disks/do.nix
+    ../../mixins/disks/digital-ocean.nix
   ];
 
   security.acme = {

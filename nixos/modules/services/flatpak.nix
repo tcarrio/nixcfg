@@ -1,4 +1,8 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, ... }:
+let
+  cfg = config.oxc.services.flatpak;
+in
+{
   options.oxc.services.flatpak = {
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -15,11 +19,11 @@
     };
   };
 
-  config = lib.mkIf config.oxc.services.flatpak.enable {
+  config = lib.mkIf cfg.enable {
     services.flatpak.enable = true;
 
     # unit file idempotently adds flathub to flatpak repositories
-    systemd.services.configure-flathub-repo = lib.mkIf config.oxc.services.flatpak.flathub.enable {
+    systemd.services.configure-flathub-repo = lib.mkIf cfg.flathub.enable {
       wantedBy = [ "multi-user.target" ];
       path = [ pkgs.flatpak ];
       script = ''

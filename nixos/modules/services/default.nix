@@ -2,6 +2,7 @@ _: {
   imports = [
     ./acme.nix
     ./flatpak.nix
+    ./networkmanager.nix
     ./nextdns.nix
     ./noisetorch.nix
     ./remote-builder.nix

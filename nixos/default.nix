@@ -13,7 +13,6 @@ in
     ./mixins/services/firewall.nix
     ./mixins/services/fwupd.nix
     ./mixins/services/kmscon.nix
-    ./mixins/services/networkmanager.nix
     ./mixins/services/openssh.nix
     ./mixins/services/smartmon.nix
     ./mixins/users/root
@@ -90,46 +89,6 @@ in
     };
   };
 
-  fonts = {
-    fontDir.enable = true;
-    packages = with pkgs; [
-      # (nerdfonts.override { fonts = [ "FiraCode" "SourceCodePro" "UbuntuMono" ]; })
-      # fira
-      # fira-go
-      # ipafont # Japanese characters
-      # kochi-substitute # Japanese characters
-      # joypixels # Emojis
-      # liberation_ttf
-      # noto-fonts-emoji # Emojis
-      # source-serif
-      # ubuntu_font_family
-      # work-sans
-    ];
-
-    # Enable a basic set of fonts providing several font styles and families and reasonable coverage of Unicode.
-    enableDefaultPackages = false;
-
-    # fontconfig = {
-    #   antialias = true;
-    #   defaultFonts = {
-    #     serif = [ "Source Serif" "IPAPMincho" ];
-    #     sansSerif = [ "Work Sans" "Fira Sans" "FiraGO" "IPAGothic" ];
-    #     monospace = [ "FiraCode Nerd Font Mono" "SauceCodePro Nerd Font Mono" "IPAGothic" ];
-    #     emoji = [ "Joypixels" "Noto Color Emoji" ];
-    #   };
-    #   enable = true;
-    #   hinting = {
-    #     autohint = false;
-    #     enable = true;
-    #     style = "slight";
-    #   };
-    #   subpixel = {
-    #     rgba = "rgb";
-    #     lcdfilter = "light";
-    #   };
-    # };
-  };
-
   # Use passed hostname to configure basic networking
   networking = {
     inherit hostName domain;
@@ -156,13 +115,6 @@ in
       #   });
       # })
     ];
-    # Configure your nixpkgs instance
-    config = {
-      # Disable if you don't want unfree packages
-      allowUnfree = true;
-      # Accept the joypixels license
-      joypixels.acceptLicense = true;
-    };
   };
 
   nix = {

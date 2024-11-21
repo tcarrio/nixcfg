@@ -1,4 +1,8 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, ... }:
+let
+  cfg = config.oxc.services.nextdns;
+in
+{
   options.oxc.services.nextdns = {
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -13,13 +17,13 @@
     };
   };
 
-  config = lib.mkIf config.oxc.services.nextdns.enable {
+  config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       nextdns
     ];
     services.nextdns = {
       enable = true;
-      arguments = [ "-profile" config.oxc.services.nextdns.profile "-cache-size" "10MB" "-report-client-info" "-auto-activate" ];
+      arguments = [ "-profile" cfg.profile "-cache-size" "10MB" "-report-client-info" "-auto-activate" ];
     };
   };
 }
