@@ -1,7 +1,7 @@
 {
   description = "tcarrio's NixOS and Home Manager Configuration";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     # You can access packages and modules from different nixpkgs revs at the
     # same time. See 'stable-packages' overlay in 'overlays/default.nix'.
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
@@ -13,7 +13,7 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager.url = "github:nix-community/home-manager";
+    home-manager.url = "github:nix-community/home-manager/release-24.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Chaotic's Nyx provides many additional packages like NordVPN
