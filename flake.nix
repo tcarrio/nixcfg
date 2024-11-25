@@ -131,6 +131,7 @@
         shiroi = libx.mkHost { systemType = "server"; hostname = "shiroi"; username = "archon"; };
 
         "dotest.carrio.dev" = libx.mkHost { systemType = "server"; hostname = "dotest.carrio.dev"; username = "archon"; };
+        "nix-proxy-droplet" = libx.mkHost { systemType = "server"; hostname = "nix-proxy-droplet"; username = "archon"; };
       };
 
       # Devshell for bootstrapping; acessible via 'nix develop' or 'nix-shell' (legacy)

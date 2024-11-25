@@ -72,6 +72,21 @@ rec {
     nuc7.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHxoeRp7c4Nf8UNbeLn+2iNIF/aRYGB3Oguh/5B7tPeX nuc7.int.carrio.dev";
     nuc8.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE3oKc5kg3bsi0+CeNveIAe72oBsUcpJneRtzHD19W5r nuc8.int.carrio.dev";
     nuc9.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMTvNx3JktdcCnanqsDZiRJs2IeF9Gb8NVeLdBFHiekR nuc9.int.carrio.dev";
+
+    # Digital Ocean servers
+    nix-proxy-droplet.host = parseFriendlyKey ''
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCddQfWim3sfzyrOh7gg8bjhtpiKYWL
+      QKff5yGxp3kQrykzVuOwKLWg182IBlk7VdIiIB/RDdwJ0umgpiTV+esFAtwokWS12CmV
+      o5HFabGKmRYdr9fxgRXarMAHpsHabt7e5E96gwUyC0PuBfODTGc6Gm30SV6bHPS5faVv
+      7lsUoW47sD4XPf2Nm7QJEjaZyXJjk88H37mTCAuNBlJ1+d/jkzSpkHGJ2Maaj5i8y0AE
+      a3BQWQDG7xSgJvNeVeY9V/rMOmvSm9nUhIvMV2sqNQX6UVD13tMJfq3MtzTOOgEBrXk7
+      PzUDHM5Tfea1ZZjkAW9zyuvS68vqX8Sv4+A+jzmuNvmZV2H4TOomJniorrsoLijST5pH
+      Np53W1FB6asWQHp1NUr7Pk0twFQ0FpFbULhPDJfhvb0wDwEUT+yyBLeVMSe4EiRAIhWZ
+      BK2xVipSlQJzI8iAp/OilYCTJdS1EcCBwKJUQVDZYqTk1FP4QCf0jQCdc7znVe8c6nOx
+      sR3lbTJFjvJwXEd0V3yQFUOOC9zQtFCuo5IA9EIZYMXkgmcQoxgoNwZh+KUmjGzS3Z2T
+      xd0bw0VYIy1pHutk6AfjJMX5fV8bEtHxRm+xcwDc9oCCNCt7+QC65u5HMXrSkLz7t+fT
+      W/3WeWuw6gBhwNAGuRdx++JfxpmMHHtuMcNt9Z3daw== root@nix-proxy-droplet
+    '';
   };
 
   # logical groups

@@ -18,7 +18,7 @@ in
   "services/netbird/token.age".publicKeys = autoMeshSystems;
   "services/tailscale/token.age".publicKeys = autoMeshSystems;
   "services/jira-cli/token.age".publicKeys = macos;
-  "services/acme/cloudflare.age".publicKeys = with glass; [ tcarrio host ];
+  "services/acme/cloudflare.age".publicKeys = with glass; [ tcarrio host systems.nix-proxy-droplet.host ];
 
   "network-shares/ds418/smb.conf.age".publicKeys = [ glass.tcarrio ];
 
