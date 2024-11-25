@@ -9,6 +9,7 @@ let
   autoMeshSystems = [
     glass.tcarrio
     glass.host
+    systems.nix-proxy-droplet.host
   ];
 
   macos = [ sktc0.tcarrio ];
