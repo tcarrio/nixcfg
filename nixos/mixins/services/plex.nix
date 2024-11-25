@@ -33,12 +33,16 @@ in
   systemd.services."provision-tailnet-certificate" = {
     wants = [ "tailscale.service" ];
     path = with pkgs; [ tailscale jq ];
-    script = ''
-      ts_domain="$(${pkgs.tailscale}/bin/tailscale status --json | ${pkgs.jq}/bin/jq -r .CertDomains[0])"
+    script = with pkgs; ''
+      if ! ${tailscale}/bin/tailscale status; then
+        exit 7
+      fi
+
+      ts_domain="$(${tailscale}/bin/tailscale status --json | ${jq}/bin/jq -r .CertDomains[0])"
 
       mkdir -p /var/lib/tailscale/certs/
 
-      ${pkgs.tailscale}/bin/tailscale cert \
+      ${tailscale}/bin/tailscale cert \
         --cert-file=/var/lib/tailscale/certs/cert.pem \
         --key-file=/var/lib/tailscale/certs/key.pem \
         --min-validity=48h \
