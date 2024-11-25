@@ -32,9 +32,9 @@ in
 
   systemd.services."provision-tailnet-certificate" = {
     wants = [ "tailscale.service" ];
-    path = with pkgs; [ tailscale dnsutils coreutils ];
+    path = with pkgs; [ tailscale jq ];
     script = ''
-      ts_domain="$(${pkgs.dnsutils}/bin/dig @100.100.100.100 +noall +answer +short -x  $(${pkgs.tailscale}/bin/tailscale ip -1) | ${pkgs.coreutils}/bin/sed -E 's/\.$//')"
+      ts_domain="$(${pkgs.tailscale}/bin/tailscale status --json | ${pkgs.jq}/bin/jq -r .CertDomains[0])"
 
       mkdir -p /var/lib/tailscale/certs/
 
