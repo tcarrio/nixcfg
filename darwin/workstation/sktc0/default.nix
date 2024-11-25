@@ -3,7 +3,7 @@
 # RAM:         16GB DDR4
 # SATA:        500GB SSD
 
-{ pkgs, ... }: {
+{ ... }: {
   imports = [
     ../../mixins/console/homebrew.nix
     ./brews.nix

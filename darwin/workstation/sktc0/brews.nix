@@ -1,6 +1,6 @@
 _:
 let
-  containerBrews = ["docker" "docker-compose" "colima"];
+  containerBrews = [ "docker" "docker-compose" "colima" ];
   toolingBrews = [
     "asdf"
     "ca-certificates"
@@ -128,7 +128,8 @@ let
     "yarn"
     "zlib"
   ];
-in {
+in
+{
   # Posting TUI disabled for now
   # homebrew.taps = ["darrenburns/homebrew"];
   # homebrew.brews = ["darrenburns/homebrew/posting"];

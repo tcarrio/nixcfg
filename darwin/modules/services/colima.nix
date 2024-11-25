@@ -4,9 +4,10 @@ with lib;
 
 let
   cfg = config.oxc.services.colima;
-  colima = pkgs.colima;
+  inherit (pkgs) colima;
 
-in {
+in
+{
   options.oxc = {
     services.colima = {
       enable = mkOption {

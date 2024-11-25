@@ -1,8 +1,4 @@
-{ pkgs, lib, ... }:
-let
-  webRootHostDir = "/etc/web-server/";
-  fqdn = "dotest.carrio.dev";
-in
+{ lib, ... }:
 {
   imports = [
     ../../mixins/disks/digital-ocean.nix

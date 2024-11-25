@@ -1,4 +1,4 @@
-{ lib, pkgs, config, ... }:
+{ lib, config, ... }:
 let
   external_domain = "media.carrio.me";
   tailnet_domain = "glass.griffin-cobra.ts.net";

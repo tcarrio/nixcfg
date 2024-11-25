@@ -1,8 +1,6 @@
 { lib, config, pkgs, ... }:
 let
   cfg = config.oxc.desktop.fonts;
-
-  enabled = cfg.enable || cfg.ultraMode;
 in
 {
   options.oxc.desktop.fonts = {

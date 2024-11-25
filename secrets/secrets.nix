@@ -3,16 +3,11 @@ let
   inherit (sshMatrix) systems;
   inherit (systems) glass;
 
-  ageMatrix = import ../lib/age-matrix.nix { };
-  inherit (ageMatrix.systems) sktc0;
-
   autoMeshSystems = [
     glass.tcarrio
     glass.host
     systems.nix-proxy-droplet.host
   ];
-
-  macos = [ sktc0.tcarrio ];
 in
 {
   "users/tcarrio/ssh.age".publicKeys = [ glass.tcarrio glass.host ];

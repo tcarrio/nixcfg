@@ -3,7 +3,7 @@
 # /dev/disk/by-label/nixos / ext4 x-systemd.growfs,x-initrd.mount 0 1
 
 _: {
-  boot.loader.grub.devices = ["/dev/vda"];
+  boot.loader.grub.devices = [ "/dev/vda" ];
 
   disko.devices = {
     disk = {

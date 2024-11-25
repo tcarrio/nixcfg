@@ -1,4 +1,4 @@
-{ lib, pkgs, config, ... }:
+{ pkgs, config, ... }:
 let
   external_domain = "media.carrio.me";
   internal_domain = "media.int.carrio.me";

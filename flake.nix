@@ -68,7 +68,7 @@
       homeConfigurations = {
         # .iso images
         "nuc@iso-nuc" = libx.mkHome { hostname = "iso-nuc"; username = "nixos"; };
-        
+
         # TODO: Nvidia TK1 updates and installer
         # "tk1@iso-tk1" = libx.mkHome { hostname = "iso-tk1"; username = "nixos"; };
 
@@ -136,28 +136,28 @@
 
       # Devshell for bootstrapping; acessible via 'nix develop' or 'nix-shell' (legacy)
       devShells = (libx.forAllDarwin (system:
-          let
-            pkgs = nixpkgs.legacyPackages.${system};
-            darwinNixPkgs = nix-darwin.packages.${system};
-          in
-          {
-            default = pkgs.mkShell {
-              NIX_CONFIG = "experimental-features = nix-command flakes";
-              packages = with pkgs; [ home-manager darwinNixPkgs.darwin-rebuild git ];
-            };
-          } // devshells.devShells.${system}
-        )) //
-        (libx.forAllLinux (system:
-          let
-            pkgs = nixpkgs.legacyPackages.${system};
-          in
-          {
-            default = pkgs.mkShell {
-              NIX_CONFIG = "experimental-features = nix-command flakes";
-              packages = with pkgs; [ nix home-manager git ];
-            };
-          } // devshells.devShells.${system}
-        ));
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+          darwinNixPkgs = nix-darwin.packages.${system};
+        in
+        {
+          default = pkgs.mkShell {
+            NIX_CONFIG = "experimental-features = nix-command flakes";
+            packages = with pkgs; [ home-manager darwinNixPkgs.darwin-rebuild git ];
+          };
+        } // devshells.devShells.${system}
+      )) //
+      (libx.forAllLinux (system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        {
+          default = pkgs.mkShell {
+            NIX_CONFIG = "experimental-features = nix-command flakes";
+            packages = with pkgs; [ nix home-manager git ];
+          };
+        } // devshells.devShells.${system}
+      ));
 
       # nix fmt
       formatter = libx.forAllSystems (system:

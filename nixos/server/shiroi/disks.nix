@@ -14,18 +14,6 @@
 # /dev/disk/by-id/ata-WDC_WDS120G2G0A-00JH30_19166R451904 -> /dev/sdo
 
 _:
-let
-  mkRaidDisk = name: dev: {
-    type = "disk";
-    device = dev;
-    content = {
-      type = "mdraid";
-      inherit name;
-    };
-  };
-  mkSsdRaidDisk = mkRaidDisk "md126";
-  mkHddRaidDisk = mkRaidDisk "md127";
-in
 {
   disko.devices = {
     disk = {
