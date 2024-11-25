@@ -36,9 +36,9 @@ in {
   config = lib.mkIf cfg.enable {
     nix.distributedBuilds = true;
     nix.buildMachines = [] ++ (lib.optional cfg.hosts.glass.enable glass);
-    ### optional, useful when the builder has a faster internet connection than yours
-    # nix.extraOptions = ''
-    #   builders-use-substitutes = true
-    # '';
+    ## optional, useful when the builder has a faster internet connection than yours
+    nix.extraOptions = ''
+      builders-use-substitutes = true
+    '';
   };
 }

@@ -2,6 +2,7 @@
 let
   external_domain = "media.carrio.me";
   tailnet_domain = "glass.griffin-cobra.ts.net";
+  tailnet_dns_resolver = "100.100.100.100";
 in
 {
   imports = [
@@ -33,7 +34,8 @@ in
   };
 
   oxc.services.tailscale.enable = true;
-  oxc.services.tailscale.autoconnect = true;
+  oxc.services.tailscale.autoconnect = false;
+  services.smartd.enable = lib.mkForce false;
 
   # Plex NixOS Docs: https://nixos.wiki/wiki/Plex
   services.nginx = {
@@ -53,6 +55,8 @@ in
       extraConfig = ''
         #Some players don't reopen a socket and playback stops totally instead of resuming after an extended pause
         send_timeout 100m;
+
+        resolver ${tailnet_dns_resolver} valid=30s;
 
         # Why this is important: https://blog.cloudflare.com/ocsp-stapling-how-cloudflare-just-made-ssl-30/
         ssl_stapling on;
@@ -110,6 +114,11 @@ in
         proxyPass = "https://${tailnet_domain}/";
       };
     };
+  };
+
+  networking.firewall = {
+    allowedTCPPorts = [ 443 ];
+    allowedUDPPorts = [ 443 ];
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

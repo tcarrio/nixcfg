@@ -32,6 +32,11 @@
         # wait for tailscaled to settle
         sleep 2
 
+        if [ ! -d "${config.age.secrets.tailscale-token.path}" ]; then
+          echo "Failed to find token secret at path '${config.age.secrets.tailscale-token.path}'"
+          exit 2
+        fi
+
         # check if we are already authenticated to tailscale
         status="$(${tailscale}/bin/tailscale status -json | ${jq}/bin/jq -r .BackendState)"
         if [ $status = "Running" ]; then # if so, then do nothing
