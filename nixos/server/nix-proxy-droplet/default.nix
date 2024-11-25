@@ -107,7 +107,7 @@ in
         proxy_buffering off;
       '';
       locations."/" = {
-        proxyPass = "https://glass.griffin-cobra.ts.net/";
+        proxyPass = "https://${tailnet_domain}/";
       };
     };
   };
