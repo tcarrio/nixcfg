@@ -31,6 +31,7 @@ in
     ]
     ++ ifExists [
       "docker"
+      "media-server"
       "podman"
       "nordvpn"
     ];

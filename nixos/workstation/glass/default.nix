@@ -20,14 +20,18 @@
     ../../mixins/hardware/gtx-1080ti.nix
     ../../mixins/hardware/roccat.nix
     ../../mixins/hardware/systemd-boot.nix
-    ../../mixins/network-shares/ds418-nfs.nix
+    # TODO: Fix DS418 network share configuration
+    # ../../mixins/network-shares/ds418-nfs.nix
+    ../../mixins/permissions/groups/media.nix
     ../../mixins/services/nordvpn.nix
     ../../mixins/services/pipewire.nix
+    ../../mixins/services/plex.nix
   ];
 
   oxc = {
     desktop = {
       daw.enable = true;
+      # fonts.ultraMode = true;
       ente.enable = true;
       logseq.enable = true;
       obs-studio.enable = true;
@@ -99,8 +103,14 @@
       package = pkgs.openrgb-with-all-plugins;
     };
     jellyfin = {
+      enable = false;
+      openFirewall = true;
+      group = "media-server";
+    };
+    plex = {
       enable = true;
       openFirewall = true;
+      dataDir = "/data/plex/plex/";
     };
   };
 

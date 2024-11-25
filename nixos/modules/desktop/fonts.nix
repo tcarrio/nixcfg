@@ -31,7 +31,7 @@ in
   config = lib.mkIf cfg.ultraMode {
     fonts = {
       fontDir.enable = true;
-      packages = with pkgs; lib.optional cfg.ultraMode [
+      packages = with pkgs; lib.optional cfg.ultraMode ([
         (nerdfonts.override { fonts = [ "FiraCode" "SourceCodePro" "UbuntuMono" ]; })
         fira
         fira-go
@@ -39,13 +39,13 @@ in
         source-serif
         ubuntu_font_family
         work-sans
-      ] // lib.optional (cfg.ultraMode || cfg.japanese) [
+      ] ++ lib.optional (cfg.ultraMode || cfg.japanese) [
         ipafont
         kochi-substitute
-      ] // lib.optional (cfg.ultraMode || cfg.emoji) [
+      ] ++ lib.optional (cfg.ultraMode || cfg.emoji) [
         joypixels
         noto-fonts-emoji
-      ];
+      ]);
 
       # Enable a basic set of fonts providing several font styles and families and reasonable coverage of Unicode.
       enableDefaultPackages = cfg.ultraMode;
