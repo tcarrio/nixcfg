@@ -108,9 +108,10 @@ in
   ];
 
   forAllSystems = inputs.nixpkgs.lib.genAttrs [
-    "armv7l-linux" # 32-bit ARM Linux
+    ## So long and thanks for all the fish
+    # "armv7l-linux" # 32-bit ARM Linux
+    # "i686-linux" # 32-bit x86 Linux
     "aarch64-linux" # 64-bit ARM Linux
-    "i686-linux" # 32-bit x86 Linux
     "x86_64-linux" # 64-bit x86 Linux
     "aarch64-darwin" # 64-bit ARM Darwin
     "x86_64-darwin" # 64-bit x86 Darwin
