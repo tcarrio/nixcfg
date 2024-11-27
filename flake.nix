@@ -204,12 +204,11 @@
           x86_64-linux = {
             # TODO: image is still too large: reduction with `qemu-img resize --shrink ./nixos.img 5.5G` didn't error out but image will not boot
             linode-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "linode-base-image"; username = "archon"; format = "linode"; diskSize = 5120; };
-
             digital-ocean-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "generic-base-image"; username = "archon"; format = "do"; };
           };
         };
       # And custom nixos-generators definitions
-      # TODO: forAllSystems
+      # TODO: Nvidia Tegra TK1 image
       #   tk1 = libx.mkSdImage { hostname = "tk1"; username = "root"; systemType = "server"; };
     };
 }
