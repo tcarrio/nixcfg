@@ -31,7 +31,7 @@ terraform {
     # AWS_SECRET_ACCESS_KEY=<secret-access-key>
     # AWS_ENDPOINT_URL_S3=https://<account-id>.r2.cloudflarestorage.com
 
-    bucket = "tcarrio-nixcfg"
+    bucket = "nixcfg-tofu"
     key    = "nixcloud/iac/prod/tfstate"
   }
 }

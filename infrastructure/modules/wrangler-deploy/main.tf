@@ -35,8 +35,3 @@ data "shell_script" "wrangler_deploy" {
     CLOUDFLARE_API_TOKEN = var.cf_api_token
   }
 }
-
-locals {
-  workerEnvironment = "production"
-  script_name = "${data.toml_file.wrangler_toml.content["name"]}-${local.workerEnvironment}"
-}

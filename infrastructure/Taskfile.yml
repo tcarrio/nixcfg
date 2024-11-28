@@ -5,8 +5,6 @@ tasks:
   tf:init:
     desc: Common tf initialization task.
     preconditions: &necessary-tf-envs
-      - sh: 'test -n "$TF_VAR_r2_api_token"'
-        msg: "Missing TF_VAR_r2_api_token in your environment"
       - sh: 'test -n "$AWS_REGION"'
         msg: "Missing AWS_REGION in your environment"
       - sh: 'test -n "$AWS_ACCESS_KEY_ID"'
