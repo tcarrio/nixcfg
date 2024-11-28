@@ -13,7 +13,7 @@ locals {
   script_name = "${data.toml_file.wrangler_toml.content["name"]}${local.env_suffix}"
 
   wrangler_deploy_script = <<-EOF
-    wrangler deploy ${cmd_flags} ${cmd_options}
+    wrangler deploy ${local.cmd_flags} ${local.cmd_options}
   EOF
 }
 
@@ -24,7 +24,6 @@ data "toml_file" "wrangler_toml" {
 data "shell_script" "wrangler_deploy" {
   lifecycle_commands {
     read = local.wrangler_deploy_script
-    update = local.wrangler_deploy_script
   }
 
   environment = {

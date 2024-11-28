@@ -7,6 +7,5 @@ locals {
 data "shell_script" "nix_build" {
   lifecycle_commands {
     read = local.build_script
-    update = local.build_script
   }
 }

@@ -10,13 +10,13 @@ resource "aws_s3_bucket" "nixos_images" {
     bucket = "nixos-images"
 }
 
-resource "aws_s3_bucket_acl" "example" {
-  bucket = aws_s3_bucket.example.id
+resource "aws_s3_bucket_acl" "nixos_images_acl" {
+  bucket = aws_s3_bucket.nixos_images.id
   acl    = "private"
 }
 
-resource "aws_s3_bucket_versioning" "versioning_example" {
-  bucket = aws_s3_bucket.example.id
+resource "aws_s3_bucket_versioning" "nixos_images_versioning" {
+  bucket = aws_s3_bucket.nixos_images.id
   versioning_configuration {
     status = "Enabled"
   }
@@ -24,6 +24,8 @@ resource "aws_s3_bucket_versioning" "versioning_example" {
 
 resource "aws_s3_object" "digital_ocean_base_images" {
     bucket  = aws_s3_bucket.nixos_images.id
-    source = var.nixos_image_store_path
-    etag = var.nixos_image_derivation_path
+    # TODO: Dynamic based on filename
+    key = "digital_ocean.qcow.gz2"
+    source = module.digital_ocean_nixos_image.outputs["out"]
+    etag = module.digital_ocean_nixos_image.derivation_path
 }

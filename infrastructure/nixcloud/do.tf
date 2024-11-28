@@ -2,7 +2,7 @@ locals {
   region = "nyc3"
 
   acct_id = var.cf_acct_id
-  bucket_name = aws_s3_bucket.nixos_images.name
+  bucket_name = aws_s3_bucket.nixos_images.id
   image_object_name = "id"
 }
 
