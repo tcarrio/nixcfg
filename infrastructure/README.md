@@ -1,6 +1,6 @@
 # infrastructure
 
-Defines various resources that are hosted on cloud providers via **[terranix]** and **[OpenTofu]**.
+Defines various resources that are hosted on cloud providers via **[terranix]** and/or **[OpenTofu]**.
 
 **terranix** processes Nix expressions and generates [Terraform JSON] configuration files, which can then be applied by a *Terraform-compatible* CLI like **OpenTofu**.
 
