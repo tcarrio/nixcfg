@@ -3,36 +3,30 @@ locals {
 
   acct_id = var.cf_acct_id
   bucket_name = aws_s3_bucket.nixos_images.id
-  image_object_name = "id"
 }
 
-data "digitalocean_ssh_key" "example" {
+data "digitalocean_ssh_key" "glass_ssh_key" {
   name = "glass-nix"
 }
 
 resource "digitalocean_custom_image" "nixos_base_image" {
   name    = "nixos-base-image"
-  url     = "https://${var.cf_acct_id}.r2.cloudflarestorage.com/${local.bucket_name}/${local.image_object_name}"
-  regions = [local.region]
-}
-
-resource "digitalocean_custom_image" "flatcar" {
-  name    = "flatcar"
-  url     = "https://stable.release.flatcar-linux.net/amd64-usr/2605.7.0/flatcar_production_digitalocean_image.bin.bz2"
+  # TODO: Use image-server worker
+  url     = "https://${var.cf_acct_id}.r2.cloudflarestorage.com/${local.bucket_name}/${local.do_image_filename}"
   regions = [local.region]
 }
 
 resource "digitalocean_droplet" "nixos_proxy_droplet" {
   image    = digitalocean_custom_image.nixos_base_image.id
-  name     = "nixos-proxy-droplet"
+  name     = "nixos-proxy-droplet-tofu"
   region   = local.region
   size     = "s-1vcpu-1gb"
-  ssh_keys = [12345]
+  ssh_keys = [data.digitalocean_ssh_key.glass_ssh_key.id]
 }
 
 
-resource "digitalocean_firewall" "proxy_server" {
-  name = "https_and_ssh_administration"
+resource "digitalocean_firewall" "web_ssh" {
+  name = "web_and_ssh_administration"
 
   droplet_ids = [digitalocean_droplet.nixos_proxy_droplet.id]
 

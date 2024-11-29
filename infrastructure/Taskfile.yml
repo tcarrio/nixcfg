@@ -1,46 +1,52 @@
 version: '3'
 
+vars:
+  DEPLOY_DIR: '{{.ROOT_DIR}}/deploy'
+
 tasks:
   ### BEGIN SECTION: Terraform shared utility tasks
   tf:init:
     desc: Common tf initialization task.
-    preconditions: &necessary-tf-envs
-      - sh: 'test -n "$AWS_REGION"'
-        msg: "Missing AWS_REGION in your environment"
-      - sh: 'test -n "$AWS_ACCESS_KEY_ID"'
-        msg: "Missing AWS_ACCESS_KEY_ID in your environment"
-      - sh: 'test -n "$AWS_SECRET_ACCESS_KEY"'
-        msg: "Missing AWS_SECRET_ACCESS_KEY in your environment"
-      - sh: 'test -n "$AWS_ENDPOINT_URL_S3"'
-        msg: "Missing AWS_ENDPOINT_URL_S3 in your environment"
+    # preconditions: &necessary-tf-envs
+    #   - sh: 'test -n "$AWS_REGION"'
+    #     msg: "Missing AWS_REGION in your environment"
+    #   - sh: 'test -n "$AWS_ACCESS_KEY_ID"'
+    #     msg: "Missing AWS_ACCESS_KEY_ID in your environment"
+    #   - sh: 'test -n "$AWS_SECRET_ACCESS_KEY"'
+    #     msg: "Missing AWS_SECRET_ACCESS_KEY in your environment"
+    #   - sh: 'test -n "$AWS_ENDPOINT_URL_S3"'
+    #     msg: "Missing AWS_ENDPOINT_URL_S3 in your environment"
     requires: &necessary-tf-vars
       vars: [TF_PROJECT_DIR]
     dir: '{{.TF_PROJECT_DIR}}'
     cmds:
-      - tofu init -backend-config={{.ROOT_DIR}}/backends/cloudflare-r2.conf {{.CLI_ARGS}}
+      # - sops exec-env {{.DEPLOY_DIR}}/secrets.env 'tofu {{.SUBCOMMAND}} {{.CLI_ARGS}}'
+      - sops exec-env {{.DEPLOY_DIR}}/secrets.env 'tofu init -backend-config={{.ROOT_DIR}}/backends/cloudflare-r2.conf {{.CLI_ARGS}}'
   tf:clean:
     desc: Common tf project cleaning task.
     dir: '{{.TF_PROJECT_DIR}}'
-    preconditions: *necessary-tf-envs
+    # preconditions: *necessary-tf-envs
     requires: *necessary-tf-vars
     cmds:
       - rm -rf ./.terraform .terraform.lock.hcl
   tf:run:
     desc: Common tf project runner task.
     dir: '{{.TF_PROJECT_DIR}}'
-    preconditions: *necessary-tf-envs
+    # preconditions: *necessary-tf-envs
     requires: *necessary-tf-vars
     cmds:
       - tofu {{.CLI_ARGS}}
   tf:*:
     desc: Common tf project runner task.
     dir: '{{.TF_PROJECT_DIR}}'
-    preconditions: *necessary-tf-envs
+    # preconditions: *necessary-tf-envs
     requires: *necessary-tf-vars
     vars: &subcommand-passthrough-vars
       SUBCOMMAND: '{{index .MATCH 0}}'
+    env:
+      TF_VAR_tf_operation: "{{.SUBCOMMAND}}"
     cmds:
-      - tofu {{.SUBCOMMAND}} {{.CLI_ARGS}}
+      - sops exec-env {{.DEPLOY_DIR}}/secrets.env 'tofu {{.SUBCOMMAND}} {{.CLI_ARGS}}'
   ### END SECTION: Terraform shared utility tasks
 
   ### BEGIN SECTION: Terraform modules for nixcloud

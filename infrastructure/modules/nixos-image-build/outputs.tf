@@ -5,5 +5,5 @@ output "derivation_path" {
 
 output "outputs" {
   value = data.shell_script.nix_build.output["outputs"]
-  description = "A JSON object of outputs from the Nix flake"
+  description = "A string encoded JSON object of outputs from the Nix flake"
 }

@@ -12,6 +12,10 @@ terraform {
       source  = "digitalocean/digitalocean"
       version = "~> 2.0"
     }
+    jq = {
+      source = "massdriver-cloud/jq"
+      version = "0.2.1"
+    }
     random = {
       source = "hashicorp/random"
       version = "3.6.3"
