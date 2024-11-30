@@ -4,12 +4,15 @@ compatibility_date = "2024-11-27"
 # compatibility_flags = [ "nodejs_compat" ]
 workers_dev = true
 
-[[r2_buckets]]
-binding = "IMAGE_BUCKET"
-bucket_name = "nixos-images"
+r2_buckets = [
+  { binding = "IMAGE_BUCKET", bucket_name = "nixos-images-local" }
+]
 
 [env.dev]
 route = { pattern = "dev-images.carrio.dev", custom_domain = true }
+r2_buckets = [
+  { binding = "IMAGE_BUCKET", bucket_name = "nixos-images-dev" }
+]
 
 # [vars]
 # MY_VAR = "my-variable"

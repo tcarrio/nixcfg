@@ -8,6 +8,8 @@ module "nixos_image_server_worker" {
 
   cf_acct_id = var.cf_acct_id
   cf_api_token = var.cf_api_token
+
+  bucket_ids = [ aws_s3_bucket.nixos_images.id ]
 }
 
 resource "cloudflare_workers_secret" "registry_ro_password" {

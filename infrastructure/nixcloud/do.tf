@@ -10,9 +10,11 @@ data "digitalocean_ssh_key" "glass_ssh_key" {
 }
 
 resource "digitalocean_custom_image" "nixos_base_image" {
+  depends_on = [ aws_s3_object.digital_ocean_base_images ]
+
   name    = "nixos-base-image"
   # TODO: Use image-server worker
-  url     = "https://${var.cf_acct_id}.r2.cloudflarestorage.com/${local.bucket_name}/${local.do_image_filename}"
+  url     = "https://dev-images.carrio.dev/images/${local.do_image_filename}?token=${random_string.image_token.result}"
   regions = [local.region]
 }
 

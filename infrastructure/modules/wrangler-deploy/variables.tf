@@ -1,3 +1,9 @@
+variable "bucket_ids" {
+  type       = list(string)
+  default    = []
+  description = "Bucket IDs necessary for the module"
+}
+
 variable "cf_api_token" {
   type        = string
   nullable    = false

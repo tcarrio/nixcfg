@@ -11,7 +11,7 @@ locals {
 }
 
 resource "aws_s3_bucket" "nixos_images" {
-    bucket = "nixos-images"
+    bucket = "nixos-images-dev"
 }
 
 ## TODO: Is there a way to apply ACL with R2?
@@ -20,21 +20,16 @@ resource "aws_s3_bucket" "nixos_images" {
 #   acl    = "public-read"
 # }
 
-resource "aws_s3_bucket_versioning" "nixos_images_versioning" {
-  bucket = aws_s3_bucket.nixos_images.id
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
-
-data "jq_query" "digital_ocean_nix_build_out" {
-  data = module.digital_ocean_nixos_image.outputs
-  query = ".out"
-}
+# resource "aws_s3_bucket_versioning" "nixos_images_versioning" {
+#   bucket = aws_s3_bucket.nixos_images.id
+#   versioning_configuration {
+#     status = "Enabled"
+#   }
+# }
 
 resource "aws_s3_object" "digital_ocean_base_images" {
     bucket  = aws_s3_bucket.nixos_images.id
     key = local.do_image_filename
-    source = "${data.jq_query.digital_ocean_nix_build_out.result}/nixos.qcow2.gz"
+    source = "${jsondecode(module.digital_ocean_nixos_image.outputs)["out"]}/nixos.qcow2.gz"
     etag = module.digital_ocean_nixos_image.derivation_path
 }

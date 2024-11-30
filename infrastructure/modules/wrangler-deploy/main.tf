@@ -20,6 +20,8 @@ locals {
   wrangler_deploy_script = <<-EOF
     cd "${local.cmd_cwd}"
 
+    echo "Requires buckets: ${join(", ", var.bucket_ids)}"
+
     wrangler deploy ${local.cmd_flags} ${local.cmd_options}
   EOF
 
@@ -68,19 +70,19 @@ data "cloudflare_zone" "wrangler_zones" {
   name = each.value
 }
 
-resource "cloudflare_record" "worker_domain_record" {
-  for_each = local.custom_domains
+## TODO: Where'd this record go after deploy
+# resource "cloudflare_record" "worker_domain_record" {
+#   for_each = local.custom_domains
 
-  zone_id = data.cloudflare_zone.wrangler_zones[each.value].id
-  name    = local.custom_domain_to_subdomains[each.value]
-  type    = "CNAME"
-  value   = "${local.script_name}.workers.dev"
-  proxied = true
-  comment = "Worker record for ${local.script_name} to listen on ${each.value}"
-}
+#   zone_id = data.cloudflare_zone.wrangler_zones[each.value].id
+#   name    = local.custom_domain_to_subdomains[each.value]
+#   type    = "CNAME"
+#   content   = "${local.script_name}.workers.dev"
+#   proxied = true
+#   comment = "Worker record for ${local.script_name} to listen on ${each.value}"
+# }
 
 data "shell_script" "wrangler_deploy" {
-  depends_on = [ cloudflare_record.worker_domain_record ]
   lifecycle_commands {
     read = local.wrangler_deploy_script
   }
