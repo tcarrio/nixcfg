@@ -88,9 +88,22 @@ in
 
   environment.systemPackages = [ auto-install-system ];
 
-  programs.fish.interactiveShellInit = ''
-    auto-install-system
-  '';
+  systemd.services.install = {
+    description = "Bootstrap a NixOS installation";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" "polkit.service" ];
+    path = [ "/run/current-system/sw/" ];
+    script = with pkgs; ''
+      ${auto-install-system}/bin/auto-install-system
+    '';
+    environment = config.nix.envVars // {
+      inherit (config.environment.sessionVariables) NIX_PATH;
+      HOME = "/root";
+    };
+    serviceConfig = {
+      Type = "oneshot";
+    };
+  };
 
   # allow remote deployments via root user
   users.users.root.openssh.authorizedKeys.keys = sshMatrix.groups.privileged_users;
