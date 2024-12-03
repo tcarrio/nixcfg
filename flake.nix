@@ -128,7 +128,7 @@
         nuc8 = libx.mkHost { systemType = "server"; hostname = "nuc8"; username = "archon"; };
         nuc9 = libx.mkHost { systemType = "server"; hostname = "nuc9"; username = "archon"; };
 
-        shiroi = libx.mkHost { systemType = "server"; hostname = "shiroi"; username = "archon"; };
+        orca = libx.mkHost { systemType = "server"; hostname = "orca"; username = "archon"; };
 
         "dotest.carrio.dev" = libx.mkHost { systemType = "server"; hostname = "dotest.carrio.dev"; username = "archon"; };
         "nix-proxy-droplet" = libx.mkHost { systemType = "server"; hostname = "nix-proxy-droplet"; username = "archon"; };
