@@ -21,7 +21,7 @@
     ../../mixins/hardware/roccat.nix
     ../../mixins/hardware/systemd-boot.nix
     # TODO: Fix DS418 network share configuration
-    # ../../mixins/network-shares/ds418-nfs.nix
+    ../../mixins/network-shares/ds418-nfs.nix
     ../../mixins/services/nordvpn.nix
     ../../mixins/services/pipewire.nix
     ../../mixins/services/plex.nix
