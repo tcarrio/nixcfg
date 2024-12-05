@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export interface BootConfiguration {
   /**
    * The URL of the kernel to boot.
@@ -25,3 +27,10 @@ export interface BootConfiguration {
    */
   message?: string;
 }
+
+export const BootConfigurationSchema = z.object({
+  kernel: z.string(),
+  initrd: z.array(z.string()).optional(),
+  cmdline: z.string().optional(),
+  message: z.string().optional(),
+})
