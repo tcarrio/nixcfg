@@ -120,7 +120,7 @@
         {
           dev = ''
             if [ -d $HOME/0xc/nixcfg ]
-              nix develop $HOME/0xc/nixcfg#$argv[1] -c fish
+              nix develop $HOME/0xc/nixcfg#$argv[1]
             else
               nix develop github:( \
                 git remote -v \
@@ -130,7 +130,7 @@
                   | rev \
                   | sed 's/tig.//' \
                   | rev \
-              )#$argv[1] -c fish;
+              )#$argv[1];
             end
           '';
           is-number = ''

@@ -12,7 +12,7 @@
     jdk11
     kitty
     lazygit
-    mysql
+    mariadb
     neovim
     tailscale
 

@@ -35,6 +35,7 @@ Host glass
     '';
 
     packages = with pkgs; [
+      act
       git-absorb
       thefuck
       cmatrix

@@ -1,6 +1,6 @@
 _:
 let
-  containerBrews = [ "docker" "docker-compose" "colima" ];
+  containerBrews = [ ]; # "docker" "docker-compose" "colima" ];
   toolingBrews = [
     "asdf"
     "ca-certificates"
@@ -159,6 +159,7 @@ in
     casks = [
       "alfred"
       "amethyst"
+      "docker"
       "insomnia"
       "secretive"
       "sequel-ace"
