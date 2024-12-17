@@ -21,7 +21,7 @@ in
   #    - "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"
   mkHost = { hostname, username, systemType, desktop ? null, installer ? null }: inputs.nixpkgs.lib.nixosSystem {
     specialArgs = {
-      inherit inputs outputs desktop hostname username stateVersion systemType sshMatrix;
+      inherit self inputs outputs desktop hostname username stateVersion systemType sshMatrix;
     };
     modules = [
       ../nixos

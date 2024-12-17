@@ -2,7 +2,8 @@
   "name": "pixiecore-api-server",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx watch src/index.ts",
+    "run:node": "tsx app/node/index.ts"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.7",
