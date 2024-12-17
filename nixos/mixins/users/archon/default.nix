@@ -29,8 +29,14 @@ in
   };
 
   security.sudo.extraRules = [
-    { users = [ "archon" ];
-      options = [ "NOPASSWD" ];
+    {
+      users = [ "archon" ];
+      commands = [
+        {
+          command = "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch";
+          options = [ "NOPASSWD" ];
+        }
+      ];
     }
   ];
 }
