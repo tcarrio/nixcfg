@@ -8,7 +8,7 @@ function bootstrapShell() {
     --extra-experimental-features flakes \
     --extra-experimental-features nix-command \
     "$NIXCFG_PATH" \
-    --command $@
+    --command "$@"
 }
 
 # https://nixos.org/download/

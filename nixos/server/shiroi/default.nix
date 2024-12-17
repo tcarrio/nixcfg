@@ -24,7 +24,7 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     (import ./disks.nix { })
-    ../../mixins/hardware/grub-legacy-boot.nix
+    ../../mixins/hardware/systemd-boot.nix
     ../../mixins/services/bluetooth.nix
   ];
 
@@ -46,7 +46,7 @@
   };
 
   boot = {
-    initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" ];
+    initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" "md" ];
     kernelModules = [ "kvm-intel" ];
     kernelPackages = lib.mkDefault pkgs.linuxPackages_5_15;
   };
