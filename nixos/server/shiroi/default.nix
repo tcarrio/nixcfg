@@ -23,12 +23,13 @@
     inputs.nixos-hardware.nixosModules.common-cpu-intel
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
-    (import ./disks.nix { })
+    (import ./root-disk.nix { })
+    (import ./hdd-raid.nix { })
+    # (import ./ssd-raid.nix { }) # TODO: Resolve MegaRAID SAS issues
     ../../mixins/hardware/systemd-boot.nix
-    ../../mixins/services/bluetooth.nix
   ];
 
-  # boot.swraid.enable = true;
+  boot.swraid.enable = true;
   # systemd.services."mdmonitor".environment = {
   #   # Override mdmonitor to log to syslog instead of emailing or alerting
   #   MDADM_MONITOR_ARGS = "--scan --syslog";
@@ -46,7 +47,7 @@
   };
 
   boot = {
-    initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" "md" ];
+    initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" ];
     kernelModules = [ "kvm-intel" ];
     kernelPackages = lib.mkDefault pkgs.linuxPackages_5_15;
   };
