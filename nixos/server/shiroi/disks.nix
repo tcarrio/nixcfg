@@ -10,12 +10,22 @@ let
     inherit device;
     type = "disk";
     content = {
-      inherit name;
-      type = "mdraid";
+      type = "gpt";
+      partitions = {
+        mdadm = {
+          size = "100%";
+          content = {
+            inherit name;
+            type = "mdraid";
+          };
+        };
+      };
     };
   };
 
-  mkHddRaidDisk = mkRaidDisk "md127";
+  raidDiskName = "md127";
+
+  mkHddRaidDisk = mkRaidDisk raidDiskName;
 in
 {
   disko.devices = {
@@ -54,7 +64,7 @@ in
       hdd-3 = mkHddRaidDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J2TJHS9P";
     };
 
-    mdadm.md127 = {
+    mdadm."${raidDiskName}" = {
       type = "mdadm";
       level = 5;
       content = {
