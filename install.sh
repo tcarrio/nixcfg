@@ -82,7 +82,9 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     --mode zap_create_mount \
     "$TARGET_HOST_ROOT/disks.nix"
 
-  MAX_CONCURRENCY=$(($(nproc) - 1))
+  if [ -z "$MAX_CONCURRENCY" ]; then
+    MAX_CONCURRENCY=$(($(nproc) - 1))
+  fi
 
   sudo nixos-install -j $MAX_CONCURRENCY --cores $MAX_CONCURRENCY --no-root-password --flake ".#$TARGET_NIXOS_CONFIG_NAME"
 
