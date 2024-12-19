@@ -23,9 +23,7 @@
     inputs.nixos-hardware.nixosModules.common-cpu-intel
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
-    (import ./root-disk.nix { })
-    (import ./hdd-raid.nix { })
-    # (import ./ssd-raid.nix { }) # TODO: Resolve MegaRAID SAS issues
+    (import ./disks.nix { })
     ../../mixins/hardware/systemd-boot.nix
   ];
 
