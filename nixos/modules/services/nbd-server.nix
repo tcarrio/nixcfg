@@ -157,8 +157,8 @@ in
       before = [ "multi-user.target" ];
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
-        ExecStart = "${pkgs.nbd}/bin/nbd-server -d -C ${serverConfig}";
-        Type = "simple";
+        ExecStart = "${pkgs.nbd}/bin/nbd-server -C ${serverConfig}";
+        Type = "forking";
 
         DeviceAllow = map (path: "${path} rw") allowedDevices;
         BindPaths = boundPaths;
