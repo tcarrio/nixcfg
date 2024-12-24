@@ -39,7 +39,7 @@ let
       cfg.server.extraOptions
       // {
         user = "root";
-        group = "cdrom";
+        group = "root";
         port = cfg.server.listenPort;
       }
       // (optionalAttrs (cfg.server.listenAddress != null) {
