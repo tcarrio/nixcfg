@@ -31,6 +31,9 @@ in
   services.nbd.server = {
     inherit listenAddress listenPort;
     enable = lib.mkDefault true;
+    extraOptions = {
+      group = "cdrom";
+    };
     exports = {
       dvd-drive = {
         path = "/dev/sr0";
