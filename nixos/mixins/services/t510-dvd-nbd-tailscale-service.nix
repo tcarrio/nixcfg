@@ -17,14 +17,21 @@
 # };
 # networking.firewall.allowedTCPPorts = [ 10809 ];
 
-{ pkgs, ... }: {
-  networking.firewall.allowedTCPPorts = [ 10809 ];
+{ lib, ... }:
+let
+  listenAddress = "0.0.0.0";
+  listenPort = 10809;
+in
+{
+  networking.firewall.allowedTCPPorts = [ listenPort ];
 
   services.nbd.server = {
-    enable = true;
+    inherit listenAddress listenPort;
+    enable = lib.mkDefault true;
     exports = {
       dvd-drive = {
         path = "/dev/sr0";
+        allowAddresses = [ "192.168.40.72" ];
       };
       # vault-pub = {
       #   path = "/vault-pub.disk";
@@ -34,7 +41,5 @@
       #   allowAddresses = [ "127.0.0.1" "::1" ];
       # };
     };
-    listenAddress = "0.0.0.0";
-    listenPort = 10809;
   };
 }
