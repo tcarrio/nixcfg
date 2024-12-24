@@ -2,6 +2,7 @@ _: {
   imports = [
     ./acme.nix
     ./flatpak.nix
+    ./nbd-server.nix
     ./networkmanager.nix
     ./nextdns.nix
     ./noisetorch.nix
