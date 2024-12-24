@@ -35,6 +35,9 @@ in
       dvd-drive = {
         path = "/dev/sr0";
         allowAddresses = [ homeNetworkCidrRange tailnetCidrRange ];
+        extraOptions = {
+          readonly = "true";
+        }
       };
       # vault-pub = {
       #   path = "/vault-pub.disk";
