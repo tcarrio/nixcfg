@@ -37,7 +37,7 @@ in
         allowAddresses = [ homeNetworkCidrRange tailnetCidrRange ];
         extraOptions = {
           readonly = "true";
-        }
+        };
       };
       # vault-pub = {
       #   path = "/vault-pub.disk";
