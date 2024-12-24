@@ -11,9 +11,9 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
-    # fix for nixos-rebuild hangups on certain hardware
     ../../mixins/hardware/grub-legacy-boot.nix
     ../../mixins/services/pipewire.nix
+    ../../mixins/services/t510-dvd-nbd-tailscale-service.nix
   ];
 
   environment.systemPackages = with pkgs; [
