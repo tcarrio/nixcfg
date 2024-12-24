@@ -31,7 +31,7 @@ in
     exports = {
       dvd-drive = {
         path = "/dev/sr0";
-        allowAddresses = [ "192.168.40.72" ];
+        allowAddresses = [ "192.168.40.0/24" "100.64.0.0/10" ];
       };
       # vault-pub = {
       #   path = "/vault-pub.disk";
