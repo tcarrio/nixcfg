@@ -28,12 +28,9 @@ in
 {
   networking.firewall.allowedTCPPorts = [ listenPort ];
 
-  services.nbd.server = {
+  oxc.services.nbd.server = {
     inherit listenAddress listenPort;
     enable = lib.mkDefault true;
-    extraOptions = {
-      group = "cdrom";
-    };
     exports = {
       dvd-drive = {
         path = "/dev/sr0";
