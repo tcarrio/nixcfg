@@ -21,6 +21,9 @@
 let
   listenAddress = "0.0.0.0";
   listenPort = 10809;
+
+  homeNetworkCidrRange = "192.168.40.0/24";
+  tailnetCidrRange = "100.64.0.0/10";
 in
 {
   networking.firewall.allowedTCPPorts = [ listenPort ];
@@ -31,7 +34,7 @@ in
     exports = {
       dvd-drive = {
         path = "/dev/sr0";
-        allowAddresses = [ "192.168.40.0/24" "100.64.0.0/10" ];
+        allowAddresses = [ homeNetworkCidrRange tailnetCidrRange ];
       };
       # vault-pub = {
       #   path = "/vault-pub.disk";
