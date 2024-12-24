@@ -12,6 +12,7 @@ rec {
 
     t510.tcarrio = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG/YX263nli8x0brqKtktwAaqmChPVyYcPqCKY5RDzZl tcarrio@t510";
     t510.host = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC9TxciSqBZXPjnHYlv1+2D1tjKYR2jLUigtANtdS34YESWveh0eiaYp7hHVi2BedVJOe/vKI6JllnX/CeNGtMI+PowVBniov5WvPkOTbS9p8fsGJP1OqPxlFR6jq7te6/KzLDbMMk91miFOTx27qZ2kWk01K7AGqNQ8BotBRojsAONB9M1JAv42CSuZmB/nKe2zWCpWoMhMGzqOD/TzrO3qLZ1rLUHkXV8cIWoDaWRngAV/sLMrrQglRvXz9GkNPq98JsXM0XL0GrEnEUz8rPx+kS7hF3Ysq2MNawd0CeaG8aeCoNwGep74nPT+V/nAs9xYa9M53fFAOO/Hoi0yxmZIe1324ure7QKgNLDiRIxPfIvf1LNvdNoxWjKKyaoTwRLh8E2Nn5dx94kzRfPaeMK6uMSNhoLu2blqI0omTmKi9OKgmmZpB1+2vK7C24HJQ2xQU4UR63SlwvTT+u38cewXg9nJOiMERBbj0U24hPRsh9ed9b38vAwdpACmx0diL+Qyr7Q3MnMNuPC9PuvMoLLrzxGbQmaxLToaEbGsm9ah5vTSku6OYD3ek7qnfJpRY0/dMoDtwkBsF4ZU54Hql3ks9BScG8d1JmU6ExQjQhvzMn6CIlf/ivgVubNlTf9wKqtKqpxQrKMCRdcuPbWw57tvmUA/bKCcjEfRFwlAwY2tQ== root@t510-headless";
+    t510.root = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID9XruZXQNh1AigL32KmjeMwrKTwvP1T4Zc2SLGDUkq3 root@t510";
 
     # NUC servers
     nuc0.host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHkgTzsmgHcVE12Sc9EYPP29Ek8d++RKZCIVEGEmWJc9 nuc0.int.carrio.dev";
@@ -31,6 +32,11 @@ rec {
 
   # logical groups
   groups = {
+    remote_build_clients = with systems; [
+      t510.tcarrio
+      t510.host
+      t510.root
+    ];
     privileged_users = with systems; [
       sktc0.tcarrio
       glass.host

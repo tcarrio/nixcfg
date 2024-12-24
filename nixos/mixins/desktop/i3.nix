@@ -9,10 +9,6 @@
       xterm.enable = false;
     };
 
-    displayManager = {
-      defaultSession = "none+i3";
-    };
-
     windowManager.i3 = with pkgs; {
       enable = true;
       package = i3-gaps;
@@ -24,4 +20,6 @@
       ];
     };
   };
+
+  services.displayManager.defaultSession = "none+i3";
 }

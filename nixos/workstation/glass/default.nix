@@ -25,6 +25,8 @@
     ../../mixins/services/nordvpn.nix
     ../../mixins/services/pipewire.nix
     ../../mixins/services/plex.nix
+    ../../mixins/services/t510-dvd-nbd-tailscale-mount.nix
+    ../../mixins/users/grigori/default.nix
   ];
 
   oxc = {

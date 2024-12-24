@@ -1,17 +1,22 @@
-{ lib, config, ... }:
+{ lib, config, pkgs, sshMatrix, ... }:
 let
   cfg = config.oxc.services.remote-builder;
-  glass = {
-    hostName = "glass";
+
+  hosts.glass = {
+    # The system MUST be connected over Tailscale
+    hostName = if cfg.hosts.glass.local then "192.168.40.72" else "glass";
+    sshUser = "grigori";
     system = "x86_64-linux";
     ### To enable multi-architecture builds when the host supports it
     # systems = ["x86_64-linux" "aarch64-linux"];
     protocol = "ssh-ng";
-    maxJobs = 8;
-    speedFactor = 4;
+    maxJobs = 16;
+    speedFactor = 8;
     supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
     mandatoryFeatures = [ ];
   };
+
+  ifExists = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 in
 {
   options.oxc.services.remote-builder = {
@@ -20,6 +25,7 @@ in
       default = false;
       description = "Support for remote nix builders";
     };
+
     hosts.glass = {
       enable = lib.mkOption {
         type = lib.types.bool;
@@ -36,7 +42,7 @@ in
 
   config = lib.mkIf cfg.enable {
     nix.distributedBuilds = true;
-    nix.buildMachines = lib.optional cfg.hosts.glass.enable glass;
+    nix.buildMachines = lib.optional cfg.hosts.glass.enable hosts.glass;
     ## optional, useful when the builder has a faster internet connection than yours
     nix.extraOptions = ''
       builders-use-substitutes = true

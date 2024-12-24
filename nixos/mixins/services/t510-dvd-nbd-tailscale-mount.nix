@@ -1,10 +1,8 @@
 { pkgs, ... }:
 {
-  boot.kernelModules = [ "nbd" ];
+  programs.nbd.enable = true;
 
-  environment.systemPackages = with pkgs; [ nbd ];
-
-  systemd.services.t510-dvd-nbd-mount = {
+  systemd.services.t510-dvd-nbd-tailscale-mount = {
     description = "Automatic network mounting via NBD of T510 DVD drive";
 
     # make sure tailscale is running before trying to connect to tailscale

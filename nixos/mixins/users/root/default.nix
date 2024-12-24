@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, sshMatrix, ... }:
 {
   users.users.root = {
     # mkpasswd -m sha-512
