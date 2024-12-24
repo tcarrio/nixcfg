@@ -37,6 +37,7 @@
     };
     services = {
       tailscale.enable = true;
+      wait-online.enable = false;
     };
     containerisation = {
       enable = true;
