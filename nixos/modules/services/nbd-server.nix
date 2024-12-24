@@ -195,7 +195,8 @@ in
       uid = 11;
       hashedPassword = "!"; # password login is disabled for this user
       isSystemUser = true;
-      # group = ;
+      group = "dvdrom";
     };
+    users.groups.dvdrom = {};
   };
 }
