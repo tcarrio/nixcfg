@@ -38,8 +38,8 @@ let
     generic = (
       cfg.server.extraOptions
       // {
-        user = "dvdrom";
-        group = "root";
+        user = "root";
+        group = "cdrom";
         port = cfg.server.listenPort;
       }
       // (optionalAttrs (cfg.server.listenAddress != null) {
@@ -189,14 +189,5 @@ in
         UMask = "0077";
       };
     };
-
-    users.users.dvdrom = {
-      description = "DVD ROM mount user";
-      uid = 11;
-      hashedPassword = "!"; # password login is disabled for this user
-      isSystemUser = true;
-      group = "dvdrom";
-    };
-    users.groups.dvdrom = {};
   };
 }
