@@ -160,6 +160,7 @@ in
       "alfred"
       "amethyst"
       "docker"
+      "ghostty"
       "insomnia"
       "secretive"
       "sequel-ace"
