@@ -65,7 +65,7 @@ Host glass
         set -U fish_color_match --background=brblue
         set -U fish_color_normal normal
         set -U fish_color_operator cyan
-        set -U fish_color_param blue
+        set -U fish_color_param brblue
         set -U fish_color_quote yellow
         set -U fish_color_redirection magenta
         set -U fish_color_search_match bryellow '--background=brblack'
