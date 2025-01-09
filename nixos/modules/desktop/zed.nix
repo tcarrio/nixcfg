@@ -1,5 +1,5 @@
 { pkgs, lib, config, ... }: {
-  options.oxc.desktop.zed = {
+  options.oxc.desktop.zed-editor = {
     enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
@@ -7,7 +7,7 @@
     };
   };
 
-  config = lib.mkIf config.oxc.desktop.zed.enable {
+  config = lib.mkIf config.oxc.desktop.zed-editor.enable {
     environment.systemPackages = [
       pkgs.zed-editor
     ];

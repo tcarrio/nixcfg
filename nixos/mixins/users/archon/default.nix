@@ -20,11 +20,23 @@ in
       "podman"
     ];
     # mkpasswd -m sha-512
-    hashedPassword = "$6$uLtXsdZpgBd/iVao$L3Lk9vmQMOfZrARIyl6Sq6ZbU91d53dWQteZADxkgLJ8FZUet.L4E73LnmVccJUGdAUcMQ1cuISS9j0XygM2Q1";
+    hashedPassword = "$6$5WbXGt2QSz4kW6.C$qSXi2dOP.axtrDV6h4Ljh5Upls5fLRGNAdshQ0jJdvMiVRjQPV718ST9pSMaW0boIjHyETxq9yF9ZgJw797gU/";
     homeMode = "0755";
     isNormalUser = true;
     openssh.authorizedKeys.keys = sshMatrix.groups.privileged_users;
     packages = [ pkgs.home-manager ];
     shell = pkgs.fish;
   };
+
+  security.sudo.extraRules = [
+    {
+      users = [ "archon" ];
+      commands = [
+        {
+          command = "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
 }

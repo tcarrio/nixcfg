@@ -25,6 +25,7 @@
     ../../mixins/services/nordvpn.nix
     ../../mixins/services/pipewire.nix
     ../../mixins/services/plex.nix
+    ../../mixins/users/grigori/default.nix
   ];
 
   oxc = {
@@ -56,6 +57,7 @@
         };
         server.enable = true;
       };
+      zed-editor.enable = true;
       zen-browser.enable = true;
     };
     services = {
@@ -74,6 +76,10 @@
   };
 
   services.vscode-server.enable = true;
+  services.ollama = {
+    enable = true;
+    acceleration = "cuda";
+  };
 
   boot = {
     kernelPackages = pkgs.linuxPackages_latest;

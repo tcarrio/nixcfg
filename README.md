@@ -90,9 +90,13 @@ nix-build '<nixpkgs/nixos>' -A config.system.build.sdImage -I nixos-config=./sdc
 zstdcat ./result/sd-image/nixos-sd-image-*-aarch64-linux.img.zst | dd bs=1M iflag=fullblock of=/dev/sde status=progress
 ```
 
-### Installing macOS (WIP)
+### Installing macOS
 
 The [nix-darwin] project provides support for managing macOS systems with Nix in a similar fashion to NixOS. With this, we can ensure that the system has everything we need available and that we can reproduce a working development environment with minimal overhead.
+
+For the most part, the `scripts/bootstrap-darwin-machine.sh` Bash script provides sufficient automation to get a macOS machine fully configured from scratch. This includes installation of Nix through the nixos.org installer then utilizes the latest `main` ref and Nix dev shells to execute the commands. This infers the targets based on your hostname and username per the `darwin-rebuild` and `home-manager` standard, such that `darwin-rebuild` uses the `$hostname` for your default target, and `home-manager` uses `$username@$hostname`. An example of this is `tcarrio@glass`. On my `glass` workstation with the current user `tcarrio`, no additional arguments would need to be passed.
+
+Note: Because of this, the script does not support additional arguments yet.
 
 ## Applying Changes ✨
 

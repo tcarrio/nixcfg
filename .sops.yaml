@@ -1,0 +1,5 @@
+creation_rules:
+  - pgp: C856EB7F2EF6AFDD39332A41307E0B68C5D0049B,73B80689F3A1C97CBD0DC4A0B5586D0F5E565A60
+    # bw[eeromatics age secret (dev key)],bw[eearomatics age secret (automation)]
+    age: age1nxlyegushypaj0v44m8qex79rn0vef9q290dcwguge8gz6hf5gmqqewuld,age1kvh8vh72ha5tj9ck57tyrhak3zcjjyh5w3ywerjdvzyy5k6av5asztdf2r
+

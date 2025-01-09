@@ -11,7 +11,6 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
-    # fix for nixos-rebuild hangups on certain hardware
     ../../mixins/hardware/grub-legacy-boot.nix
     ../../mixins/services/pipewire.nix
   ];
@@ -23,7 +22,7 @@
   oxc = {
     desktop = {
       bitwarden.enable = true;
-      # zed.enable = true;
+      zed-editor.enable = true;
 
       vscode.support = {
         deno = true;
@@ -37,6 +36,7 @@
     };
     services = {
       tailscale.enable = true;
+      wait-online.enable = false;
     };
     containerisation = {
       enable = true;
@@ -53,25 +53,7 @@
     extraModulePackages = [ ];
   };
 
-  services.nbd.server = {
-    enable = false;
-    listenAddress = "0.0.0.0";
-    listenPort = 10809;
-
-    extraOptions = {
-      allowlist = true;
-    };
-
-    exports = {
-      dvd-drive = {
-        path = "/dev/sr0";
-        allowAddresses = [ "192.168.40.0/24" "100.0.0.0/8" ];
-      };
-    };
-  };
-  networking.firewall.allowedTCPPorts = [ 10809 ];
   networking.networkmanager.enable = true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
-

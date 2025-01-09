@@ -1,0 +1,18 @@
+{
+  "name": "pixiecore-api-server",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "run:node": "tsx app/node/index.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.7",
+    "hono": "^4.6.12",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241112.0",
+    "@types/node": "^20.11.17",
+    "tsx": "^4.7.1"
+  }
+}
