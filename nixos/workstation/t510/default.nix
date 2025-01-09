@@ -13,7 +13,6 @@
 
     ../../mixins/hardware/grub-legacy-boot.nix
     ../../mixins/services/pipewire.nix
-    ../../mixins/services/t510-dvd-nbd-tailscale-service.nix
   ];
 
   environment.systemPackages = with pkgs; [
@@ -23,7 +22,7 @@
   oxc = {
     desktop = {
       bitwarden.enable = true;
-      # zed.enable = true;
+      zed-editor.enable = true;
 
       vscode.support = {
         deno = true;
@@ -58,4 +57,3 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
-

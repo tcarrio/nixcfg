@@ -10,7 +10,6 @@ in
     ./modules
     (modulesPath + "/installer/scan/not-detected.nix")
     ./${systemType}/${hostname}
-    ./mixins/services/firewall.nix
     ./mixins/services/fwupd.nix
     ./mixins/services/kmscon.nix
     ./mixins/services/openssh.nix
@@ -93,6 +92,7 @@ in
   networking = {
     inherit hostName domain;
     useDHCP = lib.mkDefault true;
+    firewall.enable = true;
   };
 
   nixpkgs = {
