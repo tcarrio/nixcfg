@@ -77,6 +77,10 @@ Host glass
         set -U fish_pager_color_description yellow
         set -U fish_pager_color_prefix white --bold --underline
         set -U fish_pager_color_progress brwhite '--background=cyan'
+
+        function pdf-compress
+          ${pkgs.ghostscript}/bin/gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$argv[2]" "$argv[1]"
+        end
       '';
 
       shellAliases =
