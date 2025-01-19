@@ -79,6 +79,7 @@
   services.ollama = {
     enable = true;
     acceleration = "cuda";
+    host = tailnetMatrix.hosts.glass;
   };
 
   boot = {
@@ -96,6 +97,7 @@
     gnomeExtensions.gsconnect
     publii
     transmission_4-qt
+    tmux
   ];
 
   # support for cross-platform NixOS builds

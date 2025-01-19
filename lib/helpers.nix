@@ -1,13 +1,14 @@
 { self, inputs, outputs, stateVersion, ... }:
 let
   sshMatrix = import ./ssh-matrix.nix { };
+  tailnetMatrix = import ./tailnet-matrix.nix { };
 in
 {
   # Helper function for generating home-manager configs
   mkHome = { hostname, username, desktop ? null, platform ? "x86_64-linux" }: inputs.home-manager.lib.homeManagerConfiguration {
     pkgs = inputs.nixpkgs.legacyPackages.${platform};
     extraSpecialArgs = {
-      inherit inputs outputs desktop hostname platform username stateVersion sshMatrix;
+      inherit inputs outputs desktop hostname platform username stateVersion sshMatrix tailnetMatrix;
     };
     modules = [
       ../home-manager
@@ -21,7 +22,7 @@ in
   #    - "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"
   mkHost = { hostname, username, systemType, desktop ? null, installer ? null }: inputs.nixpkgs.lib.nixosSystem {
     specialArgs = {
-      inherit self inputs outputs desktop hostname username stateVersion systemType sshMatrix;
+      inherit self inputs outputs desktop hostname username stateVersion systemType sshMatrix tailnetMatrix;
     };
     modules = [
       ../nixos
@@ -41,7 +42,7 @@ in
 
   mkDarwin = { hostname, username, stateVersion ? 4, platform ? "aarch64-darwin" }: inputs.nix-darwin.lib.darwinSystem {
     specialArgs = {
-      inherit self inputs outputs hostname username platform stateVersion sshMatrix;
+      inherit self inputs outputs hostname username platform stateVersion sshMatrix tailnetMatrix;
     };
     modules = [
       ../darwin
@@ -55,7 +56,7 @@ in
 
   mkSdImage = { hostname, username, platform ? "armv7l-linux" }: inputs.nixos-generators.nixosGenerate {
     specialArgs = {
-      inherit self inputs outputs hostname username platform stateVersion sshMatrix;
+      inherit self inputs outputs hostname username platform stateVersion sshMatrix tailnetMatrix;
     };
 
     system = platform;
@@ -75,7 +76,7 @@ in
 
   mkGeneratorImage = { hostname, username, systemType, desktop ? null, platform ? "x86_64-linux", format ? "raw-efi", ... }@extraSpecialArgs: inputs.nixos-generators.nixosGenerate {
     specialArgs = {
-      inherit self inputs outputs desktop hostname username stateVersion systemType sshMatrix;
+      inherit self inputs outputs desktop hostname username stateVersion systemType sshMatrix tailnetMatrix;
     } // extraSpecialArgs;
 
     system = platform;
