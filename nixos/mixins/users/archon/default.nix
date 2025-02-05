@@ -20,7 +20,7 @@ in
       "podman"
     ];
     # mkpasswd -m sha-512
-    hashedPassword = "$6$5WbXGt2QSz4kW6.C$qSXi2dOP.axtrDV6h4Ljh5Upls5fLRGNAdshQ0jJdvMiVRjQPV718ST9pSMaW0boIjHyETxq9yF9ZgJw797gU/";
+    hashedPassword = "$6$LDl7IafzpHZXcpKL$ZSQA9vHW/V50TxV9ugzukuJ0HWnQzGiD/3qMf9d1JRtJwfUa2LqYiMUrKqA8Qx6aorbOHW6peYoKYdFF0ue6D.";
     homeMode = "0755";
     isNormalUser = true;
     openssh.authorizedKeys.keys = sshMatrix.groups.privileged_users;
