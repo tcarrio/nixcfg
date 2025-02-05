@@ -6,7 +6,7 @@
 # SATA:        500GB SSD
 # SATA:        2TB SSHD
 
-{ inputs, lib, pkgs, ... }: {
+{ inputs, lib, pkgs, tailnetMatrix, ... }: {
   imports = [
     # TODO: Incorporate diskos
     # (import ./disks.nix { })
