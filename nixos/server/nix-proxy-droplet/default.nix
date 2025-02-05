@@ -1,8 +1,12 @@
 { lib, config, ... }:
 let
   external_domain = "media.carrio.me";
-  tailnet_domain = "glass.griffin-cobra.ts.net";
+  tailnet_domain = "orca.griffin-cobra.ts.net";
+  service_protocol = "http";
+  service_port = ":32400";
   tailnet_dns_resolver = "100.100.100.100";
+
+  upstream_base_url = "${service_protocol}://${tailnet_domain}${service_port}/";
 in
 {
   imports = [
@@ -111,7 +115,7 @@ in
         proxy_buffering off;
       '';
       locations."/" = {
-        proxyPass = "https://${tailnet_domain}/";
+        proxyPass = upstream_base_url;
       };
     };
   };

@@ -24,7 +24,7 @@
     ../../mixins/network-shares/ds418-nfs.nix
     ../../mixins/services/nordvpn.nix
     ../../mixins/services/pipewire.nix
-    ../../mixins/services/plex.nix
+    # ../../mixins/services/plex.nix
     ../../mixins/users/grigori/default.nix
   ];
 
