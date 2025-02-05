@@ -1,0 +1,24 @@
+disks:
+  ada2:
+    size: 932G
+  ada3:
+    size: 932G
+  ada4:
+    size: 932G
+  ada5:
+    size: 932G
+
+vdevs:
+  raidz1-0:
+    devices:
+      - /disk/ada2
+      - /disk/ada3
+      - /disk/ada4
+      - /disk/ada5
+
+pools:
+  zdata:
+    vdevs:
+      - raidz1-0:
+          type: raidz1
+  
