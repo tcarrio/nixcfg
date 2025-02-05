@@ -61,7 +61,7 @@
       zen-browser.enable = true;
     };
     services = {
-      nextdns.enable = true;
+      nextdns.enable = false;
       noisetorch.enable = true;
       wait-online.enable = false;
       tailscale.enable = true;
