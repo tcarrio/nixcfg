@@ -3,9 +3,10 @@
 { pkgs, ... }: {
   imports = [
     ./qt-style.nix
-    ../services/networkmanager.nix
     ../services/xdg-portal.nix
   ];
+
+  oxc.services.networkmanager.enable = true;
 
   # Exclude the elementary apps I don't use
   environment = {

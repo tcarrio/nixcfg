@@ -1,6 +1,8 @@
 { lib, config, pkgs, ... }:
 let
   cfg = config.oxc.desktop.fonts;
+
+  optionalList = condition: list: if condition then list else [];
 in
 {
   options.oxc.desktop.fonts = {
@@ -29,7 +31,7 @@ in
   config = lib.mkIf cfg.ultraMode {
     fonts = {
       fontDir.enable = true;
-      packages = with pkgs; lib.optional cfg.ultraMode ([
+      packages = with pkgs; (optionalList cfg.ultraMode [
         (nerdfonts.override { fonts = [ "FiraCode" "SourceCodePro" "UbuntuMono" ]; })
         fira
         fira-go
@@ -37,10 +39,10 @@ in
         source-serif
         ubuntu_font_family
         work-sans
-      ] ++ lib.optional (cfg.ultraMode || cfg.japanese) [
+      ]) ++ (optionalList (cfg.ultraMode || cfg.japanese) [
         ipafont
         kochi-substitute
-      ] ++ lib.optional (cfg.ultraMode || cfg.emoji) [
+      ]) ++ (optionalList (cfg.ultraMode || cfg.emoji) [
         joypixels
         noto-fonts-emoji
       ]);

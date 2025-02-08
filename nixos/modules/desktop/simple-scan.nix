@@ -8,6 +8,6 @@
   };
 
   config = lib.mkIf config.oxc.desktop.simple-scan.enable {
-    environment.systemPackages = [ pkgs.gnome.simple-scan ];
+    environment.systemPackages = [ pkgs.simple-scan ];
   };
 }

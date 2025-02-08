@@ -2,6 +2,8 @@
 let
   sshMatrix = import ./ssh-matrix.nix { };
   tailnetMatrix = import ./tailnet-matrix.nix { };
+  
+  inherit (inputs.nixpkgs) lib;
 in
 {
   # Helper function for generating home-manager configs
@@ -20,7 +22,7 @@ in
   # - installer: can be one of the following:
   #    - "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
   #    - "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"
-  mkHost = { hostname, username, systemType, desktop ? null, installer ? null }: inputs.nixpkgs.lib.nixosSystem {
+  mkHost = { hostname, username, systemType, desktop ? null, installer ? null }: lib.nixosSystem {
     specialArgs = {
       inherit self inputs outputs desktop hostname username stateVersion systemType sshMatrix tailnetMatrix;
     };
@@ -28,8 +30,9 @@ in
       ../nixos
       inputs.agenix.nixosModules.default
       inputs.chaotic.nixosModules.default
-    ] ++ (inputs.nixpkgs.lib.optionals (installer != null) [ installer ])
-    ++ (inputs.nixpkgs.lib.optionals (desktop == "cosmic") [
+    ]
+    ++ (lib.optionals (installer != null) [ installer ])
+    ++ (lib.optionals (desktop == "cosmic") [
       {
         nix.settings = {
           substituters = [ "https://cosmic.cachix.org/" ];
@@ -74,7 +77,7 @@ in
     ];
   };
 
-  mkGeneratorImage = { hostname, username, systemType, desktop ? null, platform ? "x86_64-linux", format ? "raw-efi", ... }@extraSpecialArgs: inputs.nixos-generators.nixosGenerate {
+  mkGeneratorImage = { hostname, username, systemType, desktop ? null, platform ? "x86_64-linux", format ? "raw-efi", extraModules ? { chaotic = false; }, ... }@extraSpecialArgs: inputs.nixos-generators.nixosGenerate {
     specialArgs = {
       inherit self inputs outputs desktop hostname username stateVersion systemType sshMatrix tailnetMatrix;
     } // extraSpecialArgs;
@@ -88,14 +91,14 @@ in
       (_: { nix.registry.nixpkgs.flake = inputs.nixpkgs; })
       ../nixos
       inputs.agenix.nixosModules.default
-      # inputs.chaotic.nixosModules.default
-      # {
-      #   boot.kernelParams = [ "console=tty0" ]; # enable physical display tty, not serial port
-      # }
-    ];
+      {
+        boot.kernelParams = [ "console=tty0" ]; # enable physical display tty, not serial port
+      }
+    ]
+    ++ (lib.optional extraModules."chaotic" inputs.chaotic.nixosModules.default);
   };
 
-  forAllLinux = inputs.nixpkgs.lib.genAttrs [
+  forAllLinux = lib.genAttrs [
     ## So long and thanks for all the fish
     # "armv7l-linux" # 32-bit ARM Linux
     # "i686-linux" # 32-bit x86 Linux
@@ -103,12 +106,12 @@ in
     "x86_64-linux" # 64-bit x86 Linux
   ];
 
-  forAllDarwin = inputs.nixpkgs.lib.genAttrs [
+  forAllDarwin = lib.genAttrs [
     "aarch64-darwin" # 64-bit ARM Darwin
     "x86_64-darwin" # 64-bit x86 Darwin
   ];
 
-  forAllSystems = inputs.nixpkgs.lib.genAttrs [
+  forAllSystems = lib.genAttrs [
     ## So long and thanks for all the fish
     # "armv7l-linux" # 32-bit ARM Linux
     # "i686-linux" # 32-bit x86 Linux

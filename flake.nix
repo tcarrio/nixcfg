@@ -43,9 +43,8 @@
     zen-browser.url = "github:MarceColl/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
 
-    # IaC (WIP)
-    # inputs.terranix.url = "github:terranix/terranix";
-    # inputs.terranix.inputs.nixpkgs.follows = "nixpkgs";
+    # COSMIC Desktop support
+    nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
   };
   outputs =
     { self
@@ -60,6 +59,7 @@
       stateVersion = "24.05";
 
       inherit (self) outputs;
+      inherit (nixpkgs) lib;
       libx = import ./lib { inherit self inputs outputs stateVersion; };
     in
     {
@@ -75,6 +75,7 @@
         # Workstations
         "tcarrio@sktc0" = libx.mkHome { hostname = "sktc0"; username = "tcarrio"; platform = "aarch64-darwin"; };
         "tcarrio@glass" = libx.mkHome { hostname = "glass"; username = "tcarrio"; desktop = "kde6"; };
+        "tcarrio@obsidian" = libx.mkHome { hostname = "obsidian"; username = "tcarrio"; desktop = "pantheon"; };
         # TODO: Update/reuse for new laptop or remove entirely
         # "tcarrio@kuroi" = libx.mkHome { hostname = "kuroi"; username = "tcarrio"; desktop = "pantheon"; };
         "tcarrio@t510" = libx.mkHome { hostname = "t510"; username = "tcarrio"; desktop = "i3"; };
@@ -103,6 +104,7 @@
         #  - sudo nixos-rebuild switch --flake $HOME/0xc/nixcfg
         #  - nix build .#nixosConfigurations.ripper.config.system.build.toplevel
         glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "kde6"; };
+        obsidian = libx.mkHost { systemType = "workstation"; hostname = "obsidian"; username = "tcarrio"; desktop = "pantheon"; };
         # TODO: Update/reuse for new laptop or remove entirely
         # kuroi = libx.mkHost { systemType = "workstation"; hostname = "kuroi"; username = "tcarrio"; desktop = "pantheon"; };
         t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "i3"; };
@@ -184,31 +186,45 @@
           (system:
             let
               pkgs = nixpkgs.legacyPackages.${system};
-            in
-            (import ./pkgs { inherit pkgs; })
-            //
-            {
-              # nuc-init = mkNuc "nixos"  "nuc-init";
-              system-image-nuc0 = mkNuc "archon" "nuc0";
-              system-image-nuc1 = mkNuc "archon" "nuc1";
-              system-image-nuc2 = mkNuc "archon" "nuc2";
-              system-image-nuc3 = mkNuc "archon" "nuc3";
-              system-image-nuc4 = mkNuc "archon" "nuc4";
-              system-image-nuc5 = mkNuc "archon" "nuc5";
-              system-image-nuc6 = mkNuc "archon" "nuc6";
-              system-image-nuc7 = mkNuc "archon" "nuc7";
-              system-image-nuc8 = mkNuc "archon" "nuc8";
-              system-image-nuc9 = mkNuc "archon" "nuc9";
-            }
-          )) // {
-          x86_64-linux = {
-            # TODO: image is still too large: reduction with `qemu-img resize --shrink ./nixos.img 5.5G` didn't error out but image will not boot
-            linode-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "linode-base-image"; username = "archon"; format = "linode"; diskSize = 5120; };
-            digital-ocean-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "generic-base-image"; username = "archon"; format = "do"; };
-          };
-        };
-      # And custom nixos-generators definitions
-      # TODO: Nvidia Tegra TK1 image
-      #   tk1 = libx.mkSdImage { hostname = "tk1"; username = "root"; systemType = "server"; };
+              internalPkgs = (import ./pkgs { inherit pkgs; });
+            in ({
+                # Universal systems: Maybe a use case exists but for now this is empty 🤷
+              } // (lib.optionalAttrs (system == "x86_64-linux") {
+                # TODO: Linode image is still too large: reduction with `qemu-img resize --shrink ./nixos.img 5.5G` didn't error out but image will not boot
+                linode-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "linode-base-image"; username = "archon"; format = "linode"; diskSize = 5120; };
+                digital-ocean-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "generic-base-image"; username = "archon"; format = "do"; };
+
+                # TODO: Customize disk layout and installation
+                # method to support raw image generation
+                # obsidian-efi = libx.mkGeneratorImage {
+                #   systemType = "workstation";
+                #   hostname = "obsidian";
+                #   username = "tcarrio";
+                #   desktop = "pantheon";
+                #   diskSize = "65536"; # 64GB
+                #   extraModules = {
+                #     chaotic = true;
+                #   };
+                # };
+
+                ## NUC server configurations
+                system-image-nuc0 = mkNuc "archon" "nuc0";
+                system-image-nuc1 = mkNuc "archon" "nuc1";
+                system-image-nuc2 = mkNuc "archon" "nuc2";
+                system-image-nuc3 = mkNuc "archon" "nuc3";
+                system-image-nuc4 = mkNuc "archon" "nuc4";
+                system-image-nuc5 = mkNuc "archon" "nuc5";
+                system-image-nuc6 = mkNuc "archon" "nuc6";
+                system-image-nuc7 = mkNuc "archon" "nuc7";
+                system-image-nuc8 = mkNuc "archon" "nuc8";
+                system-image-nuc9 = mkNuc "archon" "nuc9";
+                # TODO: Revise init image strategy
+                # nuc-init = mkNuc "nixos"  "nuc-init"; 
+              }) // (lib.optionalAttrs (system == "armv7l-linux") {
+                # TODO: Implement Nvidia Tegra TK1 image
+                tk1 = libx.mkSdImage { hostname = "tk1"; username = "root"; systemType = "server"; };
+              })
+            )
+          ));
     };
 }
