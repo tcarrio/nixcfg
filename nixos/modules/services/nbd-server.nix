@@ -1,12 +1,10 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }:
 
 let
-  ifExists = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 
   inherit (lib)
     mkIf
@@ -35,8 +33,7 @@ let
   # because that sorts the sections by name.  Instead, we serialize it
   # on its own first.
   genericSection = {
-    generic = (
-      cfg.server.extraOptions
+    generic = cfg.server.extraOptions
       // {
         user = "root";
         group = "root";
@@ -44,24 +41,25 @@ let
       }
       // (optionalAttrs (cfg.server.listenAddress != null) {
         listenaddr = cfg.server.listenAddress;
-      })
-    );
+      });
   };
-  exportSections = lib.mapAttrs (
-    _:
-    {
-      path,
-      allowAddresses,
-      extraOptions,
-    }:
-    extraOptions
-    // {
-      exportname = path;
-    }
-    // (optionalAttrs (allowAddresses != null) {
-      authfile = pkgs.writeText "authfile" (lib.concatStringsSep "\n" allowAddresses);
-    })
-  ) cfg.server.exports;
+  exportSections = lib.mapAttrs
+    (
+      _:
+      { path
+      , allowAddresses
+      , extraOptions
+      ,
+      }:
+      extraOptions
+      // {
+        exportname = path;
+      }
+      // (optionalAttrs (allowAddresses != null) {
+        authfile = pkgs.writeText "authfile" (lib.concatStringsSep "\n" allowAddresses);
+      })
+    )
+    cfg.server.exports;
   serverConfig = pkgs.writeText "nbd-server-config" ''
     ${lib.generators.toINI { } genericSection}
     ${lib.generators.toINI { } exportSections}

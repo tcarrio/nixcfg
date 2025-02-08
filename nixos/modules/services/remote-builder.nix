@@ -1,4 +1,4 @@
-{ lib, config, pkgs, sshMatrix, ... }:
+{ lib, config, ... }:
 let
   cfg = config.oxc.services.remote-builder;
 
@@ -15,8 +15,6 @@ let
     supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
     mandatoryFeatures = [ ];
   };
-
-  ifExists = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 in
 {
   options.oxc.services.remote-builder = {

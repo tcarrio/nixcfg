@@ -1,4 +1,5 @@
-{ desktop, lib, pkgs, ... }: let
+{ desktop, lib, pkgs, ... }:
+let
   desktopEnabledConfig = {
     imports = [
       ../services/cups.nix
@@ -31,4 +32,4 @@
     programs.dconf.enable = false;
   };
 in
-  (if desktop != null then desktopEnabledConfig else desktopDisabledConfig)
+if desktop != null then desktopEnabledConfig else desktopDisabledConfig

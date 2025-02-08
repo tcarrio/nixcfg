@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+_:
 {
   services.pixiecore.enable = true;
   services.pixiecore.mode = "api";

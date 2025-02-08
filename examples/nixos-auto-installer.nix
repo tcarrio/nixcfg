@@ -34,7 +34,7 @@ in
 
   services.journald.console = "/dev/tty1";
 
-  nix.settings.substituters = lib.mkForce [];
+  nix.settings.substituters = lib.mkForce [ ];
 
   systemd.services.install = {
     description = "Bootstrap a NixOS installation";

@@ -12,10 +12,10 @@ in
     homeMode = "0711";
     isNormalUser = true;
     openssh.authorizedKeys.keys = sshMatrix.groups.remote_build_clients;
-    packages = [];
+    packages = [ ];
     shell = pkgs.bash;
     group = userName;
   };
-  users.groups."${userName}" = {};
+  users.groups."${userName}" = { };
   nix.settings.trusted-users = [ userName ];
 }

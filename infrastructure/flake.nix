@@ -7,27 +7,27 @@
 
   inputs.nixcfg.url = "git+file:../";
 
-  outputs = { self, nixpkgs, flake-utils, nixcfg }:
+  outputs = { nixpkgs, flake-utils, nixcfg }:
     flake-utils.lib.eachDefaultSystem (system:
       let pkgs = nixpkgs.legacyPackages.${system}; in
       {
         devShells = {
           default = pkgs.mkShell {
             packages = with pkgs; [
-                git
-                nodejs_22
-                nodePackages.wrangler
-                yarn
-                biome
+              git
+              nodejs_22
+              nodePackages.wrangler
+              yarn
+              biome
 
-                # infrastructure and automation
-                opentofu
-                go-task
+              # infrastructure and automation
+              opentofu
+              go-task
 
-                # secrets management
-                sops
-                gnupg
-                age
+              # secrets management
+              sops
+              gnupg
+              age
             ];
 
             env = with pkgs; {
@@ -35,8 +35,8 @@
             };
 
             shellHook = ''
-                echo $ Started devshell for $PROJECT_NAME
-                echo
+              echo $ Started devshell for $PROJECT_NAME
+              echo
             '';
           };
         };

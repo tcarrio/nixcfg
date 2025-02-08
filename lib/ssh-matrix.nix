@@ -1,7 +1,4 @@
 _:
-let
-  parseFriendlyKey = builtins.replaceStrings [ "\n" ] [ "" ];
-in
 rec {
   # user@host matrix
   systems = {

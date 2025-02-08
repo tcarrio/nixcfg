@@ -19,7 +19,6 @@ let
     };
   };
   mkSsdRaidDisk = mkRaidDisk "md126";
-  mkHddRaidDisk = mkRaidDisk "md127";
 in
 {
   disko.devices = {
