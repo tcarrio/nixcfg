@@ -20,27 +20,27 @@ in
   environment.systemPackages = with pkgs; [ nfs-utils ];
 
   ## TODO: Remove old config
-  # fileSystems."/mnt/nas-ds418-00" = {
-  #   device = "192.168.40.186:/volume1/homes";
-  #   fsType = "nfs";
-  #   options = ["nfsvers=3"];
-  # };
+  fileSystems."/mnt/${nfsHostname}" = {
+    device = "${intranetHost}:/volume1/homes";
+    fsType = "nfs";
+    options = ["nfsvers=3"];
+  };
 
   ## TODO: Improve with lazy mounting and tailscale networking
-  systemd.mounts = [{
-    type = "nfs";
-    mountConfig = {
-      Options = "noatime,_netdev,nfsvers=3";
-      # Options = "nfsvers=3";
-    };
-    what = "${host}:${remoteLocation}";
-    where = mountLocation;
-    startLimitIntervalSec = 0;
-  }];
-  systemd.automounts = [{
-    wantedBy = [ "multi-user.target" ];
-    wants = [ "nfs-client.target" ] ++ (lib.optional tailscaleEnabled "tailscale.target");
-    where = mountLocation;
-    startLimitIntervalSec = 0;
-  }];
+  # systemd.mounts = [{
+  #   type = "nfs";
+  #   mountConfig = {
+  #     Options = "noatime,_netdev,nfsvers=3";
+  #     # Options = "nfsvers=3";
+  #   };
+  #   what = "${host}:${remoteLocation}";
+  #   where = mountLocation;
+  #   startLimitIntervalSec = 0;
+  # }];
+  # systemd.automounts = [{
+  #   wantedBy = [ "multi-user.target" ];
+  #   wants = [ "nfs-client.target" ] ++ (lib.optional tailscaleEnabled "tailscale.target");
+  #   where = mountLocation;
+  #   startLimitIntervalSec = 0;
+  # }];
 }
