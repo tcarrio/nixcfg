@@ -72,9 +72,9 @@
       CPU_MIN_PERF_ON_BAT = 0;
       CPU_MAX_PERF_ON_BAT = 30;
 
-     # Battery charging behavior to reduce wear on battery health
-     START_CHARGE_THRESH_BAT0 = 40;
-     STOP_CHARGE_THRESH_BAT0 = 80;
+      # Battery charging behavior to reduce wear on battery health
+      START_CHARGE_THRESH_BAT0 = 40;
+      STOP_CHARGE_THRESH_BAT0 = 80;
     };
   };
   ## END LFG

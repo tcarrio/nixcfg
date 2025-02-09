@@ -2,7 +2,7 @@
 let
   sshMatrix = import ./ssh-matrix.nix { };
   tailnetMatrix = import ./tailnet-matrix.nix { };
-  
+
   inherit (inputs.nixpkgs) lib;
 in
 {

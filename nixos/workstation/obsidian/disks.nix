@@ -25,7 +25,7 @@ _: {
                 # ⚠️ DESTRUCTIVE ACTION.
                 # This will destroy and re-create partitions on the device!
                 extraArgs = [ "-f" ];
-                
+
                 # Subvolumes must set a mountpoint in order to be mounted,
                 # unless their parent is mounted
                 subvolumes = {

@@ -6,7 +6,7 @@
 # SATA:        500GB SSD
 # SATA:        2TB SSHD
 
-{ inputs, lib, pkgs, tailnetMatrix, ... }: {
+{ inputs, lib, pkgs, ... }: {
   imports = [
     (import ./disks.nix { })
     ./hardware-configuration.nix
@@ -93,7 +93,7 @@
       efi.efiSysMountPoint = "/boot/efi";
     };
   };
-  
+
 
   environment.systemPackages = with pkgs; [
     distrobox
