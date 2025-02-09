@@ -16,7 +16,7 @@ with lib.hm.gvariant;
     "desktop/ibus/panel" = {
       show-icon-on-systray = false;
       use-custom-font = true;
-      custom-font = "Work Sans 10";
+      custom-font = lib.mkForce "Work Sans 10";
     };
 
     "desktop/ibus/panel/emoji" = {
@@ -104,7 +104,7 @@ with lib.hm.gvariant;
       cursor-size = 24;
       cursor-theme = "elementary";
       document-font-name = "Work Sans 12";
-      font-name = "Work Sans 12";
+      font-name = lib.mkForce "Work Sans 12";
       gtk-theme = "io.elementary.stylesheet.bubblegum";
       gtk-enable-primary-paste = true;
       icon-theme = "elementary";
