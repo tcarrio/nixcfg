@@ -1,4 +1,4 @@
-{ lib, config, ... }: {
+{ pkgs, lib, config, ... }: {
   options.oxc.desktop.steam = {
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -47,6 +47,10 @@
 
     programs.steam = {
       enable = true;
+
+      package = pkgs.steam.override {
+        extraPkgs = pkgs: [ pkgs.mpg123 ];
+      };
       # Open ports in the firewall for Steam Remote Play
       remotePlay.openFirewall = config.oxc.desktop.steam.steamPlay.firewall.open;
       # Open ports in the firewall for Source Dedicated Server
