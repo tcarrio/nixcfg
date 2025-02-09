@@ -2,7 +2,7 @@
 let
   cfg = config.oxc.desktop.fonts;
 
-  optionalList = condition: list: if condition then list else [];
+  optionalList = condition: list: if condition then list else [ ];
 in
 {
   options.oxc.desktop.fonts = {

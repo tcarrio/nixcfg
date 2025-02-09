@@ -35,13 +35,13 @@ let
   genericSection = {
     generic = cfg.server.extraOptions
       // {
-        user = "root";
-        group = "root";
-        port = cfg.server.listenPort;
-      }
+      user = "root";
+      group = "root";
+      port = cfg.server.listenPort;
+    }
       // (optionalAttrs (cfg.server.listenAddress != null) {
-        listenaddr = cfg.server.listenAddress;
-      });
+      listenaddr = cfg.server.listenAddress;
+    });
   };
   exportSections = lib.mapAttrs
     (

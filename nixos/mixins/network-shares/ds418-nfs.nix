@@ -1,14 +1,8 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, config, ... }:
 let
   intranetHost = "192.168.40.186";
   nfsHostname = "nas-ds418-00";
-
-  tailscaleEnabled = config.services.tailscale.enable;
   # host = intranetHost;
-  host = if tailscaleEnabled then nfsHostname else intranetHost;
-
-  mountLocation = "/mnt/${nfsHostname}";
-  remoteLocation = "/volumes/home1";
 in
 {
   # more info in https://nixos.wiki/wiki/NFS
@@ -23,7 +17,7 @@ in
   fileSystems."/mnt/${nfsHostname}" = {
     device = "${intranetHost}:/volume1/homes";
     fsType = "nfs";
-    options = ["nfsvers=3"];
+    options = [ "nfsvers=3" ];
   };
 
   ## TODO: Improve with lazy mounting and tailscale networking
