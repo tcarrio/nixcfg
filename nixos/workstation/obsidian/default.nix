@@ -21,7 +21,7 @@
     ../../mixins/hardware/systemd-boot.nix
     ## TODO: Enable the NFS share after configuring authentication
     # ../../mixins/network-shares/ds418-nfs.nix
-    ../../mixins/services/nordvpn.nix
+    # ../../mixins/services/nordvpn.nix
     ../../mixins/services/pipewire.nix
     ../../mixins/users/grigori/default.nix
   ];
@@ -87,7 +87,13 @@
     initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "nvme" ];
     initrd.kernelModules = [ ];
     kernelModules = [ "kvm-amd" "nvidia" ];
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+      efi.efiSysMountPoint = "/boot/efi";
+    };
   };
+  
 
   environment.systemPackages = with pkgs; [
     distrobox

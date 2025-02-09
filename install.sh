@@ -81,31 +81,43 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     -- \
     --mode zap_create_mount \
     "$TARGET_HOST_ROOT/disks.nix"
-
-  if [ -z "$MAX_CONCURRENCY" ]; then
-    MAX_CONCURRENCY=$(($(nproc) - 1))
-  fi
-
-  sudo nixos-install -j $MAX_CONCURRENCY --cores $MAX_CONCURRENCY --no-root-password --flake ".#$TARGET_NIXOS_CONFIG_NAME"
-
-  if [[ "$TARGET_USER" == "root" ]]; then
-    TARGET_USER_HOME="/mnt/root"
+else
+  echo "Would you like to continue with the installation?"
+  echo "All disks mounting must have already been prepared!"
+  echo
+  read -p "Continue? [y/N]" -n 1 -r
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo "Continuing install..."
   else
-    TARGET_USER_HOME="/mnt/home/$TARGET_USER"
+    echo "Installation cancelled!"
+    exit 1
   fi
+fi
 
-  # Rsync nixcfg to the target install and set the remote origin to SSH.
-  sudo mkdir -p "$TARGET_USER_HOME"
-  sudo chown $(whoami):root -R "$TARGET_USER_HOME"
-  rsync -a --delete "$HOME/0xc/" "$TARGET_USER_HOME/0xc/"
-  pushd "$TARGET_USER_HOME/0xc/nixcfg"
-  git remote set-url origin git@github.com:tcarrio/nixcfg.git
-  popd
+if [ -z "$MAX_CONCURRENCY" ]; then
+  MAX_CONCURRENCY=$(($(nproc) - 1))
+fi
 
-  # If there is a keyfile for a data disk, put copy it to the root partition and
-  # ensure the permissions are set appropriately.
-  if [[ -f "/tmp/data.keyfile" ]]; then
-    sudo cp /tmp/data.keyfile /mnt/etc/data.keyfile
-    sudo chmod 0400 /mnt/etc/data.keyfile
-  fi
+sudo nixos-install -j $MAX_CONCURRENCY --cores $MAX_CONCURRENCY --no-root-password --flake ".#$TARGET_NIXOS_CONFIG_NAME"
+
+if [[ "$TARGET_USER" == "root" ]]; then
+  TARGET_USER_HOME="/mnt/root"
+else
+  TARGET_USER_HOME="/mnt/home/$TARGET_USER"
+fi
+
+# Rsync nixcfg to the target install and set the remote origin to SSH.
+sudo mkdir -p "$TARGET_USER_HOME"
+sudo chown $(whoami):root -R "$TARGET_USER_HOME"
+rsync -a --delete "$HOME/0xc/" "$TARGET_USER_HOME/0xc/"
+pushd "$TARGET_USER_HOME/0xc/nixcfg"
+git remote set-url origin git@github.com:tcarrio/nixcfg.git
+popd
+
+# If there is a keyfile for a data disk, put copy it to the root partition and
+# ensure the permissions are set appropriately.
+if [[ -f "/tmp/data.keyfile" ]]; then
+  sudo cp /tmp/data.keyfile /mnt/etc/data.keyfile
+  sudo chmod 0400 /mnt/etc/data.keyfile
 fi

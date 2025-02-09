@@ -46,8 +46,8 @@ _: {
                   "/swap" = {
                     mountpoint = "/.swapvol";
                     swap = {
-                      swapfile.size = "32GB";
-                      swapfile2.size = "32GB";
+                      swapfile.size = "32G";
+                      swapfile2.size = "32G";
                       swapfile2.path = "rel-path";
                     };
                   };
@@ -56,10 +56,10 @@ _: {
                 mountpoint = "/partition-root";
                 swap = {
                   swapfile = {
-                    size = "20M";
+                    size = "32G";
                   };
                   swapfile1 = {
-                    size = "20M";
+                    size = "32G";
                   };
                 };
               };
