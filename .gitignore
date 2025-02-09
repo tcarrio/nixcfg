@@ -5,3 +5,6 @@
 *.*.gz
 .env
 .terraform/
+
+# ignore general patch files
+*.patch
