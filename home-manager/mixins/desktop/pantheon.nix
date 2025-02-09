@@ -140,6 +140,9 @@ with lib.hm.gvariant;
     "org/gnome/mutter" = {
       workspaces-only-on-primary = false;
       dynamic-workspaces = false;
+
+      # ⚠️ Extends the automatic unresponsive application prompt to 30 seconds
+      check-alive-timeout = 30000;
     };
 
 
