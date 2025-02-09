@@ -45,13 +45,39 @@
     virtualisation.enable = true;
   };
 
+
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages_zen;
     initrd.availableKernelModules = [ "ehci_pci" "ahci" "firewire_ohci" "usb_storage" "sd_mod" "sr_mod" "sdhci_pci" ];
     initrd.kernelModules = [ ];
     kernelModules = [ ];
     extraModulePackages = [ ];
   };
+
+  ## START LFG: Squeezing performance at all costs when your PC is 15 years old
+  boot.kernelParams = [ "mitigations=off" ];
+  services.thermald.enable = true;
+  services.power-profiles-daemon.enable = false;
+  services.tlp = {
+    enable = true;
+    settings = {
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+
+      CPU_MIN_PERF_ON_AC = 70;
+      CPU_MAX_PERF_ON_AC = 100;
+      CPU_MIN_PERF_ON_BAT = 0;
+      CPU_MAX_PERF_ON_BAT = 30;
+
+     # Battery charging behavior to reduce wear on battery health
+     START_CHARGE_THRESH_BAT0 = 40;
+     STOP_CHARGE_THRESH_BAT0 = 80;
+    };
+  };
+  ## END LFG
 
   networking.networkmanager.enable = true;
 
