@@ -2,5 +2,6 @@
     "git-blame.gitWebUrl": "",
     "cSpell.words": [
         "nixos"
-    ]
+    ],
+    "nixEnvSelector.nixFile": "${workspaceRoot}/shell.nix"
 }
