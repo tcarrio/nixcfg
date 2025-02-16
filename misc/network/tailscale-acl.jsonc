@@ -1,0 +1,270 @@
+{
+	// Declare static groups of users. Use autogroups for all users or users with a specific role.
+	"groups": {
+		"group:adm": ["tom@carrio.me"],
+		"group:dev": ["tom@carrio.me"],
+		"group:usr": ["tom@carrio.me", "victoria@carrio.me"],
+	},
+
+	// Define the tags which can be applied to devices and by which users.
+	"tagOwners": {
+		"tag:open":    ["group:adm"],
+		"tag:void":    ["group:usr"],
+
+		"tag:nixos":   ["group:adm"],
+		"tag:freebsd": ["group:adm"],
+
+		"tag:nas":   ["group:adm"], // DELETE
+		"tag:photo": ["group:adm"],
+		"tag:media": ["group:adm"],
+		"tag:web":   ["group:adm"],
+
+		"tag:server":  ["group:adm"],
+		"tag:desktop": ["group:adm"],
+		"tag:laptop":  ["group:adm"],
+		"tag:mobile":  ["group:adm"],
+
+		"tag:user": ["group:adm"],
+		"tag:tc": ["group:adm", "tom@carrio.me"],
+		"tag:vc": ["group:adm", "victoria@carrio.me"],
+	},
+
+	"hosts": {
+		"obsidian":                "100.126.103.29",
+		"glass":                   "100.123.199.108",
+		"google-pixel-6a":         "100.77.57.123",
+		"motorola-razr-plus-2024": "100.127.130.27",
+		"nas-ds418-00":            "100.85.25.62",
+		"nix-proxy-droplet":       "100.76.147.37",
+		"orca":                    "100.88.47.23",
+		"sktc0":                   "100.122.112.4",
+		"t510":                    "100.93.120.101",
+	},
+
+	"postures": {
+		"posture:novuln": [
+			"node:tsVersion > '1.60'",
+		],
+	},
+
+	// Define access control lists for users, groups, autogroups, tags,
+	// Tailscale IP addresses, and subnet ranges.
+	"acls": [
+		// Hosts on the Tailnet can discover each other
+		{
+			"action": "accept",
+			"src":    ["*"],
+			"proto":  "udp",
+			"dst":    ["*:41641"],
+		},
+		// admins get full access to the tailnet, as long as they're using an up-to-date system
+		{
+			"action":     "accept",
+			"src":        ["group:adm"],
+			"srcPosture": ["posture:novuln"],
+			"dst":        ["*:*"],
+		},
+
+		// "open" resources allow ALL connections.
+		{"action": "accept", "src": ["*"], "dst": ["tag:open:*"]},
+
+		// media server proxy connection
+		{
+			"action": "accept",
+			"src":    ["nix-proxy-droplet"],
+			"dst":    ["glass:32400", "orca:32400"],
+		},
+
+		// users & their devices can access photo and media resources
+		{
+			"action": "accept",
+			"src":    ["group:usr", "tag:user", "motorola-razr-plus-2024"],
+			"dst": [
+				// TODO: Remove the redundant host entry
+				"tag:web:443",
+				"nix-proxy-droplet:443",
+
+				// TODO: Remove the redundant host entry
+				"tag:media:32400",
+				"orca:32400",
+
+				// TODO: Remove the redundant host entries
+				"tag:photo:5000,5001",
+				"nas-ds418-00:5000,5001",
+			],
+		},
+	],
+
+	// Define users and devices that can use Tailscale SSH.
+	"ssh": [
+		// // Allow all users to SSH into their own devices in check mode.
+		// // Comment this section out if you want to define specific restrictions.
+		{
+			"action": "check",
+			"src":    ["autogroup:member"],
+			"dst":    ["autogroup:self"],
+			"users":  ["autogroup:nonroot", "root"],
+		},
+		{
+			"action": "accept",
+			"src": [
+				"group:adm",
+				"tom@carrio.me",
+			],
+			"dst": [
+				"autogroup:self",
+				"tag:server",
+				"tag:desktop",
+				"tag:laptop",
+			],
+			"users": [
+				"autogroup:nonroot",
+				"root",
+			],
+		},
+		//// Override rules for Tom to access Tom's stuff - Wow.
+		// {
+		// 	"action":     "accept",
+		// 	"src":        ["tom@carrio.me"],
+		// 	"dst": ["tom@carrio.me"],
+		// 	"users":  ["tcarrio:tom@carrio.me"],
+		// },
+	],
+	"nodeAttrs": [
+		{"target": ["group:dev"], "attr": ["funnel"]},
+
+		//// Uncomment to allow all Tailnet members to manage Funnel
+		// {
+		// 	// Funnel policy, which lets tailnet members control Funnel
+		// 	// for their own devices.
+		// 	// Learn more at https://tailscale.com/kb/1223/tailscale-funnel/
+		// 	"target": ["autogroup:member"],
+		// 	"attr":   ["funnel"],
+		// },
+	],
+
+	// Test access rules every time they're saved.
+	"tests": [
+		// User access assertions
+		{
+			"src": "tom@carrio.me",
+			"accept": [
+				"glass:22",
+				"nas-ds418-00:22",
+				"nas-ds418-00:5001",
+				"nas-ds418-00:5001",
+				"nix-proxy-droplet:22",
+				"nix-proxy-droplet:443",
+				"obsidian:22",
+				"orca:22",
+				"orca:32400",
+				"sktc0:22",
+				"t510:22",
+			],
+			"deny": [],
+			"srcPostureAttrs": {
+				"node:tsVersion": "1.80",
+			},
+		},
+		{
+			"src": "victoria@carrio.me",
+			"accept": [
+				"nas-ds418-00:5000",
+				"nas-ds418-00:5001",
+				"nix-proxy-droplet:443",
+				"orca:32400",
+			],
+			"deny": [
+				"glass:22",
+				"nas-ds418-00:22",
+				"nix-proxy-droplet:22",
+				"obsidian:22",
+				"orca:22",
+				"sktc0:22",
+				"t510:22",
+			],
+		},
+		// Host access assertions
+		{
+			"src":    "nix-proxy-droplet",
+			"accept": ["orca:32400"],
+			"deny": [
+				"orca:22",
+				"glass:22",
+				"obsidian:22",
+				"sktc0:22",
+				"nas-ds418-00:22",
+				"t510:22",
+			],
+		},
+		{
+			"src":    "obsidian",
+			"accept": [],
+			"deny":   ["glass:22", "sktc0:22", "nas-ds418-00:22", "orca:22"],
+		},
+		{
+			"src":    "glass",
+			"accept": [],
+			"deny": [
+				"obsidian:22",
+				"t510:22",
+				"sktc0:22",
+				"nas-ds418-00:22",
+				"orca:22",
+			],
+		},
+		{
+			"src":    "t510",
+			"accept": [],
+			"deny": [
+				"obsidian:22",
+				"glass:22",
+				"sktc0:22",
+				"nas-ds418-00:22",
+				"orca:22",
+			],
+		},
+		{
+			"src":    "sktc0",
+			"accept": [],
+			"deny": [
+				"obsidian:22",
+				"glass:22",
+				"nas-ds418-00:22",
+				"orca:22",
+				"t510:22",
+			],
+		},
+		{
+			"src":    "t510",
+			"accept": [],
+			"deny": [
+				"obsidian:22",
+				"glass:22",
+				"nas-ds418-00:22",
+				"orca:22",
+				"sktc0:22",
+			],
+		},
+		{
+			"src": "motorola-razr-plus-2024",
+			"accept": ["nas-ds418-00:5000", "nas-ds418-00:5001"],
+			"deny": ["nas-ds418-00:22"],
+		},
+		{
+			"src": "tag:user",
+			"accept": ["nas-ds418-00:5000", "nas-ds418-00:5001"],
+			"deny": ["nas-ds418-00:22"],
+		},
+		// Host discoverability assertions
+	],
+	"sshTests": [
+		{
+			"src":    "tom@carrio.me",
+			"dst":    ["t510"],
+			"accept": ["tcarrio", "root"],
+			"check":  [],
+			"deny":   [],
+		},
+	],
+}
