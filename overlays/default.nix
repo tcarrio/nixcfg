@@ -30,6 +30,24 @@
         };
 
       mustacheTemplateContent = n: t: d: builtins.readFile "${mustacheTemplate n t d}";
+
+      # provide a bun-baseline package that uses the baseline release to support older CPU architectures
+      bun-baseline = prev.bun.overrideAttrs (old: (
+        let
+          currentSystem = prev.stdenvNoCC.hostPlatform.system;
+          overrideVersion = "1.2.2";
+          sources = {
+            "x86_64-linux" = prev.fetchurl {
+              url = "https://github.com/oven-sh/bun/releases/download/bun-v${overrideVersion}/bun-linux-x64-baseline.zip";
+              hash = "sha256-ytd1am7hbzQyoyj4Aj/FzUMRBoIurPptbTr7rW/cJNs=";
+            };
+          };
+        in {
+          pname = "bun-baseline";
+          src = sources.${currentSystem} or old.src;
+          version = if (builtins.hasAttr currentSystem sources) then overrideVersion else old.version;
+        })
+      );
     };
 
   # This one contains whatever you want to overlay

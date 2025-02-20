@@ -39,6 +39,7 @@ Host glass
       git-absorb
       thefuck
       cmatrix
+      bun-baseline
     ];
   };
 
