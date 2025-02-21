@@ -21,8 +21,8 @@ Host github.com
   HostName github.com
   User git
 
-Host glass
-  Hostname glass
+Host obsidian
+  Hostname obsidian
   User tcarrio
     ";
     sessionVariables = {
