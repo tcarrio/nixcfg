@@ -141,8 +141,8 @@ with lib.hm.gvariant;
       workspaces-only-on-primary = false;
       dynamic-workspaces = false;
 
-      # ⚠️ Extends the automatic unresponsive application prompt to 30 seconds
-      check-alive-timeout = 30000;
+      # ⚠️ Disables the automatic unresponsive application prompt entirely!
+      check-alive-timeout = 0;
     };
 
 
