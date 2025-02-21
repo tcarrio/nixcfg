@@ -24,7 +24,11 @@ in
   # ACME NixOS Docs: https://wiki.nixos.org/wiki/ACME
   security.acme = {
     acceptTerms = true;
-    defaults.email = "tom@carrio.dev";
+    defaults = {
+      email = "tom@carrio.dev";
+      renewInterval = "weekly";
+      reloadServices = [ "nginx" ];
+    };
     certs = {
       "${external_domain}" = {
         domain = external_domain;
