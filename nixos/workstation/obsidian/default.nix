@@ -21,7 +21,7 @@
     ../../mixins/hardware/systemd-boot.nix
     ## TODO: Enable the NFS share after configuring authentication
     # ../../mixins/network-shares/ds418-nfs.nix
-    # ../../mixins/services/nordvpn.nix
+    ../../mixins/services/nordvpn.nix
     ../../mixins/services/pipewire.nix
     ../../mixins/users/grigori/default.nix
   ];
