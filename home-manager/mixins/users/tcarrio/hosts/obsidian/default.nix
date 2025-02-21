@@ -1,8 +1,8 @@
-{ lib, ... }:
+{ lib, pkgs, config, ... }:
 with lib.hm.gvariant;
 {
   imports = [
-    ../../../services/mpris-proxy.nix
+    ../../../../services/mpris-proxy.nix
   ];
 
   home = {
@@ -11,7 +11,7 @@ with lib.hm.gvariant;
     file = {
       "${config.xdg.configHome}/direnv/direnv.toml".text = builtins.readFile ./direnv.toml;
     };
-    packages = [
+    packages = with pkgs; [
       gotop
     ];
   };
