@@ -3,23 +3,23 @@ let
   cfg = config.oxc.services.auto-install;
 in
 {
-  options.oxc.services.flatpak = {
+  options.oxc.services.auto-install = {
     enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
-      description = "Enable support for Flatpak";
+      description = "Enable auto-installer module";
     };
 
-    flathub = {
-      enable = lib.mkOption {
-        type = lib.types.bool;
-        default = true;
-        description = "Enable the Flathub repository for Flatpak";
-      };
+    isoMode = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Assume an ISO boot image environment";
     };
   };
 
   config = lib.mkIf cfg.enable {
+    oxc.services.iso-auto-installer.enable = cfg.isoMode;
+
     nixpkgs.config.allowUnfree = true;
     hardware.enableAllFirmware = true;
 
