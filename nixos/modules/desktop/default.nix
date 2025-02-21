@@ -24,6 +24,7 @@ _: {
     ./spotify.nix
     ./steam.nix
     ./tilix.nix
+    ./transmission.nix
     ./vivaldi.nix
     ./vscode.nix
     ./zed.nix

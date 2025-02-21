@@ -40,6 +40,11 @@
         steamPlay.enable = true;
         steamPlay.firewall.open = true;
       };
+      transmission = {
+        enable = true;
+        package = pkgs.transmission_4-qt;
+        firewall.open = true;
+      };
       vscode = {
         enable = true;
         support = {
@@ -99,7 +104,6 @@
     distrobox
     google-fonts
     tor-browser
-    transmission_4-qt
     tmux
   ];
 
