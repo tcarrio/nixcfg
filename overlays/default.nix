@@ -35,17 +35,15 @@
       bun-baseline = prev.bun.overrideAttrs (old: (
         let
           currentSystem = prev.stdenvNoCC.hostPlatform.system;
-          overrideVersion = "1.2.2";
           sources = {
             "x86_64-linux" = prev.fetchurl {
-              url = "https://github.com/oven-sh/bun/releases/download/bun-v${overrideVersion}/bun-linux-x64-baseline.zip";
+              url = "https://github.com/oven-sh/bun/releases/download/bun-v${old.version}/bun-linux-x64-baseline.zip";
               hash = "sha256-ytd1am7hbzQyoyj4Aj/FzUMRBoIurPptbTr7rW/cJNs=";
             };
           };
         in {
           pname = "bun-baseline";
-          src = sources.${currentSystem} or old.src;
-          version = if (builtins.hasAttr currentSystem sources) then overrideVersion else old.version;
+          src = if (builtins.hasAttr currentSystem sources) then sources.${currentSystem} else old.src;
         })
       );
     };

@@ -12,6 +12,7 @@
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
     ../../mixins/hardware/grub-legacy-boot.nix
+    ../../mixins/hardware/intel-pre-haswell.nix
     ../../mixins/services/pipewire.nix
   ];
 

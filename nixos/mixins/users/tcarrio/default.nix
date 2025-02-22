@@ -10,6 +10,7 @@ in
     yadm # Terminal dot file manager
     neovim
     pinentry-tty
+    bun
   ];
 
   # enable GPG agent with full support
