@@ -39,7 +39,6 @@ Host obsidian
       git-absorb
       thefuck
       cmatrix
-      bun
     ];
   };
 
