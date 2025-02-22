@@ -11,6 +11,7 @@ in
     neovim
     pinentry-tty
     bun
+    tmux
   ];
 
   # enable GPG agent with full support
