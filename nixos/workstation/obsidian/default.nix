@@ -24,6 +24,8 @@
     ../../mixins/services/nordvpn.nix
     ../../mixins/services/pipewire.nix
     ../../mixins/users/grigori/default.nix
+
+    ../../mixins/services/hoarder.nix
   ];
 
   oxc = {
