@@ -1,6 +1,6 @@
 _: {
   imports = [
-    # ../../../compose2nix/hoarder/docker-compose.nix
+    ../../../compose2nix/hoarder/docker-compose.nix
   ];
 
   age.secrets.hoarder-env-file = {
