@@ -221,7 +221,7 @@
                 system-image-nuc8 = mkNuc "archon" "nuc8";
                 system-image-nuc9 = mkNuc "archon" "nuc9";
                 # TODO: Revise init image strategy
-                # nuc-init = mkNuc "nixos"  "nuc-init"; 
+                # nuc-init = mkNuc "nixos"  "nuc-init";
               }) // (lib.optionalAttrs (system == "armv7l-linux") {
                 # TODO: Implement Nvidia Tegra TK1 image
                 tk1 = libx.mkSdImage { hostname = "tk1"; username = "root"; systemType = "server"; };
