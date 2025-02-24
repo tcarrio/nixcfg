@@ -25,7 +25,7 @@
     ../../mixins/services/pipewire.nix
     ../../mixins/users/grigori/default.nix
 
-    ../../mixins/services/hoarder-compose.nix
+    # ../../mixins/services/hoarder-compose.nix
   ];
 
   oxc = {
