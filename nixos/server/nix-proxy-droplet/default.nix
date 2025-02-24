@@ -1,12 +1,31 @@
 { lib, config, ... }:
 let
-  external_domain = "media.carrio.me";
-  tailnet_domain = "orca.griffin-cobra.ts.net";
-  service_protocol = "http";
-  service_port = ":32400";
-  tailnet_dns_resolver = "100.100.100.100";
+  tailnet = {
+    domain = "griffin-cobra.ts.net";
+    dns_resolver = "100.100.100.100";
+  };
 
-  upstream_base_url = "${service_protocol}://${tailnet_domain}${service_port}/";
+  plex = {
+    external.fqdn = "media.carrio.me";
+
+    upstream = rec {
+      tailnet_fqdn = "orca.${tailnet.domain}";
+      protocol = "http";
+      port = "32400";
+      proxy_url = "${protocol}://${tailnet_fqdn}:${port}/";
+    };
+  };
+
+  hoarder = {
+    external.fqdn = "hoarder.carrio.me";
+
+    upstream = rec {
+      tailnet_fqdn = "obsidian.${tailnet.domain}";
+      protocol = "http";
+      port = "3000";
+      proxy_url = "${protocol}://${tailnet_fqdn}:${port}/";
+    };
+  };
 in
 {
   imports = [
@@ -30,12 +49,19 @@ in
       reloadServices = [ "nginx" ];
     };
     certs = {
-      "${external_domain}" = {
-        domain = external_domain;
+      "${plex.external.fqdn}" = {
+        domain = plex.external.fqdn;
         group = "nginx";
         dnsProvider = "cloudflare";
 
         # https://www.freedesktop.org/software/systemd/man/latest/systemd.exec.html#EnvironmentFile=
+        environmentFile = config.age.secrets.cloudflare-dns-verification.path;
+      };
+
+      "${hoarder_fqdn}" = {
+        domain = hoarder_fqdn;
+        group = "nginx";
+        dnsProvider = "cloudflare";
         environmentFile = config.age.secrets.cloudflare-dns-verification.path;
       };
     };
@@ -49,7 +75,7 @@ in
   services.nginx = {
     enable = true;
     # give a name to the virtual host. It also becomes the server name.
-    virtualHosts."${external_domain}" = {
+    virtualHosts."${plex.external.fqdn}" = {
       # Since we want a secure connection, we force SSL
       forceSSL = true;
 
@@ -57,14 +83,16 @@ in
       http2 = true;
 
       # Provide the ssl cert and key for the vhost
-      sslCertificate = "/var/lib/acme/${external_domain}/fullchain.pem";
-      sslCertificateKey = "/var/lib/acme/${external_domain}/key.pem";
+      sslCertificate = "/var/lib/acme/${plex.external.fqdn}/fullchain.pem";
+      sslCertificateKey = "/var/lib/acme/${plex.external.fqdn}/key.pem";
+
+      locations."/".proxyPass = plex.upstream.proxy_url;
 
       extraConfig = ''
         #Some players don't reopen a socket and playback stops totally instead of resuming after an extended pause
         send_timeout 100m;
 
-        resolver ${tailnet_dns_resolver} valid=30s;
+        resolver ${tailnet.dns_resolver} valid=30s;
 
         # Why this is important: https://blog.cloudflare.com/ocsp-stapling-how-cloudflare-just-made-ssl-30/
         ssl_stapling on;
@@ -118,9 +146,60 @@ in
         proxy_redirect off;
         proxy_buffering off;
       '';
-      locations."/" = {
-        proxyPass = upstream_base_url;
-      };
+    };
+
+    virtualHosts."${hoarder.external.fqdn}" = {
+      forceSSL = true;
+      http2 = true;
+
+      sslCertificate = "/var/lib/acme/${hoarder.external.fqdn}/fullchain.pem";
+      sslCertificateKey = "/var/lib/acme/${hoarder.external.fqdn}/key.pem";
+
+      locations."/".proxyPass = hoarder.upstream.proxy_url;
+
+      extraConfig = ''
+        resolver ${tailnet.dns_resolver} valid=30s;
+
+        # Why this is important: https://blog.cloudflare.com/ocsp-stapling-how-cloudflare-just-made-ssl-30/
+        ssl_stapling on;
+        ssl_stapling_verify on;
+
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        ssl_prefer_server_ciphers on;
+
+        # Forward real IP and host to upstream
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Host $server_addr;
+        proxy_set_header Referer $server_addr;
+        proxy_set_header Origin $server_addr;
+
+        # Plex has A LOT of javascript, xml and html. This helps a lot, but if it causes playback issues with devices turn it off.
+        gzip on;
+        gzip_vary on;
+        gzip_min_length 1000;
+        gzip_proxied any;
+        gzip_types text/plain text/css text/xml application/xml text/javascript application/x-javascript image/svg+xml;
+        gzip_disable "MSIE [1-6]\.";
+
+        # Nginx default client_max_body_size is 1MB
+        client_max_body_size 20M;
+
+        # Websockets
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+
+        # Buffering off send to the client as soon as the data is received from upstream.
+        proxy_redirect off;
+        proxy_buffering off;
+      '';
+    };
+
+    virtualHosts."_" = {
+      default = true;
+      locations."/".return = "404 'GTFO'";
     };
   };
 
