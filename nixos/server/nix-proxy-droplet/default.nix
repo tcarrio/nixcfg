@@ -58,8 +58,8 @@ in
         environmentFile = config.age.secrets.cloudflare-dns-verification.path;
       };
 
-      "${hoarder_fqdn}" = {
-        domain = hoarder_fqdn;
+      "${hoarder.external.fqdn}" = {
+        domain = hoarder.external.fqdn;
         group = "nginx";
         dnsProvider = "cloudflare";
         environmentFile = config.age.secrets.cloudflare-dns-verification.path;
