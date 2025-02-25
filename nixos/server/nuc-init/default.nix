@@ -12,6 +12,7 @@ let
   };
 
   auto-install-system = pkgs.writeScriptBin "auto-install-system" ''
+    ${pkgs.bash}/bin/bash
     macAddr="$(${pkgs.iproute2}/bin/ip address show enp3s0 | grep link/ether | awk '{print $2}')"
     switch $macAddress
       case "f4:4d:30:61:9b:19"
