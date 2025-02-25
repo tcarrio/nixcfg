@@ -1,10 +1,11 @@
-{ inputs, lib, pkgs, ... }:
+{ inputs, lib, pkgs, config, ... }:
 {
   imports = [
     inputs.nixos-hardware.nixosModules.common-cpu-intel
     inputs.nixos-hardware.nixosModules.common-gpu-intel
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
+    (import ../disks/nuc-sata-ext4.nix { })
   ];
 
   oxc.services.tailscale.enable = true;
@@ -16,6 +17,7 @@
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" ];
     kernelModules = [ "kvm-intel" ];
     kernelPackages = lib.mkDefault pkgs.linuxPackages_5_15;
+    loader.grub.devices = [ config.disko.devices.disk.root.device ];
   };
 
   # ensure we aren't defaulting to NetworkManager with DHCP on

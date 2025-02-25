@@ -8,14 +8,7 @@
 # SATA:        WD Red 1TB HDD
 # SATA:        WD Red 1TB HDD
 # SATA:        WD Red 1TB HDD
-# SATA:        WD 120GB SDD
-# SATA:        WD 120GB SDD
-# SATA:        WD 120GB SDD
-# SATA:        WD 120GB SDD
-# SATA:        WD 120GB SDD
-# SATA:        WD 120GB SDD
-# SATA:        WD 120GB SDD
-# SATA:        WD 120GB SDD
+# SATA:        WD Red 1TB HDD
 
 { inputs, lib, pkgs, hostname, ... }:
 {
