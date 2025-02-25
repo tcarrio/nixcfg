@@ -17,7 +17,7 @@
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" ];
     kernelModules = [ "kvm-intel" ];
     kernelPackages = lib.mkDefault pkgs.linuxPackages_5_15;
-    loader.grub.devices = [ config.disko.devices.disk.sda.device ];
+    # loader.grub.devices = [ config.disko.devices.disk.sda.device ];
   };
 
   # ensure we aren't defaulting to NetworkManager with DHCP on
