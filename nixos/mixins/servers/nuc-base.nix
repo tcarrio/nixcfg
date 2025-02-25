@@ -5,7 +5,6 @@
     inputs.nixos-hardware.nixosModules.common-gpu-intel
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
-    ../disks/nuc-usb-f2fs.nix
   ];
 
   oxc.services.tailscale.enable = true;
