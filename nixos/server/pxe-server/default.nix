@@ -1,4 +1,4 @@
-{ inputs, lib, pkgs, ... }:
+{ inputs, lib, pkgs, self, ... }:
 let
   dnsHostName = "carrio.dev";
   internalDnsHostName = "int.${dnsHostName}";
@@ -7,13 +7,13 @@ in
 {
   imports = [
     inputs.nixos-hardware.nixosModules.common-cpu-intel
-    inputs.nixos-hardware.nixosModules.common-gpu-intel
+    inputs.nixos-hardware.nixosModules.common-gpu-amd
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     (import ./disks.nix { })
     ../mixins/hardware/systemd-boot.nix
-    ../mixins/services/bluetooth.nix
-    ../mixins/users/tcarrio
+    # ../mixins/services/bluetooth.nix
+    # ../mixins/users/tcarrio
     ../mixins/users/pxe
   ];
 

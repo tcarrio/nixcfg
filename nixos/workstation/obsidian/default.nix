@@ -25,6 +25,8 @@
     ../../mixins/services/pipewire.nix
     ../../mixins/users/grigori/default.nix
 
+    ../../mixins/servers/pixiecore-pxe.nix
+
     # ../../mixins/services/hoarder-compose.nix
   ];
 
