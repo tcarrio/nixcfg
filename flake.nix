@@ -50,6 +50,7 @@
     { self
     , nix-formatter-pack
     , nixpkgs
+    , nixpkgs-unstable
     , devshells
     , nix-darwin
     , ...
@@ -153,11 +154,20 @@
       (libx.forAllLinux (system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
+          pkgsUnstable = nixpkgs-unstable.legacyPackages.${system};
         in
         {
           default = pkgs.mkShell {
             NIX_CONFIG = "experimental-features = nix-command flakes";
             packages = with pkgs; [ nix home-manager git ];
+          };
+          dev = pkgs.mkShell {
+            NIX_CONFIG = "experimental-features = nix-command flakes";
+            packages = (
+              with pkgs; [ nix home-manager git go-task yarn2nix ]
+            ) ++ (
+              with pkgsUnstable; [ bun ]
+            );
           };
         } // devshells.devShells.${system}
       ));
