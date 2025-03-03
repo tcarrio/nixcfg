@@ -33,7 +33,7 @@ in
       users = [ "archon" ];
       commands = [
         {
-          command = "${pkgs.nixos-rebuild}/bin/nixos-rebuild switch";
+          command = "${pkgs.nixos-rebuild}/bin/nix-env -p";
           options = [ "NOPASSWD" ];
         }
       ];
