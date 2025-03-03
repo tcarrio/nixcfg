@@ -164,7 +164,7 @@
           dev = pkgs.mkShell {
             NIX_CONFIG = "experimental-features = nix-command flakes";
             packages = (
-              with pkgs; [ nix home-manager git go-task yarn2nix ]
+              with pkgs; [ nix home-manager git go-task wakeonlan yarn2nix ]
             ) ++ (
               with pkgsUnstable; [ bun ]
             );

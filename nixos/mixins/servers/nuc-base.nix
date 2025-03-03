@@ -1,4 +1,6 @@
-{ inputs, lib, pkgs, config, ... }:
+{ inputs, lib, pkgs, config, ... }: let
+  ethIface = "enp2s0";
+in
 {
   imports = [
     inputs.nixos-hardware.nixosModules.common-cpu-intel
@@ -21,9 +23,11 @@
 
   # ensure we aren't defaulting to NetworkManager with DHCP on
   networking.useDHCP = false;
+  networking.interfaces."${ethIface}".wakeOnLan.enable = true;
+
   systemd.network.enable = true;
   systemd.network.networks."10-lan" = {
-    matchConfig.Name = "enp2s0";
+    matchConfig.Name = "${ethIface}";
     networkConfig = {
       # Address must be provided via systemd.network.networks."10-lan".networkConfig.Address
       Gateway = "192.168.40.1";

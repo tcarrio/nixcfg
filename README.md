@@ -7,27 +7,34 @@ This repository contains a [Nix Flake](https://nixos.wiki/wiki/Flakes) for confi
 
 |    Hostname    |       OEM      |        Model        |       OS      |     Role     |  Status  |
 | :------------: | :------------: | :-----------------: | :-----------: | :----------: | :------- |
-| `sktc0`        | Apple          | Apple M1 Pro        | macOS         | Laptop       | Done      |
-| `glass`        | DIY            | AMD Ryzen 9 3900X   | NixOS         | Desktop      | Done     |
-| `kuroi`        | Dell           | Dell Latitute E5470 | NixOS         | Laptop       | Done      |
+| `alien`        | Alienware      | A100 Steam Machine  | NixOS         | Desktop      | TBD      |
+| `obsidian`     | DIY            | AMD Ryzen 9 3900X   | NixOS         | Desktop      | Live     |
+| `sktc0`        | Apple          | Apple M1 Pro        | macOS         | Laptop       | Live     |
+| `t510`         | Lenovo         | Thinkpad T510       | NixOS         | Laptop       | Live     |
 | `nuc0`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
 | `nuc1`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
 | `nuc2`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
 | `nuc3`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
 | `nuc4`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
-| `nuc5`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
-| `nuc6`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
+| `nuc5`         | Intel          | Pentium N3700       | NixOS         | Server       | Live      |
+| `nuc6`         | Intel          | Pentium N3700       | NixOS         | Server       | Live     |
 | `nuc7`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
-| `nuc8`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
-| `nuc9`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
+| `nuc8`         | Intel          | Pentium N3700       | NixOS         | Server       | Live      |
+| `nuc9`         | Intel          | Pentium N3700       | NixOS         | Server       | Live      |
 | `rpi2`         | Raspberry Pi   | Raspberry Pi 2      | NixOS         | Server       | WIP      |
-| `shiroi`       | DIY            | Celeron G1610T      | NixOS         | Server       | TBD      |
-| `tegra0`       | Nvidia         | Tegra K1            | NixOS         | Server       | TBD      |
-| `tegra1`       | Nvidia         | Tegra K1            | NixOS         | Server       | TBD      |
-| `tegra2`       | Nvidia         | Tegra K1            | NixOS         | Server       | TBD      |
-| `tegra3`       | Nvidia         | Tegra K1            | NixOS         | Server       | TBD      |
-| `tegra4`       | Nvidia         | Tegra K1            | NixOS         | Server       | TBD      |
-| `t510`         | Lenovo         | Thinkpad T510       | NixOS         | Laptop       | Done     |
+
+**The Graveyard**: Decommissioned machines, configurations may be outdated or missing.
+
+|    Hostname    |       OEM      |        Model        |       OS      |     Role     |  Status  |
+| :------------: | :------------: | :-----------------: | :-----------: | :----------: | :------- |
+| `glass`        | DIY            | AMD Ryzen 9 3900X   | NixOS         | Desktop      | RIP 🪦   |
+| `kuroi`        | Dell           | Dell Latitute E5470 | NixOS         | Laptop       | RIP 🪦   |
+| `shiroi`       | DIY            | Celeron G1610T      | NixOS         | Server       | RIP 🪦   |
+| `tegra0`       | Nvidia         | Tegra K1            | NixOS         | Server       | RIP 🪦   |
+| `tegra1`       | Nvidia         | Tegra K1            | NixOS         | Server       | RIP 🪦   |
+| `tegra2`       | Nvidia         | Tegra K1            | NixOS         | Server       | RIP 🪦   |
+| `tegra3`       | Nvidia         | Tegra K1            | NixOS         | Server       | RIP 🪦   |
+| `tegra4`       | Nvidia         | Tegra K1            | NixOS         | Server       | RIP 🪦   |
 
 ## Respects
 

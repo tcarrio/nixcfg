@@ -23,11 +23,13 @@
     # ../../mixins/network-shares/ds418-nfs.nix
     ../../mixins/services/nordvpn.nix
     ../../mixins/services/pipewire.nix
+    ../../mixins/services/rustdesk.nix
+    # ../../mixins/services/hoarder-compose.nix
+
     ../../mixins/users/grigori/default.nix
 
     ../../mixins/servers/pixiecore-pxe.nix
 
-    # ../../mixins/services/hoarder-compose.nix
   ];
 
   oxc = {
