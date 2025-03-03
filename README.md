@@ -180,10 +180,7 @@ Here is the directory structure I'm using.
 │  ├── iso
 │  │  ├── iso-console
 │  │  ├── iso-desktop
-│  │  ├── iso-gpd-dsi
-│  │  ├── iso-gpd-edp
-│  │  ├── iso-nuc
-│  │  └── iso-win-max
+│  │  └── iso-nuc
 │  ├── server
 │  │  ├── NUC.md
 │  │  ├── nuc0
