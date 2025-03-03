@@ -188,8 +188,7 @@ Here is the directory structure I'm using.
 │  │  ├── brix
 │  │  ├── NUC.md
 │  │  ├── nuc0
-│  │  ├── pxe-server
-│  │  └── skull
+│  │  └── pxe-server
 │  └── workstation
 │     ├── glass
 │     ├── kuroi
@@ -277,7 +276,7 @@ MATE Desktop 🧉 and Pantheon 🏛️ are the two desktop options available. Th
   - [ ] [borgmatic](https://torsion.org/borgmatic/) for servers
 - [ ] ~~Integrate cockpit (*server*)~~
 - [ ] Integrate [notify](https://github.com/projectdiscovery/notify)
-- [ ] Integrate Plex (*skull*)
+- [ ] Integrate Plex
 - [ ] Integrate homepage
 - [x] Integrate fwupd
 - [x] Integrate Keybase
