@@ -10,5 +10,5 @@
     ../../mixins/servers/nuc-base.nix
   ];
 
-  systemd.network.networks."10-lan".networkConfig.Address = "192.168.40.209/24";
+  systemd.network.networks."10-lan".networkConfig.Address = "192.168.40.207/24";
 }
