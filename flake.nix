@@ -70,9 +70,6 @@
         # .iso images
         "nuc@iso-nuc" = libx.mkHome { hostname = "iso-nuc"; username = "nixos"; };
 
-        # TODO: Nvidia TK1 updates and installer
-        # "tk1@iso-tk1" = libx.mkHome { hostname = "iso-tk1"; username = "nixos"; };
-
         # Workstations
         "tcarrio@sktc0" = libx.mkHome { hostname = "sktc0"; username = "tcarrio"; platform = "aarch64-darwin"; };
         "tcarrio@glass" = libx.mkHome { hostname = "glass"; username = "tcarrio"; desktop = "kde6"; };
@@ -96,8 +93,6 @@
         # .iso images
         #  - nix build .#nixosConfigurations.{iso-console|iso-desktop}.config.system.build.isoImage
         iso-nuc = libx.mkHost { systemType = "iso"; hostname = "iso-nuc"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"; };
-        # TODO: Nvidia TK1 updates and installer
-        # iso-tk1 = libx.mkHost { systemType = "iso"; hostname = "iso-tk1"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"; desktop = "gnome"; };
         iso-console = libx.mkHost { systemType = "iso"; hostname = "iso-console"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"; };
         iso-desktop = libx.mkHost { systemType = "iso"; hostname = "iso-desktop"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"; desktop = "gnome"; };
         netboot-console = libx.mkHost { systemType = "iso"; hostname = "iso-console"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/netboot/netboot-minimal.nix"; };
@@ -233,9 +228,6 @@
                 system-image-nuc9 = mkNuc "archon" "nuc9";
                 # TODO: Revise init image strategy
                 # nuc-init = mkNuc "nixos"  "nuc-init";
-              }) // (lib.optionalAttrs (system == "armv7l-linux") {
-                # TODO: Implement Nvidia Tegra TK1 image
-                tk1 = libx.mkSdImage { hostname = "tk1"; username = "root"; systemType = "server"; };
               })
             )
           );

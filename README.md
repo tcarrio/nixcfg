@@ -15,11 +15,11 @@ This repository contains a [Nix Flake](https://nixos.wiki/wiki/Flakes) for confi
 | `nuc1`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
 | `nuc2`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
 | `nuc3`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
-| `nuc4`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
+| `nuc4`         | Intel          | Pentium N3700       | NixOS         | Server       | Live      |
 | `nuc5`         | Intel          | Pentium N3700       | NixOS         | Server       | Live      |
 | `nuc6`         | Intel          | Pentium N3700       | NixOS         | Server       | Live     |
 | `nuc7`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
-| `nuc8`         | Intel          | Pentium N3700       | NixOS         | Server       | Live      |
+| `nuc8`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
 | `nuc9`         | Intel          | Pentium N3700       | NixOS         | Server       | Live      |
 | `rpi2`         | Raspberry Pi   | Raspberry Pi 2      | NixOS         | Server       | WIP      |
 
@@ -183,15 +183,13 @@ Here is the directory structure I'm using.
 │  │  ├── iso-gpd-dsi
 │  │  ├── iso-gpd-edp
 │  │  ├── iso-nuc
-│  │  ├── iso-tk1
 │  │  └── iso-win-max
 │  ├── server
 │  │  ├── brix
 │  │  ├── NUC.md
 │  │  ├── nuc0
 │  │  ├── pxe-server
-│  │  ├── skull
-│  │  └── tk1
+│  │  └── skull
 │  └── workstation
 │     ├── glass
 │     ├── kuroi
