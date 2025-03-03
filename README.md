@@ -185,7 +185,6 @@ Here is the directory structure I'm using.
 │  │  ├── iso-nuc
 │  │  └── iso-win-max
 │  ├── server
-│  │  ├── brix
 │  │  ├── NUC.md
 │  │  ├── nuc0
 │  │  └── pxe-server
