@@ -10,7 +10,7 @@ in
   # TODO: Determine cause of error in
   # nix.registry.nixpkgs.to.path
 
-  config.users.users.nixos = {
+  users.users.nixos = {
     description = "NixOS";
     extraGroups = [
       "audio"
@@ -33,9 +33,21 @@ in
     packages = [ pkgs.home-manager ];
     shell = pkgs.fish;
   };
-  config.users.groups.nixos = { };
+  users.groups.nixos = { };
 
-  config.system.stateVersion = lib.mkForce lib.trivial.release;
-  config.environment.systemPackages = [ install-system ];
-  config.services.kmscon.autologinUser = "${username}";
+  system.stateVersion = lib.mkForce lib.trivial.release;
+  environment.systemPackages = [ install-system ];
+  services.kmscon.autologinUser = "${username}";
+
+  security.sudo.extraRules = [
+    {
+      users = [ "archon" ];
+      commands = [
+        {
+          command = "${pkgs.nixos-rebuild}/bin/nix-env -p";
+          options = [ "NOPASSWD" ];
+        }
+      ];
+    }
+  ];
 }
