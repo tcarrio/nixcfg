@@ -105,6 +105,30 @@ For the most part, the `scripts/bootstrap-darwin-machine.sh` Bash script provide
 
 Note: Because of this, the script does not support additional arguments yet.
 
+### Remote Installation Tips
+
+You can often speed things up on smaller systems by delegating the build to another. For example, you might have a NixOS configuration that you could build on e.g. a 32-core AMD that you then deploy or copy resources from to an older dual-core machine. Compiling Rust programs on 3rd-gen Intels? No way!
+
+You can do the following with a few different Nix commands:
+
+```shell
+remoteUser="foo"
+remoteHost="bar"
+hostname="baz"
+
+# suppose we have a nixos system config defined in our flake
+nix build .#nixosConfigurations.$hostname.config.system.build.toplevel
+
+# we can get a reference to its path in the Nix store with
+drvPath="$(nix eval ".#nixosConfigurations.$hostname.config.system.build.toplevel" --json | jq -r .)"
+
+# now we built it locally, we could copy it to a remote system
+nix-copy-closure --to $remoteUser@$remoteHost "$drvPath"
+
+## OR, if you have a live system, nixos-rebuild encapsulates this logic and more
+nixos-rebuild switch --flake .#$hostname --target-host $remoteUser@$remoteHost
+```
+
 ## Applying Changes ✨
 
 I clone this repo to `~/0xc/nixcfg`. NixOS and Home Manager changes are applied separately because I have some non-NixOS hosts.
