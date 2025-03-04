@@ -15,7 +15,7 @@
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
     ../../mixins/hardware/systemd-boot.nix
-  ] ++ lib.optional (builtins.isString desktop) ./desktop;
+  ] ++ lib.optional (builtins.isString desktop) ./desktop.nix;
 
   oxc = {
     services = {
