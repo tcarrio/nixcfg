@@ -67,12 +67,17 @@ The [nixos/mixins] and [home-manager/mixins] are a collection of composited conf
 
 ## Installing 💾
 
-- Boot off a .iso image created by this flake using `rebuild-iso-desktop` or `rebuild-iso-console` (*see below*)
-- Put the .iso image on a USB drive
-- Boot the target computer from the USB drive
+- Two options for booting up into the installer:
+  1. ISO images
+     - Boot off a .iso image created by this flake using `rebuild-iso-desktop` or `rebuild-iso-console` (*see below*)
+     - Put the .iso image on a USB drive
+     - Boot the target computer from the USB drive
+  2. PXE netboot image
+     - Prerequsite: Have a local system running the `pixiecore-pxe.nix` service mixin
+     - Boot your device into network PXE environment
 - Two installation options are available:
-    1. Use the graphical Calamares installer to install an adhoc system
-    2. Run `install-system <hostname> <username>` from a terminal
+    1. Use the graphical Calamares installer to install an adhoc system (only available on `iso-desktop`)
+    2. Run `install-system <hostname> <username> <system-type>` from a terminal
        - The install script uses [Disko] to automatically partition and format the disks, then uses my flake via `nixos-install` to complete a full-system installation
        - This flake is copied to the target user's home directory as `~/0xc/nixcfg`
 - Make a cuppa 🫖
