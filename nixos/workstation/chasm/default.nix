@@ -4,7 +4,7 @@
 # RAM:         4GB DDR3
 # SATA:        120GB SSD
 
-{ inputs, lib, pkgs, ... }: {
+{ inputs, lib, pkgs, desktop, ... }: {
   imports = [
     (import ./disks.nix { })
     ./hardware-configuration.nix
@@ -15,7 +15,7 @@
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
     ../../mixins/hardware/systemd-boot.nix
-  ];
+  ] ++ lib.optional (builtins.isString desktop) ./desktop;
 
   oxc = {
     desktop.zen-browser.enable = true;
@@ -48,7 +48,6 @@
 
   environment.systemPackages = with pkgs; [
     tmux
-    rustdesk
   ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
