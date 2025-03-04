@@ -18,7 +18,6 @@
   ] ++ lib.optional (builtins.isString desktop) ./desktop;
 
   oxc = {
-    desktop.zen-browser.enable = true;
     services = {
       wait-online.enable = false;
       tailscale.enable = true;
