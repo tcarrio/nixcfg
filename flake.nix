@@ -78,6 +78,7 @@
         # "tcarrio@kuroi" = libx.mkHome { hostname = "kuroi"; username = "tcarrio"; desktop = "pantheon"; };
         "tcarrio@t510" = libx.mkHome { hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
         "tcarrio@vm" = libx.mkHome { hostname = "vm"; username = "tcarrio"; desktop = "gnome"; };
+        "tcarrio@chasm" = libx.mkHome { hostname = "chasm"; username = "tcarrio"; desktop = "i3"; };
       };
 
       # Support for nix-darwin workstations
@@ -106,6 +107,7 @@
         # kuroi = libx.mkHost { systemType = "workstation"; hostname = "kuroi"; username = "tcarrio"; desktop = "pantheon"; };
         t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
         t510-headless = libx.mkHost { systemType = "workstation"; hostname = "t510-headless"; username = "tcarrio"; };
+        chasm = libx.mkHost { systemType = "workstation"; hostname = "chasm"; username = "tcarrio"; desktop = "i3"; };
 
         # Servers
         # Can be executed locally:
