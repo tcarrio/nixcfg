@@ -20,8 +20,11 @@
   oxc = {
     services = {
       wait-online.enable = false;
-      tailscale.enable = true;
-      tailscale.autoconnect = false;
+      tailscale = {
+        enable = true;
+        exitNode.enable = true;
+        autoconnect = false;
+      };
     };
     containerisation.enable = false;
     virtualisation.enable = false;
