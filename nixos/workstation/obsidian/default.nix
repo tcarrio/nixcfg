@@ -6,7 +6,7 @@
 # SATA:        500GB SSD
 # SATA:        2TB SSHD
 
-{ inputs, lib, pkgs, ... }: {
+{ inputs, lib, pkgs, desktop, ... }: {
   imports = [
     (import ./disks.nix { })
     ./hardware-configuration.nix
@@ -29,46 +29,9 @@
     ../../mixins/users/grigori/default.nix
 
     ../../mixins/servers/pixiecore-pxe.nix
-
-  ];
+  ] ++ lib.optional (builtins.isString desktop) ./desktop.nix;
 
   oxc = {
-    desktop = {
-      daw.enable = true;
-      fonts.ultraMode = true;
-      ente.enable = true;
-      logseq.enable = true;
-      obs-studio.enable = true;
-      steam = {
-        enable = true;
-        audioSupport.jack = true;
-        audioSupport.pipewire = true;
-        steamPlay.enable = true;
-        steamPlay.firewall.open = true;
-      };
-      transmission = {
-        enable = true;
-        package = pkgs.transmission_4-qt;
-        firewall.open = true;
-      };
-      vscode = {
-        enable = true;
-        support = {
-          bazel = true;
-          elm = true;
-          github = true;
-          gitlens = true;
-          go = true;
-          grpc = true;
-          linux = true;
-          rust = true;
-          ssh = true;
-        };
-        server.enable = true;
-      };
-      zed-editor.enable = false;
-      zen-browser.enable = true;
-    };
     services = {
       nextdns.enable = false;
       noisetorch.enable = true;
@@ -109,18 +72,11 @@
   environment.systemPackages = with pkgs; [
     distrobox
     google-fonts
-    tor-browser
     tmux
   ];
 
   # support for cross-platform NixOS builds
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
-
-  services.hardware.openrgb = {
-    enable = true;
-    motherboard = "amd";
-    package = pkgs.openrgb-with-all-plugins;
-  };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
