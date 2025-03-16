@@ -18,4 +18,9 @@
 
   # Enable udev rules
   services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+
+  environment.systemPackages = with pkgs; [
+    numix-cursor-theme
+    numix-icon-theme-square
+  ];
 }
