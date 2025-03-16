@@ -55,4 +55,7 @@ const { ip, mac } = networkMetadata;
 
 
 await $`wakeonlan ${mac}`;
+
+// TODO: provision host secrets
+
 await $`nixos-rebuild ${rebuildArg} --flake ${inputFlake}#${targetNuc} --target-host ${targetUser}@${ip} --use-remote-sudo`;
