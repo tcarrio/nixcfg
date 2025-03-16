@@ -14,6 +14,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    alacritty
     audio-recorder
     dconf-editor
     gimp-with-plugins
