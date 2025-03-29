@@ -5,31 +5,31 @@
 
 This repository contains a [Nix Flake](https://nixos.wiki/wiki/Flakes) for configuring my computers and home environment. These are the computers this configuration currently manages:
 
-|    Hostname    |       OEM      |        Model        |       OS      |     Role     |  Status  |
+|    Hostname    |       OEM      |     Model / CPU     |       OS      |     Role     |  Status  |
 | :------------: | :------------: | :-----------------: | :-----------: | :----------: | :------- |
 | `alien`        | Alienware      | A100 Steam Machine  | NixOS         | Desktop      | TBD      |
+| `kuroi`        | Dell           | Dell Latitute E5470 | NixOS         | Laptop       | Live 🧟  |
 | `obsidian`     | DIY            | AMD Ryzen 9 3900X   | NixOS         | Desktop      | Live     |
 | `sktc0`        | Apple          | Apple M1 Pro        | macOS         | Laptop       | Live     |
-| `t510`         | Lenovo         | Thinkpad T510       | NixOS         | Laptop       | Live     |
 | `nuc0`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
 | `nuc1`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
 | `nuc2`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
 | `nuc3`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
-| `nuc4`         | Intel          | Pentium N3700       | NixOS         | Server       | Live      |
-| `nuc5`         | Intel          | Pentium N3700       | NixOS         | Server       | Live      |
+| `nuc4`         | Intel          | Pentium N3700       | NixOS         | Server       | Live     |
+| `nuc5`         | Intel          | Pentium N3700       | NixOS         | Server       | Live     |
 | `nuc6`         | Intel          | Pentium N3700       | NixOS         | Server       | Live     |
 | `nuc7`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
 | `nuc8`         | Intel          | Pentium N3700       | NixOS         | Server       | TBD      |
-| `nuc9`         | Intel          | Pentium N3700       | NixOS         | Server       | Live      |
+| `nuc9`         | Intel          | Pentium N3700       | NixOS         | Server       | Live     |
 | `rpi2`         | Raspberry Pi   | Raspberry Pi 2      | NixOS         | Server       | WIP      |
 
 **The Graveyard**: Decommissioned machines, configurations may be outdated or missing.
 
-|    Hostname    |       OEM      |        Model        |       OS      |     Role     |  Status  |
+|    Hostname    |       OEM      |     Model / CPU     |       OS      |     Role     |  Status  |
 | :------------: | :------------: | :-----------------: | :-----------: | :----------: | :------- |
 | `glass`        | DIY            | AMD Ryzen 9 3900X   | NixOS         | Desktop      | RIP 🪦   |
-| `kuroi`        | Dell           | Dell Latitute E5470 | NixOS         | Laptop       | RIP 🪦   |
 | `shiroi`       | DIY            | Celeron G1610T      | NixOS         | Server       | RIP 🪦   |
+| `t510`         | Lenovo         | Thinkpad T510       | NixOS         | Laptop       | RIP 🪦   |
 | `tegra0`       | Nvidia         | Tegra K1            | NixOS         | Server       | RIP 🪦   |
 | `tegra1`       | Nvidia         | Tegra K1            | NixOS         | Server       | RIP 🪦   |
 | `tegra2`       | Nvidia         | Tegra K1            | NixOS         | Server       | RIP 🪦   |
@@ -89,6 +89,22 @@ If the target system is booted from something other than the .iso image created 
 ```bash
 curl -sL https://raw.githubusercontent.com/tcarrio/nixcfg/main/scripts/install.sh | bash -s <hostname> <username> <type>
 ```
+
+### Recovery Images
+
+This repository provides a couple of recovery ISO images. They are loosely based on the functionality of tools like [SystemRescue](https://www.system-rescue.org/System-tools/). Like the other ISO images, there are console and desktop variants. The desktop variant includes all tools from the console variant, but in addition has some useful graphical tools.
+
+**Console**
+
+- See [iso-recovery/default.nix](/nixos/iso/iso-recovery/default.nix)
+
+**Desktop**
+
+- See [iso-recovery/default.nix](/nixos/iso/iso-recovery/default.nix)
+- See [iso-recovery/desktop.nix](/nixos/iso/iso-recovery/desktop.nix)
+
+
+**Now, building!** Run `nix build .#nixosConfigurations.iso-recovery-(console|desktop).config.system.build.isoImage`, specifying either `console` or `desktop`.
 
 ### Installing Raspberry Pi 2 (WIP)
 
