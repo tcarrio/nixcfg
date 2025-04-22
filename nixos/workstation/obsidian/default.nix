@@ -30,6 +30,10 @@
     ../../mixins/servers/pixiecore-pxe.nix
   ] ++ lib.optional (builtins.isString desktop) ./desktop.nix;
 
+  # TUI CHALLENGE TIME
+  services.xserver.windowManager.vtm.enable = true;
+  services.displayManager.ly.enable = true;
+
   oxc = {
     services = {
       nextdns.enable = false;
