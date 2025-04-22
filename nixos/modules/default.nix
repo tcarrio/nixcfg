@@ -1,5 +1,6 @@
 { lib, desktop, ... }: {
   imports = [
+    ./console
     ./hardware
     ./services
     ./virt
