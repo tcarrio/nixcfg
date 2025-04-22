@@ -47,14 +47,14 @@
         })
       );
 
-      vtm-latest = prev.vtm.overrideAttrs (old: {
+      vtm-latest = prev.vtm.overrideAttrs (old: rec {
         version = "0.9.99.70";
-        # src = prev.fetchFromGitHub {
-        #   owner = "netxs-group";
-        #   repo = "vtm";
-        #   rev = "v${finalAttrs.version}";
-        #   hash = "sha256-XPBInofzFNBMuJ0oP7ZooDuRukuXBWkEzdEq09MHykA=";
-        # };
+        src = prev.fetchFromGitHub {
+          owner = "netxs-group";
+          repo = "vtm";
+          rev = "v${version}";
+          hash = "sha256-XPBInofzFNBMuJ0oP7ZooDuRukuXBWkEzdEq09MHykB=";
+        };
       });
     };
 
