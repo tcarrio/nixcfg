@@ -33,6 +33,53 @@
               then "amd64"
               else "arm64";
           in {
+            httpServer = port: htmlContent: pkgs.stdenv.mkDerivation {
+              name = "simple-http-server";
+              version = "0.1.0";
+
+              # No source to build
+              phases = [ "installPhase" ];
+
+              # Install our HTML content and start script
+              installPhase = ''
+                mkdir -p $out/bin $out/html
+
+                # Write the HTML content
+                echo '${htmlContent}' > $out/html/index.html
+
+                # Create a wrapper script that executes the server
+                cat > $out/bin/run-server <<EOF
+                #!${pkgs.bash}/bin/bash
+                cd $out/html
+                exec ${pkgs.python3}/bin/python -m http.server ${toString port}
+                EOF
+
+                chmod +x $out/bin/run-server
+              '';
+
+              meta = {
+                description = "A simple HTTP server exposing HTML content on port ${toString port}";
+                license = pkgs.lib.licenses.mit;
+              };
+            };
+
+            # Create a specific instance of our server with defined content
+            exampleServer = httpServer 8080 ''
+              <!DOCTYPE html>
+              <html>
+                <head>
+                  <title>My Nix-Served Website</title>
+                  <meta charset="UTF-8">
+                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                </head>
+                <body>
+                  <h1>Hello from Nix!</h1>
+                  <p>This content is being served from a simple HTTP server packaged with Nix.</p>
+                </body>
+              </html>
+            '';
+
+
             default = pkgs.hello;
 
             docker = pkgs.dockerTools.streamLayeredImage {
