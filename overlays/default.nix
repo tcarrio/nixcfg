@@ -46,6 +46,16 @@
           src = if (builtins.hasAttr currentSystem sources) then sources.${currentSystem} else old.src;
         })
       );
+
+      vtm-latest = prev.vtm.overrideAttrs (old: {
+        version = "0.9.99.70";
+        # src = prev.fetchFromGitHub {
+        #   owner = "netxs-group";
+        #   repo = "vtm";
+        #   rev = "v${finalAttrs.version}";
+        #   hash = "sha256-XPBInofzFNBMuJ0oP7ZooDuRukuXBWkEzdEq09MHykA=";
+        # };
+      });
     };
 
   # This one contains whatever you want to overlay

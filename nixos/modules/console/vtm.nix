@@ -9,6 +9,7 @@ with lib;
 
 let
   cfg = config.services.xserver.windowManager.vtm;
+  vtm = pkgs.vtm-latest;
 in
 {
   options = {
@@ -22,9 +23,9 @@ in
     services.xserver.windowManager.session = singleton {
       name = "vtm";
       start = ''
-        ${pkgs.vtm}/bin/vtm
+        ${vtm}/bin/vtm
       '';
     };
-    environment.systemPackages = [ pkgs.vtm ];
+    environment.systemPackages = [ vtm ];
   };
 }
