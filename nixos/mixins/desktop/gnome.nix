@@ -17,7 +17,7 @@
   services.xserver.displayManager.gdm.wayland = false;
 
   # Enable udev rules
-  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+  services.udev.packages = with pkgs; [ gnome-settings-daemon ];
 
   environment.systemPackages = with pkgs; [
     gnomeExtensions.appindicator
