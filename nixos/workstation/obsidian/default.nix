@@ -6,7 +6,7 @@
 # SATA:        500GB SSD
 # SATA:        2TB SSHD
 
-{ inputs, lib, pkgs, desktop, ... }: {
+{ inputs, lib, pkgs, desktop, user, ... }: {
   imports = [
     (import ./disks.nix { })
     ./hardware-configuration.nix
@@ -32,7 +32,13 @@
 
   # TUI CHALLENGE TIME
   services.xserver.windowManager.vtm.enable = true;
-  services.displayManager.ly.enable = true;
+  # services.displayManager.ly.enable = true;
+  displayManager.lightdm.enable = true;
+  displayManager.defaultSession = "none+vtm";
+  displayManager.autoLogin = {
+    inherit user;
+    enable = true;
+  };
 
   oxc = {
     services = {
