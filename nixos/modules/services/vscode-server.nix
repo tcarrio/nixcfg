@@ -1,4 +1,7 @@
-{ lib, config, inputs, ... }: {
+{ lib, config, inputs, ... }:
+let
+  cfg = config.oxc.desktop.vscode.server;
+in {
   options.oxc.desktop.vscode.server = {
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -7,11 +10,11 @@
     };
   };
 
-  imports = [
+  imports = lib.optional cfg.enable [
     inputs.vscode-server.nixosModules.default
   ];
 
-  config = lib.mkIf config.oxc.desktop.vscode.server.enable {
+  config = lib.mkIf cfg.enable {
     services.vscode-server.enable = true;
   };
 }
