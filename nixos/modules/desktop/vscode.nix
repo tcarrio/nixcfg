@@ -262,7 +262,7 @@ in
             ++ lib.optionals cfgx.support.php [ bmewburn.vscode-intelephense-client ]
             ++ lib.optionals cfgx.support.prisma [ prisma.prisma ]
             ++ lib.optionals cfgx.support.python [ ms-python.python ms-python.vscode-pylance ]
-            ++ lib.optionals cfgx.support.rust [ rust-lang.rust-analyzer ]
+            ++ lib.optionals cfgx.support.rust [ pkgs.cargo rust-lang.rust-analyzer ]
             ++ lib.optionals cfgx.support.ssh [ ms-vscode-remote.remote-ssh ]
             ++ lib.optionals cfgx.support.text [ streetsidesoftware.code-spell-checker yzhang.markdown-all-in-one ]
             ++ lib.optionals cfgx.support.tf [ hashicorp.terraform ]
