@@ -6,7 +6,7 @@
 # SATA:        500GB SSD
 # SATA:        2TB SSHD
 
-{ inputs, lib, pkgs, desktop, user, ... }: {
+{ inputs, lib, pkgs, desktop, ... }: {
   imports = [
     (import ./disks.nix { })
     ./hardware-configuration.nix
@@ -31,14 +31,15 @@
   ] ++ lib.optional (builtins.isString desktop) ./desktop.nix;
 
   # TUI CHALLENGE TIME
+  services.xserver.enable = true; # TODO: Remove lightdm
   services.xserver.windowManager.vtm.enable = true;
   # services.displayManager.ly.enable = true;
-  displayManager.lightdm.enable = true;
-  displayManager.defaultSession = "none+vtm";
-  displayManager.autoLogin = {
-    inherit user;
-    enable = true;
-  };
+  services.xserver.displayManager.lightdm.enable = true;
+  services.xserver.displayManager.defaultSession = "none+vtm";
+  # services.xserver.displayManager.autoLogin = {
+  #   user = "tcarrio";
+  #   enable = true;
+  # };
 
   oxc = {
     services = {

@@ -44,6 +44,7 @@
         in {
           pname = "bun-baseline";
           src = if (builtins.hasAttr currentSystem sources) then sources.${currentSystem} else old.src;
+          meta.maintainers = [prev.lib.maintainers.tcarrio];
         })
       );
 
@@ -55,6 +56,7 @@
           rev = "v${version}";
           hash = "sha256-XPBInofzFNBMuJ0oP7ZooDuRukuXBWkEzdEq09MHykB=";
         };
+        meta.maintainers = [prev.lib.maintainers.tcarrio];
       });
     };
 
