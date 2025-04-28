@@ -155,15 +155,16 @@
           pkgs = nixpkgs.legacyPackages.${system};
           pkgsUnstable = nixpkgs-unstable.legacyPackages.${system};
         in
-        {
-          default = pkgs.mkShell {
+        rec {
+          installers = pkgs.mkShell {
             NIX_CONFIG = "experimental-features = nix-command flakes";
             packages = with pkgs; [ nix home-manager git ];
           };
+          default = dev;
           dev = pkgs.mkShell {
             NIX_CONFIG = "experimental-features = nix-command flakes";
             packages = (
-              with pkgs; [ nix home-manager git go-task wakeonlan yarn2nix ]
+              with pkgs; [ nix home-manager git cargo gcc go-task wakeonlan yarn2nix ]
             ) ++ (
               with pkgsUnstable; [ bun ]
             );

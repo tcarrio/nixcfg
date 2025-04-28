@@ -74,12 +74,6 @@ let
       version = "0.47.2";
       sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
     };
-    rust-analyzer = {
-      name = "rust-analyzer";
-      publisher = "rust-lang";
-      version = "0.3.1386";
-      sha256 = "qttgUVpoYNEg2+ArYxnEHwM4AbChQiB6/JW46+cq7/w=";
-    };
   };
 in
 {
@@ -131,10 +125,10 @@ in
         default = false;
         description = "Whether to enable VS Code support for Elm development";
       };
-      fun = mkOption {
+      extras = mkOption {
         type = types.bool;
         default = false;
-        description = "Whether to enable VS Code support for fun extensions like POWER MODEEEE";
+        description = "Whether to enable VS Code support for extras extensions like POWER MODEEEE";
       };
       github = mkOption {
         type = types.bool;
@@ -262,7 +256,7 @@ in
             ++ lib.optionals cfgx.support.php [ bmewburn.vscode-intelephense-client ]
             ++ lib.optionals cfgx.support.prisma [ prisma.prisma ]
             ++ lib.optionals cfgx.support.python [ ms-python.python ms-python.vscode-pylance ]
-            ++ lib.optionals cfgx.support.rust [ pkgs.cargo rust-lang.rust-analyzer ]
+            ++ lib.optionals cfgx.support.rust [ rust-lang.rust-analyzer ]
             ++ lib.optionals cfgx.support.ssh [ ms-vscode-remote.remote-ssh ]
             ++ lib.optionals cfgx.support.text [ streetsidesoftware.code-spell-checker yzhang.markdown-all-in-one ]
             ++ lib.optionals cfgx.support.tf [ hashicorp.terraform ]
@@ -280,7 +274,7 @@ in
             ++ lib.optionals cfgx.support.docker [ ]
             ++ lib.optionals cfgx.support.editorconfig [ ]
             ++ lib.optionals cfgx.support.elm [ ]
-            ++ lib.optionals cfgx.support.fun [ ext.vscode-power-mode ]
+            ++ lib.optionals cfgx.support.extras [ ext.vscode-power-mode ]
             ++ lib.optionals cfgx.support.github [ ]
             ++ lib.optionals cfgx.support.gitlens [ ]
             ++ lib.optionals cfgx.support.go [ ]
@@ -300,7 +294,8 @@ in
             )
           ;
         })
-      ];
+      ]
+      ++ lib.optionals cfgx.support.rust [ cargo ];
 
       # May require the service to be enable/started for the user
       # - systemctl --user enable auto-fix-vscode-server.service --now
