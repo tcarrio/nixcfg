@@ -204,21 +204,8 @@
                 # Universal system packages: Maybe a use case exists but for now this is empty 🤷
               } // (lib.optionalAttrs (system == "x86_64-linux") {
                 # TODO: Linode image is still too large: reduction with `qemu-img resize --shrink ./nixos.img 5.5G` didn't error out but image will not boot
-                linode-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "linode-base-image"; username = "archon"; format = "linode"; diskSize = 5120; };
+                # linode-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "linode-base-image"; username = "archon"; format = "linode"; diskSize = 5120; };
                 digital-ocean-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "generic-base-image"; username = "archon"; format = "do"; };
-
-                # TODO: Customize disk layout and installation
-                # method to support raw image generation
-                # obsidian-efi = libx.mkGeneratorImage {
-                #   systemType = "workstation";
-                #   hostname = "obsidian";
-                #   username = "tcarrio";
-                #   desktop = "pantheon";
-                #   diskSize = "65536"; # 64GB
-                #   extraModules = {
-                #     chaotic = true;
-                #   };
-                # };
 
                 ## NUC server configurations
                 system-image-nuc0 = mkNuc "archon" "nuc0";
@@ -231,6 +218,7 @@
                 system-image-nuc7 = mkNuc "archon" "nuc7";
                 system-image-nuc8 = mkNuc "archon" "nuc8";
                 system-image-nuc9 = mkNuc "archon" "nuc9";
+
                 # TODO: Revise init image strategy
                 # nuc-init = mkNuc "nixos"  "nuc-init";
               })
