@@ -25,3 +25,73 @@ For me, I have a ZFS pool called `zdata` with a VDEV called `raidz1-0`. Suppose 
 ```
 zpool attach zdata raidz1-0 /dev/ada0
 ```
+
+### does FreeBSD ZFS support this?
+
+**NO!** Out of the box, FreeBSD comes with `zfs-2.2.6-FreeBSD_g33174af15`. However, the first version of ZFS, specifically OpenZFS, to support VDEV expansion was `2.3.0`. So you cannot do this with the ZFS included with FreeBSD. Instead, you will need to migrate to OpenZFS first, upgrade the zpool, then you will be able to use features like `raidz_expansion`.
+
+First, install OpenZFS
+
+```sh
+pkg update
+pkg install openzfs
+```
+
+Next, disable the FreeBSD ZFS and enable OpenZFS in both the `/boot/loader.conf` and `/etc/rc.conf`.
+
+```sh
+# in /boot/loader.conf
+zfs_load="NO"
+openzfs_load="YES"
+
+# in /etc/rc.conf
+zfs_enable="NO"
+openzfs_enable="YES"
+```
+
+Reboot your system.
+
+```sh
+reboot
+```
+
+> ⚠️ Important note here! **You will likely still be executing FreeBSD ZFS commands due to the `PATH` configuration**.
+> 
+> The OpenZFS commands are located under `/usr/local/sbin/` where the FreeBSD ZFS commands are under `/sbin/`. The latter comes first in the `PATH`.
+>
+> Optionally, you could alias the commands `zfs` and `zpool` to their OpenZFS paths in your shell. See your `$SHELL` documentation for reference.
+
+You may not be able to see your zpool after your reboot.
+You can run `zpool list` to list the zpools, and if it's not shown, run `zpool import` which will inspect and output information about available zpools.
+If you find your zpool (we'll call it `$zpool`), you can run `zpool import $zpool` to add it.
+
+Now, you will have an outdated zpool. You can upgrade this with one command: `zpool upgrade $zpool`.
+
+You should see a number of ZFS features enabled for this drive upon success, e.g.:
+
+```
+Enabled the following features on 'zdata':
+  redaction_list_spill
+  raidz_expansion
+  fast_dedup
+  longname
+  large_microzap
+```
+
+Per the note about `raidz_expansion`, your drive now supports the feature flag to expand your RAID-Z VDEVs!
+
+You're not done yet though! This means you have support for the *feature flag only*. This does not mean you have *enabled* said feature flag.
+
+You can check whether it's enabled (which it shouldn't be):
+
+```sh
+zpool get feature@raidz_expansion $zpool
+```
+
+And to enable it (if disabled):
+
+```sh
+zpool set feature@raidz_expansion=enabled $zpool
+```
+
+> ⚠️ Lastly, make sure your disk is NOT active or you will NOT be able to take any actions. This means unmounted or killing active processes working with the disk.
