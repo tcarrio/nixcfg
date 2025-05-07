@@ -1,9 +1,10 @@
-{ config, pkgs, lib, inputs, system, ... }@args:
+{ config, pkgs, lib, inputs, system, platform, stateVersion, ... }@args:
 
 let
   zenixbookPath = "/etc/zenixbook";
 
-  hostname = args.hostname or "zenixbook";
+  # TODO: Use args.hostname
+  hostname = lib.mkDefault "zenixbook";
 
   zenBrowserPackage = inputs.zen-browser.packages."${system}".specific;
 
@@ -47,7 +48,7 @@ let
 
     ${pkgs.coreutils-full}/bin/nice -n 19 \
       ${pkgs.util-linux}/bin/ionice -c 3 \
-      ${pkgs.nixos-rebuild}/bin/nixos-rebuild boot --upgrade --flake ${zenixbookPath}#${hostname}
+      ${pkgs.nixos-rebuild}/bin/nixos-rebuild boot --flake ${zenixbookPath}#${hostname}
   '';
 in
 {
@@ -64,8 +65,10 @@ in
   services.xserver.desktopManager.gnome.enable = true;
   xdg.portal.enable = true;
 
-  # Configure device hostname from input or default
+  # Configure host
   networking.hostName = hostname;
+  nixpkgs.hostPlatform = platform;
+  system.stateVersion = stateVersion;
 
   # Enable Printing
   services.printing.enable = true;
@@ -126,7 +129,7 @@ in
     script = ''
       set -eu
 
-      ${updatezenixbookGitScript}
+      ${updateZenixbookGitScript}
 
       ${updateSystemFlatpaksScript}
     '';
@@ -155,7 +158,7 @@ in
     script = ''
       set -eu
 
-      ${updatezenixbookGitScript}
+      ${updateZenixbookGitScript}
 
       ${notifyUsersScript} "Starting System Updates" "System updates are installing in the background.  You can continue to use your computer while these are running."
             

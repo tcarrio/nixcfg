@@ -3,21 +3,26 @@ let
   parts = lib.strings.splitString "." hostname;
   hostName = if (builtins.length parts > 1) then builtins.head parts else hostname;
   domain = if (builtins.length parts > 1) then builtins.concatStringsSep "." (builtins.tail parts) else null;
+
+  # conditional module import utilities
+  moduleIfExists = path: lib.optional (builtins.pathExists (./. + "/${path}")) path;
+  moduleIfString = maybeStr: path: lib.optional (builtins.isString maybeStr) ./${path};
+  moduleIfStringAndExists = maybeStr: path: moduleIfString maybeStr (moduleIfExists path);
 in
 {
   imports = [
     inputs.disko.nixosModules.disko
     ./modules
     (modulesPath + "/installer/scan/not-detected.nix")
-    ./${systemType}/${hostname}
     ./mixins/services/fwupd.nix
     ./mixins/services/kmscon.nix
     ./mixins/services/openssh.nix
     ./mixins/services/smartmon.nix
     ./mixins/users/root
   ]
-  ++ lib.optional (builtins.isString username) ./mixins/users/${username}
-  ++ lib.optional (builtins.isString desktop) ./mixins/desktop;
+  ++ moduleIfExists "${systemType}/${hostname}/default.nix"
+  ++ moduleIfStringAndExists username ./mixins/users/${username}
+  ++ moduleIfStringAndExists desktop ./mixins/desktop;
 
   boot = {
     consoleLogLevel = 0;

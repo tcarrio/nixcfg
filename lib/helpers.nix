@@ -43,6 +43,17 @@ in
     ]);
   };
 
+  mkZenixbook = { username, platform ? "x86_64-linux", hostname ? null, installer ? null }: lib.nixosSystem {
+    specialArgs = {
+      inherit self inputs outputs hostname username platform stateVersion sshMatrix tailnetMatrix;
+    };
+    modules = [
+      ../nixos/mixins/desktop/zenixbook.nix
+      inputs.agenix.nixosModules.default
+    ]
+    ++ (lib.optionals (installer != null) [ installer ]);
+  };
+
   mkDarwin = { hostname, username, stateVersion ? 4, platform ? "aarch64-darwin" }: inputs.nix-darwin.lib.darwinSystem {
     specialArgs = {
       inherit self inputs outputs hostname username platform stateVersion sshMatrix tailnetMatrix;

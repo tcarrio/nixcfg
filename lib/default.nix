@@ -9,6 +9,7 @@ in
     mkDarwin
     mkGeneratorImage
     mkSdImage
+    mkZenixbook
     forAllSystems
     forAllLinux
     forAllDarwin;

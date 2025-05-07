@@ -98,6 +98,8 @@
         iso-recovery-console = libx.mkHost { systemType = "iso"; hostname = "iso-recovery"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"; };
         iso-recovery-desktop = libx.mkHost { systemType = "iso"; hostname = "iso-recovery"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"; desktop = "cinnamon"; };
         netboot-console = libx.mkHost { systemType = "iso"; hostname = "iso-console"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/netboot/netboot-minimal.nix"; };
+        # TODO: Implement auto installer with netboot for intranet deploys
+        # netboot-auto-installer = libx.mkHost { systemType = "iso"; hostname = "iso-auto-installer"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/netboot/netboot-minimal.nix"; };
 
         # Workstations
         #  - sudo nixos-rebuild switch --flake $HOME/0xc/nixcfg
@@ -108,6 +110,7 @@
         t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
         t510-headless = libx.mkHost { systemType = "workstation"; hostname = "t510-headless"; username = "tcarrio"; };
         chasm = libx.mkHost { systemType = "workstation"; hostname = "chasm"; username = "tcarrio"; desktop = "i3"; };
+        zenixbook = libx.mkZenixbook { username = "user"; };
 
         # Servers
         # Can be executed locally:
