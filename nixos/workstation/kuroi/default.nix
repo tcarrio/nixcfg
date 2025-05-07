@@ -7,16 +7,15 @@
 { inputs, lib, pkgs, ... }:
 {
   imports = [
-    # TODO: Incorporate diskos
     (import ./disks.nix { })
 
     inputs.nixos-hardware.nixosModules.common-cpu-intel
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
-    ../../mixins/hardware/systemd-boot.nix
+    ../../mixins/hardware/grub-legacy-boot.nix
+    ../../mixins/hardware/intel.accelerated-video-playback.nix
     ../../mixins/services/pipewire.nix
-    ../../mixins/services/yubikey.nix
   ];
 
   oxc = {
@@ -24,9 +23,22 @@
       enable = true;
       engine = "podman";
     };
-    desktop.discord.enable = true;
-    services.wait-online.enable = false;
-    services.tailscale.enable = true;
+    desktop = {
+      bitwarden.enable = true;
+      discord.enable = true;
+      vscode.enable = true;
+
+      # override default browser
+      zen-browser.enable = true;
+      google-chrome.enable = true;
+      chromium.enable = lib.mkForce false;
+      firefox.enable = lib.mkForce false;
+    };
+    services = {
+      wait-online.enable = false;
+      tailscale.enable = true;
+    };
+    virtualisation.enable = true;
   };
 
   boot = {
@@ -45,44 +57,18 @@
     extraModulePackages = [ ];
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
-    # internet
-    firefox
-    google-chrome
-
-    # communication
-    element-desktop
-    slack
-    zoom-us
-
-    # design
     blender
     gimp
     inkscape
-
-    # security
-    bitwarden
     tor-browser-bundle-bin
-
-    # development
     git
     python3
-
-    # tools
     curl
     htop
     neofetch
-    tilix
-    vim
     wget
-
-    # games
-    dwarf-fortress
   ];
-
-  services = { };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
