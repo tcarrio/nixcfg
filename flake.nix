@@ -74,8 +74,7 @@
         "tcarrio@sktc0" = libx.mkHome { hostname = "sktc0"; username = "tcarrio"; platform = "aarch64-darwin"; };
         "tcarrio@glass" = libx.mkHome { hostname = "glass"; username = "tcarrio"; desktop = "kde6"; };
         "tcarrio@obsidian" = libx.mkHome { hostname = "obsidian"; username = "tcarrio"; desktop = "cinnamon"; };
-        # TODO: Update/reuse for new laptop or remove entirely
-        # "tcarrio@kuroi" = libx.mkHome { hostname = "kuroi"; username = "tcarrio"; desktop = "pantheon"; };
+        "tcarrio@void" = libx.mkHome { hostname = "void"; username = "tcarrio"; desktop = "pantheon"; };
         "tcarrio@t510" = libx.mkHome { hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
         "tcarrio@vm" = libx.mkHome { hostname = "vm"; username = "tcarrio"; desktop = "gnome"; };
         "tcarrio@chasm" = libx.mkHome { hostname = "chasm"; username = "tcarrio"; desktop = "i3"; };
@@ -105,8 +104,7 @@
         #  - nix build .#nixosConfigurations.ripper.config.system.build.toplevel
         glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "kde6"; };
         obsidian = libx.mkHost { systemType = "workstation"; hostname = "obsidian"; username = "tcarrio"; desktop = "cinnamon"; };
-        # TODO: Update/reuse for new laptop or remove entirely
-        # kuroi = libx.mkHost { systemType = "workstation"; hostname = "kuroi"; username = "tcarrio"; desktop = "pantheon"; };
+        void = libx.mkHost { systemType = "workstation"; hostname = "void"; username = "tcarrio"; desktop = "pantheon"; };
         t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
         t510-headless = libx.mkHost { systemType = "workstation"; hostname = "t510-headless"; username = "tcarrio"; };
         chasm = libx.mkHost { systemType = "workstation"; hostname = "chasm"; username = "tcarrio"; desktop = "i3"; };
