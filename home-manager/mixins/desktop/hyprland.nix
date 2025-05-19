@@ -33,7 +33,7 @@
       inputs.hyprland-plugins.packages.${pkgs.stdenv.hostPlatform.system}.hyprbars
     ];
 
-    systemd.variables = ["--all"];
+    systemd.variables = [ "--all" ];
   };
 
   environment.systemPackages = with pkgs; [

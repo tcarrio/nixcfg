@@ -1,4 +1,4 @@
-{ config, pkgs, lib, inputs, system, ... }@args:
+{ pkgs, inputs, system, ... }@args:
 
 let
   zenixbookPath = "/etc/zenixbook";
@@ -22,15 +22,6 @@ let
         DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u "$user")/bus" \
         ${pkgs.libnotify}/bin/notify-send "$title" "$body"
     done
-  '';
-
-  updateZenixbookGitScript = pkgs.writeScript "update-git.sh" ''
-    set -eu
-    
-    # Update zenixbook configs
-    ${pkgs.git}/bin/git -C ${zenixbookPath} reset --hard
-    ${pkgs.git}/bin/git -C ${zenixbookPath} clean -fd
-    ${pkgs.git}/bin/git -C ${zenixbookPath} pull --rebase
   '';
 
   updateSystemFlatpaksScript = pkgs.writeScript "update-system-flatpaks.sh" ''
@@ -87,7 +78,7 @@ in
     gnome-calculator
     gnome-calendar
     gnome-screenshot
-    
+
     # Sandboxed package installer
     flatpak
 
@@ -99,7 +90,7 @@ in
     xdg-desktop-portal
     xdg-desktop-portal-gtk
     xdg-desktop-portal-gnome
-    
+
     # Printer configuration
     system-config-printer
   ];
@@ -111,10 +102,10 @@ in
     dates = "Mon 3:40";
     options = "--delete-older-than 30d";
   };
-  
+
   # Auto update flake and flatpak
   systemd.timers."auto-update-config" = {
-  wantedBy = [ "timers.target" ];
+    wantedBy = [ "timers.target" ];
     timerConfig = {
       OnCalendar = "Tue..Sun";
       Persistent = true;
@@ -143,7 +134,7 @@ in
 
   # Auto Upgrade NixOS
   systemd.timers."auto-upgrade" = {
-  wantedBy = [ "timers.target" ];
+    wantedBy = [ "timers.target" ];
     timerConfig = {
       OnCalendar = "Mon";
       Persistent = true;
@@ -176,7 +167,7 @@ in
     after = [ "network-online.target" "graphical.target" ];
     wants = [ "network-online.target" ];
   };
-  
+
 }
 
 # Notes

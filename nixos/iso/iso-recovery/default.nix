@@ -1,8 +1,6 @@
 { lib, pkgs, desktop, ... }:
 {
-  imports = [
-
-  ] ++ lib.optional (builtins.isString desktop) ./desktop.nix;
+  imports = lib.optional (builtins.isString desktop) ./desktop.nix;
 
 
   console.keyMap = lib.mkForce "us";

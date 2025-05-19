@@ -1,4 +1,5 @@
-{ inputs, lib, pkgs, config, ... }: let
+{ inputs, lib, pkgs, ... }:
+let
   ethIface = "enp2s0";
 in
 {

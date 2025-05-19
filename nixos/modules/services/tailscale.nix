@@ -1,4 +1,5 @@
-{ config, pkgs, lib, ... }: let
+{ config, pkgs, lib, ... }:
+let
   cfg = config.oxc.services.tailscale;
 in
 {
@@ -34,8 +35,8 @@ in
 
     services.tailscale = {
       enable = true;
-      extraSetFlags = [] ++ (lib.optionals cfg.exitNode.enable ["--advertise-exit-node"]);
-      extraUpFlags = [] ++ (lib.optionals cfg.ssh.enable ["--ssh"]);
+      extraSetFlags = lib.optionals cfg.exitNode.enable [ "--advertise-exit-node" ];
+      extraUpFlags = lib.optionals cfg.ssh.enable [ "--ssh" ];
     };
 
     # firewall integration

@@ -4,11 +4,10 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   inputs.flake-utils.url = "github:numtide/flake-utils";
 
-  outputs = { self, nixpkgs, ... }: let
-    pname = "tailscaled-builtin";
-    owner = "tcarrio";
-    version = "0.1.0";
-  in
+  outputs = { self, nixpkgs, ... }:
+    let
+      version = "0.1.0";
+    in
     flake-utils.lib.eachDefaultSystem (system:
       let pkgs = nixpkgs.legacyPackages.${system}; in
       {
@@ -32,7 +31,8 @@
               if pkgs.lib.strings.hasPrefix "x86_64" system
               then "amd64"
               else "arm64";
-          in {
+          in
+          {
             httpServer = port: htmlContent: pkgs.stdenv.mkDerivation {
               name = "simple-http-server";
               version = "0.1.0";
@@ -109,5 +109,5 @@
           };
         };
       }
-  );
+    );
 }

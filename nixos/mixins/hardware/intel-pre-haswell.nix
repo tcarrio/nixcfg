@@ -1,7 +1,7 @@
 # Configurations to support Intel hardware pre-Haswell architecture
-{ pkgs, ... }: {
+_: {
   nixpkgs.overlays = [
-    (final: prev: {
+    (_final: prev: {
       # provide a bun package that uses the baseline release to support older CPU architectures
       bun = prev.bun.overrideAttrs (old: (
         let
@@ -11,9 +11,11 @@
               hash = "sha256-ytd1am7hbzQyoyj4Aj/FzUMRBoIurPptbTr7rW/cJNs=";
             };
           };
-        in {
+        in
+        {
           src = sources.${prev.stdenvNoCC.hostPlatform.system} or old.src;
-        })
+        }
+      )
       );
     })
   ];
