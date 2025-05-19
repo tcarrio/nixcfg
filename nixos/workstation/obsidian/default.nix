@@ -16,6 +16,7 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
+    ../../mixins/hardware/gtx-1080ti.nix
     ../../mixins/hardware/roccat.nix
     ../../mixins/hardware/systemd-boot.nix
     ../../mixins/network-shares/ds418-nfs.nix
