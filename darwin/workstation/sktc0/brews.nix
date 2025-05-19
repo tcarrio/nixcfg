@@ -156,7 +156,6 @@ in
       "amethyst"
       "cursor"
       "docker"
-      "ghostty"
       "insomnia"
       "secretive"
       "sequel-ace"

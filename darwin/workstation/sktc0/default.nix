@@ -8,6 +8,10 @@
     ../../mixins/console/homebrew.nix
     ./brews.nix
   ];
+  
+  environment.systemPackages = with pkgs; [
+    terraformer
+  ];
 
   oxc.services.xcode.acceptLicense = true;
   oxc.services.nextdns.enable = false;
