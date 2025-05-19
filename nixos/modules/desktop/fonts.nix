@@ -32,7 +32,8 @@ in
     fonts = {
       fontDir.enable = true;
       packages = with pkgs; (optionalList cfg.ultraMode [
-        (nerdfonts.override { fonts = [ "FiraCode" "SourceCodePro" "UbuntuMono" ]; })
+        nerd-fonts.fira-code
+        nerd-fonts.ubuntu-mono
         fira
         fira-go
         liberation_ttf
