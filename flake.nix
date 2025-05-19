@@ -42,9 +42,6 @@
     # Zen Browser
     zen-browser.url = "github:MarceColl/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
-
-    # COSMIC Desktop support
-    nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
   };
   outputs =
     { self
