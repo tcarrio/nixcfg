@@ -60,11 +60,11 @@
   };
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_zen;
-    blacklistedKernelModules = lib.mkDefault [ "nouveau" ];
-    extraModulePackages = [ ];
+    # TODO: Enable Zen kernel after triaging Nvidia graphics issues
+    # kernelPackages = pkgs.linuxPackages_zen;
+    extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
     initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "nvme" ];
-    initrd.kernelModules = [ ];
+    initrd.kernelModules = [ "nvidia" ];
     kernelModules = [ "kvm-amd" "nvidia" ];
     loader = {
       systemd-boot.enable = true;
