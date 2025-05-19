@@ -49,7 +49,8 @@ in
           obs-command-source
           obs-gradient-source
           obs-gstreamer
-          obs-nvfbc
+          # TODO: Remove or add once broken build is fixed
+          # obs-nvfbc
           obs-move-transition
           obs-mute-filter
           obs-pipewire-audio-capture
