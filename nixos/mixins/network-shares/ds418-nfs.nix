@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, ... }:
 let
   intranetHost = "192.168.40.186";
   nfsHostname = "nas-ds418-00";

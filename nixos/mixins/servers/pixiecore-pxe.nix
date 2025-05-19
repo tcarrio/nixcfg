@@ -1,6 +1,6 @@
 { self, ... }:
 let
-  build = self.nixosConfigurations.netboot-console.config.system.build;
+  inherit (self.nixosConfigurations.netboot-console.config.system) build;
 in
 {
   services.pixiecore = {

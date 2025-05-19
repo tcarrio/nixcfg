@@ -41,10 +41,12 @@
               hash = "sha256-ytd1am7hbzQyoyj4Aj/FzUMRBoIurPptbTr7rW/cJNs=";
             };
           };
-        in {
+        in
+        {
           pname = "bun-baseline";
           src = if (builtins.hasAttr currentSystem sources) then sources.${currentSystem} else old.src;
-        })
+        }
+      )
       );
     };
 

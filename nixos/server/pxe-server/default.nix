@@ -1,4 +1,4 @@
-{ inputs, lib, pkgs, self, ... }:
+{ inputs, lib, pkgs, ... }:
 let
   dnsHostName = "carrio.dev";
   internalDnsHostName = "int.${dnsHostName}";

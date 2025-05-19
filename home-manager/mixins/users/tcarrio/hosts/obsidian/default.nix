@@ -6,8 +6,8 @@ with lib.hm.gvariant;
   ];
 
   home = {
-    sessionPath = [];
-    sessionVariables = {};
+    sessionPath = [ ];
+    sessionVariables = { };
     file = {
       "${config.xdg.configHome}/direnv/direnv.toml".text = builtins.readFile ./direnv.toml;
     };

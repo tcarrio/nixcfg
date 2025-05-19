@@ -239,34 +239,34 @@ in
           vscodeExtensions = with vscode-extensions;
             # globally enabled extensions
             lib.optionals cfgx.support.bazel [ bazelbuild.vscode-bazel ]
-            ++ lib.optionals cfgx.support.cpp [ ms-vscode.cpptools ]
-            ++ lib.optionals cfgx.support.deno [ denoland.vscode-deno ]
-            ++ lib.optionals cfgx.support.diff [ ryu1kn.partial-diff ]
-            ++ lib.optionals cfgx.support.docker [ ms-azuretools.vscode-docker ]
-            ++ lib.optionals cfgx.support.editorconfig [ editorconfig.editorconfig ]
-            ++ lib.optionals cfgx.support.elm [ elmtooling.elm-ls-vscode ]
-            ++ lib.optionals cfgx.support.github [ github.vscode-github-actions ]
-            ++ lib.optionals cfgx.support.gitlens [ eamodio.gitlens ]
-            ++ lib.optionals cfgx.support.go [ golang.go ]
-            ++ lib.optionals cfgx.support.grpc [ zxh404.vscode-proto3 ]
-            ++ lib.optionals cfgx.support.icons [ vscode-icons-team.vscode-icons ]
-            ++ lib.optionals cfgx.support.js [ esbenp.prettier-vscode ]
-            ++ lib.optionals cfgx.support.linux [ coolbear.systemd-unit-file timonwong.shellcheck mads-hartmann.bash-ide-vscode ]
-            ++ lib.optionals cfgx.support.nix [ bbenoist.nix jnoortheen.nix-ide arrterian.nix-env-selector ]
-            ++ lib.optionals cfgx.support.php [ bmewburn.vscode-intelephense-client ]
-            ++ lib.optionals cfgx.support.prisma [ prisma.prisma ]
-            ++ lib.optionals cfgx.support.python [ ms-python.python ms-python.vscode-pylance ]
-            ++ lib.optionals cfgx.support.rust [ rust-lang.rust-analyzer ]
-            ++ lib.optionals cfgx.support.ssh [ ms-vscode-remote.remote-ssh ]
-            ++ lib.optionals cfgx.support.text [ streetsidesoftware.code-spell-checker yzhang.markdown-all-in-one ]
-            ++ lib.optionals cfgx.support.tf [ hashicorp.terraform ]
-            ++ lib.optionals cfgx.support.xml [ dotjoshjohnson.xml ]
-            ++ lib.optionals cfgx.support.yaml [ redhat.vscode-yaml ]
+              ++ lib.optionals cfgx.support.cpp [ ms-vscode.cpptools ]
+              ++ lib.optionals cfgx.support.deno [ denoland.vscode-deno ]
+              ++ lib.optionals cfgx.support.diff [ ryu1kn.partial-diff ]
+              ++ lib.optionals cfgx.support.docker [ ms-azuretools.vscode-docker ]
+              ++ lib.optionals cfgx.support.editorconfig [ editorconfig.editorconfig ]
+              ++ lib.optionals cfgx.support.elm [ elmtooling.elm-ls-vscode ]
+              ++ lib.optionals cfgx.support.github [ github.vscode-github-actions ]
+              ++ lib.optionals cfgx.support.gitlens [ eamodio.gitlens ]
+              ++ lib.optionals cfgx.support.go [ golang.go ]
+              ++ lib.optionals cfgx.support.grpc [ zxh404.vscode-proto3 ]
+              ++ lib.optionals cfgx.support.icons [ vscode-icons-team.vscode-icons ]
+              ++ lib.optionals cfgx.support.js [ esbenp.prettier-vscode ]
+              ++ lib.optionals cfgx.support.linux [ coolbear.systemd-unit-file timonwong.shellcheck mads-hartmann.bash-ide-vscode ]
+              ++ lib.optionals cfgx.support.nix [ bbenoist.nix jnoortheen.nix-ide arrterian.nix-env-selector ]
+              ++ lib.optionals cfgx.support.php [ bmewburn.vscode-intelephense-client ]
+              ++ lib.optionals cfgx.support.prisma [ prisma.prisma ]
+              ++ lib.optionals cfgx.support.python [ ms-python.python ms-python.vscode-pylance ]
+              ++ lib.optionals cfgx.support.rust [ rust-lang.rust-analyzer ]
+              ++ lib.optionals cfgx.support.ssh [ ms-vscode-remote.remote-ssh ]
+              ++ lib.optionals cfgx.support.text [ streetsidesoftware.code-spell-checker yzhang.markdown-all-in-one ]
+              ++ lib.optionals cfgx.support.tf [ hashicorp.terraform ]
+              ++ lib.optionals cfgx.support.xml [ dotjoshjohnson.xml ]
+              ++ lib.optionals cfgx.support.yaml [ redhat.vscode-yaml ]
 
-            # the most simple way to calculate a package's SHA256 is to simply
-            # copy over an invalid SHA256 and the nixos-rebuild will fail,
-            # with output for the specified and actual hash values.
-            ++ (vscode-utils.extensionsFromVscodeMarketplace
+              # the most simple way to calculate a package's SHA256 is to simply
+              # copy over an invalid SHA256 and the nixos-rebuild will fail,
+              # with output for the specified and actual hash values.
+              ++ (vscode-utils.extensionsFromVscodeMarketplace
               # globally enabled extensions
               [ ext.non-breaking-space-highlighter ]
             ++ lib.optionals cfgx.support.cpp [ ]

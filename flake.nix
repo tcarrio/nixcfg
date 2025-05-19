@@ -196,8 +196,7 @@
             let
               pkgs = nixpkgs.legacyPackages.${system};
             in
-            (
-              (import ./pkgs { inherit pkgs; }) //
+            (import ./pkgs { inherit pkgs; }) //
               {
                 # Universal system packages: Maybe a use case exists but for now this is empty 🤷
               } // (lib.optionalAttrs (system == "x86_64-linux") {
@@ -220,7 +219,6 @@
                 # TODO: Revise init image strategy
                 # nuc-init = mkNuc "nixos"  "nuc-init";
               })
-            )
           );
     };
 }
