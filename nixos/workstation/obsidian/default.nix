@@ -6,7 +6,7 @@
 # SATA:        500GB SSD
 # SATA:        2TB SSHD
 
-{ inputs, lib, pkgs, desktop, ... }: {
+{ config, inputs, lib, pkgs, desktop, ... }: {
   imports = [
     (import ./disks.nix { })
     ./hardware-configuration.nix
