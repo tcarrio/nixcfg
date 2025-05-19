@@ -4,7 +4,7 @@
       enable = true;
       settings = {
         PasswordAuthentication = false;
-        PermitRootLogin = lib.mkDefault "no";
+        PermitRootLogin = "no";
       };
     };
     sshguard = {

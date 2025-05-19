@@ -19,16 +19,12 @@
       font-awesome
       powerline-fonts
       powerline-symbols
-      (nerdfonts.override {
-        fonts = [
-          "FiraCode"
-          "Iosevka"
-          "IosevkaTerm"
-          "IosevkaTermSlab"
-          "JetBrainsMono"
-          "NerdFontsSymbolsOnly"
-        ];
-      })
+      nerd-fonts.fira-code
+      nerd-fonts.iosevka
+      nerd-fonts.iosevka-term
+      nerd-fonts.iosevka-term-slab
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.symbols-only
     ];
   };
 
