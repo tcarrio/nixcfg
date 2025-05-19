@@ -15,6 +15,7 @@
     mariadb
     neovim
     tailscale
+    terraformer
 
     # containers containers containers
     dive
