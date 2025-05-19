@@ -32,7 +32,7 @@
     devshells.inputs.nixpkgs.follows = "nixpkgs";
 
     # Darwin support with nix-darwin
-    nix-darwin.url = "github:LnL7/nix-darwin";
+    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-24.11";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     # nixos-generators for sdcard and raw disk install generation
