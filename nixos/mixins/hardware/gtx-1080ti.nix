@@ -15,6 +15,7 @@ in
   };
 
   services.xserver.videoDrivers = [ "nvidia" ];
+  services.pulseaudio.support32Bit = true;
 
   hardware = {
     nvidia = {
@@ -39,8 +40,6 @@ in
       enable = true;
       inherit (config.hardware.nvidia) package;
     };
-
-    pulseaudio.support32Bit = true;
   };
 
   virtualisation.docker.enableNvidia = config.oxc.virtualisation.enable;
