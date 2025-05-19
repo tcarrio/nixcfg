@@ -3,5 +3,5 @@
     "cSpell.words": [
         "nixos"
     ],
-    "nixEnvSelector.nixFile": "${workspaceRoot}/shell.nix"
+    "nixEnvSelector.nixFile": "${workspaceFolder}/shell.nix"
 }

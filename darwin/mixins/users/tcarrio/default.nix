@@ -5,7 +5,7 @@
     ../../nixos/console/kubectl.nix
   ];
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = (with pkgs.unstable; [
     # various dev tooling
     bazelisk
     direnv
@@ -26,5 +26,8 @@
     slumber
     tokei
     tree
-  ];
+
+    # ai tooling
+    claude-code
+  ]);
 }

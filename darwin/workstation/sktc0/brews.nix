@@ -79,7 +79,6 @@ let
     "r"
   ];
   baseBrews = [
-
     "autoconf"
     "brotli"
     "c-ares"
@@ -130,10 +129,6 @@ let
   ];
 in
 {
-  # Posting TUI disabled for now
-  # homebrew.taps = ["darrenburns/homebrew"];
-  # homebrew.brews = ["darrenburns/homebrew/posting"];
-
   homebrew = {
     taps = [
       "codefresh-io/cli"
@@ -159,11 +154,13 @@ in
     casks = [
       "alfred"
       "amethyst"
+      "cursor"
       "docker"
       "ghostty"
       "insomnia"
       "secretive"
       "sequel-ace"
+      "zed"
     ];
   };
 }
