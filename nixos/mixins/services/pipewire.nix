@@ -7,13 +7,15 @@
   ] ++ lib.optionals (desktop != null) [
     pavucontrol
   ];
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    jack.enable = true;
-    pulse.enable = true;
-    wireplumber.enable = true;
+  services = {
+    pulseaudio.enable = false;
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      jack.enable = true;
+      pulse.enable = true;
+      wireplumber.enable = true;
+    };
   };
 }
