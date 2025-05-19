@@ -1,4 +1,4 @@
-{ lib, config, pkgs, ... }: {
+{ lib, config, pkgs, desktop, ... }: {
   options.oxc.desktop.ente = {
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -8,12 +8,9 @@
   };
 
   config = lib.mkIf config.oxc.desktop.ente.enable {
-    boot.kernelModules = [ "fuse" ];
-
     environment.systemPackages = with pkgs; [
-      ente-photos-desktop
+      ente-cli
+      ente-desktop
     ];
-
-    nixpkgs.config.permittedInsecurePackages = [ "electron-27.3.11" ];
   };
 }
