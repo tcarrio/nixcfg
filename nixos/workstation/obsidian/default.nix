@@ -46,12 +46,19 @@
     virtualisation.enable = true;
   };
 
-  ## TODO: Enable Ollama for obsidian?
-  # services.ollama = {
-  #   enable = true;
-  #   acceleration = "cuda";
-  #   host = tailnetMatrix.hosts.glass;
-  # };
+  services.ollama = {
+    package = pkgs.unstable.ollama;
+    enable = true;
+    acceleration = "cuda";
+    # TODO: Restrict to tailnet IP
+    # host = tailnetMatrix.hosts.glass;
+    loadModels = [
+      "qwen3:8b" # "hf.co/Qwen/Qwen3-8B"
+      "starcoder2:7b" # "hf.co/bigcode/starcoder2-7b"
+      # "hf.co/bunnycore/Qwen2.5-7B-Instruct-Fusion"
+      # "hf.co/bunnycore/Qwen2.5-7B-CyberRombos"
+    ];
+  };
 
   boot = {
     kernelPackages = pkgs.linuxPackages_zen;
