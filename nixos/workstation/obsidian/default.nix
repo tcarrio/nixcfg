@@ -48,8 +48,7 @@
 
   services.ollama = {
     package = pkgs.unstable.ollama-cuda;
-    ## TODO(25.05-upgrade): Re-enable
-    enable = false;
+    enable = true;
     acceleration = "cuda";
     # TODO: Restrict to tailnet IP
     # host = tailnetMatrix.hosts.glass;
