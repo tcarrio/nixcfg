@@ -16,12 +16,12 @@ in
   };
 
   services.xserver.videoDrivers = [ "nvidia" ];
-  services.pulseaudio.support32Bit = true;
 
   hardware = {
     nvidia = {
       package = config.boot.kernelPackages.nvidiaPackages.stable;
 
+      ## TODO(25.05-upgrade): Re-enable if possible
       modesetting.enable = true;
 
       # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
@@ -35,6 +35,9 @@ in
       open = false;
 
       nvidiaSettings = true;
+
+      ## TODO(25.05-upgrade): Re-enable if possible
+      forceFullCompositionPipeline = false;
     };
 
     graphics = {

@@ -59,5 +59,6 @@
 
     services.jack.alsa.support32Bit = config.oxc.desktop.steam.audioSupport.jack;
     services.pipewire.alsa.support32Bit = config.oxc.desktop.steam.audioSupport.pipewire;
+    services.pulseaudio.support32Bit = true;
   };
 }
