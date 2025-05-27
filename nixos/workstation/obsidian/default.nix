@@ -63,6 +63,8 @@
   boot = {
     # TODO: Enable Zen kernel after triaging Nvidia graphics issues
     # kernelPackages = pkgs.linuxPackages_zen;
+    kernelPackages = pkgs.linuxKernel.packages.linux_6_6; # previous kernel in 24.11
+
     extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
     initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "nvme" ];
     initrd.kernelModules = [ "nvidia" ];
