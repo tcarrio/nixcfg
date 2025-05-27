@@ -22,7 +22,7 @@ in
       package = config.boot.kernelPackages.nvidiaPackages.stable;
 
       ## TODO(25.05-upgrade): Re-enable if possible
-      modesetting.enable = false;
+      modesetting.enable = true;
 
       # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
       powerManagement.enable = false;
