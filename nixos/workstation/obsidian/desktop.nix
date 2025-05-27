@@ -2,6 +2,7 @@
   environment.systemPackages = with pkgs; [
     openmw
     tor-browser
+    heroic
   ];
 
   services.hardware.openrgb = {
