@@ -19,10 +19,10 @@
     ../../mixins/hardware/gtx-1080ti.nix
     ../../mixins/hardware/roccat.nix
     ../../mixins/hardware/systemd-boot.nix
-    ../../mixins/network-shares/ds418-nfs.nix
+    # ../../mixins/network-shares/ds418-nfs.nix
     ../../mixins/services/nordvpn.nix
     ../../mixins/services/pipewire.nix
-    ../../mixins/services/rustdesk.nix
+    # ../../mixins/services/rustdesk.nix
     # ../../mixins/services/hoarder-compose.nix
 
     ../../mixins/users/grigori/default.nix
