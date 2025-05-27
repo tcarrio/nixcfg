@@ -35,8 +35,7 @@ in
 
       nvidiaSettings = true;
 
-      ## TODO(25.05-upgrade): Re-enable if possible
-      forceFullCompositionPipeline = false;
+      forceFullCompositionPipeline = true;
     };
 
     graphics = {
