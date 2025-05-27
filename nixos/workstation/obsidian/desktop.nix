@@ -1,6 +1,7 @@
 { pkgs, ... }: {
   environment.systemPackages = with pkgs; [
     openmw
+    open-webui
     tor-browser
     heroic
   ];
@@ -44,7 +45,7 @@
       };
       server.enable = true;
     };
-    zed-editor.enable = false;
+    zed-editor.enable = true;
     zen-browser.enable = true;
   };
 }

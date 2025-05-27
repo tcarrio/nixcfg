@@ -47,7 +47,7 @@
   };
 
   services.ollama = {
-    package = pkgs.unstable.ollama;
+    package = pkgs.unstable.ollama-cuda;
     enable = true;
     acceleration = "cuda";
     # TODO: Restrict to tailnet IP
