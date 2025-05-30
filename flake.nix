@@ -98,7 +98,7 @@
         iso-desktop = libx.mkHost { systemType = "iso"; hostname = "iso-desktop"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"; desktop = "gnome"; };
         iso-recovery-console = libx.mkHost { systemType = "iso"; hostname = "iso-recovery"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"; };
         iso-recovery-desktop = libx.mkHost { systemType = "iso"; hostname = "iso-recovery"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"; desktop = "cinnamon"; };
-        netboot-console = libx.mkHost { systemType = "iso"; hostname = "iso-console"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/netboot/netboot-minimal.nix"; };
+        netboot-console = libx.mkHost { systemType = "iso"; hostname = "netboot-iso-console"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/netboot/netboot-minimal.nix"; };
 
         # Workstations
         #  - sudo nixos-rebuild switch --flake $HOME/0xc/nixcfg
