@@ -74,6 +74,7 @@ let
     "ansible"
     "terraform"
     "terragrunt"
+    "terraformer"
   ];
   dataScienceBrews = [
     "r"
