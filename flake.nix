@@ -63,6 +63,21 @@
       inherit (self) outputs;
       inherit (nixpkgs) lib;
       libx = import ./lib { inherit self inputs outputs stateVersion; };
+
+      mkSystemFlakeShell = system: let
+        pkgs = nixpkgs.legacyPackages.${system};
+        pkgsUnstable = nixpkgs-unstable.legacyPackages.${system};
+        darwinNixPkgs = if pkgs.stdenv.isDarwin then nix-darwin.packages.${system} else {};
+      in
+        shellOptionsFactory: pkgs.mkShell ((shellOptionsFactory { inherit pkgs pkgsUnstable darwinNixPkgs; }) // { NIX_CONFIG = "experimental-features = nix-command flakes"; });
+
+      devShellFactory = ({ pkgs, pkgsUnstable, ... }: {
+        packages = (
+          with pkgs; [ nix home-manager git cargo gcc go-task wakeonlan yarn2nix ]
+        ) ++ (
+          with pkgsUnstable; [ bun ]
+        );
+      });
     in
     {
       # home-manager switch -b backup --flake $HOME/0xc/nixcfg
@@ -139,35 +154,25 @@
       # Devshell for bootstrapping; acessible via 'nix develop' or 'nix-shell' (legacy)
       devShells = (libx.forAllDarwin (system:
         let
-          pkgs = nixpkgs.legacyPackages.${system};
-          darwinNixPkgs = nix-darwin.packages.${system};
+          mkFlakeShell = mkSystemFlakeShell system;
         in
-        {
-          default = pkgs.mkShell {
-            NIX_CONFIG = "experimental-features = nix-command flakes";
+        rec {
+          default = mkFlakeShell ({ pkgs, darwinNixPkgs, ... }: {
             packages = with pkgs; [ home-manager darwinNixPkgs.darwin-rebuild git ];
-          };
+          });
+          dev = default;
         } // devshells.devShells.${system}
       )) //
       (libx.forAllLinux (system:
         let
-          pkgs = nixpkgs.legacyPackages.${system};
-          pkgsUnstable = nixpkgs-unstable.legacyPackages.${system};
+          mkFlakeShell = mkSystemFlakeShell system;
         in
         rec {
-          installers = pkgs.mkShell {
-            NIX_CONFIG = "experimental-features = nix-command flakes";
+          installers = mkFlakeShell ({ pkgs, pkgsUnstable, ... }: {
             packages = with pkgs; [ nix home-manager git ];
-          };
+          });
           default = dev;
-          dev = pkgs.mkShell {
-            NIX_CONFIG = "experimental-features = nix-command flakes";
-            packages = (
-              with pkgs; [ nix home-manager git cargo gcc go-task wakeonlan yarn2nix ]
-            ) ++ (
-              with pkgsUnstable; [ bun ]
-            );
-          };
+          dev = mkFlakeShell devShellFactory;
         } // devshells.devShells.${system}
       ));
 
