@@ -5,9 +5,7 @@
   services.xserver = {
     enable = true;
 
-    desktopManager = {
-      xterm.enable = false;
-    };
+    desktopManager.xterm.enable = false;
 
     windowManager.i3 = with pkgs; {
       enable = true;
@@ -17,9 +15,12 @@
         i3lock
         i3blocks
         i3status
+        polybar
       ];
     };
   };
+
+  services.picom.enable = true;
 
   services.displayManager.defaultSession = "none+i3";
 }
