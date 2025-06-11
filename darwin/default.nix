@@ -28,8 +28,6 @@
     ];
   };
 
-  # Auto upgrade nix package and the daemon service.
-  services.nix-daemon.enable = true;
   nix.package = pkgs.nix;
 
   # Necessary for using flakes on this system.
@@ -88,7 +86,7 @@
       shellAliases = {
         nix-gc = "sudo nix-collect-garbage --delete-older-than 14d";
         rebuild-home = "home-manager switch -b backup --flake $HOME/0xc/nixcfg#$(hostname)";
-        rebuild-host = "darwin-rebuild switch --flake $HOME/0xc/nixcfg#$(hostname)";
+        rebuild-host = "sudo darwin-rebuild switch --flake $HOME/0xc/nixcfg#$(hostname)";
         rebuild-all = "nix-gc && rebuild-host && rebuild-home";
         rebuild-lock = "pushd $HOME/0xc/nixcfg && nix flake lock --recreate-lock-file && popd";
 
