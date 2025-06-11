@@ -109,6 +109,9 @@
   # $ darwin-rebuild changelog
   system.stateVersion = stateVersion;
 
+  # Starting with 25.05, nix-darwin build user GID was changed
+  ids.gids.nixbld = 350;
+
   # The platform the configuration will be used on.
   nixpkgs.hostPlatform = platform;
 }

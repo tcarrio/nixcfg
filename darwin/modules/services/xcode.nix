@@ -1,4 +1,4 @@
-{ lib, config, ... }: {
+{ lib, config, username, ... }: {
   options.oxc.services.xcode = {
     acceptLicense = lib.mkOption {
       default = true;
@@ -8,8 +8,8 @@
 
   # https://github.com/LnL7/nix-darwin/issues/214#issuecomment-2050027696
   config = lib.mkIf config.oxc.services.xcode.acceptLicense {
-    system.activationScripts.postUserActivation.text = ''
-      sudo xcodebuild -license accept
+    system.activationScripts.AcceptXCodeLicense.text = ''
+      sudo --user=${username} xcodebuild -license accept
     '';
   };
 }

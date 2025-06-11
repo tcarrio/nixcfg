@@ -3,7 +3,7 @@
 # RAM:         16GB DDR4
 # SATA:        500GB SSD
 
-{ ... }: {
+{ username, ... }: {
   imports = [
     ../../mixins/console/homebrew.nix
     ./brews.nix
@@ -16,6 +16,7 @@
   networking.hostName = "sktc0";
 
   system = {
+    primaryUser = username;
     defaults = {
       dock = {
         autohide = true;
