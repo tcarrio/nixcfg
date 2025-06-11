@@ -38,8 +38,15 @@
       end
 
       export PATH="/opt/homebrew/bin:$PATH"
-      thefuck --alias | source
-      source $HOME/.nix-profile/share/asdf-vm/asdf.fish
+      if [ -f "$HOME/.nix-profile/share/asdf-vm/asdf.fish" ]
+        source "$HOME/.nix-profile/share/asdf-vm/asdf.fish"
+      end
+      if command -v task >/dev/null
+        task --completion fish | source
+      end
+      if command -v jira >/dev/null
+        jira completion fish | source
+      end
 
       # add existing gcloud to PATH
       [ -f $HOME/sdks/google-cloud-sdk/path.fish.inc ] && source $HOME/sdks/google-cloud-sdk/path.fish.inc
@@ -48,7 +55,7 @@
     '';
     shellAliases =
       let
-        sk = target: "nix develop ~/0xc/sksh#${target} --command \$SHELL";
+        skShell = target: "nix develop ~/0xc/sksh#${target} --command \$SHELL";
         git = "git";
         skillshareWorkstation = "~/Developer/workstation/bin/skillshare-workstation";
       in
@@ -61,25 +68,32 @@
 
         asso = "aws sso login";
 
-        "sk:mono" = sk "sk";
-        "sk:web" = sk "web";
-        "sk:php74" = sk "php74";
-        "sk:php80" = sk "php80";
-        "sk:php81" = sk "php81";
-        "sk:php82" = sk "php82";
-        "sk:node" = sk "node";
-        "sk:node16" = sk "node16";
-        "sk:node18" = sk "node18";
-        "sk:node20" = sk "node20";
-        "sk:python" = sk "python";
+        "sk:mono" = skShell "sk";
+        "sk:web" = skShell "web";
+        "sk:php74" = skShell "php74";
+        "sk:php80" = skShell "php80";
+        "sk:php81" = skShell "php81";
+        "sk:php82" = skShell "php82";
+        "sk:node" = skShell "node";
+        "sk:node16" = skShell "node16";
+        "sk:node18" = skShell "node18";
+        "sk:node20" = skShell "node20";
+        "sk:python" = skShell "python";
 
         ip = lib.mkForce "ifconfig";
         show_open_ports = "lsof -nP -iTCP -sTCP:LISTEN";
 
         rebuild-host = lib.mkForce "darwin-rebuild switch --flake $HOME/0xc/nixcfg";
 
-        js = "jira sprint list";
-        jsc = "js --current";
+        clear-all-cache = ''
+          which nix && echo 'Pruning nix' && nix-collect-garbage --delete-older-than 14d
+          which docker && echo 'Pruning docker' && docker system prune -a --volumes -f
+          which yarn && echo 'Pruning yarn' && yarn cache clean
+          which npm && echo 'Pruning npm' && npm cache clean --force
+          which bun && echo 'Pruning bun' && bun cache clean
+          which pnpm && echo 'Pruning pnpm' && pnpm cache clean --all
+          [ -d $HOME/Developer ] && find $HOME/Developer -type d -name "node_modules" -exec rm -rf "{}" \;
+        '';
       };
     functions = {
       # TODO: Support secrets management on macOS

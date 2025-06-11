@@ -171,7 +171,6 @@
         # };
       };
       aliases = {
-        lg = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
         a = "add";
         f = "fetch";
         p = "push";
@@ -188,23 +187,27 @@
         bn = "br --show-current";
         # gets root directory
         rd = "rev-parse --show-toplevel";
-        # gets latest shared commit
+        # gets latest "shared root" commit
         sr = "merge-base HEAD";
         aa = "!git a $(git rd)";
         rsa = "!git rs $(git rd)";
         fa = "f --all";
+        cob = "co -b";
+        rh = "rs --hard";
+        rho = "!git rh $(git bdr)/$(git bn)";
         # shows commit history
-        hist = "log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short";
+        lg = "log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short";
+        lgc = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
         # amend
         am = "!git cm --amend --no-edit --date=\"$(date +'%Y %D')\"";
         # push to origin HEAD
-        poh = "p origin HEAD";
-        # push remote branch- defaults to 'origin' but can accept a remote name
-        prb = "!gitprb() { local remote=\"$1\"; test -z \"$remote\" && remote=\"$(git cdr)\"; test -z \"$remote\" && remote=\"origin\"; test -n \"$remote\" && git p $remote $(git bn); }; gitprb";
+        poh = "!git p $(git bdr) HEAD";
+        # push remote branch
+        prb = "!gitprb() { local remote=\"$1\"; shift; test -z \"$remote\" && remote=\"$(git bdr)\"; test -z \"$remote\" && remote=\"origin\"; test -n \"$remote\" && git p $remote $(git bn) $@; }; gitprb";
         # force with lease, please, if you would
-        pf = "!git prb $(git cdr || echo -n 'origin') --force-with-lease";
+        pf = "!git prb $(git bdr) --force-with-lease";
         # FORCEEEE
-        pff = "!git prb $(git cdr || echo -n 'origin') --force";
+        pff = "!git prb $(git bdr) --force";
         # push and open pr
         ppr = "!git poh; !git pr";
         # open pr
@@ -213,21 +216,23 @@
         sq = "!gitsq() { git rb -i $(git sr $1) $2; }; gitsq";
         # generate patch
         gp = "!gitgenpatch() { target=$1; git format-patch $target --stdout | sed -n -e '/^diff --git/,$p' | head -n -3; }; gitgenpatch";
-        cob = "co -b";
-        rh = "rs --hard";
-        rho = "!git rh origin/$(git bn)";
 
         # default remote configurations
         sdr = "config checkout.defaultRemote";
         cdr = "!gitcdr() { git config --get checkout.defaultRemote || printf 'origin' ; }; gitcdr";
+        bdr = "!gitbdr() { git config branch.$(git bn).remote || git cdr; }; gitbdr";
 
         # short-hands for ignoring and unignoring files without .gitignore
         ignore = "update-index --assume-unchanged";
         ig = "ignore";
         unignore = "update-index --no-assume-unchanged";
         unig = "unignore";
-        ignored = "!git ls-files -v | grep \"^[[:lower:]]\"";
+        ignored = "!gitignored() { git ls-files -v | grep \"^[[:lower:]]\"; }; gitignored";
         ls-ig = "ignored";
+
+        # git-absord shorthands
+        ab = "absord";
+        abr = "git absorb --and-rebase";
       };
       extraConfig = {
         push = {

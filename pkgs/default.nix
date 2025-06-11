@@ -3,5 +3,6 @@
 
 { pkgs ? (import ../nixpkgs.nix) { } }: {
   ente-photos-desktop = pkgs.callPackage ./ente.nix { };
+  kube-rsync = pkgs.callPackage ./kube-rsync.nix { };
   zeit = pkgs.callPackage ./zeit.nix { };
 }

@@ -37,7 +37,6 @@ Host obsidian
     packages = (with pkgs.unstable; [
       act
       git-absorb
-      thefuck
       cmatrix
       slumber
     ]);
