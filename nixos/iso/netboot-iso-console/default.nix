@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 {
   imports = [../iso-console];
 
@@ -11,5 +11,11 @@
      ╚═════╝ ╚═╝  ╚═╝ ╚═════╝╚═╝    ╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝      ╚═════╝ 
 
     NixOS Netboot Installer Image
+  '';
+
+  programs.fish.loginShellInit = ''
+    echo 'IP Address details:'
+    ${pkgs.iproute2}/bin/ip --brief a
+    echo
   '';
 }
