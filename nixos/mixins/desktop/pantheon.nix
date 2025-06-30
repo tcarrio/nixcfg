@@ -37,7 +37,7 @@
         pantheon = {
           enable = true;
           extraWingpanelIndicators = with pkgs; [
-            monitor
+            # monitor
             wingpanel-indicator-ayatana
           ];
         };

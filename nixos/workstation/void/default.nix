@@ -52,7 +52,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    blender
     gimp
     inkscape
     tor-browser-bundle-bin

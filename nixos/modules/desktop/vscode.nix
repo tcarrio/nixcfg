@@ -8,6 +8,12 @@ let
     #   version = "0.0.12";
     #   sha256 = "sha256-9dp8/gLAb8OJnmsLVbOAKAYZ5whavDW2Ak+WhLqEbJk=";
     # };
+    claude-code = {
+      name = "claude-code";
+      publisher = "anthropic";
+      version = "1.0.31";
+      sha256 = "sha256-9dp8/gLAb8OJnmsLVbOAKAYZ5whavPW2Ak+WhLqEbJK=";
+    };
     language-hugo-vscode = {
       name = "language-hugo-vscode";
       publisher = "budparr";
@@ -269,6 +275,7 @@ in
               ++ (vscode-utils.extensionsFromVscodeMarketplace
               # globally enabled extensions
               [ ext.non-breaking-space-highlighter ]
+            ++ lib.optionals cfgx.support.ai [ ext.claude-code ]
             ++ lib.optionals cfgx.support.cpp [ ]
             ++ lib.optionals cfgx.support.diff [ ]
             ++ lib.optionals cfgx.support.docker [ ]
