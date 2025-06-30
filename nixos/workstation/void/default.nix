@@ -33,6 +33,7 @@
       google-chrome.enable = true;
       chromium.enable = lib.mkForce false;
       firefox.enable = lib.mkForce false;
+      vscode.support.ai = true;
     };
     services = {
       wait-online.enable = false;

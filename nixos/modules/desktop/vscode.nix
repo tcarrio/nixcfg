@@ -12,7 +12,7 @@ let
       name = "claude-code";
       publisher = "anthropic";
       version = "1.0.31";
-      sha256 = "sha256-9dp8/gLAb8OJnmsLVbOAKAYZ5whavPW2Ak+WhLqEbJK=";
+      sha256 = "sha256-3brSSb6ERY0In5QRmv5F0FKPm7Ka/0wyiudLNRSKGBg=";
     };
     language-hugo-vscode = {
       name = "language-hugo-vscode";
@@ -272,37 +272,38 @@ in
               # the most simple way to calculate a package's SHA256 is to simply
               # copy over an invalid SHA256 and the nixos-rebuild will fail,
               # with output for the specified and actual hash values.
-              ++ (vscode-utils.extensionsFromVscodeMarketplace
+              ++ vscode-utils.extensionsFromVscodeMarketplace
               # globally enabled extensions
-              [ ext.non-breaking-space-highlighter ]
-            ++ lib.optionals cfgx.support.ai [ ext.claude-code ]
-            ++ lib.optionals cfgx.support.cpp [ ]
-            ++ lib.optionals cfgx.support.diff [ ]
-            ++ lib.optionals cfgx.support.docker [ ]
-            ++ lib.optionals cfgx.support.editorconfig [ ]
-            ++ lib.optionals cfgx.support.elm [ ]
-            ++ lib.optionals cfgx.support.extras [ ext.vscode-power-mode ]
-            ++ lib.optionals cfgx.support.github [ ]
-            ++ lib.optionals cfgx.support.gitlens [ ]
-            ++ lib.optionals cfgx.support.go [ ]
-            ++ lib.optionals cfgx.support.hugo [ ext.language-hugo-vscode ]
-            ++ lib.optionals cfgx.support.icons [ ]
-            ++ lib.optionals cfgx.support.js [ ]
-            ++ lib.optionals cfgx.support.linux [ /** TODO: Fix ext.linux-desktop-file */ ]
-            ++ lib.optionals cfgx.support.nix [ ]
-            ++ lib.optionals cfgx.support.php [ ]
-            ++ lib.optionals cfgx.support.python [ ]
-            ++ lib.optionals cfgx.support.rust [ ]
-            ++ lib.optionals cfgx.support.ssh [ /** TODO: Fix ext.remote-ssh-edit */ ]
-            # TODO: Determine root cause of manifest issues
-            # ++ lib.optionals cfgx.support.text [ext.simple-rst ext.vscode-mdx ext.vscode-mdx-preview]
-            ++ lib.optionals cfgx.support.xml [ ]
-            ++ lib.optionals cfgx.support.yaml [ ]
+              ([ ext.non-breaking-space-highlighter ]
+                ++ lib.optionals cfgx.support.ai [ ext.claude-code ]
+                ++ lib.optionals cfgx.support.cpp [ ]
+                ++ lib.optionals cfgx.support.diff [ ]
+                ++ lib.optionals cfgx.support.docker [ ]
+                ++ lib.optionals cfgx.support.editorconfig [ ]
+                ++ lib.optionals cfgx.support.elm [ ]
+                ++ lib.optionals cfgx.support.extras [ ext.vscode-power-mode ]
+                ++ lib.optionals cfgx.support.github [ ]
+                ++ lib.optionals cfgx.support.gitlens [ ]
+                ++ lib.optionals cfgx.support.go [ ]
+                ++ lib.optionals cfgx.support.hugo [ ext.language-hugo-vscode ]
+                ++ lib.optionals cfgx.support.icons [ ]
+                ++ lib.optionals cfgx.support.js [ ]
+                ++ lib.optionals cfgx.support.linux [ /** TODO: Fix ext.linux-desktop-file */ ]
+                ++ lib.optionals cfgx.support.nix [ ]
+                ++ lib.optionals cfgx.support.php [ ]
+                ++ lib.optionals cfgx.support.python [ ]
+                ++ lib.optionals cfgx.support.rust [ ]
+                ++ lib.optionals cfgx.support.ssh [ /** TODO: Fix ext.remote-ssh-edit */ ]
+                # TODO: Determine root cause of manifest issues
+                # ++ lib.optionals cfgx.support.text [ext.simple-rst ext.vscode-mdx ext.vscode-mdx-preview]
+                ++ lib.optionals cfgx.support.xml [ ]
+                ++ lib.optionals cfgx.support.yaml [ ]
             )
           ;
         })
       ]
-      ++ lib.optionals cfgx.support.rust [ cargo ];
+      ++ lib.optionals cfgx.support.rust [ cargo ]
+      ++ lib.optionals cfgx.support.ai [ unstable.claude-code ];
 
       # May require the service to be enable/started for the user
       # - systemctl --user enable auto-fix-vscode-server.service --now

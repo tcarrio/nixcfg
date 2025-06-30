@@ -8,3 +8,6 @@
 
 # ignore general patch files
 *.patch
+
+# claude
+/.claude
