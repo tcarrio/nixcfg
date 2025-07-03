@@ -1,13 +1,11 @@
 { mkBunDerivation, ... }:
 let
   manifest = builtins.fromJSON (builtins.readFile ./package.json);
-  name = builtins.replaceStrings ["@" "/"] ["" "--"] manifest.name;
 in
 mkBunDerivation {
   inherit (manifest) version;
-  inherit name;
-  pname = name;
+  pname = "gqurl";
+  index = manifest.main;
   src = ./.;
   bunNix = ./bun.nix;
-  index = manifest.main;
 }
