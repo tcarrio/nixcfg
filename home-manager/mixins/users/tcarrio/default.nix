@@ -34,11 +34,15 @@ Host obsidian
       }
     '';
 
-    packages = (with pkgs.unstable; [
+    packages = []
+    ++ (with pkgs.unstable; [
       act
       git-absorb
       cmatrix
       slumber
+    ])
+    ++ (with pkgs; [
+      gqurl
     ]);
   };
 

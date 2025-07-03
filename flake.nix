@@ -46,6 +46,10 @@
     # Hydenix for Hyprland
     hydenix.url = "github:richen604/hydenix";
     hydenix.inputs.hydenix-nixpkgs.follows = "nixpkgs-unstable";
+
+    # Bun packaging
+    bun2nix.url = "github:baileyluTCD/bun2nix";
+    bun2nix.inputs.nixpkgs.follows = "nixpkgs";
   };
   outputs =
     { self
@@ -54,6 +58,7 @@
     , nixpkgs-unstable
     , devshells
     , nix-darwin
+    , bun2nix
     , ...
     } @ inputs:
     let
@@ -68,14 +73,27 @@
         pkgs = nixpkgs.legacyPackages.${system};
         pkgsUnstable = nixpkgs-unstable.legacyPackages.${system};
         darwinNixPkgs = if pkgs.stdenv.isDarwin then nix-darwin.packages.${system} else {};
+        bun2NixPkg = bun2nix.packages.${system}.default;
       in
-        shellOptionsFactory: pkgs.mkShell ((shellOptionsFactory { inherit pkgs pkgsUnstable darwinNixPkgs; }) // { NIX_CONFIG = "experimental-features = nix-command flakes"; });
+        shellOptionsFactory: pkgs.mkShell ((shellOptionsFactory { inherit pkgs pkgsUnstable darwinNixPkgs bun2NixPkg; }) // { NIX_CONFIG = "experimental-features = nix-command flakes"; });
 
-      devShellFactory = ({ pkgs, pkgsUnstable, ... }: {
+      devShellFactory = ({ pkgs, pkgsUnstable, bun2NixPkg, ... }: {
         packages = (
-          with pkgs; [ nix home-manager git cargo gcc go-task wakeonlan yarn2nix ]
+          with pkgs; [
+            nix
+            home-manager
+            git
+            cargo
+            gcc
+            go-task
+            wakeonlan
+            yarn2nix
+          ]
         ) ++ (
-          with pkgsUnstable; [ bun ]
+          with pkgsUnstable; [
+            bun
+            bun2NixPkg
+          ]
         );
       });
     in
@@ -157,8 +175,15 @@
           mkFlakeShell = mkSystemFlakeShell system;
         in
         rec {
-          default = mkFlakeShell ({ pkgs, darwinNixPkgs, ... }: {
-            packages = with pkgs; [ home-manager darwinNixPkgs.darwin-rebuild git ];
+          default = mkFlakeShell ({ pkgs, pkgsUnstable, darwinNixPkgs, bun2NixPkg, ... }: {
+            packages = with pkgs; [
+              home-manager
+              darwinNixPkgs.darwin-rebuild
+              git
+              pkgsUnstable.bun
+              bun2NixPkg
+              self.packages.${system}.gqurl
+            ];
           });
           dev = default;
         } // devshells.devShells.${system}
@@ -169,7 +194,12 @@
         in
         rec {
           installers = mkFlakeShell ({ pkgs, pkgsUnstable, ... }: {
-            packages = with pkgs; [ nix home-manager git ];
+            packages = with pkgs; [
+              nix
+              home-manager
+              git
+              self.packages.${system}.gqurl
+            ];
           });
           default = dev;
           dev = mkFlakeShell devShellFactory;
@@ -201,8 +231,9 @@
           (system:
             let
               pkgs = nixpkgs.legacyPackages.${system};
+              inherit (bun2nix.lib.${system}) mkBunDerivation;
             in
-            (import ./pkgs { inherit pkgs; }) //
+            (import ./pkgs { inherit pkgs mkBunDerivation; }) //
               {
                 # Universal system packages: Maybe a use case exists but for now this is empty 🤷
               } // (lib.optionalAttrs (system == "x86_64-linux") {

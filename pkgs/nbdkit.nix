@@ -13,7 +13,7 @@
 , unbound
 , xdp-tools
 , writeScript
-,
+, ...
 }:
 
 stdenv.mkDerivation rec {

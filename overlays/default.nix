@@ -3,7 +3,7 @@
 {
   # This one brings our custom packages from the 'pkgs' directory
   additions = final: prev:
-    (import ../pkgs { pkgs = final; })
+    (import ../pkgs { pkgs = final; inherit (inputs.bun2nix.lib.${final.system}) mkBunDerivation; })
     // rec {
       mustacheTemplate = name: template: data:
         prev.stdenv.mkDerivation {

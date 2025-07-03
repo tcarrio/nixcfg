@@ -1,0 +1,20 @@
+{
+  "name": "@0xc/gqurl",
+  "version": "0.1.0",
+  "description": "A minimal GraphQL CLI tool inspired by cURL",
+  "main": "index.ts",
+  "author": "Tom Carrio <tom@carrio.dev>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@biomejs/biome": "^2.0.0",
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {},
+  "scripts": {
+    "postinstall": "bun2nix -o bun.nix"
+  }
+}

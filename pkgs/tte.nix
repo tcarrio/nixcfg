@@ -1,5 +1,5 @@
 # DEPRECATED: This package is now part of Nixpkgs unstable as of 24.11.
-{ pkgs }: pkgs.fetchFromGitHub {
+{ pkgs, ... }: pkgs.fetchFromGitHub {
   owner = "ChrisBuilds";
   repo = "terminaltexteffects";
   rev = "7fd566567cdf3bafe8bf8b8866ca84afc8704ebd";

@@ -1,4 +1,4 @@
-{ lib, pkgs, writeShellScriptBin }:
+{ lib, pkgs, writeShellScriptBin, ... }:
 
 writeShellScriptBin "kube-rsync" ''
   #!/bin/bash
