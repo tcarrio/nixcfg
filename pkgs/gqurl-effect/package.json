@@ -1,0 +1,40 @@
+{
+  "name": "@0xc/gqurl",
+  "version": "0.0.0",
+  "type": "module",
+  "packageManager": "bun@1.2.0",
+  "license": "MIT",
+  "description": "A minimal GraphQL CLI tool inspired by cURL",
+  "main": "./src/bin.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tcarrio/nixcfg"
+  },
+  "publishConfig": {
+    "access": "public",
+    "directory": "dist"
+  },
+  "scripts": {
+    "build": "bun build:ts && bun copy-package-json",
+    "build:ts": "bun build ./src/bin.ts --target=bun --outdir=dist/",
+    "compile": "bun build ./src/bin.ts --compile --outfile=dist/gqurl",
+    "clean": "rimraf dist/*",
+    "check": "tsc -b tsconfig.json",
+    "coverage": "bun test --coverage",
+    "copy-package-json": "tsx scripts/copy-package-json.ts",
+    "postinstall": "bun2nix -o ./nix/bun.nix"
+  },
+  "devDependencies": {
+    "@effect/cli": "latest",
+    "@effect/language-service": "^0.1.0",
+    "@effect/platform": "latest",
+    "bun-types": "^1.2.18",
+    "effect": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "@effect/platform-bun": "^0.72.10"
+  }
+}

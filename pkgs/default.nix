@@ -8,5 +8,7 @@
   };
   nixvim = pkgs.callPackage ./nixvim/default.nix {
     inherit nixvim;
+  gqurl-effect = pkgs.callPackage ./gqurl-effect/default.nix {
+    inherit mkBunDerivation;
   };
 }
