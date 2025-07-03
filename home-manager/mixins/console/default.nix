@@ -148,6 +148,10 @@
         { name = "fzf"; inherit (fzf-fish) src; }
       ];
     };
+    fzf = {
+      enable = true;
+      enableFishIntegration = true;
+    };
     gh = {
       enable = true;
       extensions = with pkgs; [ gh-markdown-preview ];
