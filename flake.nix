@@ -93,6 +93,7 @@
           with pkgsUnstable; [
             bun
             bun2NixPkg
+            flyctl
           ]
         );
       });
