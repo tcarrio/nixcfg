@@ -1,0 +1,53 @@
+# fly.toml app configuration file generated for tailscale-exit-node-black-meadow-5427 on 2025-07-06T00:18:19-04:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+# TO DEPLOY: Run `flyctl deploy --ha=false`
+
+app = "tailscale-exit-node-black-meadow-5427"
+primary_region = "ord" # for a list of all regions, see https://fly.io/docs/reference/regions/
+kill_signal = "SIGINT"
+kill_timeout = "10s"
+
+# TODO: Remove if UDP alone is sufficient
+# [http_service]
+# internal_port = 443
+# force_https = false
+# auto_stop_machines = "off"
+# auto_start_machines = true
+# min_machines_running = 0
+
+[[services]]
+protocol = "udp"
+internal_port = 41641
+processes = ["app"]
+
+[[services.ports]]
+port = 41641
+[services.concurrency]
+type = "connections"
+hard_limit = 100
+soft_limit = 75
+
+processes = ["app"]
+
+[[vm]]
+size = "shared-cpu-1x"
+
+[env]
+TS_EXTRA_ARGS = "--advertise-exit-node"
+TS_STATE_DIR = "/var/lib/tailscale"
+TS_AUTH_ONCE = "false "
+TS_SOCKET = "/var/run/tailscale/tailscaled.sock"
+TS_TAGS = "tag:vpn"
+
+# TODO: Persistence of tailscale data?
+# [[mounts]]
+# source = "tailscale_lib_persistence"
+# destination = "/var/lib/tailscale"
+
+# [[mounts]]
+# source = "tailscale_run_persistence"
+# # state stored under e.g. /var/run/tailscale/tailscaled.sock
+# destination = "/var/run/tailscale"
