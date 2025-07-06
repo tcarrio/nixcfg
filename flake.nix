@@ -43,7 +43,7 @@
     zen-browser.url = "github:MarceColl/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Hydenix for Hyprland
+    # Hydenix for Hyprland/HyDE
     hydenix.url = "github:richen604/hydenix";
     hydenix.inputs.hydenix-nixpkgs.follows = "nixpkgs-unstable";
 

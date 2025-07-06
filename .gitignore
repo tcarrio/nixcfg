@@ -9,5 +9,6 @@
 # ignore general patch files
 *.patch
 
-# claude
+# ai
 /.claude
+.aider*

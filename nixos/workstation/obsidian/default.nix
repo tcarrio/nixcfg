@@ -50,11 +50,16 @@
     package = pkgs.unstable.ollama-cuda;
     enable = true;
     acceleration = "cuda";
+    environmentVariables = {
+      # Adjust this to the best context length for Qwen3 30B A3B model AI!
+      OLLAMA_CONTEXT_LENGTH = "8192";
+    };
     # TODO: Restrict to tailnet IP
     # host = tailnetMatrix.hosts.glass;
     loadModels = [
       "qwen3:8b" # "hf.co/Qwen/Qwen3-8B"
       "starcoder2:7b" # "hf.co/bigcode/starcoder2-7b"
+      "hf.co/unsloth/Qwen3-30B-A3B-GGUF:latest"
       # "hf.co/bunnycore/Qwen2.5-7B-Instruct-Fusion"
       # "hf.co/bunnycore/Qwen2.5-7B-CyberRombos"
     ];
@@ -78,6 +83,7 @@
 
 
   environment.systemPackages = with pkgs; [
+    aider-chat
     distrobox
     google-fonts
     tmux
