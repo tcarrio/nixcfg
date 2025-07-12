@@ -625,6 +625,22 @@
         "type": "gitlab"
       }
     },
+    "omarchy": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1752199016,
+        "narHash": "sha256-VDY1J6vjQPeASg/HWt3Qye3ZgFRFB1YMoUGkqTDSAyw=",
+        "owner": "basecamp",
+        "repo": "omarchy",
+        "rev": "adc506f053f2b553a93f37e3628ae3b48fffe75e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "basecamp",
+        "repo": "omarchy",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -641,6 +657,7 @@
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-trunk": "nixpkgs-trunk",
         "nixpkgs-unstable": "nixpkgs-unstable",
+        "omarchy": "omarchy",
         "vscode-server": "vscode-server",
         "zen-browser": "zen-browser"
       }

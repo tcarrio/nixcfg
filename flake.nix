@@ -50,6 +50,10 @@
     # Bun packaging
     bun2nix.url = "github:baileyluTCD/bun2nix";
     bun2nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Omarchy repository for configs and scripts
+    omarchy.url = "github:basecamp/omarchy";
+    omarchy.flake = false;
   };
   outputs =
     { self
