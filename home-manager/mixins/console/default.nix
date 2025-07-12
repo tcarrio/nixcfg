@@ -160,7 +160,7 @@
     git = {
       enable = true;
       delta = {
-        enable = false;
+        # enable = false;
         # enable = true;
         # options = {
         #   features = "decorations";

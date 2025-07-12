@@ -7,8 +7,6 @@ let
 
   cfg = config.ominix;
 in { 
-  services.getty.autologinOnce = true;
-
   services.greetd = {
     package = greetPkg;
 

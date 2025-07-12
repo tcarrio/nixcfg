@@ -32,8 +32,9 @@ in {
       ".DS_Store"
       "result"
     ];
-    user = lib.mkIf idCfg.enable {
-      inherit (idCfg) name email;
-    };
+    # TODO: Fix git user configurations
+    # user = lib.mkIf idCfg.enable {
+    #   inherit (idCfg) name email;
+    # };
   };
 }

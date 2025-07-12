@@ -17,6 +17,7 @@ in {
     user = lib.mkOption {
       type = lib.types.string;
       description = "The end-user's username";
+      default = null;
     };
 
     # Hardware configurations
@@ -70,7 +71,7 @@ in {
 
     assertions = [
       {
-        assertion = builtins.stringLength cfg.user == 0;
+        assertion = cfg.user != null && builtins.stringLength cfg.user > 0;
         message = "An unprovided or empty user value was detected";
       }
     ];

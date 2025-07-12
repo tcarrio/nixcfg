@@ -24,10 +24,11 @@ in
       themeDir = "${inputs.omarchy}/themes/${cfg.theme}";
     in {
       home.file = {
-        ".config/wofi/style.css" = "${themeDir}/theme/wofi.css";
-        ".config/nvim/lua/plugins/theme.lua" = "${themeDir}/theme/neovim.lua";
-        ".config/btop/themes/current.theme" = "${themeDir}/theme/btop.theme";
-        ".config/mako/config" = "${themeDir}/theme/mako.ini";
+        # TODO: link/copy remaining omarchy source files
+        ".config/wofi/style.css".source = "${themeDir}/wofi.css";
+        ".config/nvim/lua/plugins/theme.lua".source = "${themeDir}/neovim.lua";
+        ".config/btop/themes/current.theme".source = "${themeDir}/btop.theme";
+        ".config/mako/config".source = "${themeDir}/mako.ini";
       };
 
       # TODO: Add support for dark mode and missing packages
