@@ -1,5 +1,5 @@
 # see install/3-terminal.sh
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
   config = lib.mkIf config.ominix.enable {
     environment.systemPackages = with pkgs; [
       wget

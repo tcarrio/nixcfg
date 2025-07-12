@@ -1,5 +1,5 @@
 # see install/bluetooth.sh
-{ config, pkgs, ... }: {
+{ config, lib, pkgs, ... }: {
   config = lib.mkIf config.ominix.enable {
     environment.systemPackages = with pkgs; [
       blueberry

@@ -1,5 +1,5 @@
 # see install/printer.sh
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
   config = lib.mkIf config.ominix.enable {
     environment.systemPackages = with pkgs; [
       cups-filters

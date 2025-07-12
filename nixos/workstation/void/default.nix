@@ -21,10 +21,11 @@
   ];
 
   oxc = {
-    containerisation = {
-      enable = true;
-      engine = "podman";
-    };
+    # TODO: Fix conflicts with Ominix
+    # containerisation = {
+    #   enable = true;
+    #   engine = "podman";
+    # };
     desktop = {
       bitwarden.enable = true;
       discord.enable = true;
@@ -41,7 +42,7 @@
       wait-online.enable = false;
       tailscale.enable = true;
     };
-    virtualisation.enable = true;
+    # virtualisation.enable = true;
   };
 
   boot = {

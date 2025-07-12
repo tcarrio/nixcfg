@@ -1,6 +1,9 @@
 # see install/nvidia.sh
-{ config, pkgs, ... }: {
-  config = lib.mkIf config.ominix.enable {
+{ config, pkgs, lib, ... }:
+let
+  cfg = config.ominix;
+in {
+  config = lib.mkIf (cfg.enable && cfg.hardware.gpu.nvidia) {
     environment = {
       systemPackages = with pkgs; [ vulkan-tools nvtopPackages.full ];
 

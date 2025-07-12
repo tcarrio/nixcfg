@@ -1,5 +1,5 @@
 # see install/docker.sh
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
   config = lib.mkIf config.ominix.enable {
     virtualisation.docker.enable = true;
 

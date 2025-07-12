@@ -1,11 +1,10 @@
 # see install/power.sh
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
   config = lib.mkIf config.ominix.enable {
     services.power-profiles-daemon.enable = true;
 
     # Dynamic detection of battery/AC devices and setting the profile
-    services.power-profile-setup.enable = true;
-    systemd.services.power-profile-setup = {
+    systemd.user.services.power-profile-setup = {
       description = "Set power profile based on battery presence";
       wantedBy = [ "multi-user.target" ];
       after = [ "power-profiles-daemon.service" ];
@@ -24,7 +23,7 @@
             
             # Enable battery monitoring timer for low battery notifications
             echo "Enabling battery monitor timer"
-            systemctl enable --now ominix-battery-monitor.timer || true
+            systemctl --user enable --now ominix-battery-monitor.timer || true
           else
             # This computer runs on power outlet
             echo "No battery detected - setting performance power profile"
@@ -34,9 +33,9 @@
       };
     };
 
-    systemd.services.ominix-battery-monitor = {
+    systemd.user.timers.ominix-battery-monitor = {
       description = "Ominix Battery Monitor Timer";
-      requires = "ominix-battery-monitor.service";
+      requires = ["ominix-battery-monitor.service"];
 
       timerConfig = {
         OnBootSec = "1min";
@@ -45,6 +44,6 @@
       };
       
       wantedBy = [ "timers.target" ];
-    }
+    };
   };
 }

@@ -1,5 +1,5 @@
 # see install/desktop.sh
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
   config = lib.mkIf config.ominix.enable {
     environment.systemPackages = with pkgs; [
       brightnessctl

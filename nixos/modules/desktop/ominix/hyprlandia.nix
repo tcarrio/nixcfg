@@ -1,5 +1,5 @@
 # see install/hyprlandia.sh
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
   config = lib.mkIf config.ominix.enable {
     programs.hyprland.enable = true;
 

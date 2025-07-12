@@ -1,12 +1,13 @@
 # see install/xtras.sh
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
   config = lib.mkIf config.ominix.enable {
     environment.systemPackages = with pkgs; [
       gnome-calculator
       signal-desktop
       spotify
       dropbox-cli
-      zoom-us # for zoom
+      # TODO: Re-enable Zoom, broken hash
+      # zoom-us # for zoom
       obsidian # for obsidian-bin
       typora
       libreoffice

@@ -1,5 +1,5 @@
 # see install/neovim.sh
-{ config, ... }: {
+{ config, lib, ... }: {
   config = lib.mkIf config.ominix.enable {
     programs.neovim = {
       enable = true;

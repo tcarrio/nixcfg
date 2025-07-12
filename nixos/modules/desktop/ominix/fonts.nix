@@ -1,5 +1,5 @@
 # see install/fonts.sh
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
   config = lib.mkIf config.ominix.enable {
     environment.systemPackages = with pkgs; [
       # for ttf-font-awesome
@@ -11,7 +11,7 @@
       noto-fonts-color-emoji
 
       # for noto-fonts-cjk      
-      noto-fonts-cjk-san
+      noto-fonts-cjk-sans
       noto-fonts-cjk-serif
 
       # TODO: noto-fonts-extra?

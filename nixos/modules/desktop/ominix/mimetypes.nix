@@ -1,5 +1,5 @@
 # see install/mimetypes.sh
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
   config = lib.mkIf config.ominix.enable {
     xdg.mime.enable = true;
 

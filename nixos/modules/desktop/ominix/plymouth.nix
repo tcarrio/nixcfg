@@ -1,5 +1,5 @@
 # see install/plymouth.sh
-{ config, ... }: {
+{ config, lib, ... }: {
   config = lib.mkIf config.ominix.enable {
     boot.plymouth.enable = true;
 
