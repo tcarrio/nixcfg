@@ -16,6 +16,8 @@
     # this system supports UEFI but was transitioned from a BIOS install
     ../../mixins/hardware/grub-legacy-boot.nix
     ../../mixins/services/pipewire.nix
+
+    ../../mixins/console/tui.nix
   ];
 
   oxc = {
