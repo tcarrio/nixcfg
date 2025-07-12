@@ -270,68 +270,6 @@
         "type": "github"
       }
     },
-    "home-manager_4": {
-      "inputs": {
-        "nixpkgs": [
-          "hydenix",
-          "hydenix-nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1750973805,
-        "narHash": "sha256-BZXgag7I0rnL/HMHAsBz3tQrfKAibpY2vovexl2lS+Y=",
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "rev": "080e8b48b0318b38143d5865de9334f46d51fce3",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "type": "github"
-      }
-    },
-    "hyde": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1750118281,
-        "narHash": "sha256-rYlD979i1XUDZg+okpJZSC4piQKwJiIocfEYjxMyaz8=",
-        "owner": "HyDE-Project",
-        "repo": "HyDE",
-        "rev": "cc76f032e090b84c367c11a4c1b326be76a9fa7e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "HyDE-Project",
-        "repo": "HyDE",
-        "rev": "cc76f032e090b84c367c11a4c1b326be76a9fa7e",
-        "type": "github"
-      }
-    },
-    "hydenix": {
-      "inputs": {
-        "home-manager": "home-manager_4",
-        "hyde": "hyde",
-        "hydenix-nixpkgs": [
-          "nixpkgs-unstable"
-        ],
-        "nix-index-database": "nix-index-database",
-        "nixos-hardware": "nixos-hardware"
-      },
-      "locked": {
-        "lastModified": 1750986827,
-        "narHash": "sha256-HVHH4TAIyA+g9DAM07hWgdYxoZFVcFxiM4m2vQ736Ic=",
-        "owner": "richen604",
-        "repo": "hydenix",
-        "rev": "1f78f7e5d8dd36214973492f82707f01ba874842",
-        "type": "github"
-      },
-      "original": {
-        "owner": "richen604",
-        "repo": "hydenix",
-        "type": "github"
-      }
-    },
     "jovian": {
       "inputs": {
         "nix-github-actions": "nix-github-actions",
@@ -420,27 +358,6 @@
         "type": "github"
       }
     },
-    "nix-index-database": {
-      "inputs": {
-        "nixpkgs": [
-          "hydenix",
-          "hydenix-nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1750565152,
-        "narHash": "sha256-A6ZIoIgaPPkzIVxKuaxwEJicPOeTwC/MD9iuC3FVhDM=",
-        "owner": "nix-community",
-        "repo": "nix-index-database",
-        "rev": "78cd697acc2e492b4e92822a4913ffad279c20e6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "nix-index-database",
-        "type": "github"
-      }
-    },
     "nixlib": {
       "locked": {
         "lastModified": 1693701915,
@@ -478,22 +395,6 @@
       }
     },
     "nixos-hardware": {
-      "locked": {
-        "lastModified": 1750837715,
-        "narHash": "sha256-2m1ceZjbmgrJCZ2PuQZaK4in3gcg3o6rZ7WK6dr5vAA=",
-        "owner": "NixOS",
-        "repo": "nixos-hardware",
-        "rev": "98236410ea0fe204d0447149537a924fb71a6d4f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "master",
-        "repo": "nixos-hardware",
-        "type": "github"
-      }
-    },
-    "nixos-hardware_2": {
       "locked": {
         "lastModified": 1750837715,
         "narHash": "sha256-2m1ceZjbmgrJCZ2PuQZaK4in3gcg3o6rZ7WK6dr5vAA=",
@@ -649,11 +550,10 @@
         "devshells": "devshells",
         "disko": "disko",
         "home-manager": "home-manager_3",
-        "hydenix": "hydenix",
         "nix-darwin": "nix-darwin",
         "nix-formatter-pack": "nix-formatter-pack",
         "nixos-generators": "nixos-generators",
-        "nixos-hardware": "nixos-hardware_2",
+        "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-trunk": "nixpkgs-trunk",
         "nixpkgs-unstable": "nixpkgs-unstable",
