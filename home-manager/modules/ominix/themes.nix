@@ -29,6 +29,8 @@ in
         ".config/btop/themes/current.theme" = "${themeDir}/theme/btop.theme";
         ".config/mako/config" = "${themeDir}/theme/mako.ini";
       };
+
+      # TODO: Add support for dark mode and missing packages
     }
   );
 }
