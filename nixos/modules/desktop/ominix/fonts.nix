@@ -1,25 +1,44 @@
 # see install/fonts.sh
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, ... }:
+let
+  fonts = with pkgs; [
+    # for ttf-font-awesome
+    font-awesome
+
+    noto-fonts
+
+    # for noto-fonts-emoji
+    noto-fonts-color-emoji
+
+    # for noto-fonts-cjk      
+    noto-fonts-cjk-sans
+    noto-fonts-cjk-serif
+
+    # TODO: noto-fonts-extra?
+
+    nerd-fonts.caskaydia-mono
+    
+    # TODO: confirm for ia writer mono
+    ia-writer-duospace
+
+    # Symbols fix
+    nerd-fonts.symbols-only
+  ];
+in {
   config = lib.mkIf config.ominix.enable {
-    environment.systemPackages = with pkgs; [
-      # for ttf-font-awesome
-      font-awesome
+    environment.systemPackages = fonts;
 
-      noto-fonts
+    fonts = {
+      packages = fonts;
 
-      # for noto-fonts-emoji
-      noto-fonts-color-emoji
-
-      # for noto-fonts-cjk      
-      noto-fonts-cjk-sans
-      noto-fonts-cjk-serif
-
-      # TODO: noto-fonts-extra?
-
-      nerd-fonts.caskaydia-mono
-      
-      # TODO: confirm for ia writer mono
-      ia-writer-duospace
-    ];
+      fontconfig = {
+        useEmbeddedBitmaps = true;
+        defaultFonts = {
+          # serif = [  "Liberation Serif" "Vazirmatn" ];
+          # sansSerif = [ "Ubuntu" "Vazirmatn" ];
+          monospace = [ "Caskaydia Nerd Font Mono" ];
+        };
+      };
+    };
   };
 }

@@ -61,7 +61,7 @@ in {
   imports = [
     ./config.nix
     ./git.nix
-    ./hyprland.nix
+    ./defaults.nix
     ./themes.nix
   ];
 

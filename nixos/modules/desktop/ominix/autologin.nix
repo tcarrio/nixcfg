@@ -14,7 +14,7 @@ in {
       default_session = initial_session;
       initial_session = {
         inherit (cfg) user;
-        command = "${greetPath} --cmd ${hyprland}";
+        command = "${greetPath} --cmd ${hyprland}/bin/hyprland";
       };
     };
   };

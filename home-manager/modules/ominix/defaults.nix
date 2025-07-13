@@ -7,7 +7,7 @@ in
   config = lib.mkIf cfg.enable (
     let
       omarchyDirPath = "${inputs.omarchy}";
-      configDirPath = "${inputs.omarchy}/default/hypr";
+      configDirPath = "${inputs.omarchy}/default";
 
       allConfigFiles = map builtins.unsafeDiscardStringContext (lib.filesystem.listFilesRecursive configDirPath);
 
@@ -20,7 +20,7 @@ in
         let
           relativePath = mapToConfigRelativePath path;
         in {
-          name = ".local/share/omarchy/default/hypr/${relativePath}";
+          name = ".local/share/omarchy/default/${relativePath}";
           value = {
             source = lib.mkDefault "${configDirPath}/${relativePath}";
           };
