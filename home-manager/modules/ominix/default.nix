@@ -59,6 +59,7 @@ in {
   };
 
   imports = [
+    ./config.nix
     ./git.nix
     ./themes.nix
   ];
