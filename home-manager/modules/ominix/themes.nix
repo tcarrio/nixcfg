@@ -25,7 +25,7 @@ in
     in {
       home.file = {
         ".config/wofi/style.css".source = "${themeDir}/wofi.css";
-        # ".config/nvim/lua/plugins/theme.lua".source = "${themeDir}/neovim.lua";
+        ".config/nvim/lua/plugins/theme.lua".source = "${themeDir}/neovim.lua";
         ".config/btop/themes/current.theme".source = "${themeDir}/btop.theme";
         ".config/mako/config".source = "${themeDir}/mako.ini";
         ".config/omarchy/current/theme".source = "${themeDir}";
