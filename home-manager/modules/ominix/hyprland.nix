@@ -1,4 +1,4 @@
-# see TODO 
+# see TODO
 { config, pkgs, lib, inputs, username, ... }:
 let
   cfg = config.ominix;
@@ -7,7 +7,7 @@ in
   config = lib.mkIf cfg.enable (
     let
       omarchyDirPath = "${inputs.omarchy}";
-      configDirPath = "${inputs.omarchy}/config";
+      configDirPath = "${inputs.omarchy}/default/hypr";
 
       allConfigFiles = map builtins.unsafeDiscardStringContext (lib.filesystem.listFilesRecursive configDirPath);
 
@@ -20,7 +20,7 @@ in
         let
           relativePath = mapToConfigRelativePath path;
         in {
-          name = ".config/${relativePath}";
+          name = ".local/share/omarchy/default/hypr/${relativePath}";
           value = {
             source = lib.mkDefault "${configDirPath}/${relativePath}";
           };
