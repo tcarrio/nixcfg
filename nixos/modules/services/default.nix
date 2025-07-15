@@ -2,6 +2,7 @@ _: {
   imports = [
     ./acme.nix
     ./flatpak.nix
+    ./mopidy.nix
     ./nbd-server.nix
     ./networkmanager.nix
     ./nextdns.nix

@@ -39,6 +39,7 @@
       vscode.support.ai = true;
     };
     services = {
+      mopidy.enable = true;
       wait-online.enable = false;
       tailscale.enable = true;
     };

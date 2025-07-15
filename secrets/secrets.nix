@@ -30,6 +30,6 @@ in
   "hosts/nuc8/ssh_host_ed25519_key.age".publicKeys = groups.privileged_users;
   "hosts/nuc9/ssh_host_ed25519_key.age".publicKeys = groups.privileged_users;
 
-  # spotify / mopidy
-  "services/spotify/client.age".publicKeys = groups.privileged_users;
+  # spotify + mopidy
+  "services/spotify/client.age".publicKeys = groups.users;
 }
