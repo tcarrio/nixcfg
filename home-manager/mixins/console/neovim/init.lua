@@ -257,6 +257,16 @@ require('lazy').setup({
     end,
   },
 
+  {
+    "greggh/claude-code.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- Required for git operations
+    },
+    config = function()
+      require("claude-code").setup()
+    end
+  },
+
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.

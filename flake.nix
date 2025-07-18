@@ -50,6 +50,10 @@
     # Omarchy repository for configs and scripts
     omarchy.url = "github:basecamp/omarchy";
     omarchy.flake = false;
+
+    # Nixvim for neovim configuration
+    nixvim.url = "github:nix-community/nixvim";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
   outputs =
     { self
@@ -59,6 +63,7 @@
     , devshells
     , nix-darwin
     , bun2nix
+    , nixvim
     , ...
     } @ inputs:
     let
@@ -88,6 +93,7 @@
             go-task
             wakeonlan
             yarn2nix
+            nixvim
           ]
         ) ++ (
           with pkgsUnstable; [
@@ -184,6 +190,7 @@
               pkgsUnstable.bun
               bun2NixPkg
               self.packages.${system}.gqurl
+              self.packages.${system}.nixvim
             ];
           });
           dev = default;
@@ -200,6 +207,7 @@
               home-manager
               git
               self.packages.${system}.gqurl
+              self.packages.${system}.nixvim
             ];
           });
           default = dev;
@@ -234,7 +242,7 @@
               pkgs = nixpkgs.legacyPackages.${system};
               inherit (bun2nix.lib.${system}) mkBunDerivation;
             in
-            (import ./pkgs { inherit pkgs mkBunDerivation; }) //
+            (import ./pkgs { inherit pkgs mkBunDerivation nixvim; }) //
               {
                 # Universal system packages: Maybe a use case exists but for now this is empty 🤷
               } // (lib.optionalAttrs (system == "x86_64-linux") {
