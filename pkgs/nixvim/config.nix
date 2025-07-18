@@ -1,4 +1,92 @@
-{ pkgs, allowUnfree ? true }: {
+{ pkgs, allowUnfree ? true }:
+let
+  setup.tabby = ''
+    local theme = {
+      fill = 'TabLineFill',
+      -- Also you can do this: fill = { fg='#f2e9de', bg='#907aa9', style='italic' }
+      head = 'TabLine',
+      current_tab = 'TabLineSel',
+      tab = 'TabLine',
+      win = 'TabLine',
+      tail = 'TabLine',
+    }
+    require('tabby').setup({
+      line = function(line)
+        return {
+          {
+            { '  ', hl = theme.head },
+            line.sep('', theme.head, theme.fill),
+          },
+          line.tabs().foreach(function(tab)
+            local hl = tab.is_current() and theme.current_tab or theme.tab
+            return {
+              line.sep('', hl, theme.fill),
+              tab.is_current() and '' or '󰆣',
+              tab.number(),
+              tab.name(),
+              tab.close_btn(''),
+              line.sep('', hl, theme.fill),
+              hl = hl,
+              margin = ' ',
+            }
+          end),
+          line.spacer(),
+          line.wins_in_tab(line.api.get_current_tab()).foreach(function(win)
+            return {
+              line.sep('', theme.win, theme.fill),
+              win.is_current() and '' or '',
+              win.buf_name(),
+              line.sep('', theme.win, theme.fill),
+              hl = theme.win,
+              margin = ' ',
+            }
+          end),
+          {
+            line.sep('', theme.tail, theme.fill),
+            { '  ', hl = theme.tail },
+          },
+          hl = theme.fill,
+        }
+      end,
+      -- option = {}, -- setup modules' option,
+    })
+
+    -- Always show the tab line
+    vim.o.showtabline = 2
+  '';
+
+  setup.mini-move = ''
+    -- Configure mini-move plugin
+    require('mini.move').setup()
+  '';
+
+  setup.navigator = ''
+    -- Configure the navigator.lua plugin
+    require('navigator').setup()
+  '';
+
+  setup.colorscheme = ''
+    -- Force colorscheme application
+    vim.cmd('colorscheme tokyonight-night')
+  '';
+
+  setup.term-env = ''
+    -- Also set when opening terminals to ensure it's available
+    vim.api.nvim_create_autocmd("TermOpen", {
+      callback = function()
+        vim.fn.setenv("GIT_PAGER", "${env.GIT_PAGER}")
+        vim.fn.setenv("BAT_THEME", "${env.BAT_THEME}")
+      end,
+    })
+  '';
+
+  env = {
+    # Use bat as git pager in Neovim terminals (disable delta)
+    GIT_PAGER = "${pkgs.bat}/bin/bat --style=plain --paging=always";
+    BAT_THEME = "base16";
+  };
+in
+{
   # Leader keys
   globals = {
     mapleader = " ";
@@ -197,36 +285,39 @@
     };
   };
 
+  inherit env;
+
+  # Packages to include with the Neovim derivation
+  extraPackages = with pkgs; [
+    bat
+    nerdfonts
+    ripgrep
+  ];
+
+  # Plugins that are not directly supported via the plugins module
+  extraPlugins = with pkgs.vimPlugins; [
+    tabby-nvim
+    mini-move
+    Navigator-nvim
+  ];
+
   # Extra configuration to ensure colorscheme loads
   extraConfigLua = ''
-    -- Force colorscheme application
-    vim.cmd('colorscheme tokyonight-night')
-
-    -- Print confirmation that theme is loaded (remove this line if it's annoying)
-    vim.api.nvim_create_autocmd("VimEnter", {
-      callback = function()
-        print("Tokyo Night theme loaded: " .. vim.g.colors_name)
-      end,
-    })
-
-    -- Use bat as git pager in Neovim terminals (disable delta)
-    -- Set globally for all Neovim sessions
-    vim.fn.setenv("GIT_PAGER", "bat --style=plain --paging=always")
-    vim.fn.setenv("BAT_THEME", "base16")
-
-    -- Also set when opening terminals to ensure it's available
-    vim.api.nvim_create_autocmd("TermOpen", {
-      callback = function()
-        vim.fn.setenv("GIT_PAGER", "bat --style=plain --paging=always")
-        vim.fn.setenv("BAT_THEME", "base16")
-      end,
-    })
+    -- Load all extraPlugins manually
+    ${setup.tabby}
+    ${setup.mini-move}
+    ${setup.navigator}
+    ${setup.colorscheme}
+    ${setup.term-env}
   '';
 
   # Plugins configuration based on init.lua
   plugins = {
     # Web dev icons (required by other plugins)
     web-devicons.enable = true;
+
+    # Landing page
+    dashboard.enable = true;
     
     # Status line
     lualine = {
@@ -239,6 +330,8 @@
         };
       };
     };
+
+    # NOTE: Tab plugin 'tabby' is configured in extraPlugins
     
     # File explorer
     nvim-tree = {
@@ -252,6 +345,9 @@
     toggleterm = {
       enable = true;
     };
+
+    # Comment utilities
+    todo-comments.enable = true;
     
     # Fuzzy finder
     telescope = {
@@ -317,7 +413,11 @@
     };
     
     # Git integration
-    fugitive.enable = true;
+    fugitive.enable = false;
+    neogit.enable = true;
+    git-conflict.enable = true;
+    gitblame.enable = true;
+    gitmessenger.enable = true;
     gitsigns = {
       enable = true;
       settings = {
