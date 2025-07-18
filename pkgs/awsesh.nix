@@ -7,13 +7,11 @@ buildGoModule rec {
   src = fetchFromGitHub {
     owner = "elva-labs";
     repo = "awsesh";
-    rev = "v${version}";
-    hash = "sha256-AzRHEaa7mwM077pFbNMEuNuTr6xy0C7YJBeF047juoo=";
+    tag = "v.${version}";
+    hash = "sha256-IJd6l+04ie8jiBgmpbWr/txKJDAzetXQqyb5naZSGBg=";
   };
 
-  vendorHash = "sha256-6Avc5kv2oelgROeWOueDGdiIBk6cAI1NMWDOzzlKHs8=";
-
-  ldflags = [ "-X github.com/elva-labs/awsesh/z.VERSION=${version}" ];
+  vendorHash = "sha256-hGwGvE9Y0awezAijHMt5heBERcV92olugCaMzzvDvKc=";
 
   meta = with lib; {
     description = "A charming TUI for AWS SSO session management ✨";
