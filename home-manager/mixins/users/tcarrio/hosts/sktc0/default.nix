@@ -83,7 +83,7 @@
         ip = lib.mkForce "ifconfig";
         show_open_ports = "lsof -nP -iTCP -sTCP:LISTEN";
 
-        rebuild-host = lib.mkForce "darwin-rebuild switch --flake $HOME/0xc/nixcfg";
+        rebuild-host = lib.mkForce "sudo darwin-rebuild switch --flake $HOME/0xc/nixcfg";
 
         clear-all-cache = ''
           which nix && echo 'Pruning nix' && nix-collect-garbage --delete-older-than 14d
