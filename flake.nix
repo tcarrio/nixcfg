@@ -79,10 +79,11 @@
         pkgsUnstable = nixpkgs-unstable.legacyPackages.${system};
         darwinNixPkgs = if pkgs.stdenv.isDarwin then nix-darwin.packages.${system} else {};
         bun2NixPkg = bun2nix.packages.${system}.default;
+        nixvimPkg = self.packages.${system}.nixvim;
       in
-        shellOptionsFactory: pkgs.mkShell ((shellOptionsFactory { inherit pkgs pkgsUnstable darwinNixPkgs bun2NixPkg; }) // { NIX_CONFIG = "experimental-features = nix-command flakes"; });
+        shellOptionsFactory: pkgs.mkShell ((shellOptionsFactory { inherit pkgs pkgsUnstable darwinNixPkgs bun2NixPkg nixvimPkg; }) // { NIX_CONFIG = "experimental-features = nix-command flakes"; });
 
-      devShellFactory = ({ pkgs, pkgsUnstable, bun2NixPkg, ... }: {
+      devShellFactory = ({ pkgs, pkgsUnstable, bun2NixPkg, nixvimPkg, ... }: {
         packages = (
           with pkgs; [
             nix
@@ -93,7 +94,6 @@
             go-task
             wakeonlan
             yarn2nix
-            nixvim
           ]
         ) ++ (
           with pkgsUnstable; [
@@ -101,7 +101,9 @@
             bun2NixPkg
             flyctl
           ]
-        );
+        ) ++ [
+          nixvimPkg
+        ];
       });
     in
     {
