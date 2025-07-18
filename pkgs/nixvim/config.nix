@@ -1,5 +1,14 @@
 { pkgs, allowUnfree ? true }:
 let
+  pager = "${pkgs.bat}/bin/bat --style=plain --paging=always";
+  batTheme = "base16";
+
+  env = {
+    # Use bat as git pager in Neovim terminals (disable delta)
+    GIT_PAGER = pager;
+    BAT_THEME = batTheme;
+  };
+
   setup.tabby = ''
     local theme = {
       fill = 'TabLineFill',
@@ -74,17 +83,11 @@ let
     -- Also set when opening terminals to ensure it's available
     vim.api.nvim_create_autocmd("TermOpen", {
       callback = function()
-        vim.fn.setenv("GIT_PAGER", "${env.GIT_PAGER}")
-        vim.fn.setenv("BAT_THEME", "${env.BAT_THEME}")
+        vim.fn.setenv("GIT_PAGER", "${pager}")
+        vim.fn.setenv("BAT_THEME", "${batTheme}")
       end,
     })
   '';
-
-  env = {
-    # Use bat as git pager in Neovim terminals (disable delta)
-    GIT_PAGER = "${pkgs.bat}/bin/bat --style=plain --paging=always";
-    BAT_THEME = "base16";
-  };
 in
 {
   # Leader keys
