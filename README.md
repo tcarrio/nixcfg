@@ -210,52 +210,22 @@ environment.systemPackages = with pkgs; [
 ];
 ```
 
+#### Features
+
+The nixvim package includes:
+- Tokyo Night "storm" colorscheme
+- LSP support (Lua, Nix, Rust, TypeScript)
+- Treesitter syntax highlighting
+- Telescope fuzzy finder
+- File explorer (nvim-tree)
+- Terminal integration (toggleterm)
+- Git integration (fugitive, gitsigns)
+- Autocompletion with nvim-cmp
+- Status line with lualine
+
 #### Customization
 
-The nixvim package supports configuration overrides for extensibility:
-
-```nix
-# Override colorscheme style
-myCustomNixvim = pkgs.nixvim.override {
-  config = {
-    colorschemes.tokyonight.settings.style = "night"; # storm, moon, night, day
-  };
-};
-
-# Add extra plugins
-myExtendedNixvim = pkgs.nixvim.override {
-  extraPlugins = [
-    { name = "nvim-surround"; }
-    { name = "vim-sleuth"; config = { enable = true; }; }
-  ];
-};
-
-# Complex configuration override
-myFullCustomNixvim = pkgs.nixvim.override {
-  config = {
-    colorschemes.tokyonight.settings = {
-      style = "moon";
-      transparent = true;
-    };
-    opts.relativenumber = true;
-  };
-  extraConfig = {
-    keymaps = [
-      {
-        mode = "n";
-        key = "<leader>t";
-        action = "<cmd>NvimTreeToggle<cr>";
-        options.desc = "Toggle file tree";
-      }
-    ];
-  };
-};
-```
-
-Available override parameters:
-- `config` - Deep merge with base configuration
-- `extraPlugins` - List of additional plugins to enable
-- `extraConfig` - Additional configuration options
+The package can be customized by modifying the configuration files in `pkgs/nixvim/`. For complex customizations, consider forking the configuration or using nixvim directly in your system configuration.
 
 ## What's in the box? 🎁
 

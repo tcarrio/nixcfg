@@ -178,25 +178,12 @@
     }
   ];
 
-  # Autocommands for highlight on yank
-  autoCmd = [
-    {
-      event = ["TextYankPost"];
-      pattern = "*";
-      callback.__raw = ''
-        function()
-          vim.highlight.on_yank()
-        end
-      '';
-      desc = "Highlight on yank";
-    }
-  ];
 
   # Colorscheme
   colorschemes.tokyonight = {
     enable = true;
     settings = {
-      style = "storm"; # Available: storm, moon, night, day
+      style = "night"; # Available: storm, moon, night, day
       transparent = false;
       terminal_colors = true;
       styles = {
@@ -209,6 +196,32 @@
       };
     };
   };
+
+  # Extra configuration to ensure colorscheme loads
+  extraConfigLua = ''
+    -- Force colorscheme application
+    vim.cmd('colorscheme tokyonight-night')
+
+    -- Print confirmation that theme is loaded (remove this line if it's annoying)
+    vim.api.nvim_create_autocmd("VimEnter", {
+      callback = function()
+        print("Tokyo Night theme loaded: " .. vim.g.colors_name)
+      end,
+    })
+
+    -- Use bat as git pager in Neovim terminals (disable delta)
+    -- Set globally for all Neovim sessions
+    vim.fn.setenv("GIT_PAGER", "bat --style=plain --paging=always")
+    vim.fn.setenv("BAT_THEME", "base16")
+
+    -- Also set when opening terminals to ensure it's available
+    vim.api.nvim_create_autocmd("TermOpen", {
+      callback = function()
+        vim.fn.setenv("GIT_PAGER", "bat --style=plain --paging=always")
+        vim.fn.setenv("BAT_THEME", "base16")
+      end,
+    })
+  '';
 
   # Plugins configuration based on init.lua
   plugins = {
