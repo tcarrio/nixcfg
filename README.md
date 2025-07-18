@@ -186,6 +186,77 @@ popd
 
 A live image will be left in `~/$HOME/0xc/nixcfg/result/iso/`. These .iso images are also periodically built and published via [GitHub Actions](./.github/workflows) and available in [this project's Releases](https://github.com/tcarrio/nixcfg/releases).
 
+## Available Packages 📦
+
+This flake provides several custom packages available through `pkgs` in your NixOS or Home Manager configurations:
+
+### Package List
+
+- **`kube-rsync`** - Kubernetes rsync utility
+- **`zeit`** - Time tracking tool
+- **`gqurl`** - GraphQL URL utility (built with Bun)
+- **`nixvim`** - Pre-configured Neovim with plugins and Tokyo Night theme
+
+### nixvim Usage
+
+The `nixvim` package provides a fully configured Neovim setup with LSP, treesitter, telescope, and more. It uses the Tokyo Night "storm" theme by default.
+
+#### Basic Usage
+
+```nix
+# In your configuration.nix or home.nix
+environment.systemPackages = with pkgs; [
+  nixvim
+];
+```
+
+#### Customization
+
+The nixvim package supports configuration overrides for extensibility:
+
+```nix
+# Override colorscheme style
+myCustomNixvim = pkgs.nixvim.override {
+  config = {
+    colorschemes.tokyonight.settings.style = "night"; # storm, moon, night, day
+  };
+};
+
+# Add extra plugins
+myExtendedNixvim = pkgs.nixvim.override {
+  extraPlugins = [
+    { name = "nvim-surround"; }
+    { name = "vim-sleuth"; config = { enable = true; }; }
+  ];
+};
+
+# Complex configuration override
+myFullCustomNixvim = pkgs.nixvim.override {
+  config = {
+    colorschemes.tokyonight.settings = {
+      style = "moon";
+      transparent = true;
+    };
+    opts.relativenumber = true;
+  };
+  extraConfig = {
+    keymaps = [
+      {
+        mode = "n";
+        key = "<leader>t";
+        action = "<cmd>NvimTreeToggle<cr>";
+        options.desc = "Toggle file tree";
+      }
+    ];
+  };
+};
+```
+
+Available override parameters:
+- `config` - Deep merge with base configuration
+- `extraPlugins` - List of additional plugins to enable
+- `extraConfig` - Additional configuration options
+
 ## What's in the box? 🎁
 
 Nix is configured with [flake support](https://zero-to-nix.com/concepts/flakes) and the [unified CLI](https://zero-to-nix.com/concepts/nix#unified-cli) enabled.
