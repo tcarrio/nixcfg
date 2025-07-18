@@ -3,8 +3,14 @@
 {
   # This one brings our custom packages from the 'pkgs' directory
   additions = final: prev:
-    (import ../pkgs { pkgs = final; inherit (inputs.bun2nix.lib.${final.system}) mkBunDerivation; nixvim = inputs.nixvim; })
-    // rec {
+    let
+      customPkgs = import ../pkgs { pkgs = final; inherit (inputs.bun2nix.lib.${final.system}) mkBunDerivation; nixvim = inputs.nixvim; };
+    in
+    customPkgs // rec {
+      # Override nixvim to automatically use the current nixpkgs allowUnfree configuration
+      nixvim = customPkgs.nixvim.passthru.override {
+        allowUnfree = final.config.allowUnfree or false;
+      };
       mustacheTemplate = name: template: data:
         prev.stdenv.mkDerivation {
           name = "${name}";

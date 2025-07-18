@@ -115,6 +115,8 @@ in
       #   });
       # })
     ];
+    # Allow unfree packages
+    config.allowUnfree = true;
   };
 
   nix = {

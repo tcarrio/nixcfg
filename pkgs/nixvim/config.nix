@@ -1,4 +1,4 @@
-{ pkgs }: {
+{ pkgs, allowUnfree ? true }: {
   # Leader keys
   globals = {
     mapleader = " ";
@@ -478,5 +478,9 @@
         }
       ];
     };
+
+  } // pkgs.lib.optionalAttrs allowUnfree {
+    # Claude Code AI assistant (unfree license)
+    claude-code.enable = true;
   };
 }
