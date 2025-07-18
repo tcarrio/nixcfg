@@ -3,10 +3,13 @@
 # RAM:         16GB DDR4
 # SATA:        500GB SSD
 
-{ username, ... }: {
+{ pkgs, username, ... }: {
   imports = [
     ../../mixins/console/homebrew.nix
     ./brews.nix
+
+    ../../mixins/console/podman.nix
+    ../../mixins/desktop/neovide.nix
   ];
   
   oxc.services.xcode.acceptLicense = true;
