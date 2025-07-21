@@ -11,6 +11,7 @@
     sessionVariables = {
       AWS_REGION = "us-east-1";
       AWS_PROFILE = "skillshare-utility-developer";
+      NIXPKGS_ALLOW_UNFREE="1";
       SKILLSHARE_WORKSTATION_WARP = "true";
       SKILLSHARE_SRC_DIRECTORY = "$HOME/Developer";
       SSH_AUTH_SOCK = "/Users/tcarrio/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";

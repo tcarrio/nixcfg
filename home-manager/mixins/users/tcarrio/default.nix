@@ -26,7 +26,9 @@ Host obsidian
   User tcarrio
     ";
     sessionVariables = {
-      # ...
+      NIXPKGS_ALLOW_UNFREE="1";
+
+      # Add any more global env vars for sessions here
     };
     file.".config/nixpkgs/config.nix".text = ''
       {
