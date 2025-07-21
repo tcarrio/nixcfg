@@ -2,7 +2,6 @@
 {
   imports = [
     ../../../../console/asdf.nix
-    ../../../../console/jira.nix
     ../../../../desktop/skhd.nix
   ];
 
