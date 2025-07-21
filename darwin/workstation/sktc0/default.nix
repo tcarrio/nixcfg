@@ -9,6 +9,7 @@
     ./brews.nix
 
     ../../mixins/console/podman.nix
+    ../../mixins/desktop/mac-launcher.nix
     ../../mixins/desktop/neovide.nix
   ];
   
@@ -31,7 +32,23 @@
         Clicking = true;
         TrackpadRightClick = true;
       };
+      CustomUserPreferences = {
+        "com.apple.symbolichotkeys" = {
+          AppleSymbolicHotKeys = {
+            "64" = { # Disable Cmd + Space for Spotlight
+              enabled = false;
+            };
+          };
+        };
+      };
     };
-    keyboard = { enableKeyMapping = true; };
+
+    keyboard = {
+      enableKeyMapping = true;
+      userKeyMapping = [
+        # Maps Caps Lock to Escape key
+        { HIDKeyboardModifierMappingSrc = 30064771129; HIDKeyboardModifierMappingDst = 30064771113; }
+      ];
+    };
   };
 }

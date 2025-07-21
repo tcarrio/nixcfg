@@ -189,6 +189,7 @@
               pkgsUnstable.bun
               bun2NixPkg
               self.packages.${system}.gqurl
+              self.packages.${system}.mac-launcher
               self.packages.${system}.nixvim
             ];
           });
