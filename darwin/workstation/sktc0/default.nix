@@ -8,8 +8,8 @@
     ../../mixins/console/homebrew.nix
     ./brews.nix
 
-    ../../mixins/console/podman.nix
-    ../../mixins/desktop/mac-launcher.nix
+    # ../../mixins/console/podman.nix
+    # ../../mixins/desktop/mac-launcher.nix
     ../../mixins/desktop/neovide.nix
   ];
   
