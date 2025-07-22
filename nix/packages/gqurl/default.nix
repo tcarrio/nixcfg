@@ -1,5 +1,6 @@
-{ mkBunDerivation, ... }:
+{ inputs, system, ... }:
 let
+  inherit (inputs.bun2nix.lib.${system}) mkBunDerivation;
   manifest = builtins.fromJSON (builtins.readFile ./package.json);
 in
 mkBunDerivation {

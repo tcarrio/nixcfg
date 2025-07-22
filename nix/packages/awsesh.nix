@@ -1,6 +1,6 @@
-{ lib, buildGoModule, fetchFromGitHub, ... }:
-
-buildGoModule rec {
+{ pkgs, ... }: let
+  inherit (pkgs) lib buildGoModule fetchFromGitHub;
+in buildGoModule rec {
   pname = "awsesh";
   version = "0.1.4";
 

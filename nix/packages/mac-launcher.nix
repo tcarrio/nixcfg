@@ -1,6 +1,7 @@
-{ pkgs ? import <nixpkgs> {}, lib }:
-
-pkgs.stdenv.mkDerivation rec {
+{ pkgs ? import <nixpkgs> {} }:
+let
+  inherit (pkgs) lib;
+in pkgs.stdenv.mkDerivation rec {
   pname = "mac-launcher";
   version = "1.0.0";
 
