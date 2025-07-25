@@ -65,14 +65,14 @@ with lib; with types; {
     };
 
     warnings = []
-      ++ optional (cpu.amd || cpu.intel)
+      ++ optional (cfg.enable && (cpu.amd || cpu.intel))
         "A CPU has not been configured for Ominix!"
-      ++ optional (gpu.amd || gpu.intel || gpu.nvidia)
+      ++ optional (cfg.enable && (gpu.amd || gpu.intel || gpu.nvidia))
         "A GPU has not been configured for Ominix!";
 
     assertions = [
       {
-        assertion = cfg.user != null && builtins.stringLength cfg.user > 0;
+        assertion = cfg.enable && cfg.user != null && builtins.stringLength cfg.user > 0;
         message = "An unprovided or empty user value was detected";
       }
     ];
