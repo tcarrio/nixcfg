@@ -2,11 +2,12 @@
 let
   cfg = config.ominix;
   inherit (cfg.hardware) cpu gpu;
-in {
+in
+with lib; with types; {
 
   options.ominix = {
-    enable = lib.mkOption {
-      type = lib.types.bool;
+    enable = mkOption {
+      type = bool;
       default = false;
       description = """
         Whether to enable the Ominix module. Powered by the Omarchy project.
@@ -14,8 +15,8 @@ in {
       """;
     };
 
-    user = lib.mkOption {
-      type = lib.types.string;
+    user = mkOption {
+      type = nullOr str;
       description = "The end-user's username";
       default = null;
     };
@@ -23,15 +24,15 @@ in {
     # Hardware configurations
     hardware = {
       cpu = {
-        amd = lib.mkOption {
-          type = lib.types.bool;
+        amd = mkOption {
+          type = bool;
           default = false;
           description = """
             Whether to enable the AMD CPU support in Ominix.
           """;
         };
-        intel = lib.mkOption {
-          type = lib.types.bool;
+        intel = mkOption {
+          type = bool;
           default = false;
           description = """
             Whether to enable the Intel CPU support in Ominix.
@@ -39,22 +40,22 @@ in {
         };
       };
       gpu = {
-        amd = lib.mkOption {
-          type = lib.types.bool;
+        amd = mkOption {
+          type = bool;
           default = false;
           description = """
             Whether to enable the AMD GPU support in Ominix.
           """;
         };
-        intel = lib.mkOption {
-          type = lib.types.bool;
+        intel = mkOption {
+          type = bool;
           default = false;
           description = """
             Whether to enable the Intel GPU support in Ominix.
           """;
         };
-        nvidia = lib.mkOption {
-          type = lib.types.bool;
+        nvidia = mkOption {
+          type = bool;
           default = false;
           description = """
             Whether to enable the Nvidia GPU support in Ominix.
@@ -64,9 +65,9 @@ in {
     };
 
     warnings = []
-      ++ lib.optional (cpu.amd || cpu.intel)
+      ++ optional (cpu.amd || cpu.intel)
         "A CPU has not been configured for Ominix!"
-      ++ lib.optional (gpu.amd || gpu.intel || gpu.nvidia)
+      ++ optional (gpu.amd || gpu.intel || gpu.nvidia)
         "A GPU has not been configured for Ominix!";
 
     assertions = [
