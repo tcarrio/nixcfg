@@ -7,7 +7,7 @@ let
 
   cfg = config.ominix;
 in { 
-  services.greetd = {
+  services.greetd = lib.mkIf cfg.enable {
     enable = true;
     package = greetPkg;
     settings = rec {
