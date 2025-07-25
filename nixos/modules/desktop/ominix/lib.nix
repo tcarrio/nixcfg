@@ -1,5 +1,5 @@
 { lib, pkgs, ... }: {
-  lib.ominix.wrapShellScript = attrs: let
+  wrapShellScript = attrs: let
     inherit (attrs) name buildInputs filePath;
     wrappedScript = (pkgs.writeScriptBin name (builtins.readFile filePath))
       .overrideAttrs(old: {
@@ -16,6 +16,6 @@
   # When settings values that are intended to override defaults set in Ominix,
   # you MUST either set the value (which has an implicit priority of 100) or
   # use mkOverride with a value < 999.
-  lib.mkOminixDefault = value: lib.mkOverride 999 value;
+  mkOminixDefault = value: lib.mkOverride 999 value;
 }
 

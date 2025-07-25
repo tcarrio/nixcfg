@@ -8,8 +8,8 @@
     
     # Set nixvim as the default editor
     environment.variables = {
-      EDITOR = "${pkgs.nixvim}/bin/nvim";
-      VISUAL = "${pkgs.nixvim}/bin/nvim";
+      EDITOR = lib.mkOverride 99 "${pkgs.nixvim}/bin/nvim";
+      VISUAL = lib.mkOverride 99 "${pkgs.nixvim}/bin/nvim";
     };
     
     # Enable neovim system program (for any system integrations)

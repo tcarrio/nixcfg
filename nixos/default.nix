@@ -82,9 +82,9 @@ in
       usbutils
     ];
     variables = {
-      EDITOR = "vim";
-      SYSTEMD_EDITOR = "vim";
-      VISUAL = "vim";
+      EDITOR = lib.mkOverride 999 "vim";
+      SYSTEMD_EDITOR = lib.mkOverride 999 "vim";
+      VISUAL = lib.mkOverride 999 "vim";
     };
   };
 

@@ -2,13 +2,12 @@
 let
   cfg = config.ominix;
   inherit (cfg.hardware) cpu gpu;
+  mkOminixDefault = value: lib.mkOverride 999 value;
 in
 with lib; with types; {
-
   options.ominix = {
     enable = mkOption {
       type = bool;
-      default = false;
       description = """
         Whether to enable the Ominix module. Powered by the Omarchy project.
         See https://omarchy.org/.
@@ -18,7 +17,6 @@ with lib; with types; {
     user = mkOption {
       type = nullOr str;
       description = "The end-user's username";
-      default = null;
     };
 
     # Hardware configurations
@@ -26,14 +24,12 @@ with lib; with types; {
       cpu = {
         amd = mkOption {
           type = bool;
-          default = false;
           description = """
             Whether to enable the AMD CPU support in Ominix.
           """;
         };
         intel = mkOption {
           type = bool;
-          default = false;
           description = """
             Whether to enable the Intel CPU support in Ominix.
           """;
@@ -42,21 +38,18 @@ with lib; with types; {
       gpu = {
         amd = mkOption {
           type = bool;
-          default = false;
           description = """
             Whether to enable the AMD GPU support in Ominix.
           """;
         };
         intel = mkOption {
           type = bool;
-          default = false;
           description = """
             Whether to enable the Intel GPU support in Ominix.
           """;
         };
         nvidia = mkOption {
           type = bool;
-          default = false;
           description = """
             Whether to enable the Nvidia GPU support in Ominix.
           """;
@@ -80,7 +73,7 @@ with lib; with types; {
 
   imports = [
     # shared functions exported under lib.ominix
-    ./lib.nix
+    # ./lib.nix
 
     ./autologin.nix
     ./bluetooth.nix
@@ -102,4 +95,20 @@ with lib; with types; {
     ./themes.nix
     ./xtras.nix
   ];
+
+  config.ominix = {
+    enable = mkOminixDefault false;
+    user = mkOminixDefault null;
+    hardware = {
+      cpu = {
+        amd = mkOminixDefault false;
+        intel = mkOminixDefault false;
+      };
+      gpu = {
+        amd = mkOminixDefault false;
+        intel = mkOminixDefault false;
+        nvidia = mkOminixDefault false;
+      };
+    };
+  };
 }
