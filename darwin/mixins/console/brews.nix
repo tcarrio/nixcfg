@@ -156,7 +156,7 @@ in
       "alfred"
       "amethyst"
       "cursor"
-      "docker"
+      "docker-desktop"
       "insomnia"
       "secretive"
       "sequel-ace"
