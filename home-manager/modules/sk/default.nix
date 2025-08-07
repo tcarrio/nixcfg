@@ -7,6 +7,8 @@ let
   repoBase = "Skillshare";
 
   inherit (config.lib.file) mkOutOfStoreSymlink;
+
+  rancherDesktopEnabled = config.sk.containerization.rancher-desktop;
 in {
   options.sk.enable = lib.mkOption {
     type = lib.types.bool;
@@ -49,8 +51,12 @@ in {
           [whitelist]
           prefix = [ "${devDir}" ]
         '';
+      } // lib.mkIf rancherDesktopEnabled {
         ".docker/cli-plugins/docker-buildx".source = mkOutOfStoreSymlink "${homeDir}/.rd/bin/docker-buildx";
         ".docker/cli-plugins/docker-compose".source = mkOutOfStoreSymlink "${homeDir}/.rd/bin/docker-compose";
+        ".docker/cli-plugins/docker-credential-ecr-login".source = mkOutOfStoreSymlink "${homeDir}/.rd/bin/docker-credential-ecr-login";
+        ".docker/cli-plugins/docker-credential-none".source = mkOutOfStoreSymlink "${homeDir}/.rd/bin/docker-credential-none";
+        ".docker/cli-plugins/docker-credential-osxkeychain".source = mkOutOfStoreSymlink "${homeDir}/.rd/bin/docker-credential-osxkeychain";
       };
     };
 
@@ -81,9 +87,13 @@ in {
           fenv source "${wsDir}/workstation.sh"
         end
 
+        ${
+        ''
         if [ -d "${homeDir}/.rd" ]
-          set -x PATH "${homeDir}/.rd:$PATH"
+          set -x PATH "${homeDir}/.rd/bin:$PATH"
         end
+        '' if rancherDesktopEnabled else ''
+        }
       '';
       shellAliases =
         let

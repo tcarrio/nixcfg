@@ -155,6 +155,7 @@ in
     casks = [
       "amethyst"
       "cursor"
+      "docker-desktop"
       "google-chrome"
       "insomnia"
       "iterm2"
