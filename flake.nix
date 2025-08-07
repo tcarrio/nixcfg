@@ -193,7 +193,6 @@
               self.packages.${system}.gqurl
               self.packages.${system}.mac-launcher
               self.packages.${system}.nixvim
-              self.packages.${system}.bootstrap-install
             ];
           });
           dev = default;
@@ -211,7 +210,6 @@
               git
               self.packages.${system}.gqurl
               self.packages.${system}.nixvim
-              self.packages.${system}.bootstrap-install
             ];
           });
           default = dev;
