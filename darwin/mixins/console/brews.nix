@@ -112,7 +112,6 @@ let
     "portaudio"
     "protobuf"
     "protobuf@21"
-    "pyyaml"
     "re2c"
     "readline"
     "redis"
@@ -153,7 +152,6 @@ in
       ++ baseBrews;
 
     casks = [
-      "alfred"
       "amethyst"
       "cursor"
       "docker-desktop"
