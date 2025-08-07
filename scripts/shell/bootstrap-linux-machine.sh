@@ -26,6 +26,7 @@ if [ ! -d "$NIXCFG_PATH" ]; then
   mkdir -p "$NIXCFG_PATH"
   git clone git@gitub.com:tcarrio/nixcfg.git "$NIXCFG_PATH"
 fi
+pushd "$NIXCFG_PATH"
 
 bootstrapShell nixos-rebuild switch --flake $NIXCFG_PATH
 bootstrapShell home-manager init --switch --flake $NIXCFG_PATH

@@ -1,17 +1,17 @@
 {
-    "window": true,
-    "border": {
-      "radius": 8,
-      "width": 0,
-      "color": "#515151"
-    },
-    "shadow": false,
-    "padding": [20, 20, 20, 20],
-    "margin": 32,
-    "font": {
-      "family": "FiraCode Nerd font",
-      "size": 12
-    },
-    "line_height": 1.2,
-    "theme": "dracula"
-  }
+  "window": true,
+  "border": {
+    "radius": 8,
+    "width": 0,
+    "color": "#515151"
+  },
+  "shadow": false,
+  "padding": [20, 20, 20, 20],
+  "margin": 32,
+  "font": {
+    "family": "FiraCode Nerd font",
+    "size": 12
+  },
+  "line_height": 1.2,
+  "theme": "dracula"
+}

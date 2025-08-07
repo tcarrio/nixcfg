@@ -1,5 +1,7 @@
 { lib, pkgs, config, ... }:
-with lib.hm.gvariant;
+let
+  homeDir = config.home.homeDirectory;
+in with lib.hm.gvariant;
 {
   imports = [
     ../../../../services/mpris-proxy.nix
@@ -9,7 +11,14 @@ with lib.hm.gvariant;
     sessionPath = [ ];
     sessionVariables = { };
     file = {
-      "${config.xdg.configHome}/direnv/direnv.toml".text = builtins.readFile ./direnv.toml;
+      "${config.xdg.configHome}/direnv/direnv.toml".text = lib.mkDefault ''
+        [global]
+        load_dotenv = true
+        strict_env = true
+
+        [whitelist]
+        prefix = [ "${homeDir}/Code" ]
+      '';
     };
     packages = with pkgs; [
       gotop

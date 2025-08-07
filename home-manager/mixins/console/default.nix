@@ -106,7 +106,7 @@
         diff = "diffr";
         glow = "glow --pager";
         htop = "btm --basic --tree --hide_table_gap --dot_marker --mem_as_value";
-        ip = "ip --color --brief";
+        ip = lib.mkDefault "ip --color --brief";
         top = "btm --basic --tree --hide_table_gap --dot_marker --mem_as_value";
         tree = "eza --tree";
       };

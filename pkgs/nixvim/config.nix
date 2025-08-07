@@ -88,8 +88,70 @@ let
       end,
     })
   '';
-in
-{
+
+  lspServers = {
+    # Lua support
+    lua_ls = {
+      enable = true;
+      settings = {
+        Lua = {
+          workspace = { checkThirdParty = false; };
+          telemetry = { enable = false; };
+        };
+      };
+    };
+
+    # Nix support
+    nil_ls.enable = true;
+    nixd.enable = true;
+
+    # Rust support
+    rust_analyzer = {
+      enable = true;
+      installCargo = false;
+      installRustc = false;
+    };
+
+    # Web dev support
+    ts_ls.enable = true;
+    html.enable = true;
+    tailwindcss.enable = true;
+
+    # PHP support
+    phan.enable = true;
+    phpactor.enable = true;
+
+    # Python support
+    ruff.enable = true;
+
+    # Postgres support
+    postgres_lsp.enable = true;
+
+    # JSON / YAML
+    jsonls.enable = true;
+    yamlls.enable = true;
+
+    # Markdown editing
+    markdown_oxide.enable = true;
+
+    # Container tooling
+    dockerls.enable = true;
+    docker_compose_language_service.enable = true;
+
+    # Some useful workstation support
+    ansiblels.enable = true;
+    jqls.enable = true;
+
+    # IaC
+    terraformls.enable = true;
+
+    # You never know when you might need Go
+    gopls.enable = true;
+
+    # Bazel / Starlark
+    starlark_rust.enable = true;
+  };
+in rec {
   # Leader keys
   globals = {
     mapleader = " ";
@@ -266,6 +328,13 @@ in
       key = "<leader>q";
       action = "<cmd>lua vim.diagnostic.setloclist()<cr>";
       options.desc = "Open diagnostics list";
+    }
+
+    # Language server interactions
+    {
+      mode = "n";
+      key = "<leader>lc";
+      action = "<cmd>lua vim.lsp.buf.code_action()<CR>";
     }
   ];
 
@@ -498,28 +567,11 @@ in
     fidget = {
       enable = true;
     };
-    
+
     # LSP
     lsp = {
       enable = true;
-      servers = {
-        lua_ls = {
-          enable = true;
-          settings = {
-            Lua = {
-              workspace = { checkThirdParty = false; };
-              telemetry = { enable = false; };
-            };
-          };
-        };
-        nil_ls.enable = true;
-        rust_analyzer = {
-          enable = true;
-          installCargo = false;
-          installRustc = false;
-        };
-        ts_ls.enable = true;
-      };
+      servers = lspServers;
     };
     
     
@@ -531,19 +583,28 @@ in
         snippet = {
           expand = "function(args) require('luasnip').lsp_expand(args.body) end";
         };
+
         mapping = {
           "<C-n>" = "cmp.mapping.select_next_item()";
           "<C-p>" = "cmp.mapping.select_prev_item()";
           "<C-d>" = "cmp.mapping.scroll_docs(-4)";
           "<C-f>" = "cmp.mapping.scroll_docs(4)";
-          "<C-Space>" = "cmp.mapping.complete({})";
+          "<C-Space>" = ''
+            cmp.mapping(function(fallback)
+              if cmp.visible() then
+                cmp.mapping.complete({})
+              elseif require('luasnip').locally_jumpable(-1) then
+                require('luasnip').expand_or_jump()
+              else
+                fallback()
+              end
+            end, { 'i', 's' })
+          '';
           "<CR>" = "cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })";
           "<Tab>" = ''
             cmp.mapping(function(fallback)
               if cmp.visible() then
                 cmp.select_next_item()
-              elseif require('luasnip').expand_or_locally_jumpable() then
-                require('luasnip').expand_or_jump()
               else
                 fallback()
               end
@@ -553,18 +614,19 @@ in
             cmp.mapping(function(fallback)
               if cmp.visible() then
                 cmp.select_prev_item()
-              elseif require('luasnip').locally_jumpable(-1) then
-                require('luasnip').jump(-1)
               else
                 fallback()
               end
             end, { 'i', 's' })
           '';
         };
-        sources = [
-          { name = "nvim_lsp"; }
-          { name = "luasnip"; }
-        ];
+        sources = []
+          ++ (map (name: { inherit name; }) (builtins.attrNames lspServers))
+          ++ [
+            { name = "nvim_lsp"; }
+            { name = "luasnip"; }
+            { name = "buffer"; }
+          ];
       };
     };
     
