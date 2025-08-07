@@ -87,7 +87,7 @@ Host obsidian
 
       shellAliases =
         let
-          #                         determines directory path of symbol link
+          #                          determines directory path of symbol link
           dev = target: "nix develop $(readlink -f ~/0xc/devshells)#${target} --command \$SHELL";
           git = "${pkgs.git}/bin/git";
         in

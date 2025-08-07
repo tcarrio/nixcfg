@@ -10,7 +10,6 @@
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
     direnv
-    glances
     home-manager
   ];
 
@@ -28,10 +27,25 @@
     ];
   };
 
-  nix.package = pkgs.nix;
+  nix = {
+    # allow either Determinate or upstream Nix
+    enable = false;
+    # package = pkgs.nix;
 
-  # Necessary for using flakes on this system.
-  nix.settings.experimental-features = "nix-command flakes";
+    settings = {
+      # Necessary for using flakes on this system.
+      experimental-features = "nix-command flakes";
+
+      # Configure and verify binary cache stores
+      substituters = [
+        "https://nix-community.cachix.org"
+        "https://cache.nixos.org/"
+      ];
+      trusted-public-keys = [
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      ];
+    };
+  };
 
   nixpkgs = {
     # You can add overlays here
@@ -44,8 +58,8 @@
     ];
   };
 
-  # Create /etc/zshrc that loads the nix-darwin environment.
-  programs.zsh.enable = false; # default shell on catalina
+  # Disable the default zsh behavior on macOS
+  programs.zsh.enable = false;
 
   programs = {
     fish = {

@@ -3,6 +3,7 @@ let
   containerBrews = [ ]; # "docker" "docker-compose" "colima" ];
   toolingBrews = [
     "asdf"
+    "awscli"
     "ca-certificates"
     "git-crypt"
     "git"
@@ -154,11 +155,14 @@ in
     casks = [
       "amethyst"
       "cursor"
-      "docker-desktop"
+      "google-chrome"
       "insomnia"
+      "iterm2"
       "secretive"
       "sequel-ace"
+      "tailscale-app"
       "zed"
+      "zen"
     ];
   };
 }

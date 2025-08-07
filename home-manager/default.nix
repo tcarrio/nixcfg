@@ -63,4 +63,7 @@ in
       warn-dirty = false;
     };
   };
+
+  # Allow macOS and NixOS systems to setup fonts from home-manager
+  fonts.fontconfig.enable = true;
 }

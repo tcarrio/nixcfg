@@ -646,6 +646,6 @@ in rec {
 
   } // pkgs.lib.optionalAttrs allowUnfree {
     # Claude Code AI assistant (unfree license)
-    claude-code.enable = true;
+    claude-code.enable = false;
   };
 }

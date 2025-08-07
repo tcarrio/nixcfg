@@ -5,11 +5,25 @@ let
   devDir = "${homeDir}/Developer";
   wsDir = "${devDir}/workstation";
   repoBase = "Skillshare";
+
+  inherit (config.lib.file) mkOutOfStoreSymlink;
 in {
   options.sk.enable = lib.mkOption {
     type = lib.types.bool;
     default = false;
     description = "Whether to enable the SK work module";
+  };
+
+  options.sk.containerization.engine = lib.mkOption {
+    type = lib.types.str;
+    default = "docker";
+    description = "Which containerization technology to use";
+  };
+
+  options.sk.containerization.rancher-desktop = lib.mkOption {
+    type = lib.types.bool;
+    default = false;
+    description = "Whether to enable Rancher Desktop integration";
   };
 
   config = lib.mkIf cfg.enable {
@@ -35,13 +49,15 @@ in {
           [whitelist]
           prefix = [ "${devDir}" ]
         '';
+        ".docker/cli-plugins/docker-buildx".source = mkOutOfStoreSymlink "${homeDir}/.rd/bin/docker-buildx";
+        ".docker/cli-plugins/docker-compose".source = mkOutOfStoreSymlink "${homeDir}/.rd/bin/docker-compose";
       };
     };
 
     programs.fish = {
       interactiveShellInit = ''
-        if [ ! -d "${devDir} ]
-          mkdir -p "${devDir}
+        if [ ! -d "${devDir}" ]
+          mkdir -p "${devDir}"
         end
         if command -v brew >/dev/null
           set -x PATH "$(brew --prefix)/bin:$PATH"
@@ -59,14 +75,14 @@ in {
         # add existing gcloud to PATH
         [ -f "${homeDir}/sdks/google-cloud-sdk/path.fish.inc" ] && source "${homeDir}/sdks/google-cloud-sdk/path.fish.inc"
 
-        if [ ! -d "${wsDir}" ]
-          if [ -d "${homeDir}/.ssh" ]
-            git clone 
-          end
-        end
+        # TODO: Initialize workstation if SSH is set up
 
         if [ -d "${wsDir}" ]
           fenv source "${wsDir}/workstation.sh"
+        end
+
+        if [ -d "${homeDir}/.rd" ]
+          set -x PATH "${homeDir}/.rd:$PATH"
         end
       '';
       shellAliases =
