@@ -112,6 +112,7 @@
 
         # Workstations
         "tcarrio@sktc0" = libx.mkHome { hostname = "sktc0"; username = "tcarrio"; platform = "aarch64-darwin"; };
+        "tcarrio@sktc1" = libx.mkHome { hostname = "sktc1"; username = "tcarrio"; platform = "aarch64-darwin"; };
         "tcarrio@glass" = libx.mkHome { hostname = "glass"; username = "tcarrio"; desktop = "kde6"; };
         "tcarrio@obsidian" = libx.mkHome { hostname = "obsidian"; username = "tcarrio"; desktop = "ominix"; };
         "tcarrio@void" = libx.mkHome { hostname = "void"; username = "tcarrio"; desktop = "ominix"; };
@@ -124,6 +125,7 @@
       # - darwin-rebuild build --flake .#sktc0
       darwinConfigurations = {
         "sktc0" = libx.mkDarwin { username = "tcarrio"; hostname = "sktc0"; stateVersion = 4; };
+        "sktc1" = libx.mkDarwin { username = "tcarrio"; hostname = "sktc1"; stateVersion = 4; };
       };
 
       # Expose the package set, including overlays, for convenience.
