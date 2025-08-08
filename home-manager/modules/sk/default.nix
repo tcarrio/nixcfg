@@ -86,14 +86,6 @@ in {
         if [ -d "${wsDir}" ]
           fenv source "${wsDir}/workstation.sh"
         end
-
-        ${
-        ''
-        if [ -d "${homeDir}/.rd" ]
-          set -x PATH "${homeDir}/.rd/bin:$PATH"
-        end
-        '' if rancherDesktopEnabled else ''
-        }
       '';
       shellAliases =
         let
