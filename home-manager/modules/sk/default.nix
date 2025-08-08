@@ -31,7 +31,7 @@ in {
   config = lib.mkIf cfg.enable {
     home = {
       packages = with pkgs; [
-        asdf-vm
+        # asdf-vm
       ];
       sessionPath = [ "/opt/homebrew/bin" ];
       sessionVariables = {
