@@ -2,7 +2,7 @@ _:
 let
   containerBrews = [ ]; # "docker" "docker-compose" "colima" ];
   toolingBrews = [
-    "asdf"
+    # "asdf"
     "awscli"
     "ca-certificates"
     "git-crypt"
