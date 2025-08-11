@@ -162,6 +162,7 @@ in
       "secretive"
       "sequel-ace"
       "tailscale-app"
+      "visual-studio-code"
       "zed"
       "zen"
     ];
