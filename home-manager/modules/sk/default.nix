@@ -33,13 +33,15 @@ in {
       packages = with pkgs; [
         # asdf-vm
       ];
-      sessionPath = [ "/opt/homebrew/bin" ];
+      sessionPath = [ "${homeDir}/.asdf/bin" "/opt/homebrew/bin" ];
       sessionVariables = {
         AWS_REGION = "us-east-1";
         AWS_PROFILE = "skillshare-utility-developer";
         NIXPKGS_ALLOW_UNFREE="1";
         SKILLSHARE_WORKSTATION_WARP = "true";
         SKILLSHARE_SRC_DIRECTORY = "${devDir}";
+        PUPPETEER_EXECUTABLE_PATH = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+        PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = "true";
         SSH_AUTH_SOCK = "${homeDir}/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
       };
       file = {
