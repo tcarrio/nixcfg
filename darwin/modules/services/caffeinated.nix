@@ -19,9 +19,14 @@ in {
   };
 
   config = mkIf cfg.enable {
+    environment.systemPackages = with pkgs; [
+      darwin.PowerManagement
+      bash
+    ];
+
     # This defines the caffeinated service to run at login
     launchd.user.agents.caffeinated = {
-      script = "${pkgs.bash}/bin/bash -c 'caffeinate ${caffeinateArgs}";
+      script = "${pkgs.bash}/bin/bash -c '${pkgs.darwin.PowerManagement}/bin/caffeinate ${caffeinateArgs}";
       serviceConfig = {
         # Start at login
         RunAtLoad = true;
