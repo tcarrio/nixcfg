@@ -1,6 +1,9 @@
-_:
+{ config, lib, ... }:
 let
-  containerBrews = [ ]; # "docker" "docker-compose" "colima" ];
+  cfg = config.oxc.homebrew;
+
+  # SECTION: homebrew package defaults
+  containerBrews = [ ]; # "docker" "docker-compose" "colima";
   toolingBrews = [
     # "asdf"
     "awscli"
@@ -128,43 +131,69 @@ let
     "yarn"
     "zlib"
   ];
-in
-{
-  homebrew = {
-    taps = [
-      "codefresh-io/cli"
-      "oven-sh/bun"
-    ];
+  defaultTaps = [
+    "codefresh-io/cli"
+    "oven-sh/bun"
+  ];
 
-    brews = containerBrews
-      ++ toolingBrews
-      ++ pythonBrews
-      ++ buildBrews
-      ++ bashBrews
-      ++ jsBrews
-      ++ formattingBrews
-      ++ ciBrews
-      ++ cfBrews
-      ++ k8sBrews
-      ++ phpBrews
-      ++ postgresBrews
-      ++ iacBrews
-      ++ dataScienceBrews
-      ++ baseBrews;
+  defaultBrews = containerBrews
+    ++ toolingBrews
+    ++ pythonBrews
+    ++ buildBrews
+    ++ bashBrews
+    ++ jsBrews
+    ++ formattingBrews
+    ++ ciBrews
+    ++ cfBrews
+    ++ k8sBrews
+    ++ phpBrews
+    ++ postgresBrews
+    ++ iacBrews
+    ++ dataScienceBrews
+    ++ baseBrews;
 
-    casks = [
-      "amethyst"
-      "cursor"
-      "docker-desktop"
-      "google-chrome"
-      "insomnia"
-      "iterm2"
-      "secretive"
-      "sequel-ace"
-      "tailscale-app"
-      "visual-studio-code"
-      "zed"
-      "zen"
-    ];
+  defaultCasks = [
+    "amethyst"
+    "cursor"
+    "docker-desktop"
+    "gimp"
+    "google-chrome"
+    "insomnia"
+    "iterm2"
+    "secretive"
+    "sequel-ace"
+    "tailscale-app"
+    "visual-studio-code"
+    "zed"
+    "zen"
+  ];
+in {
+  options.oxc.homebrew = {
+    enable = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Enable the Homebrew package manager";
+    };
+    defaults = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Enable my default set of packages for Homebrew";
+    };
+  };
+
+  config = {
+    homebrew = {
+      enable = cfg.enable;
+
+      # the following sets up Homebrew to NEVER update implicitly
+      # to update brew itself, use `brew upgrade`
+      # to update brew packages, use `brew update`
+      global.autoUpdate = false;
+      onActivation.autoUpdate = false;
+    } // lib.mkIf (cfg.enable && cfg.defaults) {
+      taps = lib.optionals cfg.defaults defaultTaps;
+      brews = lib.optionals cfg.defaults defaultBrews;
+      casks = lib.optionals cfg.defaults defaultCasks;
+    };
   };
 }

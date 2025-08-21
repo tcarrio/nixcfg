@@ -1,4 +1,0 @@
-_: {
-  homebrew.casks = ["docker"];
-}
-
