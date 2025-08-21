@@ -63,6 +63,7 @@ in {
     ./git.nix
     ./defaults.nix
     ./themes.nix
+    ./wofi-launcher.nix
   ];
 
   config = lib.mkIf cfg.enable {
