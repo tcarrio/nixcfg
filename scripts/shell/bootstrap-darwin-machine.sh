@@ -9,6 +9,8 @@ USERNAME=${USERNAME:-$(whoami)}
 SYS_TARGET=$HOSTNAME
 HM_TARGET="$USERNAME@$HOSTNAME"
 
+DETERMINATE_NIX="${DETERMINATE_NIX:-true}"
+
 function bootstrapShell() {
   nix develop \
     --extra-experimental-features flakes \
@@ -20,10 +22,29 @@ function bootstrapShell() {
 # https://nixos.org/download/
 if ! which nix >/dev/null; then
   if [ ! -d /nix ]; then
-    echo "Installing nix..."
-    sh <(curl -L https://nixos.org/nix/install)
+    if [ "$DETERMINATE_NIX" == "true" ]; then
+      pushd $(mktemp -d) >/dev/null
+      wget -O Determinate.pkg https://install.determinate.systems/determinate-pkg/stable/Universal
+      open -W ./Determinate.pkg
+      popd >/dev/null
+
+      if ! test -f /usr/local/bin/determinate-nixd; then
+        echo 'Determinate Nix installed successfully'
+      else
+        echo 'Determinate Nix install was not successful'
+      fi
+    else
+      echo "Installing nix..."
+      sh <(curl -L https://nixos.org/nix/install)
+    fi
   else
     echo "Nix is already installed, but not on your PATH. Please add it to your PATH and run this script again."
+    exit 1
+  fi
+else
+  # Nix installed and in PATH, but if Determinate is preferred, verify it is installed
+  if [ "$DETERMINATE_NIX" == "true" ] && ! [[ "$(nix --version)" =~ Determinate\ Nix ]]; then
+    echo "Nix is installed, but the expected Determinate Nix install was not found!"
     exit 1
   fi
 fi
