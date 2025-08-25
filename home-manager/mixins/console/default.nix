@@ -208,6 +208,8 @@
         poh = "!git p $(git bdr) HEAD";
         # push remote branch
         prb = "!gitprb() { local remote=\"$1\"; shift; test -z \"$remote\" && remote=\"$(git bdr)\"; test -z \"$remote\" && remote=\"origin\"; test -n \"$remote\" && git p $remote $(git bn) $@; }; gitprb";
+        # short-hand for "push head"
+        ph = "prb";
         # force with lease, please, if you would
         pf = "!git prb $(git bdr) --force-with-lease";
         # FORCEEEE
