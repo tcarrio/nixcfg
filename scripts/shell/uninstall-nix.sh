@@ -1,5 +1,16 @@
 #!/usr/bin/env bash
 
+# Early check for Determinate Nix install or its uninstaller, and invoke 
+if which nix >/dev/null && [[ "$(nix --version)" =~ Determinate\ Nix ]] || test -f /nix/nix-installer; then
+  if sudo /nix/nix-installer uninstall; then
+    echo "Successfully uninstalled Determinate Nix"
+    exit 0
+  else
+    echo "Failed to uninstall Determinate Nix"
+    exit 1
+  fi
+fi
+
 # See: https://nix.dev/manual/nix/2.18/installation/uninstall
 
 # Return all original shell configs
