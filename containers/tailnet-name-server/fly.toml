@@ -1,0 +1,33 @@
+# fly.toml app configuration file generated for tailscale-exit-node-black-meadow-5427 on 2025-07-06T00:18:19-04:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+# See https://hub.docker.com/r/ubuntu/bind9 for documentation on the BIND 9 Docker image.
+#
+# TO DEPLOY: Run `flyctl deploy --ha=false`
+
+app = "tailnet-name-server"
+primary_region = "ord" # for a list of all regions, see https://fly.io/docs/reference/regions/
+kill_signal = "SIGINT"
+kill_timeout = "10s"
+
+[[services]]
+protocol = "udp"
+internal_port = 53
+processes = ["app"]
+
+[[services.ports]]
+port = 53
+[services.concurrency]
+type = "connections"
+hard_limit = 100
+soft_limit = 75
+
+processes = ["app"]
+
+[[vm]]
+size = "shared-cpu-1x"
+
+[env]
+TZ = "UTC"
+BIND9_USER = "bind"
