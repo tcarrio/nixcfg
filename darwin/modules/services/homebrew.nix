@@ -174,26 +174,25 @@ in {
       default = false;
       description = "Enable the Homebrew package manager";
     };
+    # TODO: Implement conditionality of this option
     defaults = lib.mkOption {
       type = lib.types.bool;
-      default = false;
+      default = true;
       description = "Enable my default set of packages for Homebrew";
     };
   };
 
-  config = {
-    homebrew = {
-      enable = cfg.enable;
+  config.homebrew = {
+    enable = cfg.enable;
 
-      # the following sets up Homebrew to NEVER update implicitly
-      # to update brew itself, use `brew upgrade`
-      # to update brew packages, use `brew update`
-      global.autoUpdate = false;
-      onActivation.autoUpdate = false;
-    } // lib.mkIf (cfg.enable && cfg.defaults) {
-      taps = lib.optionals cfg.defaults defaultTaps;
-      brews = lib.optionals cfg.defaults defaultBrews;
-      casks = lib.optionals cfg.defaults defaultCasks;
-    };
+    # the following sets up Homebrew to NEVER update implicitly
+    # to update brew itself, use `brew upgrade`
+    # to update brew packages, use `brew update`
+    global.autoUpdate = false;
+    onActivation.autoUpdate = false;
+
+    taps = defaultTaps;
+    brews = defaultBrews;
+    casks = defaultCasks;
   };
 }
