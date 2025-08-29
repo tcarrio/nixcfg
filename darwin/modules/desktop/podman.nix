@@ -27,7 +27,7 @@ in {
   options.oxc.podman = {
     enable = lib.mkOption {
       type = lib.types.bool;
-      default = true;
+      default = false;
       description = "Whether to enable Podman support";
     };
     desktop.enable = lib.mkOption {
@@ -44,8 +44,7 @@ in {
       podman-tui
       dockerCompat
     ];
-  } // lib.mkIf cfg.desktop.enable {
+  } // lib.mkIf (cfg.enable && cfg.desktop.enable) {
     homebrew.casks = ["podman-desktop"];
   };
 }
-

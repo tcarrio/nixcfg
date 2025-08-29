@@ -11,17 +11,17 @@ in {
     };
     homebrew.enable = mkOption {
       type = types.bool;
-      default = false;
+      default = true;
       description = "Whether to enable Homebrew.";
     };
     homebrew.defaults = mkOption {
       type = types.bool;
-      default = false;
+      default = true;
       description = "Whether to enable the default Homebrew packages";
     };
     spotlight.enabled = mkOption {
       type = types.bool;
-      default = false;
+      default = true;
       description = "Whether to enable the Spotlight search application and its binding.";
     };
     keyboard.mapCapLockToEscape = mkOption {
@@ -42,8 +42,9 @@ in {
   };
 
   config = mkIf cfg.enable {
-    oxc.homebrew.enable = true;
-    oxc.homebrew.defaults = true;
+    oxc.homebrew = {
+      inherit (cfg.homebrew) enable defaults;
+    };
     oxc.services.xcode.acceptLicense = true;
     oxc.services.caffeinated.enable = true;
 
