@@ -160,6 +160,7 @@ let
     "google-chrome"
     "insomnia"
     "iterm2"
+    "logseq"
     "secretive"
     "sequel-ace"
     "tailscale-app"
