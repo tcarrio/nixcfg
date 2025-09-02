@@ -1,5 +1,5 @@
 { lib, config, username, pkgs, ... }:
-let 
+let
   cfg = config.sk;
   homeDir = config.home.homeDirectory;
   devDir = "${homeDir}/Developer";
@@ -33,7 +33,8 @@ in {
       packages = with pkgs.unstable; [
         cursor-cli
       ];
-      sessionPath = [ "${homeDir}/.asdf/bin" "/opt/homebrew/bin" ];
+      # General support for non-fish shell or sessions
+      sessionPath = [ "/opt/homebrew/bin" "${homeDir}/.asdf/bin" ];
       sessionVariables = {
         AWS_REGION = "us-east-1";
         AWS_PROFILE = "skillshare-utility-developer";
@@ -69,6 +70,9 @@ in {
         end
         if command -v brew >/dev/null
           set -x PATH "$(brew --prefix)/bin:$PATH"
+        end
+        if command -v asdf >/dev/null
+          set -x PATH "${homeDir}/.asdf/bin:$PATH"
         end
         if [ -f "${homeDir}/.nix-profile/share/asdf-vm/asdf.fish" ]
           source "${homeDir}/.nix-profile/share/asdf-vm/asdf.fish"
