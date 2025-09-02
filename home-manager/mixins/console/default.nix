@@ -22,17 +22,18 @@
       duf # Modern Unix `df`
       du-dust # Modern Unix `du`
       entr # Modern Unix `watch`
+      fastfetch # Terminal system info
       fd # Modern Unix `find`
       ffmpeg-headless # Terminal video encoder
       fzf # Command-line fuzzy finder
       glow # Terminal Markdown renderer
       gping # Modern Unix `ping`
       hexyl # Modern Unix `hexedit`
+      htop # Terminal process viewer
       hyperfine # Terminal benchmarking
       jpegoptim # Terminal JPEG optimizer
       jiq # Modern Unix `jq`
       lazygit # Terminal Git client
-      neofetch # Terminal system info
       nixpkgs-review # Nix code review
       nurl # Nix URL fetcher
       nyancat # Terminal rainbow spewing feline
@@ -105,9 +106,8 @@
       shellAliases = {
         diff = "diffr";
         glow = "glow --pager";
-        htop = "btm --basic --tree --hide_table_gap --dot_marker --mem_as_value";
         ip = lib.mkDefault "ip --color --brief";
-        top = "btm --basic --tree --hide_table_gap --dot_marker --mem_as_value";
+        top = "htop";
         tree = "eza --tree";
       };
       functions =
