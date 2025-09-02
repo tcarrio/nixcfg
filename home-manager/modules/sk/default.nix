@@ -30,8 +30,8 @@ in {
 
   config = lib.mkIf cfg.enable {
     home = {
-      packages = with pkgs; [
-        # asdf-vm
+      packages = with pkgs.unstable; [
+        cursor-cli
       ];
       sessionPath = [ "${homeDir}/.asdf/bin" "/opt/homebrew/bin" ];
       sessionVariables = {
