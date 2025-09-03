@@ -163,6 +163,7 @@ let
     "logseq"
     "secretive"
     "sequel-ace"
+    "spotify"
     "tailscale-app"
     "visual-studio-code"
     "zed"
