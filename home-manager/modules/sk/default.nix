@@ -7,9 +7,11 @@ let
   repoBase = "Skillshare";
 
   inherit (config.lib.file) mkOutOfStoreSymlink;
-
-  rancherDesktopEnabled = config.sk.containerization.rancher-desktop;
 in {
+  imports = [
+    ./rancher-desktop.nix
+  ];
+
   options.sk.enable = lib.mkOption {
     type = lib.types.bool;
     default = false;
@@ -20,12 +22,6 @@ in {
     type = lib.types.str;
     default = "docker";
     description = "Which containerization technology to use";
-  };
-
-  options.sk.containerization.rancher-desktop = lib.mkOption {
-    type = lib.types.bool;
-    default = false;
-    description = "Whether to enable Rancher Desktop integration";
   };
 
   config = lib.mkIf cfg.enable {
@@ -54,14 +50,16 @@ in {
           [whitelist]
           prefix = [ "${devDir}" ]
         '';
-      } // lib.mkIf rancherDesktopEnabled {
-        ".docker/cli-plugins/docker-buildx".source = mkOutOfStoreSymlink "${homeDir}/.rd/bin/docker-buildx";
-        ".docker/cli-plugins/docker-compose".source = mkOutOfStoreSymlink "${homeDir}/.rd/bin/docker-compose";
-        ".docker/cli-plugins/docker-credential-ecr-login".source = mkOutOfStoreSymlink "${homeDir}/.rd/bin/docker-credential-ecr-login";
-        ".docker/cli-plugins/docker-credential-none".source = mkOutOfStoreSymlink "${homeDir}/.rd/bin/docker-credential-none";
-        ".docker/cli-plugins/docker-credential-osxkeychain".source = mkOutOfStoreSymlink "${homeDir}/.rd/bin/docker-credential-osxkeychain";
       };
     };
+
+    programs.bash.initExtra = ''
+      if [ -d "${wsDir}" ]
+        source "${wsDir}/workstation.sh"
+      else
+        echo "⚠️ No workstation environment found. Please set up your workstation environment."
+      end
+    '';
 
     programs.fish = {
       interactiveShellInit = ''
@@ -91,11 +89,13 @@ in {
 
         if [ -d "${wsDir}" ]
           fenv source "${wsDir}/workstation.sh"
+        else
+          echo "⚠️ No workstation environment found. Please set up your workstation environment."
         end
       '';
       shellAliases =
         let
-          skShell = target: "nix develop ${homeDir}/0xc/sksh#${target} --command \$SHELL";
+          sksh = target: "nix develop ${homeDir}/0xc/sksh#${target} --command \$SHELL";
           skillshareWorkstation = "${wsDir}/bin/skillshare-workstation";
         in
         {
@@ -104,17 +104,7 @@ in {
 
           asso = "aws sso login";
 
-          "sk:mono" = skShell "sk";
-          "sk:web" = skShell "web";
-          "sk:php74" = skShell "php74";
-          "sk:php80" = skShell "php80";
-          "sk:php81" = skShell "php81";
-          "sk:php82" = skShell "php82";
-          "sk:node" = skShell "node";
-          "sk:node16" = skShell "node16";
-          "sk:node18" = skShell "node18";
-          "sk:node20" = skShell "node20";
-          "sk:python" = skShell "python";
+          "sksh:skillshare" = sksh "skillshare";
 
           clear-all-cache = lib.mkForce ''
             which nix && echo 'Pruning nix' && nix-collect-garbage --delete-older-than 14d
@@ -125,6 +115,8 @@ in {
             which pnpm && echo 'Pruning pnpm' && pnpm cache clean --all
             [ -d "${devDir}" ] && find "${devDir}" -type d -name "node_modules" | xargs -I '{}' -P 12 rm -rf "{}"
           '';
+
+          aws-list-accounts = "aws organizations list-accounts | ${pkgs.jq}/bin/jq '[.Accounts[] | {Id, Name, Arn}]' | ${pkgs.jtbl}/bin/jtbl";
         };
     };
 
