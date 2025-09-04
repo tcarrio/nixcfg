@@ -110,6 +110,9 @@
         ip = lib.mkDefault "ip --color --brief";
         top = "htop";
         tree = "eza --tree";
+        # Ensures that gh auth uses config that will not conflict
+        # with settings in the programs.gh.settings block
+        gh-auth = "gh auth login -p ssh -h github.com -w --skip-ssh-key";
       };
       functions =
         let
@@ -158,6 +161,7 @@
       extensions = with pkgs; [ gh-markdown-preview ];
       settings = {
         editor = "nvim";
+        host = "github.com";
         git_protocol = "ssh";
         prompt = "enabled";
       };
