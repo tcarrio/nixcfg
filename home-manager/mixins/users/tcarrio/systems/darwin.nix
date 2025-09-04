@@ -2,6 +2,7 @@
 let
   agenix = inputs.agenix.packages.${platform}.default;
   homeDir = config.home.homeDirectory;
+  secretiveAgentSocket = "${homeDir}/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
 in {
   home.packages = [
     agenix
@@ -9,8 +10,19 @@ in {
 
   home.sessionVariables = {
     NIXPKGS_ALLOW_UNFREE="1";
-    SSH_AUTH_SOCK = "${homeDir}/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
+    SSH_AUTH_SOCK = secretiveAgentSocket;
   };
+
+  # Configuring at user-level supports applications like Logseq
+  home.file.".ssh/config".text = ''
+    Host github.com
+      User git
+      HostName github.com
+      PreferredAuthentications publickey
+      IdentityAgent ${secretiveAgentSocket}
+      ServerAliveInterval 300
+      ServerAliveCountMax 10
+  '';
 
   programs.fish = {
     interactiveShellInit = ''
