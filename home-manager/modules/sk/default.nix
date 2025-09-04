@@ -116,7 +116,7 @@ in {
             [ -d "${devDir}" ] && find "${devDir}" -type d -name "node_modules" | xargs -I '{}' -P 12 rm -rf "{}"
           '';
 
-          aws-list-accounts = "aws organizations list-accounts | ${pkgs.jq}/bin/jq '[.Accounts[] | {Id, Name, Arn}]' | ${pkgs.jtbl}/bin/jtbl";
+          aws-list-accounts = "aws organizations list-accounts | ${pkgs.jq}/bin/jq '[.Accounts[] | {Name, Id, Arn}]' | ${pkgs.jtbl}/bin/jtbl";
         };
     };
 
