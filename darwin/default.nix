@@ -36,6 +36,13 @@
       # Necessary for using flakes on this system.
       experimental-features = "nix-command flakes";
 
+      # Allows users/groups to utilize flake-specific settings
+      trusted-users = [
+        "root"
+        "@admin"        # All users in admin group (macOS equivalent of wheel)
+        username
+      ];
+
       # Configure and verify binary cache stores
       substituters = [
         "https://nix-community.cachix.org"
