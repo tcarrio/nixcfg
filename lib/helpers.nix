@@ -34,7 +34,7 @@ in
     ++ (lib.optionals (installer != null) [ installer ]);
   };
 
-  mkDarwin = { hostname, username, stateVersion ? 4, platform ? "aarch64-darwin" }: inputs.nix-darwin.lib.darwinSystem {
+  mkDarwin = { hostname, username, stateVersion ? 4, platform ? "aarch64-darwin", determinate ? false }: inputs.nix-darwin.lib.darwinSystem {
     specialArgs = {
       inherit self inputs outputs hostname username platform stateVersion sshMatrix tailnetMatrix;
     };
@@ -45,7 +45,16 @@ in
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
       }
-    ];
+      # Add an option for checking if determinate is enabled
+      {
+        config.determinate-nix.enable = determinate;
+        options.determinate-nix.enable = lib.mkOption {
+          type = lib.types.bool;
+          default = false;
+          description = "Enable determinate-nix";
+        };
+      }
+    ] ++ (lib.optionals determinate [inputs.determinate.darwinModules.default]);
   };
 
   mkSdImage = { hostname, username, platform ? "armv7l-linux" }: inputs.nixos-generators.nixosGenerate {

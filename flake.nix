@@ -76,6 +76,9 @@
     # Nixvim for neovim configuration
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+    # Determinate Nix modules
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
   };
   outputs =
     { self
@@ -149,11 +152,11 @@
       darwinConfigurations = {
         "sktc0" = libx.mkDarwin { username = "tcarrio"; hostname = "sktc0"; stateVersion = 4; };
         "sktc1" = libx.mkDarwin { username = "tcarrio"; hostname = "sktc1"; stateVersion = 4; };
-        "sktc2" = libx.mkDarwin { username = "tcarrio"; hostname = "sktc2"; stateVersion = 4; };
+        "sktc2" = libx.mkDarwin { username = "tcarrio"; hostname = "sktc2"; stateVersion = 4; determinate = true; };
       };
 
       # Expose the package set, including overlays, for convenience.
-      darwinPackages = self.darwinConfigurations."sktc0".pkgs;
+      darwinPackages = self.darwinConfigurations."sktc2".pkgs;
 
       nixosConfigurations = {
         # .iso images
