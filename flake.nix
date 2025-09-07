@@ -62,8 +62,8 @@
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
 
     # Zen Browser
-    zen-browser.url = "github:MarceColl/zen-browser-flake";
-    zen-browser.inputs.nixpkgs.follows = "nixpkgs";
+    zen-browser.url = "github:youwen5/zen-browser-flake";
+    zen-browser.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     # Bun packaging
     bun2nix.url = "github:baileyluTCD/bun2nix";
