@@ -1,6 +1,10 @@
 # see install/power.sh
-{ config, pkgs, lib, ... }: {
-  config = lib.mkIf config.ominix.enable {
+{ config, pkgs, lib, ... }:
+let
+  cfg = config.ominix;
+in
+{
+  config = lib.mkIf (cfg.enable && cfg.battery.enable) {
     services.power-profiles-daemon.enable = true;
 
     # Dynamic detection of battery/AC devices and setting the profile

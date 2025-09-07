@@ -2,16 +2,10 @@
 { config, pkgs, lib, ... }:
 let
   cfg = config.ominix;
+  mkOminixDefault = value: lib.mkOverride 999 value;
 in {
   config = lib.mkIf (cfg.enable && cfg.hardware.gpu.nvidia) {
-    environment = {
-      systemPackages = with pkgs; [ vulkan-tools nvtopPackages.full ];
-
-      # TODO: Remove if unused
-      # sessionVariables = {
-      #   VK_DRIVER_FILES = builtins.concatStringsSep ":" vulkanDriverFiles;
-      # };
-    };
+    environment.systemPackages = with pkgs; [ vulkan-tools nvtopPackages.full ];
 
     services.xserver.videoDrivers = [ "nvidia" ];
 
@@ -19,26 +13,26 @@ in {
       nvidia = {
         package = config.boot.kernelPackages.nvidiaPackages.stable;
 
-        modesetting.enable = true;
+        modesetting.enable = mkOminixDefault true;
 
         # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-        powerManagement.enable = false;
+        powerManagement.enable = mkOminixDefault false;
 
         # Only works on modern Nvidia GPUs (Turing or newer).
-        powerManagement.finegrained = false;
+        powerManagement.finegrained = mkOminixDefault false;
 
         # Use the NVidia open source kernel module:
         # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
-        open = false;
+        open = mkOminixDefault false;
 
-        nvidiaSettings = true;
+        nvidiaSettings = mkOminixDefault true;
 
-        forceFullCompositionPipeline = true;
+        forceFullCompositionPipeline = mkOminixDefault true;
       };
 
       graphics = {
-        enable = true;
-        inherit (config.hardware.nvidia) package;
+        enable = mkOminixDefault true;
+        package = mkOminixDefault config.hardware.nvidia.package;
       };
     };
 

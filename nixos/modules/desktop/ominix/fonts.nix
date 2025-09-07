@@ -23,6 +23,12 @@ let
 
     # Symbols fix
     nerd-fonts.symbols-only
+
+    # serif
+    liberation_ttf
+
+    # sans
+    ubuntu-sans
   ];
 in {
   config = lib.mkIf config.ominix.enable {
@@ -34,9 +40,17 @@ in {
       fontconfig = {
         useEmbeddedBitmaps = true;
         defaultFonts = {
-          # serif = [  "Liberation Serif" "Vazirmatn" ];
-          # sansSerif = [ "Ubuntu" "Vazirmatn" ];
-          monospace = [ "Caskaydia Nerd Font Mono" ];
+          serif = [
+            "Liberation Serif"
+            # "Vazirmatn"
+          ];
+          sansSerif = [
+            "Ubuntu"
+            # "Vazirmatn"
+          ];
+          monospace = [
+            "Caskaydia Nerd Font Mono"
+          ];
         };
       };
     };
