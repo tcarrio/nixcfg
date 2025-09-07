@@ -57,6 +57,22 @@ with lib; with types; {
       };
     };
 
+    battery.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to enable battery support";
+    };
+    bluetooth.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to enable Bluetooth connectivity support";
+    };
+    wireless.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to enable wireless networking support (WiFi)";
+    };
+
     warnings = []
       ++ optional (cfg.enable && (cpu.amd || cpu.intel))
         "A CPU has not been configured for Ominix!"
