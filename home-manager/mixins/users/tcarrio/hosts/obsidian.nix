@@ -4,7 +4,7 @@ let
 in with lib.hm.gvariant;
 {
   imports = [
-    ../../../../services/mpris-proxy.nix
+    ../../../services/mpris-proxy.nix
   ];
 
   home = {
