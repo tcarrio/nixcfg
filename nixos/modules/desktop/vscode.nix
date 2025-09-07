@@ -80,6 +80,12 @@ let
       version = "0.47.2";
       sha256 = "1hp6gjh4xp2m1xlm1jsdzxw9d8frkiidhph6nvl24d0h8z34w49g";
     };
+    nightfox-theme = {
+      name = "nightfox";
+      publisher = "keifererikson";
+      version = "0.0.14";
+      sha256 = "sha256-EZGKJMc/N+0V+9U/k12tUbzgfCNzWhdrouXRi7QOdyY=";
+    };
   };
 in
 {
@@ -244,7 +250,8 @@ in
           inherit (trunk) vscode;
           vscodeExtensions = with vscode-extensions;
             # globally enabled extensions
-            lib.optionals cfgx.support.bazel [ bazelbuild.vscode-bazel ]
+            []
+              ++ lib.optionals cfgx.support.bazel [ bazelbuild.vscode-bazel ]
               ++ lib.optionals cfgx.support.cpp [ ms-vscode.cpptools ]
               ++ lib.optionals cfgx.support.deno [ denoland.vscode-deno ]
               ++ lib.optionals cfgx.support.diff [ ryu1kn.partial-diff ]
@@ -274,7 +281,10 @@ in
               # with output for the specified and actual hash values.
               ++ vscode-utils.extensionsFromVscodeMarketplace
               # globally enabled extensions
-              ([ ext.non-breaking-space-highlighter ]
+              ([
+                ext.nightfox-theme
+                ext.non-breaking-space-highlighter
+              ]
                 ++ lib.optionals cfgx.support.ai [ ext.claude-code ]
                 ++ lib.optionals cfgx.support.cpp [ ]
                 ++ lib.optionals cfgx.support.diff [ ]
