@@ -1,4 +1,11 @@
-{ pkgs, ... }: {
+{ pkgs, lib, config, ... }: {
+  # Configure ominix settings, which will be ignored if Ominix is not enabled
+  ominix = {
+    wireless.enable = false;
+    bluetooth.enable = false;
+  };
+
+  # Global packages on host
   environment.systemPackages = with pkgs; [
     openmw
     open-webui
@@ -6,12 +13,14 @@
     heroic
   ];
 
+  # OpenRGB configurations
   services.hardware.openrgb = {
     enable = true;
     motherboard = "amd";
     package = pkgs.openrgb-with-all-plugins;
   };
 
+  # Various desktop apps from core modules
   oxc.desktop = {
     daw.enable = true;
     fonts.ultraMode = true;
@@ -45,7 +54,7 @@
       };
       server.enable = true;
     };
-    zed-editor.enable = true;
+    zed-editor.enable = false;
     zen-browser.enable = true;
   };
 }
