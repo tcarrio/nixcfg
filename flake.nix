@@ -217,6 +217,7 @@
               git
               pkgsUnstable.bun
               bun2NixPkg
+              self.packages.${system}.auto-composer-auth
               self.packages.${system}.gqurl
               self.packages.${system}.mac-launcher
               self.packages.${system}.nixvim
@@ -235,6 +236,7 @@
               nix
               home-manager
               git
+              self.packages.${system}.auto-composer-auth
               self.packages.${system}.gqurl
               self.packages.${system}.nixvim
             ];
