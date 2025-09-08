@@ -30,7 +30,7 @@ in {
         cursor-cli
       ];
       # General support for non-fish shell or sessions
-      sessionPath = [ "/opt/homebrew/bin" "${homeDir}/.asdf/bin" ];
+      sessionPath = [ "/opt/homebrew/bin" "${homeDir}/.asdf/bin" "${homeDir}/.asdf/shims" ];
       sessionVariables = {
         AWS_REGION = "us-east-1";
         AWS_PROFILE = "skillshare-utility-developer";
@@ -69,12 +69,14 @@ in {
         if command -v brew >/dev/null
           set -x PATH "$(brew --prefix)/bin:$PATH"
         end
-        if command -v asdf >/dev/null
-          set -x PATH "${homeDir}/.asdf/bin:$PATH"
-        end
+
         if [ -f "${homeDir}/.nix-profile/share/asdf-vm/asdf.fish" ]
           source "${homeDir}/.nix-profile/share/asdf-vm/asdf.fish"
         end
+        if command -v asdf >/dev/null
+          set -x PATH "${homeDir}/.asdf/shims:${homeDir}/.asdf/bin:$PATH"
+        end
+
         if command -v task >/dev/null
           task --completion fish | source
         end
