@@ -83,6 +83,11 @@ in {
             # Allows macOS to re-arrange spaces ordering
             "mru-spaces" = cfg.workspaces.dynamic;
           };
+
+          # Support for SmartCards like YubiKeys
+          "com.apple.security.smartcard" = {
+            "UserPairing" = mkDefault true;
+          };
         };
       };
 

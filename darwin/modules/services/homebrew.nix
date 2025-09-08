@@ -166,6 +166,7 @@ let
     "spotify"
     "tailscale-app"
     "visual-studio-code"
+    "yubico-authenticator"
     "zed"
     "zen"
   ];
