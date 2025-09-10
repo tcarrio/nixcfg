@@ -1,55 +1,12 @@
 { config, pkgs, lib, ... }:
-{
-  home.file = {
-    "${config.xdg.configHome}/zed/settings.json".text = builtins.toJSON {
-      # Zed settings
-      #
-      # For information on how to configure Zed, see the Zed
-      # documentation: https://zed.dev/docs/configuring-zed
-      #
-      # To see all of Zed's default settings without changing your
-      # custom settings, run the `open default settings` command
-      # from the command palette or from `Zed` application menu.
-
-      # disable automatic LSP downloads
-      server_url = "https://disable-zed-downloads.invalid";
-
-      # disable telemetry
-      telemetry.diagnostics = false;
-      telemetry.metrics = false;
-
-      # no vim rn
-      vim_mode = false;
-
-      # theme it
-      theme = "Terafox";
-
-      # ui config
-      ui_font_size = 15;
-      ui_font_family = "Ubuntu Mono derivative Powerline";
-
-      # buffer config
-      buffer_font_family = "Ubuntu Mono derivative Powerline";
-      buffer_font_size = 15;
-
-      # terminal config
-      terminal.font_size = 15;
-      terminal.dock = "bottom";
-      terminal.font_family = "Ubuntu Mono derivative Powerline";
-
-      # disable chat
-      chat_panel.button = false;
-
-      # language servers configuration
-      lsp = { };
-    };
-  };
-}
-
-
+let
+  isLinux = pkgs.stdenv.hostPlatform.system == "linux";
+  enableNonConfigurationsByDefault = lib.mkDefault isLinux;
+in
 {
   programs.zed-editor = {
-    enable = true;
+    enable = enableNonConfigurationsByDefault;
+
     ## See https://github.com/zed-industries/zed/tree/main/extensions
     ## and https://github.com/zed-extensions
     ## At the time of writing, this includes:
@@ -97,7 +54,7 @@
     ## - swift
     ## - vue
     ## - zed-roc
-    extensions = [
+    extensions = lib.optionals enableNonConfigurationsByDefault [
       "elixir"
       "lua"
       "make"
@@ -109,7 +66,6 @@
 
     ## everything inside of these brackets are Zed options.
     userSettings = {
-
       assistant = {
         enabled = true;
         version = "2";
@@ -217,8 +173,6 @@
       show_whitespaces = "all";
       ui_font_size = 16;
       buffer_font_size = 16;
-
     };
-
   };
 }
