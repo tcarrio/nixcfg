@@ -5,7 +5,10 @@ let
 in
 {
   programs.zed-editor = {
-    enable = enableNonConfigurationsByDefault;
+    enable = true;
+
+    # Enable Zed on Linux only. Zed will be installed manually on Darwin systems.
+    package = if isLinux then pkgs.zed else pkgs.emptyDirectory;
 
     ## See https://github.com/zed-industries/zed/tree/main/extensions
     ## and https://github.com/zed-extensions
@@ -54,17 +57,49 @@ in
     ## - swift
     ## - vue
     ## - zed-roc
-    extensions = lib.optionals enableNonConfigurationsByDefault [
-      "elixir"
-      "lua"
-      "make"
-      "nix"
-      "php"
-      "terraform"
-      "toml"
-    ];
+    extensions = [];
 
-    ## everything inside of these brackets are Zed options.
+    # {
+    #   "buffer_font_family": "Ubuntu Mono derivative Powerline",
+    #   "ui_font_family": "Ubuntu",
+    #   "minimap": {
+    #     "show": "always"
+    #   },
+    #   "inlay_hints": {
+    #     "enabled": true,
+    #     "show_value_hints": true,
+    #     "show_type_hints": true,
+    #     "show_parameter_hints": true,
+    #     "show_other_hints": true,
+    #     "show_background": false,
+    #     "edit_debounce_ms": 700,
+    #     "scroll_debounce_ms": 50,
+    #     "toggle_on_modifiers_press": {
+    #       "control": false,
+    #       "alt": false,
+    #       "shift": false,
+    #       "platform": false,
+    #       "function": false
+    #     }
+    #   },
+    #   "telemetry": {
+    #     "diagnostics": true,
+    #     "metrics": true
+    #   },
+    #   "ui_font_size": 14.0,
+    #   "buffer_font_size": 14,
+    #   "theme": {
+    #     "mode": "system",
+    #     "light": "One Light",
+    #     "dark": "Terafox - opaque"
+    #   },
+    #   "terminal": {
+    #     "shell": {
+    #       "program": "/Users/tcarrio/.nix-profile/bin/fish"
+    #     },
+    #     "font_size": 14
+    #   }
+    # }
     userSettings = {
       assistant = {
         enabled = true;
@@ -79,16 +114,16 @@ in
           model = "claude-3-5-sonnet-latest";
         };
 
-        #        inline_alternatives = [
-        #          {
-        #            provider = "copilot_chat";
-        #            model = "gpt-3.5-turbo";
-        #          }
-        #        ];
+        # inline_alternatives = [
+        #   {
+        #     provider = "copilot_chat";
+        #     model = "gpt-3.5-turbo";
+        #   }
+        # ];
       };
 
-      node.path = lib.getExe pkgs.nodejs;
-      node.npm_path = lib.getExe pkgs.nodejs "npm";
+      node.path = "${pkgs.nodejs}/bin/node";
+      node.npm_path = "${pkgs.nodejs}/bin/npm";
 
       hour_format = "hour24";
       auto_update = false;
@@ -106,15 +141,37 @@ in
         env = {
           TERM = "alacritty";
         };
-        font_family = "FiraCode Nerd Font";
-        font_features = null;
-        font_size = null;
+        font_family = "Ubuntu Mono derivative Powerline";
+        font_size = 14;
         line_height = "comfortable";
+
         option_as_meta = false;
         button = false;
-        shell.program = lib.getExe pkgs.fish;
+        shell.program = "${pkgs.fish}/bin/fish";
         toolbar.title = true;
         working_directory = "current_project_directory";
+      };
+
+
+      minimap = {
+        show = "always";
+      };
+      inlay_hints = {
+        enabled = true;
+        show_value_hints = true;
+        show_type_hints = true;
+        show_parameter_hints = true;
+        show_other_hints = true;
+        show_background = false;
+        edit_debounce_ms = 700;
+        scroll_debounce_ms = 50;
+        toggle_on_modifiers_press = {
+          control = false;
+          alt = false;
+          shift = false;
+          platform = false;
+          function = false;
+        };
       };
 
       lsp = {
@@ -162,17 +219,22 @@ in
       };
 
       vim_mode = true;
+
       ## tell zed to use direnv and direnv can use a flake.nix enviroment.
       load_direnv = "shell_hook";
       base_keymap = "VSCode";
       theme = {
         mode = "system";
         light = "One Light";
-        dark = "One Dark";
+        dark = "Terafox - opaque";
       };
       show_whitespaces = "all";
-      ui_font_size = 16;
-      buffer_font_size = 16;
+
+      ui_font_family = "Ubuntu";
+      ui_font_size = 14;
+
+      buffer_font_family = "Ubuntu Mono derivative Powerline";
+      buffer_font_size = 14;
     };
   };
 }
