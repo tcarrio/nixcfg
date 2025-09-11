@@ -98,6 +98,6 @@
 
         # TODO: Map each attribute entry system derivation to path in root
       '';
-    };
+    }
   );
 }
