@@ -14,6 +14,10 @@ in
     tmux
   ];
 
+  environment.sessionVariables = {
+    SHELL = "${pkgs.fish}/bin/fish";
+  };
+
   # enable GPG agent with full support
   programs.gnupg.agent = {
     enable = true;
