@@ -1,4 +1,7 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, ... }:
+let
+  cfg = config.oxc.desktop.steam;
+in {
   options.oxc.desktop.steam = {
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -22,6 +25,18 @@
       };
     };
 
+    gamemode = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Whether to enable Gamemode";
+    };
+
+    gamescope = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Whether to enable GameScope compositor";
+    };
+
     audioSupport = {
       jack = lib.mkOption {
         type = lib.types.bool;
@@ -37,7 +52,7 @@
     };
   };
 
-  config = lib.mkIf config.oxc.desktop.steam.enable {
+  config = lib.mkIf cfg.enable {
     # Ensure unfree software support is enabled
     oxc.nix.unfree.enable = true;
 
@@ -52,13 +67,23 @@
         extraPkgs = pkgs: [ pkgs.mpg123 ];
       };
       # Open ports in the firewall for Steam Remote Play
-      remotePlay.openFirewall = config.oxc.desktop.steam.steamPlay.firewall.open;
+      remotePlay.openFirewall = cfg.steamPlay.firewall.open;
       # Open ports in the firewall for Source Dedicated Server
-      dedicatedServer.openFirewall = config.oxc.desktop.steam.steamPlay.firewall.open;
+      dedicatedServer.openFirewall = cfg.steamPlay.firewall.open;
     };
 
-    services.jack.alsa.support32Bit = config.oxc.desktop.steam.audioSupport.jack;
-    services.pipewire.alsa.support32Bit = config.oxc.desktop.steam.audioSupport.pipewire;
+    # Enable gamemode
+    programs.gamemode.enable = cfg.gamemode;
+
+    # Enable gamescope
+    programs.gamescope = {
+      enable = cfg.gamescope;
+      capSysNice = false;
+      package = pkgs.unstable.gamescope;
+    };
+
+    services.jack.alsa.support32Bit = cfg.audioSupport.jack;
+    services.pipewire.alsa.support32Bit = cfg.audioSupport.pipewire;
     services.pulseaudio.support32Bit = true;
   };
 }
