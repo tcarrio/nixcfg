@@ -1,4 +1,4 @@
-{ pkgs, hostname, username, platform, stateVersion, outputs, lib, ... /* lib, config */ }:
+{ pkgs, hostname, username, platform, stateVersion, outputs, lib, isDeterminateNix, ... /* lib, config */ }:
 let
   nixSettings = {
     # Necessary for using flakes on this system.
@@ -20,7 +20,7 @@ let
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
   };
-in {
+in ({
   imports = [
     ./mixins/users/${username}
     ./modules
@@ -51,14 +51,11 @@ in {
 
   nix = {
     # allow either Determinate or upstream Nix
-    enable = false;
+    enable = !isDeterminateNix;
     # package = pkgs.nix;
 
     settings = nixSettings;
   };
-
-  # Custom settings written to /etc/nix/nix.custom.conf
-  determinate-nix.customSettings = nixSettings;
 
   nixpkgs = {
     # You can add overlays here
@@ -141,4 +138,12 @@ in {
 
   # The platform the configuration will be used on.
   nixpkgs.hostPlatform = platform;
-}
+} // (
+    if isDeterminateNix
+    then {
+      # Custom settings written to /etc/nix/nix.custom.conf
+      determinate-nix.customSettings = nixSettings;
+    }
+    else {}
+))
+
