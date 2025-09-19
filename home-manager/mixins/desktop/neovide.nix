@@ -2,6 +2,10 @@
 let
   neovim = pkgs.nixvim;
 in {
+  imports = [
+    ../console/neovim.nix
+  ];
+  
   home.file.".config/neovide/config.toml".text = ''
     # backtraces_path = "/path/to/neovide_backtraces.log"
     fork = false
@@ -29,9 +33,4 @@ in {
     [box-drawing.sizes]
     default = [2, 4]  # Thin and thick values respectively, for all sizes
   '';
-
-  home.packages = [
-    # neovide is installed at the system-level in /darwin
-    pkgs.unstable.neovim
-  ];
 }

@@ -1,8 +1,9 @@
 { nixvim, pkgs }:
 let
+  nixvimConfig = (import ./config.nix { inherit pkgs; allowUnfree = true; });
   basePackage = nixvim.legacyPackages.${pkgs.system}.makeNixvimWithModule {
     inherit pkgs;
-    module = { ... }: (import ./config.nix { inherit pkgs; allowUnfree = true; }) // {
+    module = { ... }: nixvimConfig // {
       extraPackages = with pkgs; [
         bat  # Rust-based syntax highlighter/pager for git
       ];
@@ -20,7 +21,7 @@ basePackage.overrideAttrs (oldAttrs: {
       in
       nixvim.legacyPackages.${pkgs.system}.makeNixvimWithModule {
         inherit pkgs;
-        module = { ... }: (import ./config.nix { inherit pkgs allowUnfree; }) // extraConfig // config // {
+        module = { ... }: nixvimConfig // extraConfig // config // {
           extraPackages = with pkgs; [
             bat  # Rust-based syntax highlighter/pager for git
           ];
