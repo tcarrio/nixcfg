@@ -4,7 +4,11 @@
   # This one brings our custom packages from the 'pkgs' directory
   additions = final: prev:
     let
-      customPkgs = import ../pkgs { pkgs = final; inherit (inputs.bun2nix.lib.${final.system}) mkBunDerivation; nixvim = inputs.nixvim; };
+      customPkgs = import ../pkgs {
+        pkgs = final;
+        inherit (inputs.bun2nix.lib.${final.system}) mkBunDerivation;
+        inherit (inputs) nixvim;
+      };
     in
     customPkgs // rec {
       # Override nixvim to automatically use the current nixpkgs allowUnfree configuration

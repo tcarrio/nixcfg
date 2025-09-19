@@ -217,7 +217,7 @@
               git
               pkgsUnstable.bun
               bun2NixPkg
-              self.packages.${system}.auto-composer-auth
+              self.packages.${system}.gh-composer-auth
               self.packages.${system}.gqurl
               self.packages.${system}.mac-launcher
               self.packages.${system}.nixvim
@@ -236,7 +236,7 @@
               nix
               home-manager
               git
-              self.packages.${system}.auto-composer-auth
+              self.packages.${system}.gh-composer-auth
               self.packages.${system}.gqurl
               self.packages.${system}.nixvim
             ];
@@ -272,11 +272,9 @@
             let
               pkgs = nixpkgs.legacyPackages.${system};
               inherit (bun2nix.lib.${system}) mkBunDerivation;
+              localPackages = (import ./pkgs { inherit pkgs mkBunDerivation nixvim; });
             in
-            (import ./pkgs { inherit pkgs mkBunDerivation nixvim; }) //
-              {
-                # Universal system packages: Maybe a use case exists but for now this is empty 🤷
-              } // (lib.optionalAttrs (system == "x86_64-linux") {
+              (lib.optionalAttrs (system == "x86_64-linux") {
                 # TODO: Linode image is still too large: reduction with `qemu-img resize --shrink ./nixos.img 5.5G` didn't error out but image will not boot
                 # linode-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "linode-base-image"; username = "archon"; format = "linode"; diskSize = 5120; };
                 digital-ocean-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "generic-base-image"; username = "archon"; format = "do"; };
@@ -295,7 +293,7 @@
 
                 # TODO: Revise init image strategy
                 # nuc-init = mkNuc "nixos"  "nuc-init";
-              })
+              }) // localPackages
           );
     };
 }

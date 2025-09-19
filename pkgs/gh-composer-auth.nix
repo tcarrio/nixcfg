@@ -2,13 +2,14 @@
 
 let
   ghCli = "${pkgs.gh}/bin/gh";
-in pkgs.writeShellScriptBin "auto-composer-auth" ''
+in pkgs.writeShellScriptBin "gh-composer-auth" ''
   #!${pkgs.bash}/bin/bash
   set -e
 
   echo "Checking if Composer GitHub token is set..."
   if ! command -v composer &> /dev/null; then
       echo "Composer is not installed. The utility requires a contextual composer to configure."
+      echo "Please ensure you have an executable `composer` binary in your PATH."
       exit 1
   fi
 
