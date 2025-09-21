@@ -33,6 +33,8 @@
       audioSupport.pipewire = true;
       steamPlay.enable = true;
       steamPlay.firewall.open = true;
+      gamemode = true;
+      gamescope = true;
     };
     transmission = {
       enable = true;

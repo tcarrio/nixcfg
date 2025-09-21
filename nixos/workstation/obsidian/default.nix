@@ -17,7 +17,7 @@
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
     # Ominix defines Nvidia hardware config
-    # ../../mixins/hardware/gtx-1080ti.nix
+    ../../mixins/hardware/gtx-1080ti.nix
     ../../mixins/hardware/roccat.nix
     ../../mixins/hardware/systemd-boot.nix
     # ../../mixins/network-shares/ds418-nfs.nix
@@ -91,6 +91,8 @@
     google-fonts
     tmux
   ];
+
+  hardware.bluetooth.enable = true;
 
   # support for cross-platform NixOS builds
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
