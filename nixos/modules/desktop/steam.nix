@@ -56,6 +56,8 @@ in {
     # Ensure unfree software support is enabled
     oxc.nix.unfree.enable = true;
 
+    environment.systemPackages = with pkgs; [ steam-run ];
+
     # https://nixos.wiki/wiki/Steam
     fonts.fontconfig.cache32Bit = true;
     hardware.steam-hardware.enable = true;
