@@ -10,4 +10,7 @@ _: {
   };
 
   services.desktopManager.plasma6.enable = true;
+
+  # KDE Connect for KDE desktops
+  programs.kdeconnect.enable = true;
 }
