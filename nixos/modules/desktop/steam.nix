@@ -72,6 +72,8 @@ in {
       remotePlay.openFirewall = cfg.steamPlay.firewall.open;
       # Open ports in the firewall for Source Dedicated Server
       dedicatedServer.openFirewall = cfg.steamPlay.firewall.open;
+      # Enable gamescope for Steam
+      gamescopeSession.enable = cfg.gamescope;
     };
 
     # Enable gamemode
