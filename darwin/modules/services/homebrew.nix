@@ -163,7 +163,7 @@ let
     "logseq"
     "secretive"
     "sequel-ace"
-    "spacewalker"
+    "sol"
     "spotify"
     "tailscale-app"
     "visual-studio-code"

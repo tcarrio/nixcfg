@@ -15,6 +15,7 @@
     packages = with pkgs; [
       asciinema # Terminal recorder
       breezy # Terminal bzr client
+      bottom # Modern Unix `top`
       chafa # Terminal image viewer
       dconf2nix # Nix code from Dconf files
       diffr # Modern Unix `diff`
@@ -44,7 +45,7 @@
       quilt # Terminal patch manager
       ripgrep # Modern Unix `grep`
       tldr # Modern Unix `man`
-      tokei # Modern Unix `wc` for code
+      tokei # Modern Unix SLOC counter
       wget # Terminal downloader
       yq-go # Terminal `jq` for YAML
     ];
@@ -87,12 +88,11 @@
     };
     dircolors = {
       enable = true;
-      enableBashIntegration = true;
       enableFishIntegration = true;
     };
     direnv = {
       enable = true;
-      enableBashIntegration = true;
+      enableFishIntegration = true;
       nix-direnv = {
         enable = true;
       };
@@ -270,17 +270,6 @@
     home-manager.enable = true;
     info.enable = true;
     jq.enable = true;
-    micro = {
-      enable = true;
-      settings = {
-        colorscheme = "simple";
-        diffgutter = true;
-        rmtrailingws = true;
-        savecursor = true;
-        saveundo = true;
-        scrollbar = true;
-      };
-    };
     powerline-go = {
       enable = true;
       settings = {
@@ -291,7 +280,6 @@
     };
     zoxide = {
       enable = true;
-      enableBashIntegration = true;
       enableFishIntegration = true;
     };
   };

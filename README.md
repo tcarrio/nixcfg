@@ -293,7 +293,6 @@ Here is the directory structure I'm using.
 [OpenSSH]: ./nixos/mixins/services/openssh.nix
 [ZeroTier]: ./nixos/mixins/services/zerotier.nix
 [Podman & Distrobox]: ./nixos/mixins/virt/podman.nix
-[micro]: [https://micro-editor.github.io/]
 
 ![neofetch on Designare](.github/screenshots/neofetch.png)
 
@@ -393,7 +392,6 @@ MATE Desktop 🧉 and Pantheon 🏛️ are the two desktop options available. Th
 - [ ] emacs
 - [ ] fzf
 - [x] tmate or tmux
-- [x] micro
 - [x] neovim
 - [x] nnn ~~or broot or felix or ranger~~
 
