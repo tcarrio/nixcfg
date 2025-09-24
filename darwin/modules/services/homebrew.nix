@@ -153,6 +153,7 @@ let
     ++ baseBrews;
 
   defaultCasks = [
+    "alacritty"
     "amethyst"
     "cursor"
     "docker-desktop"
