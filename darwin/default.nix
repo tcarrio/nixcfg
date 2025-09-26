@@ -31,7 +31,7 @@ let
       "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
     ];
   };
-in ({
+in {
   imports = [
     ./mixins/users/${username}
     ./modules
@@ -58,15 +58,6 @@ in ({
       nerd-fonts.jetbrains-mono
       nerd-fonts.symbols-only
     ];
-  };
-
-  # allow either Determinate or upstream Nix
-  nix = if isDeterminateNix then {
-    enable = false;
-  } else {
-    enable = true;
-    package = pkgs.nix;
-    settings = nixSettings;
   };
 
   nixpkgs = {
@@ -150,11 +141,4 @@ in ({
 
   # The platform the configuration will be used on.
   nixpkgs.hostPlatform = platform;
-} // (
-    if isDeterminateNix
-    then {
-      # Custom settings written to /etc/nix/nix.custom.conf
-      determinate-nix.customSettings = nixSettings;
-    }
-    else {}
-))
+}
