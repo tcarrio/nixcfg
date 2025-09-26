@@ -116,10 +116,8 @@ in {
         rebuild-host = "sudo darwin-rebuild switch --flake $HOME/0xc/nixcfg#$(hostname)";
         rebuild-all = "nix-gc && rebuild-host && rebuild-home";
         rebuild-lock = "pushd $HOME/0xc/nixcfg && nix flake lock --recreate-lock-file && popd";
-        restart-nix-daemon = ''
-          sudo launchctl unload /Library/LaunchDaemons/systems.determinate.nix-daemon.plist
-          sudo launchctl load /Library/LaunchDaemons/systems.determinate.nix-daemon.plist
-        '';
+        restart-nix-daemon = let svcFile = "/Library/LaunchDaemons/systems.determinate.nix-daemon.plist";
+          in "sudo launchctl unload ${svcFile} && sudo launchctl load ${svcFile}";
 
         mooncycle = "curl -s wttr.in/Moon";
         nano = "vim";
