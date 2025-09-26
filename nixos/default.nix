@@ -222,6 +222,7 @@ in
         rebuild-host = "sudo nixos-rebuild switch --flake $HOME/0xc/nixcfg";
         rebuild-all = "nix-gc && rebuild-host && rebuild-home";
         rebuild-lock = "pushd $HOME/0xc/nixcfg && nix flake lock --recreate-lock-file && popd";
+        restart-nix-daemon = "sudo systemctl restart nix-daemon";
 
         mooncycle = "curl -s wttr.in/Moon";
         nano = "vim";
