@@ -49,12 +49,13 @@ in ({
     ];
   };
 
-  nix = {
-    # allow either Determinate or upstream Nix
-    enable = !isDeterminateNix;
-    # package = pkgs.nix;
-
+  # allow either Determinate or upstream Nix
+  nix = if isDeterminateNix then {
+    enable = true;
+    package = pkgs.nix;
     settings = nixSettings;
+  } else {
+    enable = false;
   };
 
   nixpkgs = {
@@ -146,4 +147,3 @@ in ({
     }
     else {}
 ))
-
