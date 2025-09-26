@@ -1,9 +1,9 @@
 { self, inputs, outputs, stateVersion, ... }:
 let
+   inherit (inputs.nixpkgs) lib;
+
   sshMatrix = import ./ssh-matrix.nix { };
   tailnetMatrix = import ./tailnet-matrix.nix { };
-
-  inherit (inputs.nixpkgs) lib;
 in
 {
   # Helper function for generating home-manager configs
@@ -25,9 +25,11 @@ in
   mkHost = { hostname, username, systemType, desktop ? null, installer ? null }: lib.nixosSystem {
     specialArgs = {
       inherit self inputs outputs desktop hostname username stateVersion systemType sshMatrix tailnetMatrix;
+      adminGroup = "@wheel";
     };
     modules = [
       ../nixos
+      ./cache-settings.nix
       inputs.agenix.nixosModules.default
       inputs.chaotic.nixosModules.default
       inputs.determinate.nixosModules.default
@@ -39,15 +41,19 @@ in
     specialArgs = {
       inherit self inputs outputs hostname username platform stateVersion sshMatrix tailnetMatrix;
       isDeterminateNix = determinate;
+      adminGroup = "@admin";
     };
     modules = [
       ../darwin
+      ./cache-settings.nix
       inputs.home-manager.darwinModules.home-manager
       {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
       }
-    ] ++ (lib.optionals determinate [inputs.determinate.darwinModules.default]);
+    ] ++ (lib.optionals determinate [
+      inputs.determinate.darwinModules.default
+    ]);
   };
 
   mkSdImage = { hostname, username, platform ? "armv7l-linux" }: inputs.nixos-generators.nixosGenerate {
