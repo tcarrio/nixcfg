@@ -190,6 +190,8 @@ in {
   config.homebrew = {
     enable = cfg.enable;
 
+    environment.sessionPath = ["/opt/homebrew/bin"];
+
     # the following sets up Homebrew to NEVER update implicitly
     # to update brew itself, use `brew upgrade`
     # to update brew packages, use `brew update`

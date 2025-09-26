@@ -68,6 +68,8 @@ in {
         end
         if command -v brew >/dev/null
           set -x PATH "$(brew --prefix)/bin:$PATH"
+        else if [ -d "/opt/homebrew/bin" ]
+          set -x PATH "/opt/homebrew/bin:$PATH"
         end
 
         if [ -f "${homeDir}/.nix-profile/share/asdf-vm/asdf.fish" ]
