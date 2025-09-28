@@ -25,6 +25,9 @@ let
 
 in {
   home.packages = [
+    pkgs.unstable.claude-code
+
+    # MCP Servers
     mcpdoc-wrapper-vercel-ai
     mcpdoc-wrapper-effect
   ];
