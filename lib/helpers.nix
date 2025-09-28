@@ -30,6 +30,7 @@ in
       ../nixos
       inputs.agenix.nixosModules.default
       inputs.chaotic.nixosModules.default
+      inputs.determinate.nixosModules.default
     ]
     ++ (lib.optionals (installer != null) [ installer ]);
   };
