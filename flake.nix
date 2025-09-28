@@ -23,11 +23,12 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2505.*";
+
     # You can access packages and modules from different nixpkgs revs at the
     # same time. See 'unstable-packages' overlay in 'overlays/default.nix'.
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-trunk.url = "github:nixos/nixpkgs/master";
+    nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
+    nixpkgs-trunk.follows = "nixpkgs-unstable";
 
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
@@ -78,7 +79,7 @@
     nixvim.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     # Determinate Nix modules
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
   };
   outputs =
     { self
