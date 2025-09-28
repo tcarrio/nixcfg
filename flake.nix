@@ -23,12 +23,13 @@
   };
 
   inputs = {
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.2505.*";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
 
     # You can access packages and modules from different nixpkgs revs at the
     # same time. See 'unstable-packages' overlay in 'overlays/default.nix'.
-    nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
-    nixpkgs-trunk.follows = "nixpkgs-unstable";
+    # With Determinate I bound all nixpkgs to their upstream
+    nixpkgs-unstable.follows = "nixpkgs";
+    nixpkgs-trunk.follows = "nixpkgs";
 
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
