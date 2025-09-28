@@ -688,20 +688,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-unstable": {
-      "locked": {
-        "lastModified": 1758791193,
-        "narHash": "sha256-F8WmEwFoHsnix7rt290R0rFXNJiMbClMZyIC/e+HYf0=",
-        "rev": "25e53aa156d47bad5082ff7618f5feb1f5e02d01",
-        "revCount": 810395,
-        "type": "tarball",
-        "url": "https://api.flakehub.com/f/pinned/NixOS/nixpkgs/0.2505.810395%2Brev-25e53aa156d47bad5082ff7618f5feb1f5e02d01/01998694-ad17-7fa8-8c3a-c8bc31d19657/source.tar.gz"
-      },
-      "original": {
-        "type": "tarball",
-        "url": "https://flakehub.com/f/NixOS/nixpkgs/0"
-      }
-    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1756696532,
@@ -743,7 +729,7 @@
       },
       "original": {
         "type": "tarball",
-        "url": "https://flakehub.com/f/NixOS/nixpkgs/0.2505.%2A"
+        "url": "https://flakehub.com/f/NixOS/nixpkgs/%2A"
       }
     },
     "nixvim": {
@@ -855,9 +841,11 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_4",
         "nixpkgs-trunk": [
-          "nixpkgs-unstable"
+          "nixpkgs"
         ],
-        "nixpkgs-unstable": "nixpkgs-unstable",
+        "nixpkgs-unstable": [
+          "nixpkgs"
+        ],
         "nixvim": "nixvim",
         "omarchy": "omarchy",
         "vscode-server": "vscode-server",
