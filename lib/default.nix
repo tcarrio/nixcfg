@@ -1,6 +1,7 @@
 { self, inputs, outputs, stateVersion, ... }:
 let
   helpers = import ./helpers.nix { inherit self inputs outputs stateVersion; };
+  bun = import ./bun.nix { inherit self inputs outputs stateVersion; };
 in
 {
   inherit (helpers)
@@ -12,4 +13,6 @@ in
     forAllSystems
     forAllLinux
     forAllDarwin;
+
+  inherit (bun) mkBunDerivation mkStandardBun;
 }
