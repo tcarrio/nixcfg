@@ -155,6 +155,7 @@ let
   defaultCasks = [
     "alacritty"
     "amethyst"
+    "beeper"
     "cursor"
     "docker-desktop"
     "gimp"
