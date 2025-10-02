@@ -168,6 +168,7 @@ let
     "sol"
     "spotify"
     "tailscale-app"
+    "tidal"
     "visual-studio-code"
     "yubico-authenticator"
     "zed"
