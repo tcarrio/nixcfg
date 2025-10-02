@@ -50,10 +50,14 @@ in {
 
     networking.hostName = mkDefault hostname;
 
-    environment.systemPackages = with pkgs; [
-      unstable.neovide
-      mac-launcher
+    environment.systemPackages = with pkgs.unstable; [
+      neovide
     ];
+
+    environment.variables = {
+      EDITOR = "nvim";
+      PAGER = "less";
+    };
 
     system = {
       primaryUser = mkDefault username;
