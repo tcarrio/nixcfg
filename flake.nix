@@ -221,7 +221,8 @@
               bun2NixPkg
               self.packages.${system}.gh-composer-auth
               self.packages.${system}.gqurl
-              self.packages.${system}.mac-launcher
+              # TODO: Re-enable support for mac-launcher with system-contextual pkgs
+              # self.packages.${system}.mac-launcher
               self.packages.${system}.nixvim
             ];
           });
