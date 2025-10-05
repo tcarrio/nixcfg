@@ -27,7 +27,7 @@ in {
   config = lib.mkIf cfg.enable {
     home = {
       packages = with pkgs.unstable; [
-        cursor-cli
+        # cursor-cli
         firebase-tools
         google-cloud-sdk
       ];

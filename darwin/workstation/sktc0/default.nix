@@ -5,5 +5,4 @@
 
 _: {
   sk.enable = true;
-  nix.linux-builder.enable = true;
 }
