@@ -1,5 +1,9 @@
-{ pkgs, lib, username, isDeterminateNix ? false, adminGroup ? null, ... }:
+{ username, isDeterminateNix ? false, adminGroup ? null, ... }:
   let
+    lib = {
+      optional = predicate: value: if predicate then [value] else [];
+      optionals = predicate: list: if predicate then list else [];
+    };
     nixSettings = {
       # Necessary for using flakes on this system.
       experimental-features = "nix-command flakes";
@@ -43,7 +47,8 @@
     # Standard Nix configuration in module
     nix = {
       enable = true;
-      package = pkgs.nix;
+      # TODO: Re-enable pkgs as parameter to module
+      # package = pkgs.nix;
       settings = nixSettings;
     };
   }

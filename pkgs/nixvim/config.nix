@@ -140,8 +140,6 @@ let
 
     docker_compose_language_service.enable = true;
 
-    # Some useful workstation support
-    ansiblels.enable = true;
     jqls.enable = true;
 
     # IaC
@@ -164,32 +162,32 @@ in rec {
   opts = {
     # Line numbers
     number = true;
-    
+
     # Search settings
     hlsearch = false;
     ignorecase = true;
     smartcase = true;
-    
+
     # Mouse and clipboard
     mouse = "a";
     clipboard = "unnamedplus";
-    
+
     # Indentation
     breakindent = true;
-    
+
     # Undo
     undofile = true;
-    
+
     # Sign column
     signcolumn = "yes";
-    
+
     # Update time
     updatetime = 250;
     timeoutlen = 300;
-    
+
     # Completion
     completeopt = "menuone,noselect";
-    
+
     # Colors
     termguicolors = true;
   };
@@ -204,7 +202,7 @@ in rec {
       action = "<Nop>";
       options.silent = true;
     }
-    
+
     # Better movement with word wrap
     {
       mode = "n";
@@ -224,7 +222,7 @@ in rec {
         silent = true;
       };
     }
-    
+
     # Telescope mappings
     {
       mode = "n";
@@ -286,14 +284,14 @@ in rec {
       action = "<cmd>Telescope resume<cr>";
       options.desc = "[S]earch [R]esume";
     }
-    
+
     # File explorer toggle
     {
       mode = "";
       key = "<C-B>";
       action = "<cmd>NvimTreeToggle<cr>";
     }
-    
+
     # Terminal toggle
     {
       mode = "";
@@ -305,7 +303,7 @@ in rec {
       key = "<C-j>";
       action = "<cmd>ToggleTerm<cr>";
     }
-    
+
     # Diagnostic navigation
     {
       mode = "n";
@@ -392,7 +390,7 @@ in rec {
 
     # Landing page
     dashboard.enable = true;
-    
+
     # Status line
     lualine = {
       enable = true;
@@ -406,7 +404,7 @@ in rec {
     };
 
     # NOTE: Tab plugin 'tabby' is configured in extraPlugins
-    
+
     # File explorer
     nvim-tree = {
       enable = true;
@@ -414,7 +412,7 @@ in rec {
       openOnSetup = false;
       hijackNetrw = true;
     };
-    
+
     # Terminal
     toggleterm = {
       enable = true;
@@ -422,7 +420,7 @@ in rec {
 
     # Comment utilities
     todo-comments.enable = true;
-    
+
     # Fuzzy finder
     telescope = {
       enable = true;
@@ -442,7 +440,7 @@ in rec {
         };
       };
     };
-    
+
     # Treesitter
     treesitter = {
       enable = true;
@@ -480,12 +478,12 @@ in rec {
         };
       };
     };
-    
+
     # Treesitter textobjects
     treesitter-textobjects = {
       enable = true;
     };
-    
+
     # Git integration
     fugitive.enable = false;
     neogit.enable = true;
@@ -505,13 +503,13 @@ in rec {
         on_attach.__raw = ''
           function(bufnr)
             local gs = package.loaded.gitsigns
-            
+
             local function map(mode, l, r, opts)
               opts = opts or {}
               opts.buffer = bufnr
               vim.keymap.set(mode, l, r, opts)
             end
-            
+
             -- Navigation
             map({'n', 'v'}, ']c', function()
               if vim.wo.diff then
@@ -522,7 +520,7 @@ in rec {
               end)
               return '<Ignore>'
             end, {expr=true, desc = 'Jump to next hunk'})
-            
+
             map({'n', 'v'}, '[c', function()
               if vim.wo.diff then
                 return '[c'
@@ -532,14 +530,14 @@ in rec {
               end)
               return '<Ignore>'
             end, {expr=true, desc = 'Jump to previous hunk'})
-            
+
             -- Actions
             map('n', '<leader>hp', gs.preview_hunk, {desc = 'Preview git hunk'})
           end
         '';
       };
     };
-    
+
     # Which key
     which-key = {
       enable = true;
@@ -555,16 +553,16 @@ in rec {
         ];
       };
     };
-    
+
     # Comments
     comment.enable = true;
-    
+
     # Indentation guides
     indent-blankline.enable = true;
-    
+
     # Auto-detect indentation
     sleuth.enable = true;
-    
+
     # Fidget for LSP progress
     fidget = {
       enable = true;
@@ -575,8 +573,8 @@ in rec {
       enable = true;
       servers = lspServers;
     };
-    
-    
+
+
     # Autocompletion
     cmp = {
       enable = true;
@@ -631,7 +629,7 @@ in rec {
           ];
       };
     };
-    
+
     # Snippets
     luasnip = {
       enable = true;

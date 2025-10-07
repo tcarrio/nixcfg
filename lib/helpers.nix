@@ -22,38 +22,37 @@ in
   # - installer: can be one of the following:
   #    - "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
   #    - "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"
-  mkHost = { hostname, username, systemType, desktop ? null, installer ? null }: lib.nixosSystem {
+  mkHost = { hostname, username, systemType, desktop ? null, installer ? null, determinate ? true }: lib.nixosSystem rec {
     specialArgs = {
       inherit self inputs outputs desktop hostname username stateVersion systemType sshMatrix tailnetMatrix;
       adminGroup = "@wheel";
     };
     modules = [
       ../nixos
-      ./cache-settings.nix
+      (import ./cache-settings.nix (specialArgs // { isDeterminateNix = determinate; }))
       inputs.agenix.nixosModules.default
       inputs.chaotic.nixosModules.default
-      inputs.determinate.nixosModules.default
     ]
-    ++ (lib.optionals (installer != null) [ installer ]);
+    ++ (lib.optionals (installer != null) [ installer ])
+    ++ (lib.optionals determinate [ inputs.determinate.nixosModules.default ]);
   };
 
-  mkDarwin = { hostname, username, stateVersion ? 4, platform ? "aarch64-darwin", determinate ? false }: inputs.nix-darwin.lib.darwinSystem {
+  mkDarwin = { hostname, username, stateVersion ? 4, platform ? "aarch64-darwin", determinate ? true }: inputs.nix-darwin.lib.darwinSystem rec {
     specialArgs = {
       inherit self inputs outputs hostname username platform stateVersion sshMatrix tailnetMatrix;
-      isDeterminateNix = determinate;
       adminGroup = "@admin";
     };
     modules = [
       ../darwin
-      ./cache-settings.nix
+      (import ./cache-settings.nix (specialArgs // { isDeterminateNix = determinate; }))
       inputs.home-manager.darwinModules.home-manager
       {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
       }
-    ] ++ (lib.optionals determinate [
+    ] ++ (if determinate then [
       inputs.determinate.darwinModules.default
-    ]);
+    ] else []);
   };
 
   mkSdImage = { hostname, username, platform ? "armv7l-linux" }: inputs.nixos-generators.nixosGenerate {

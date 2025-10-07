@@ -12,9 +12,6 @@
     in
     customPkgs // rec {
       # Override nixvim to automatically use the current nixpkgs allowUnfree configuration
-      nixvim = customPkgs.nixvim.passthru.override {
-        allowUnfree = final.config.allowUnfree or false;
-      };
       mustacheTemplate = name: template: data:
         prev.stdenv.mkDerivation {
           name = "${name}";

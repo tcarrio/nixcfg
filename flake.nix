@@ -23,13 +23,13 @@
   };
 
   inputs = {
+    # Primary source from FlakeHub follows the current release cycle, e.g. 25.05.
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
 
     # You can access packages and modules from different nixpkgs revs at the
     # same time. See 'unstable-packages' overlay in 'overlays/default.nix'.
-    # With Determinate I bound all nixpkgs to their upstream
-    nixpkgs-unstable.follows = "nixpkgs";
-    nixpkgs-trunk.follows = "nixpkgs";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-trunk.url = "github:nixos/nixpkgs/master";
 
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
@@ -100,16 +100,25 @@
       inherit (self) outputs;
       inherit (nixpkgs) lib;
       libx = import ./lib { inherit self inputs outputs stateVersion; };
+      overlays = import ./overlays { inherit inputs; };
+
+      mkPkgsForSystemFromInput = system: input: import input {
+        inherit system;
+        config = {
+          allowUnfree = true;
+        };
+        overlays = builtins.attrValues overlays;
+      };
 
       mkSystemFlakeShell = system: let
-        pkgs = nixpkgs.legacyPackages.${system};
-        pkgsUnstable = nixpkgs-unstable.legacyPackages.${system};
+        mkPkgsFromInput = mkPkgsForSystemFromInput system;
+        pkgs = mkPkgsFromInput nixpkgs;
         darwinNixPkgs = if pkgs.stdenv.isDarwin then nix-darwin.packages.${system} else {};
         bun2NixPkg = bun2nix.packages.${system}.default;
       in
-        shellOptionsFactory: pkgs.mkShell ((shellOptionsFactory { inherit pkgs pkgsUnstable darwinNixPkgs bun2NixPkg; }) // { NIX_CONFIG = "experimental-features = nix-command flakes"; });
+        shellOptionsFactory: pkgs.mkShell ((shellOptionsFactory { inherit pkgs darwinNixPkgs bun2NixPkg; }) // { NIX_CONFIG = "experimental-features = nix-command flakes"; });
 
-      devShellFactory = ({ pkgs, pkgsUnstable, bun2NixPkg, ... }: {
+      devShellFactory = ({ pkgs, bun2NixPkg, ... }: {
         packages = (
           with pkgs; [
             nix
@@ -122,7 +131,7 @@
             yarn2nix
           ]
         ) ++ (
-          with pkgsUnstable; [
+          with pkgs.unstable; [
             bun
             bun2NixPkg
             flyctl
@@ -211,12 +220,12 @@
           mkFlakeShell = mkSystemFlakeShell system;
         in
         rec {
-          default = mkFlakeShell ({ pkgs, pkgsUnstable, darwinNixPkgs, bun2NixPkg, ... }: {
+          default = mkFlakeShell ({ pkgs, darwinNixPkgs, bun2NixPkg, ... }: {
             packages = with pkgs; [
               home-manager
               darwinNixPkgs.darwin-rebuild
               git
-              pkgsUnstable.bun
+              unstable.bun
               bun2NixPkg
               self.packages.${system}.gh-composer-auth
               self.packages.${system}.gqurl
@@ -233,7 +242,7 @@
           mkFlakeShell = mkSystemFlakeShell system;
         in
         rec {
-          installers = mkFlakeShell ({ pkgs, pkgsUnstable, ... }: {
+          installers = mkFlakeShell ({ pkgs, ... }: {
             packages = with pkgs; [
               nix
               home-manager
@@ -262,7 +271,7 @@
       );
 
       # Custom packages and modifications, exported as overlays
-      overlays = import ./overlays { inherit inputs; };
+      inherit overlays;
 
       # Custom packages; acessible via 'nix build', 'nix shell', etc
       packages =
@@ -272,7 +281,7 @@
         libx.forAllSystems
           (system:
             let
-              pkgs = nixpkgs.legacyPackages.${system};
+              pkgs = mkPkgsForSystemFromInput system nixpkgs;
               inherit (bun2nix.lib.${system}) mkBunDerivation;
               localPackages = (import ./pkgs { inherit pkgs mkBunDerivation nixvim; });
             in

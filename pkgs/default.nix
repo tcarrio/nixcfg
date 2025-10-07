@@ -10,7 +10,8 @@
   gqurl = pkgs.callPackage ./gqurl/default.nix {
     inherit mkBunDerivation;
   };
-  nixvim = pkgs.callPackage ./nixvim/default.nix {
-    inherit nixvim pkgs;
+  nixvim = pkgs.unstable.callPackage ./nixvim/default.nix {
+    inherit nixvim;
+    pkgs = pkgs.unstable;
   };
 }
