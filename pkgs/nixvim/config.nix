@@ -136,6 +136,8 @@ let
 
     # Container tooling
     dockerls.enable = true;
+    dockerls.package = pkgs.dockerfile-language-server-nodejs;
+
     docker_compose_language_service.enable = true;
 
     # Some useful workstation support
