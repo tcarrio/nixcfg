@@ -1,4 +1,4 @@
-{ username, isDeterminateNix ? false, adminGroup ? null, ... }:
+{ username, isDarwin ? false, isDeterminateNix ? false, adminGroup ? null, ... }:
   let
     lib = {
       optional = predicate: value: if predicate then [value] else [];
@@ -39,11 +39,12 @@
         "https://cache.nixos.org"
       ];
     };
-  in if isDeterminateNix then {
+  in if isDeterminateNix then ({
     # Custom settings written to /etc/nix/nix.custom.conf
     nix.enable = false;
+  } // (if isDarwin then {
     determinate-nix.customSettings = nixSettings;
-  } else {
+  } else {})) else {
     # Standard Nix configuration in module
     nix = {
       enable = true;

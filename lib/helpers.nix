@@ -44,7 +44,7 @@ in
     };
     modules = [
       ../darwin
-      (import ./cache-settings.nix (specialArgs // { isDeterminateNix = determinate; }))
+      (import ./cache-settings.nix (specialArgs // { isDeterminateNix = determinate; isDarwin = true; }))
       inputs.home-manager.darwinModules.home-manager
       {
         home-manager.useGlobalPkgs = true;
