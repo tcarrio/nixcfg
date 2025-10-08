@@ -14,5 +14,4 @@
     inherit nixvim;
     pkgs = pkgs.unstable;
   };
-  typescript-go = pkgs.unstable.callPackage ./typescript-go.nix { };
 }

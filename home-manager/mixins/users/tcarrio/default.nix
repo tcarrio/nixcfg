@@ -43,6 +43,7 @@ Host obsidian
       git-absorb
       cmatrix
       slumber
+      typescript-go
     ])
     ++ (with pkgs; [
       gqurl
@@ -107,7 +108,7 @@ Host obsidian
           "dev:node20" = dev "node20";
           "dev:python" = dev "python";
         };
-      
+
       functions = {
         pdf-compress = ''
           ${pkgs.ghostscript}/bin/gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$argv[2]" "$argv[1]"
