@@ -96,7 +96,7 @@ in {
             AppleSymbolicHotKeys = {
               "64" = {
                 # Controls Cmd + Space for Spotlight
-                enabled = cfg.spotlight.enable;
+                enabled = mkDefault false;
               };
               # Move left a space (Ctrl+Left)
               "79" = {
