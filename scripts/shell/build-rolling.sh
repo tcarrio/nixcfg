@@ -10,8 +10,8 @@
 outputs="$(nix flake show --json 2>/dev/null)"
 current_system="$(nix eval --impure --raw --expr 'builtins.currentSystem')"
 
-arch="$(echo $current_system | cut -d'-' -f1)"
-os="$(echo $current_system | cut -d'-' -f2)"
+arch="$(echo "$current_system" | cut -d'-' -f1)"
+os="$(echo "$current_system" | cut -d'-' -f2)"
 
 SYSTEM_SPECIFIC_OUTPUTS=(
     "devShells"
@@ -34,7 +34,7 @@ GENERAL_OUTPUTS=(
 jq_keys_of_outputs() {
     key="$1"
 
-    echo $outputs | jq -r "(.$key // {}) | keys | .[]"
+    echo "$outputs" | jq -r "(.$key // {}) | keys | .[]"
 }
 
 build_packages() {
@@ -70,7 +70,7 @@ build_darwin_configurations() {
     while read cname
     do
         echo "Found darwinConfiguration $cname for $target_system"
-        host_system="$(nix eval .#darwinConfigurations.$cname.config.nixpkgs.hostPlatform.system 2>/dev/null | jq -r)"
+        host_system="$(nix eval .#darwinConfigurations."$cname".config.nixpkgs.hostPlatform.system 2>/dev/null | jq -r)"
         if [ "$host_system" = "$target_system" ]; then
             echo "Building Darwin configuration $cname for $target_system"
             nix build ".#darwinConfigurations.$cname"
@@ -86,7 +86,7 @@ build_nixos_configurations() {
     while read cname
     do
         echo "Found nixosConfiguration $cname for $target_system"
-        host_system="$(nix eval .#nixosConfigurations.$cname.config.nixpkgs.hostPlatform.system 2>/dev/null | jq -r)"
+        host_system="$(nix eval .#nixosConfigurations."$cname".config.nixpkgs.hostPlatform.system 2>/dev/null | jq -r)"
         if [ "$host_system" = "$target_system" ]; then
             echo "Building NixOS configuration $cname for $target_system"
             nix build ".#nixosConfigurations.$cname"
@@ -105,12 +105,12 @@ build_home_configurations() {
     done < <(jq_keys_of_outputs "homeConfigurations")
 }
 
-build_packages $current_system
-build_dev_shells $current_system
+build_packages "$current_system"
+build_dev_shells "$current_system"
 
 case "$os" in
     linux)
-        build_nixos_configurations $current_system
+        build_nixos_configurations "$current_system"
         ;;
     darwin)
         echo "TODO: Introspection of darwinConfigurations keys"
