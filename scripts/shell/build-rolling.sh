@@ -10,23 +10,28 @@
 outputs="$(nix flake show --json 2>/dev/null)"
 current_system="$(nix eval --impure --raw --expr 'builtins.currentSystem')"
 
+# shellcheck disable=SC2034
 arch="$(echo "$current_system" | cut -d'-' -f1)"
 os="$(echo "$current_system" | cut -d'-' -f2)"
 
+# shellcheck disable=SC2034
 SYSTEM_SPECIFIC_OUTPUTS=(
     "devShells"
     "packages"
 )
 
+# shellcheck disable=SC2034
 DARWIN_SPECIFIC_OUTPUTS=(
     "darwinConfigurations"
 )
 
+# shellcheck disable=SC2034
 LINUX_SPECIFIC_OUTPUTS=(
     "nixosConfigurations"
     "linuxPackages"
 )
 
+# shellcheck disable=SC2034
 GENERAL_OUTPUTS=(
     "homeConfigurations"
 )
@@ -43,7 +48,7 @@ build_packages() {
     while read pname
     do
         echo "Found package $pname for $target_system"
-        echo "Starting build for $targetSystem.$pname"
+        echo "Starting build for $target_system.$pname"
         nix build ".#packages.$target_system.$pname"
     done < <(jq_keys_of_outputs "packages[\"$target_system\"]")
 }
@@ -56,7 +61,7 @@ build_dev_shells() {
         echo "Found devShell $sname for $target_system"
 
         if nix eval .#devShells.aarch64-darwin."signalapp/Signal-Desktop" 1>/dev/null 2>/dev/null; then
-            echo "Starting build for $targetSystem.$sname"
+            echo "Starting build for $target_system.$sname"
             nix build ".#devShells.$target_system.$sname"
         else
             echo "Skipping devShell $sname for $target_system, evaluation failed"
