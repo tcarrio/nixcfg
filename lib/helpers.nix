@@ -41,6 +41,7 @@ in
     specialArgs = {
       inherit self inputs outputs hostname username platform stateVersion sshMatrix tailnetMatrix;
       adminGroup = "@admin";
+      isDeterminateNix = determinate;
     };
     modules = [
       ../darwin
