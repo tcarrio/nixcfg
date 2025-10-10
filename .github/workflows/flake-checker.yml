@@ -5,8 +5,8 @@ on:
     branches:
       - main
   schedule:
-    # l33t o'clock
-    - cron: '37 13 * * *'
+    # Ready for the day ☕
+    - cron: "0 7 * * *"
   workflow_dispatch:
 
 jobs:
