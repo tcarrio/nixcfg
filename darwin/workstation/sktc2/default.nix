@@ -6,4 +6,5 @@
 _: {
   sk.enable = true;
   oxc.homebrew.enable = true;
+  oxc.sol.enable = true;
 }
