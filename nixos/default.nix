@@ -121,7 +121,7 @@ in
 
   nix = {
     gc = {
-      automatic = lib.mkDefault true;
+      automatic = lib.mkDefault config.nix.enable;
       options = "--delete-older-than 10d";
     };
 
@@ -133,7 +133,7 @@ in
     # Making legacy nix commands consistent as well, awesome!
     nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
 
-    optimise.automatic = lib.mkDefault true;
+    optimise.automatic = lib.mkDefault config.nix.enable;
   };
 
   programs = {
