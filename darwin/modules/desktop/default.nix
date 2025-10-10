@@ -4,5 +4,6 @@
     ./nix-applications.nix
     ./podman.nix
     ./nix-spotify.nix
-  ];  
+    ./sol.nix
+  ];
 }
