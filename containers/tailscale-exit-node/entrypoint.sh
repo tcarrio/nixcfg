@@ -21,10 +21,10 @@ ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
     #--socks5-server=localhost:1055
 
 /app/tailscale up \
-    --authkey=${TS_AUTH_KEY} \
-    --hostname=vpn-${FLY_REGION} \
+    --authkey="${TS_AUTH_KEY}" \
+    --hostname=vpn-"${FLY_REGION}" \
     --advertise-exit-node \
-    --advertise-tags=${TS_TAGS}
+    --advertise-tags="${TS_TAGS}"
 
 echo "Tailscale started. Let's go!"
 wait

@@ -26,7 +26,7 @@ sudo rm /Library/LaunchDaemons/org.nixos.darwin-store.plist
 
 # Remove nix machine users
 sudo dscl . -delete /Groups/nixbld
-for u in $(sudo dscl . -list /Users | grep _nixbld); do sudo dscl . -delete /Users/$u; done
+for u in $(sudo dscl . -list /Users | grep _nixbld); do sudo dscl . -delete /Users/"$u"; done
 
 # Remove nix generated files
 sudo rm -rf /etc/nix /var/root/.nix-profile /var/root/.nix-defexpr /var/root/.nix-channels ~/.nix-profile ~/.nix-defexpr ~/.nix-channels

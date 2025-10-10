@@ -28,5 +28,5 @@ if [ ! -d "$NIXCFG_PATH" ]; then
 fi
 pushd "$NIXCFG_PATH"
 
-bootstrapShell nixos-rebuild switch --flake $NIXCFG_PATH
-bootstrapShell home-manager init --switch --flake $NIXCFG_PATH
+bootstrapShell nixos-rebuild switch --flake "$NIXCFG_PATH"
+bootstrapShell home-manager init --switch --flake "$NIXCFG_PATH"

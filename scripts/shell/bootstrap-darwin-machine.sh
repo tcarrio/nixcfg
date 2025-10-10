@@ -64,10 +64,10 @@ fi
 pushd "$NIXCFG_PATH"
 
 echo 'Building nix-darwin derivation...'
-bootstrapShell sudo darwin-rebuild switch --flake $NIXCFG_PATH#${SYS_TARGET}
+bootstrapShell sudo darwin-rebuild switch --flake "$NIXCFG_PATH"#"${SYS_TARGET}"
 echo 'Initializing home-manager derivation...'
-bootstrapShell home-manager init --flake $NIXCFG_PATH#${HM_TARGET}
+bootstrapShell home-manager init --flake "$NIXCFG_PATH"#"${HM_TARGET}"
 echo 'Setting up home-manager derivation...'
-bootstrapShell home-manager switch -b backup --flake $NIXCFG_PATH#${HM_TARGET}
+bootstrapShell home-manager switch -b backup --flake "$NIXCFG_PATH"#"${HM_TARGET}"
 echo 'Configuring default macOS shell... '
 chsh -s "$HOME/.nix-profile/bin/fish" "$USERNAME"

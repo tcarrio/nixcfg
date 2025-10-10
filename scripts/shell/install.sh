@@ -24,7 +24,7 @@ if [ ! -d "$HOME/0xc/nixcfg/.git" ]; then
   git clone https://github.com/tcarrio/nixcfg.git "$HOME/0xc/nixcfg"
 fi
 
-pushd "$HOME/0xc/nixcfg"
+pushd "$HOME/0xc/nixcfg" || exit
 
 if [[ -z "$TARGET_HOST" ]]; then
   echo "ERROR! $(basename "$0") requires a hostname as the first argument"
@@ -99,7 +99,7 @@ if [ -z "$MAX_CONCURRENCY" ]; then
   MAX_CONCURRENCY=$(($(nproc) - 1))
 fi
 
-sudo nixos-install -j $MAX_CONCURRENCY --cores $MAX_CONCURRENCY --no-root-password --flake ".#$TARGET_NIXOS_CONFIG_NAME"
+sudo nixos-install -j "$MAX_CONCURRENCY" --cores "$MAX_CONCURRENCY" --no-root-password --flake ".#$TARGET_NIXOS_CONFIG_NAME"
 
 if [[ "$TARGET_USER" == "root" ]]; then
   TARGET_USER_HOME="/mnt/root"
@@ -111,9 +111,9 @@ fi
 sudo mkdir -p "$TARGET_USER_HOME"
 sudo chown $(whoami):root -R "$TARGET_USER_HOME"
 rsync -a --delete "$HOME/0xc/" "$TARGET_USER_HOME/0xc/"
-pushd "$TARGET_USER_HOME/0xc/nixcfg"
+pushd "$TARGET_USER_HOME/0xc/nixcfg" || exit
 git remote set-url origin git@github.com:tcarrio/nixcfg.git
-popd
+popd || exit
 
 # If there is a keyfile for a data disk, put copy it to the root partition and
 # ensure the permissions are set appropriately.

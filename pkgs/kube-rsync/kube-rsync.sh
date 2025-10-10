@@ -76,7 +76,7 @@ fi
 # Running under --rsh
 
 # If user uses pod@namespace, rsync passes args as `-l pod namespace`
-if [[ x"$1" == x"-l" ]]; then
+if [[ "$1" == "-l" ]]; then
     POD_NAME="$2"
     POD_NAMESPACE="$3"
     shift 3
