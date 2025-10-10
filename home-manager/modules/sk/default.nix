@@ -107,6 +107,7 @@ in {
         {
           sk = skillshareWorkstation;
           sw = skillshareWorkstation;
+          d = "pushd ${homeDir}/D 2>/dev/null";
 
           asso = "aws sso login";
 
