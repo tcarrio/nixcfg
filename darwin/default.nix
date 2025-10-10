@@ -31,6 +31,11 @@ let
       "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
     ];
   };
+
+
+  reload-nix-service = if isDeterminateNix
+    then "sudo launchctl stop systems.determinate.nix-daemon && sudo launchctl start systems.determinate.nix-daemon"
+    else "sudo launchctl stop org.nixos.nix-daemon && sudo launchctl start org.nixos.nix-daemon";
 in {
   imports = [
     ./mixins/users/${username}
@@ -116,8 +121,8 @@ in {
         rebuild-host = "sudo darwin-rebuild switch --flake $HOME/0xc/nixcfg#$(hostname)";
         rebuild-all = "nix-gc && rebuild-host && rebuild-home";
         rebuild-lock = "pushd $HOME/0xc/nixcfg && nix flake lock --recreate-lock-file && popd";
-        restart-nix-daemon = let svcFile = "/Library/LaunchDaemons/systems.determinate.nix-daemon.plist";
-          in "sudo launchctl unload ${svcFile} && sudo launchctl load ${svcFile}";
+        inherit reload-nix-service;
+        restart-nix-daemon = reload-nix-service;
 
         mooncycle = "curl -s wttr.in/Moon";
         nano = "vim";
@@ -125,8 +130,6 @@ in {
         #pubip = "curl -s https://api.ipify.org";
         wttr = "curl -s wttr.in && curl -s v2.wttr.in";
         wttr-bas = "curl -s wttr.in/detroit && curl -s v2.wttr.in/detroit";
-
-        orbit = "docker compose -f ~/Developer/docker-compose.orbit.yaml";
       };
     };
   };

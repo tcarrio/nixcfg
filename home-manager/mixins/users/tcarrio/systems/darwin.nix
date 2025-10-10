@@ -1,4 +1,4 @@
-{ inputs, platform, config, ...}:
+{ pkgs, inputs, platform, config, ...}:
 let
   agenix = inputs.agenix.packages.${platform}.default;
   homeDir = config.home.homeDirectory;
@@ -6,7 +6,9 @@ let
 in {
   home.packages = [
     agenix
-  ];
+  ] ++ (with pkgs.unstable; [
+    mas
+  ]);
 
   home.sessionVariables = {
     NIXPKGS_ALLOW_UNFREE="1";

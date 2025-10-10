@@ -124,6 +124,9 @@ in {
           '';
 
           aws-list-accounts = "aws organizations list-accounts | ${pkgs.jq}/bin/jq '[.Accounts[] | {Name, Id, Arn}]' | ${pkgs.jtbl}/bin/jtbl";
+
+          orbit = "docker compose -f ~/Developer/docker-compose.orbit.yaml";
+          orbimux = "${devDir}/orbimux/orbimux.sh";
         };
     };
 
