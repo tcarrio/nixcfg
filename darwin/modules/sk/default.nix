@@ -3,72 +3,28 @@ let
   cfg = config.sk;
   inherit (lib) fromHexString mkDefault mkIf mkOption optional types;
 
-  # The following sets up keyboard mapping primitives
-  #
-  # For a reference of apple key codes, you could look at either:
-  # /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/Headers/Events.h
-  # or for older macOS versions, you can use the following:
-  # /System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/Headers/Events.h
-  #
-  # These keycodes do not appear to translate to the symbolic hotkeys or values used there.
-  # They are used to create custom keyboard mappings.
-  # @see: system.keyboard.userKeyMapping
-
-  # Always binary OR'ed with the keycode. Some keys require debugging since CapsLock is correct, but others haven't mapped correctly.
+  ### The following sets up keyboard mapping primitives
+  # There is a base code that is always binary OR'ed with the keycode.
   baseCode = fromHexString "700000000";
+  # Map a given keycode to the custom keymap code for keyboard mapping.
   keymapCode = hexCode: ((fromHexString hexCode) + baseCode);
-
-  # Extracted from the enum definition in Events.h
+  # Extracted from the documentation here:
+  # https://developer.apple.com/library/archive/technotes/tn2450/_index.html#//apple_ref/doc/uid/DTS40017618-CH1-KEY_TABLE_USAGES
   keyCodes = {
-    Return        = "0x24";
-    Tab           = "0x30";
-    Space         = "0x31";
-    Delete        = "0x33";
-    Escape        = "0x35";
-    Command       = "0x37";
-    Shift         = "0x38";
-    CapsLock      = "0x39";
-    Option        = "0x3A";
-    Control       = "0x3B";
-    RightCommand  = "0x36";
-    RightShift    = "0x3C";
-    RightOption   = "0x3D";
-    RightControl  = "0x3E";
-    Function      = "0x3F";
-    F17           = "0x40";
-    VolumeUp      = "0x48";
-    VolumeDown    = "0x49";
-    Mute          = "0x4A";
-    F18           = "0x4F";
-    F19           = "0x50";
-    F20           = "0x5A";
-    F5            = "0x60";
-    F6            = "0x61";
-    F7            = "0x62";
-    F3            = "0x63";
-    F8            = "0x64";
-    F9            = "0x65";
-    F11           = "0x67";
-    F13           = "0x69";
-    F16           = "0x6A";
-    F14           = "0x6B";
-    F10           = "0x6D";
-    ContextualMenu= "0x6E";
-    F12           = "0x6F";
-    F15           = "0x71";
-    Help          = "0x72";
-    Home          = "0x73";
-    PageUp        = "0x74";
-    ForwardDelete = "0x75";
-    F4            = "0x76";
-    End           = "0x77";
-    F2            = "0x78";
-    PageDown      = "0x79";
-    F1            = "0x7A";
-    LeftArrow     = "0x7B";
-    RightArrow    = "0x7C";
-    DownArrow     = "0x7D";
-    UpArrow       = "0x7E";
+    CapsLock = "0x39";
+    Escape = "0x29";
+    F13 = "0x68";
+    F14 = "0x69";
+    F15 = "0x6A";
+    F16 = "0x6B";
+    F17 = "0x6C";
+    F18 = "0x6D";
+    F19 = "0x6E";
+    F20 = "0x6F";
+    F21 = "0x70";
+    F22 = "0x71";
+    F23 = "0x72";
+    F24 = "0x73";
   };
 in {
   options.sk = {
@@ -185,11 +141,7 @@ in {
       keyboard = {
         enableKeyMapping = true;
         userKeyMapping = [
-          {
-            HIDKeyboardModifierMappingSrc = keymapCode keyCodes.CapsLock;
-            # Important note: This actually gets interpreted as F19 in Cursor but it works.
-            HIDKeyboardModifierMappingDst = keymapCode keyCodes.ContextualMenu;
-          }
+          { HIDKeyboardModifierMappingSrc = keymapCode keyCodes.CapsLock; HIDKeyboardModifierMappingDst = keymapCode keyCodes.F24; }
         ];
       };
     };
