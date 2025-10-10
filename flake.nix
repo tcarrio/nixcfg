@@ -140,6 +140,24 @@
       });
     in
     {
+      apps = libx.forAllSystems (system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+
+          mkShellApp = {name ? "script.sh", runtimeInputs ? [], ...} @ opts:
+            pkgs.writeShellApplication (opts // { inherit name runtimeInputs; });
+
+          mkShellAppPath = opts: let app = mkShellApp opts; in "${app}/bin/${app.name}";
+        in {
+          build-rolling = {
+            type = "app";
+            program = mkShellAppPath {
+              text = builtins.readFile ./scripts/shell/build-rolling.sh;
+            };
+          };
+        }
+      );
+
       # home-manager switch -b backup --flake $HOME/0xc/nixcfg
       # nix build .#homeConfigurations."tcarrio@ripper".activationPackage
       homeConfigurations = {
