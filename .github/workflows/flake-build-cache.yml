@@ -1,0 +1,26 @@
+name: "Build and cache every Git push to main to FlakeHub"
+on:
+  push:
+    branches:
+      - "main"
+jobs:
+  flake-build-and-cache:
+    strategy:
+      matrix:
+        runner:
+          - ubuntu-24.04 # x86_64-linux
+          - macos-15 # aarch64-darwin
+          # DISABLED: No active systems utilizing the following platforms
+          # - ubuntu-24.04-arm # aarch64-linux
+          # - macos-15-intel # x86_64-darwin
+    runs-on: ${{ matrix.runner }}
+    permissions:
+      id-token: "write"
+      contents: "read"
+    steps:
+      - uses: "actions/checkout@v5"
+        with:
+          persist-credentials: false
+      - uses: "DeterminateSystems/determinate-nix-action@v3"
+      - uses: DeterminateSystems/flakehub-cache-action@main
+      - run: nix run .#build-rolling
