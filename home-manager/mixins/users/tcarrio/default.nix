@@ -41,6 +41,7 @@ Host obsidian
     ++ (with pkgs.unstable; [
       act
       git-absorb
+      gitleaks
       cmatrix
       slumber
       typescript-go
