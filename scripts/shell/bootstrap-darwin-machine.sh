@@ -21,7 +21,7 @@ function bootstrapShell() {
 
 # https://nixos.org/download/
 if ! which nix >/dev/null; then
-  if [ ! -d /nix ]; then
+  if [ ! -d /nix/store ]; then
     if [ "$DETERMINATE_NIX" == "true" ]; then
       pushd $(mktemp -d) >/dev/null
       wget -O Determinate.pkg https://install.determinate.systems/determinate-pkg/stable/Universal
@@ -32,11 +32,15 @@ if ! which nix >/dev/null; then
         echo 'Determinate Nix installed successfully'
       else
         echo 'Determinate Nix install was not successful'
+        exit 1
       fi
     else
       echo "Installing nix..."
       sh <(curl -L https://nixos.org/nix/install)
     fi
+  elif [ -d "/nix/var/nix/profiles/default/bin" ]; then
+      export PATH="/nix/var/nix/profiles/default/bin:$PATH"
+      echo "Added system Nix to PATH"
   else
     echo "Nix is already installed, but not on your PATH. Please add it to your PATH and run this script again."
     exit 1
@@ -67,4 +71,3 @@ echo 'Setting up home-manager derivation...'
 bootstrapShell home-manager switch -b backup --flake $NIXCFG_PATH#${HM_TARGET}
 echo 'Configuring default macOS shell... '
 chsh -s "$HOME/.nix-profile/bin/fish" "$USERNAME"
-
