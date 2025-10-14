@@ -169,7 +169,7 @@
       # nix build .#homeConfigurations."tcarrio@ripper".activationPackage
       homeConfigurations = {
         # .iso images
-        "nuc@iso-nuc" = libx.mkHome { hostname = "iso-nuc"; username = "nixos"; };
+        "nixos@iso-nuc" = libx.mkHome { hostname = "iso-nuc"; username = "nixos"; };
 
         # Workstations
         "tcarrio@sktc0" = libx.mkHome { hostname = "sktc0"; username = "tcarrio"; platform = "aarch64-darwin"; };
