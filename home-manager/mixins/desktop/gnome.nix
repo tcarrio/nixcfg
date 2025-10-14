@@ -125,7 +125,7 @@ with lib.hm.gvariant;
     enable = true;
     cursorTheme = {
       name = "adwaita";
-      package = pkgs.gnome.adwaita-icon-theme;
+      package = pkgs.adwaita-icon-theme;
       size = 24;
     };
 
@@ -155,7 +155,7 @@ with lib.hm.gvariant;
 
     iconTheme = {
       name = "adwaita";
-      package = pkgs.gnome.adwaita-icon-theme;
+      package = pkgs.adwaita-icon-theme;
     };
 
     theme = {
@@ -165,7 +165,7 @@ with lib.hm.gvariant;
   };
 
   home.pointerCursor = {
-    package = pkgs.gnome.adwaita-icon-theme;
+    package = pkgs.adwaita-icon-theme;
     name = "adwaita";
     size = 24;
     gtk.enable = true;
