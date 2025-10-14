@@ -90,6 +90,11 @@
     distrobox
     google-fonts
     tmux
+
+    # Tangara device management
+    beets
+    tangara-cli
+    tangara-companion
   ];
 
   hardware.bluetooth.enable = true;
