@@ -200,7 +200,7 @@
         #  - sudo nixos-rebuild switch --flake $HOME/0xc/nixcfg
         #  - nix build .#nixosConfigurations.ripper.config.system.build.toplevel
         glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "kde6"; };
-        obsidian = libx.mkHost { systemType = "workstation"; hostname = "obsidian"; username = "tcarrio"; desktop = "kde6"; };
+        obsidian = libx.mkHost { systemType = "workstation"; hostname = "obsidian"; username = "tcarrio"; desktop = "kde6"; determinate = true; };
         void = libx.mkHost { systemType = "workstation"; hostname = "void"; username = "tcarrio"; desktop = "ominix"; };
         t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
         t510-headless = libx.mkHost { systemType = "workstation"; hostname = "t510-headless"; username = "tcarrio"; };

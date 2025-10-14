@@ -39,17 +39,45 @@
         "https://cache.nixos.org"
       ];
     };
-  in if isDeterminateNix then ({
-    # Custom settings written to /etc/nix/nix.custom.conf
-    nix.enable = false;
-  } // (if isDarwin then {
-    determinate-nix.customSettings = nixSettings;
-  } else {})) else {
-    # Standard Nix configuration in module
-    nix = {
-      enable = true;
-      # TODO: Re-enable pkgs as parameter to module
-      # package = pkgs.nix;
-      settings = nixSettings;
+
+    determinateNixBaseSettings = {
+      # NOTE: For Determinate Nix systems, the custom Nix settings will be
+      # written to /etc/nix/nix.custom.conf
+      nix.enable = false;
     };
-  }
+
+    baseNixSettings = {
+      # Standard Nix configuration in module
+      nix = {
+        enable = true;
+        # TODO: Re-enable pkgs as parameter to module
+        # package = pkgs.nix;
+        settings = nixSettings;
+      };
+    };
+
+    baseSettings = if isDeterminateNix
+      then determinateNixBaseSettings
+      else baseNixSettings;
+
+    darwinDeterminateNixSettings = baseSettings // {
+      # On Darwin, the nix.settings MUST NOT be set when nix.enable is false,
+      # or nix-darwin will be UNABLE to build 💥
+      # You instead set the settings you want for Nix here, in the same structure:
+      determinate-nix.customSettings = nixSettings;
+    };
+    nixosDeterminateNixSettings = baseSettings // {
+      # HOWEVER on NixOS, the nix.settings MUST be set when nix.enable is false
+      # because the system access `environment.etc."nix/nix.conf".source` is
+      # accessed and without being set caused the build to fail 🥵
+      nix.settings = nixSettings;
+    };
+
+    determinateSettings = if isDarwin
+      then darwinDeterminateNixSettings
+      else nixosDeterminateNixSettings;
+
+    finalSettings = if isDeterminateNix
+      then determinateSettings
+      else baseSettings;
+  in finalSettings
