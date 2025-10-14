@@ -45,7 +45,7 @@ jq_keys_of_outputs() {
 build_packages() {
     target_system="$1"
 
-    while read pname
+    while read -r pname
     do
         echo "Found package $pname for $target_system"
         echo "Starting build for $target_system.$pname"
@@ -56,7 +56,7 @@ build_packages() {
 build_dev_shells() {
     target_system="$1"
 
-    while read sname
+    while read -r sname
     do
         echo "Found devShell $sname for $target_system"
 
@@ -72,7 +72,7 @@ build_dev_shells() {
 build_darwin_configurations() {
     target_system="$1"
 
-    while read cname
+    while read -r cname
     do
         echo "Found darwinConfiguration $cname for $target_system"
         host_system="$(nix eval .#darwinConfigurations."$cname".config.nixpkgs.hostPlatform.system 2>/dev/null | jq -r)"
@@ -88,7 +88,7 @@ build_darwin_configurations() {
 build_nixos_configurations() {
     target_system="$1"
 
-    while read cname
+    while read -r cname
     do
         echo "Found nixosConfiguration $cname for $target_system"
         host_system="$(nix eval .#nixosConfigurations."$cname".config.nixpkgs.hostPlatform.system 2>/dev/null | jq -r)"
@@ -104,7 +104,7 @@ build_nixos_configurations() {
 build_home_configurations() {
     target_system="$1"
 
-    while read cname
+    while read -r cname
     do
         echo "Found homeConfiguration $cname for $target_system"
     done < <(jq_keys_of_outputs "homeConfigurations")
