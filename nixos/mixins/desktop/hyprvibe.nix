@@ -1,7 +1,9 @@
 { username, ... }: {
   hyprvibe = {
-    enable = true;
-    fonts.enable = true;
+    desktop = {
+      enable = true;
+      fonts.enable = true;
+    };
 
     hyprland = {
       enable = true;
@@ -18,16 +20,18 @@
 
     services = {
       enable = true;
-      openssh.enable = true;
-      tailscale.enable = true;
-      virt.enable = true;
-      docker.enable = true;
+      openssh.enable = false;
+      tailscale.enable = false;
+      virt.enable = false;
+      docker.enable = false;
     };
 
     shell.enable = false;
 
     waybar.enable = true;
 
-    inherit username;
+    user = {
+      inherit username;
+    };
   };
 }
