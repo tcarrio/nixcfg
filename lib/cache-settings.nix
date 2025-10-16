@@ -23,6 +23,8 @@
       ] ++ lib.optionals isDeterminateNix [
         "https://install.determinate.systems"
         "https://cache.flakehub.com"
+      ] ++ lib.optionals (!isDarwin) [
+        "https://cosmic.cachix.org/"
       ];
 
       trusted-public-keys = [
@@ -33,6 +35,8 @@
       ] ++ lib.optionals isDeterminateNix [
         "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
         "install.determinate.systems-1:EtHx9fW5pgsIvdN9RNeSwgiOc1ZESu8rfNOWhEuMhBI="
+      ] ++ lib.optionals (!isDarwin) [
+        "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
       ];
 
       extra-trusted-substituters = [
