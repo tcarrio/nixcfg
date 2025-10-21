@@ -44,6 +44,7 @@ Host obsidian
       gitleaks
       cmatrix
       slumber
+      trash-cli
       typescript-go
     ])
     ++ (with pkgs; [
