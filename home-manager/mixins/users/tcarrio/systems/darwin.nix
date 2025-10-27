@@ -37,6 +37,12 @@ in {
         default_set signal 9
         show_open_ports | grep ":$argv[1] " | awk '{ print $2 }' | xargs kill -$signal
       end
+
+      function kill_by_pname
+        set signal $argv[2]
+        default_set signal 9
+        ps aux | grep "$argv[1]" | grep -v grep | awk '{print $2}' | xargs kill -$signal
+      end
     '';
 
     shellAliases = {
