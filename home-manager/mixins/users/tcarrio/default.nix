@@ -49,6 +49,7 @@ Host obsidian
       typescript-go
     ])
     ++ (with pkgs; [
+      gh-composer-auth
       gqurl
     ]);
   };
