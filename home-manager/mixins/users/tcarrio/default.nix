@@ -43,6 +43,7 @@ Host obsidian
       git-absorb
       git-filter-repo
       gitleaks
+      gum
       jd-diff-patch
       cmatrix
       slumber
