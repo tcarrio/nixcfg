@@ -2,6 +2,7 @@
 
 let
   ghCli = "${pkgs.gh}/bin/gh";
+  composerCfgCmd = "composer config --no-plugins --global";
 in pkgs.writeShellScriptBin "gh-composer-auth" ''
   #!${pkgs.bash}/bin/bash
   set -e
@@ -13,7 +14,7 @@ in pkgs.writeShellScriptBin "gh-composer-auth" ''
       exit 1
   fi
 
-  if ! composer config --global github-oauth.github.com 1>/dev/null 2>/dev/null; then
+  if ! ${composerCfgCmd} github-oauth.github.com 1>/dev/null 2>/dev/null; then
     if ! ${ghCli} auth status 1>/dev/null 2>/dev/null; then
       echo "Authenticating with GitHub"
       ${ghCli} auth login
@@ -23,7 +24,7 @@ in pkgs.writeShellScriptBin "gh-composer-auth" ''
       echo "Failed to authenticate with GitHub. Cannot set the COMPOSER_AUTH environment variable."
     else
       gh_token="$(${ghCli} auth token)"
-      composer config --global github-oauth.github.com "$gh_token"
+      ${composerCfgCmd} github-oauth.github.com "$gh_token"
     fi
   else
     echo "Composer GitHub token is already set!"
