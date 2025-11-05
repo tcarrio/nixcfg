@@ -174,6 +174,11 @@ let
     "zed"
     "zen"
   ];
+
+  masApps = {
+    "XCode" = 497799835;
+    "Flow" = 1423210932;
+  };
 in {
   options.oxc.homebrew = {
     enable = lib.mkOption {
@@ -204,6 +209,8 @@ in {
       taps = defaultTaps;
       brews = defaultBrews;
       casks = defaultCasks;
+
+      inherit masApps;
     };
   };
 }
