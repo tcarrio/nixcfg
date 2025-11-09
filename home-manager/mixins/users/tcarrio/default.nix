@@ -40,6 +40,7 @@ Host obsidian
     packages = []
     ++ (with pkgs.unstable; [
       act
+      gam
       git-absorb
       git-filter-repo
       gitleaks
