@@ -40,13 +40,14 @@ Host obsidian
     packages = []
     ++ (with pkgs.unstable; [
       act
+      cmatrix
       gam
       git-absorb
       git-filter-repo
       gitleaks
       gum
       jd-diff-patch
-      cmatrix
+      ncdu
       slumber
       trash-cli
       typescript-go

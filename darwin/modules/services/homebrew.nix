@@ -109,7 +109,6 @@ let
     "k6"
     "krb5"
     "mkcert"
-    "ncdu"
     "pandoc"
     "pango"
     "pkg-config"
