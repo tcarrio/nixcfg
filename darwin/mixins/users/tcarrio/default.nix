@@ -8,12 +8,10 @@
   environment.systemPackages = (with pkgs.unstable; [
     # various dev tooling
     bazelisk
-    direnv
     jdk11
     kitty
     lazygit
     mariadb
-    neovim
     tailscale
 
     # containers containers containers
@@ -29,5 +27,9 @@
 
     # ai tooling
     claude-code
+    cursor-cli
+  ]) ++ (with pkgs; [
+    # Neovim overlays onto base pkgs
+    neovim
   ]);
 }
