@@ -165,6 +165,7 @@ let
     "logseq"
     "secretive"
     "sequel-ace"
+    "signal"
     "sol"
     "spotify"
     "tailscale-app"
