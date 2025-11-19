@@ -161,6 +161,7 @@ let
     "google-chrome"
     "insomnia"
     "iterm2"
+    "logitune"
     "logseq"
     "secretive"
     "sequel-ace"
