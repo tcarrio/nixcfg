@@ -145,5 +145,24 @@ in {
         ];
       };
     };
+
+    # Launchd service based on https://github.com/antoineco/dotfiles/blob/901a5ae6f4cb6f6f810b9657596708f614c4de96/flake.nix#L376-L393
+    launchd.user.agents.UserKeyMapping.serviceConfig = {
+      ProgramArguments = [
+        "/usr/bin/hidutil"
+        "property"
+        "--match"
+        "{&quot;ProductID&quot;:0x0,&quot;VendorID&quot;:0x0,&quot;Product&quot;:&quot;Apple Internal Keyboard / Trackpad&quot;}"
+        "--set"
+        (
+          let
+            jsonSerializedMappings = builtins.toJSON config.system.keyboard.userKeyMapping;
+            escapedQuotesMappings = builtins.replaceStrings [''\"''] ["&quot;"] jsonSerializedMappings;
+          in
+          escapedQuotesMappings
+        )
+      ];
+      RunAtLoad = true;
+    };
   };
 }

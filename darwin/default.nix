@@ -39,7 +39,7 @@ let
 in {
   imports = [
     ./mixins/users/${username}
-    ./modules
+    ../modules/darwin
   ] ++ lib.optionals (builtins.pathExists (./workstation/${hostname})) [
     ./workstation/${hostname}
   ];

@@ -7,7 +7,7 @@ in
 {
   imports = [
     inputs.disko.nixosModules.disko
-    ./modules
+    ../modules/nixos
     (modulesPath + "/installer/scan/not-detected.nix")
     ./${systemType}/${hostname}
     ./mixins/services/fwupd.nix
