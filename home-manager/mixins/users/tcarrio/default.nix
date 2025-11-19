@@ -51,6 +51,7 @@ Host obsidian
       slumber
       trash-cli
       typescript-go
+      qq
     ])
     ++ (with pkgs; [
       gh-composer-auth
