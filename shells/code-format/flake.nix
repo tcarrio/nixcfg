@@ -2,7 +2,7 @@
   description = "Nix shell for code-format tools";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/release-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/release-25.11";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
