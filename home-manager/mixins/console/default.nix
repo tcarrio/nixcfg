@@ -22,7 +22,7 @@
       difftastic # Modern Unix `diff`
       dua # Modern Unix `du`
       duf # Modern Unix `df`
-      du-dust # Modern Unix `du`
+      dust # Modern Unix `du`
       entr # Modern Unix `watch`
       fastfetch # Terminal system info
       fd # Modern Unix `find`
@@ -166,86 +166,84 @@
         prompt = "enabled";
       };
     };
+    delta = {
+      # options = {
+      #   features = "decorations";
+      #   navigate = true;
+      #   line-numbers = true;
+      #   side-by-side = true;
+      #   syntax-theme = "GitHub";
+      # };
+    };
     git = {
       enable = true;
-      delta = {
-        # enable = false;
-        # enable = true;
-        # options = {
-        #   features = "decorations";
-        #   navigate = true;
-        #   line-numbers = true;
-        #   side-by-side = true;
-        #   syntax-theme = "GitHub";
-        # };
-      };
-      aliases = {
-        a = "add";
-        f = "fetch";
-        p = "push";
-        co = "checkout";
-        cm = "commit";
-        st = "status";
-        br = "branch";
-        rs = "reset";
-        rb = "rebase";
-        rbc = "rebase --continue";
-        d = "diff";
-        ds = "d --staged";
-        # branch name
-        bn = "br --show-current";
-        # gets root directory
-        rd = "rev-parse --show-toplevel";
-        # gets latest "shared root" commit
-        sr = "merge-base HEAD";
-        aa = "!git a $(git rd)";
-        rsa = "!git rs $(git rd)";
-        fa = "f --all";
-        cob = "co -b";
-        rh = "rs --hard";
-        rho = "!git rh $(git bdr)/$(git bn)";
-        # shows commit history
-        lg = "log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short";
-        lgc = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
-        # amend
-        am = "!git cm --amend --no-edit --date=\"$(date +'%Y %D')\"";
-        # push to origin HEAD
-        poh = "!git p $(git bdr) HEAD";
-        # push remote branch
-        prb = "!gitprb() { local remote=\"$1\"; shift; test -z \"$remote\" && remote=\"$(git bdr)\"; test -z \"$remote\" && remote=\"origin\"; test -n \"$remote\" && git p $remote $(git bn) $@; }; gitprb";
-        # short-hand for "push head"
-        ph = "prb";
-        # force with lease, please, if you would
-        pf = "!git prb $(git bdr) --force-with-lease";
-        # FORCEEEE
-        pff = "!git prb $(git bdr) --force";
-        # push and open pr
-        ppr = "!git poh; !git pr";
-        # open pr
-        pr = "!gh pr create";
-        # squash it
-        sq = "!gitsq() { git rb -i $(git sr $1) $2; }; gitsq";
-        # generate patch
-        gp = "!gitgenpatch() { target=$1; git format-patch $target --stdout | sed -n -e '/^diff --git/,$p' | head -n -3; }; gitgenpatch";
+      settings = {
+        aliases = {
+          a = "add";
+          f = "fetch";
+          p = "push";
+          co = "checkout";
+          cm = "commit";
+          st = "status";
+          br = "branch";
+          rs = "reset";
+          rb = "rebase";
+          rbc = "rebase --continue";
+          d = "diff";
+          ds = "d --staged";
+          # branch name
+          bn = "br --show-current";
+          # gets root directory
+          rd = "rev-parse --show-toplevel";
+          # gets latest "shared root" commit
+          sr = "merge-base HEAD";
+          aa = "!git a $(git rd)";
+          rsa = "!git rs $(git rd)";
+          fa = "f --all";
+          cob = "co -b";
+          rh = "rs --hard";
+          rho = "!git rh $(git bdr)/$(git bn)";
+          # shows commit history
+          lg = "log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short";
+          lgc = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
+          # amend
+          am = "!git cm --amend --no-edit --date=\"$(date +'%Y %D')\"";
+          # push to origin HEAD
+          poh = "!git p $(git bdr) HEAD";
+          # push remote branch
+          prb = "!gitprb() { local remote=\"$1\"; shift; test -z \"$remote\" && remote=\"$(git bdr)\"; test -z \"$remote\" && remote=\"origin\"; test -n \"$remote\" && git p $remote $(git bn) $@; }; gitprb";
+          # short-hand for "push head"
+          ph = "prb";
+          # force with lease, please, if you would
+          pf = "!git prb $(git bdr) --force-with-lease";
+          # FORCEEEE
+          pff = "!git prb $(git bdr) --force";
+          # push and open pr
+          ppr = "!git poh; !git pr";
+          # open pr
+          pr = "!gh pr create";
+          # squash it
+          sq = "!gitsq() { git rb -i $(git sr $1) $2; }; gitsq";
+          # generate patch
+          gp = "!gitgenpatch() { target=$1; git format-patch $target --stdout | sed -n -e '/^diff --git/,$p' | head -n -3; }; gitgenpatch";
 
-        # default remote configurations
-        sdr = "config checkout.defaultRemote";
-        cdr = "!gitcdr() { git config --get checkout.defaultRemote || printf 'origin' ; }; gitcdr";
-        bdr = "!gitbdr() { git config branch.$(git bn).remote || git cdr; }; gitbdr";
+          # default remote configurations
+          sdr = "config checkout.defaultRemote";
+          cdr = "!gitcdr() { git config --get checkout.defaultRemote || printf 'origin' ; }; gitcdr";
+          bdr = "!gitbdr() { git config branch.$(git bn).remote || git cdr; }; gitbdr";
 
-        # short-hands for ignoring and unignoring files without .gitignore
-        ignore = "update-index --assume-unchanged";
-        ig = "ignore";
-        unignore = "update-index --no-assume-unchanged";
-        unig = "unignore";
-        ignored = "!gitignored() { git ls-files -v | grep \"^[[:lower:]]\"; }; gitignored";
-        ls-ig = "ignored";
+          # short-hands for ignoring and unignoring files without .gitignore
+          ignore = "update-index --assume-unchanged";
+          ig = "ignore";
+          unignore = "update-index --no-assume-unchanged";
+          unig = "unignore";
+          ignored = "!gitignored() { git ls-files -v | grep \"^[[:lower:]]\"; }; gitignored";
+          ls-ig = "ignored";
 
-        # git-absord shorthands
-        ab = "absord";
-        abr = "git absorb --and-rebase";
-      };
-      extraConfig = {
+          # git-absord shorthands
+          ab = "absord";
+          abr = "git absorb --and-rebase";
+        };
         push = {
           default = "matching";
         };

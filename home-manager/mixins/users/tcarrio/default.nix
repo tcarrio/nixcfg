@@ -125,13 +125,11 @@ Host obsidian
       };
     };
 
-    git = {
-      userEmail = lib.mkDefault "tom@carrio.dev";
-      userName = lib.mkDefault "Tom Carrio";
-      extraConfig = {
-        absorb = {
-          maxStack = 50;
-        };
+    git.settings = {
+      user.email = lib.mkDefault "tom@carrio.dev";
+      user.name = lib.mkDefault "Tom Carrio";
+      absorb = {
+        maxStack = 50;
       };
     };
   };
