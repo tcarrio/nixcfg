@@ -39,7 +39,7 @@
       vscode.support.ai = true;
     };
     services = {
-      mopidy.enable = true;
+      mopidy.enable = false;
       wait-online.enable = false;
       tailscale.enable = true;
     };
@@ -59,7 +59,7 @@
   environment.systemPackages = with pkgs; [
     gimp
     inkscape
-    tor-browser-bundle-bin
+    tor-browser
     git
     python3
     curl

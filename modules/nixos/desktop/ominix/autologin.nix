@@ -1,6 +1,6 @@
 { pkgs, lib, config, ... }:
 let
-  greetPkg = pkgs.greetd.tuigreet;
+  greetPkg = pkgs.tuigreet;
   greetPath = "${greetPkg}/bin/tuigreet";
 
   hyprland = config.programs.hyprland.package;

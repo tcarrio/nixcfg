@@ -55,4 +55,8 @@
       ExecStart = "${pkgs.indicator-application-gtk3}/libexec/indicator-application/indicator-application-service";
     };
   };
+
+  # Use the Gnome Keyring SSH agent setup over OpenSSH
+  services.gnome.gcr-ssh-agent.enable = true;
+  programs.ssh.startAgent = false;
 }

@@ -10,7 +10,7 @@
 
   config = lib.mkIf config.oxc.desktop.bitwarden.enable {
     environment.systemPackages = with pkgs; [
-      bitwarden
+      bitwarden-desktop
     ];
   };
 }

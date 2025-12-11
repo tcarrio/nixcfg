@@ -61,7 +61,7 @@
     blender
     gimp
     inkscape
-    tor-browser-bundle-bin
+    tor-browser
     git
     python3
     curl
