@@ -9,7 +9,7 @@
 
     windowManager.i3 = with pkgs; {
       enable = true;
-      package = i3-gaps;
+      package = i3;
       extraPackages = [
         rofi
         i3lock

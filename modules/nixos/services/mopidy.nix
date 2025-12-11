@@ -20,6 +20,8 @@ in {
       enable = true;
       extensionPackages = with pkgs; [mopidy-spotify];
       extraConfigFiles = [config.age.secrets.mopidy-spotify-conf.path];
+      # TODO 25.11 has broken check:
+      # error: The option `services.mopidy.settings' was accessed but has no value defined. Try setting the option.
     };
   };
 }

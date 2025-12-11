@@ -9,9 +9,9 @@
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.desktopManager.gnome.enable = true;
+  services.desktopManager.gnome.enable = true;
 
-  services.xserver.displayManager.gdm.enable = true;
+  services.displayManager.gdm.enable = true;
 
   # Disable Wayland (issues with Electron app rendering)
   services.xserver.displayManager.gdm.wayland = false;
@@ -25,4 +25,8 @@
     gnome-clocks
     gnome-sound-recorder
   ];
+
+  # Use the Gnome Keyring SSH agent setup over OpenSSH
+  services.gnome.gcr-ssh-agent.enable = true;
+  programs.ssh.startAgent = false;
 }

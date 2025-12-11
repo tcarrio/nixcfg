@@ -16,6 +16,6 @@
       ];
     };
   };
-  programs.ssh.startAgent = true;
+  programs.ssh.startAgent = lib.mkOverride 999 true;
   networking.firewall.allowedTCPPorts = [ 22 ];
 }
