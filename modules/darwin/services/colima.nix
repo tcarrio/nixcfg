@@ -32,7 +32,6 @@ in
   };
 
   config = mkIf cfg.enable {
-
     environment.systemPackages = with pkgs; [
       colima
       docker_27
@@ -47,6 +46,5 @@ in
       serviceConfig.KeepAlive = false;
       serviceConfig.RunAtLoad = true;
     };
-
   };
 }

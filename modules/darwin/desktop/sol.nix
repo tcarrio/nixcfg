@@ -9,10 +9,14 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
+    homebrew.enable = true;
+    homebrew.casks = ["sol"];
+
+    # Ensure Sol is added to auto-launch on login
     system.activationScripts.extraActivation.text = ''
        osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/Sol.app", hidden:false}'
     '';
 
-    sk.spotlight.enable = false;
+    oxc.spotlight.enable = false;
   };
 }

@@ -1,9 +1,11 @@
 { lib, config, pkgs, username, ... }: {
   imports = [
+    ./aqua.nix
     ./docker.nix
     ./nix-applications.nix
     ./podman.nix
-    ./nix-spotify.nix
     ./sol.nix
+    ./spotlight.nix
+    ./yubikey.nix
   ];
 }

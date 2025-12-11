@@ -2,16 +2,24 @@
 let
   cfg = config.oxc.homebrew;
 
-  # SECTION: homebrew package defaults
+
+  ##################################################
+  # Brew taps
+  ##################################################
+  taps = [
+    "codefresh-io/cli"
+    "oven-sh/bun"
+  ];
+
+
+  ##################################################
+  # Brew formulae
+  ##################################################
   containerBrews = [ ]; # "docker" "docker-compose" "colima";
   toolingBrews = [
-    # "asdf"
     "awscli"
     "ca-certificates"
-    "git-crypt"
-    "git"
     "go-task"
-    "jq"
     "openssl"
   ];
   pythonBrews = [
@@ -90,7 +98,6 @@ let
     "conftest"
     "curl"
     "dbus"
-    "dive"
     "editorconfig"
     "freetype"
     "fswatch"
@@ -99,7 +106,6 @@ let
     "ghostscript"
     "glib"
     "gnu-getopt"
-    "gnupg"
     "gnutls"
     "go"
     "gpatch"
@@ -118,24 +124,17 @@ let
     "re2c"
     "readline"
     "redis"
-    "ripgrep"
     "rustup"
     "sops"
     "sqlite"
     "stern"
     "unixodbc"
-    "unzip"
-    "wget"
     "xz"
     "yarn"
     "zlib"
   ];
-  defaultTaps = [
-    "codefresh-io/cli"
-    "oven-sh/bun"
-  ];
 
-  defaultBrews = containerBrews
+  brews = containerBrews
     ++ toolingBrews
     ++ pythonBrews
     ++ buildBrews
@@ -151,34 +150,49 @@ let
     ++ dataScienceBrews
     ++ baseBrews;
 
-  defaultCasks = [
-    "alacritty"
-    "amethyst"
-    "beeper"
-    "cursor"
-    "docker-desktop"
-    "gimp"
-    "google-chrome"
-    "insomnia"
-    "iterm2"
-    "logitune"
-    "logseq"
+  ##################################################
+  # Brew casks
+  ##################################################
+  securityCasks = [
     "secretive"
-    "sequel-ace"
-    "signal"
-    "sol"
-    "spotify"
     "tailscale-app"
-    "visual-studio-code"
-    "yubico-authenticator"
+  ];
+
+  devCasks = [
+    "alacritty"
     "zed"
+  ];
+
+  webCasks = [
+    "google-chrome"
     "zen"
   ];
 
+  desktopCasks = [
+    "amethyst"
+    "gimp"
+    "logitune"
+    "signal"
+    "sol"
+  ];
+
+  casks = securityCasks
+    ++ devCasks
+    ++ webCasks
+    ++ desktopCasks;
+
+
+  ##################################################
+  # App Store apps managed by MAS
+  ##################################################
   masApps = {
     Flow = 1423210932;
     XCode = 497799835;
   };
+
+  configuredDefaults = if cfg.defaults
+    then { inherit masApps taps brews casks; }
+    else {};
 in {
   options.oxc.homebrew = {
     enable = lib.mkOption {
@@ -205,12 +219,6 @@ in {
       # to update brew packages, use `brew update`
       global.autoUpdate = false;
       onActivation.autoUpdate = false;
-
-      taps = defaultTaps;
-      brews = defaultBrews;
-      casks = defaultCasks;
-
-      inherit masApps;
-    };
+    } // configuredDefaults;
   };
 }

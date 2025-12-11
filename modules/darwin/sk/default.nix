@@ -1,7 +1,8 @@
 { config, username, hostname, lib, pkgs, ... }:
 let
   cfg = config.sk;
-  inherit (lib) fromHexString mkDefault mkIf mkOption optional types;
+  inherit (lib) fromHexString mkIf mkOption optional types;
+  mkSkDefault = value: lib.mkOverride 777 value;
 
   ### The following sets up keyboard mapping primitives
   # There is a base code that is always binary OR'ed with the keycode.
@@ -43,126 +44,32 @@ in {
       default = true;
       description = "Whether to enable the default Homebrew packages";
     };
-    spotlight.enable = mkOption {
-      type = types.bool;
-      default = true;
-      description = "Whether to enable the Spotlight search application and its binding.";
-    };
-    workspaces.dynamic = mkOption {
-      type = types.bool;
-      default = false;
-      description = "Allows macOS to re-order workspaces based on a most-recently-used algorithm.";
-    };
-    workspaces.allowApplicationFocus = mkOption {
-      type = types.bool;
-      default = true;
-      description = "Allows opening an application in another workspace to focus that workspace.";
-    };
   };
 
   config = mkIf cfg.enable {
     oxc.homebrew = {
       inherit (cfg.homebrew) enable defaults;
     };
+    homebrew.casks = lib.optionals cfg.homebrew.enable [
+      "cursor"
+      "docker-desktop"
+      "sequel-ace"
+      "visual-studio-code"
+    ];
+
     oxc.services.xcode.acceptLicense = true;
     oxc.services.caffeinated.enable = true;
 
-    networking.hostName = mkDefault hostname;
-
-    environment.systemPackages = with pkgs.unstable; [
-      neovide
-    ];
-
-    environment.variables = {
-      EDITOR = "nvim";
-      PAGER = "less";
-    };
+    networking.hostName = mkSkDefault hostname;
 
     system = {
-      primaryUser = mkDefault username;
-      defaults = {
-        dock = {
-          autohide = mkDefault true;
-          orientation = mkDefault "bottom";
-          tilesize = mkDefault 64;
-        };
-        finder = { };
-        trackpad = {
-          Clicking = true;
-          TrackpadRightClick = true;
-        };
-        CustomUserPreferences = {
-          "com.apple.symbolichotkeys" = {
-            AppleSymbolicHotKeys = {
-              "64" = {
-                # Controls Cmd + Space for Spotlight
-                enabled = mkDefault false;
-              };
-              # Move left a space (Ctrl+Left)
-              "79" = {
-                enabled = true;
-                value = {
-                  parameters = [
-                    65535  # key code for left arrow
-                    123
-                    262144  # Ctrl modifier
-                  ];
-                  type = "standard";
-                };
-              };
-              # Move right a space (Ctrl+Right)
-              "81" = {
-                enabled = true;
-                value = {
-                  parameters = [
-                    65535  # key code for right arrow
-                    124
-                    262144  # Ctrl modifier
-                  ];
-                  type = "standard";
-                };
-              };
-            };
-          };
-          "com.apple.dock" = {
-            # Fast mode for application switching across workspaces with app launchers
-            "workspaces-auto-swoosh" = cfg.workspaces.allowApplicationFocus;
-            # Allows macOS to re-arrange spaces ordering
-            "mru-spaces" = cfg.workspaces.dynamic;
-          };
-
-          # Support for SmartCards like YubiKeys
-          "com.apple.security.smartcard" = {
-            "UserPairing" = mkDefault true;
-          };
-        };
-      };
-
       keyboard = {
         enableKeyMapping = true;
         userKeyMapping = [
+          # Maps Caps Lock to F24, a useful binding for various applications such as Cursor Tab
           { HIDKeyboardModifierMappingSrc = keymapCode keyCodes.CapsLock; HIDKeyboardModifierMappingDst = keymapCode keyCodes.F24; }
         ];
       };
-    };
-
-    # Launchd service based on https://github.com/antoineco/dotfiles/blob/901a5ae6f4cb6f6f810b9657596708f614c4de96/flake.nix#L376-L393
-    launchd.user.agents.UserKeyMapping.serviceConfig = {
-      ProgramArguments = [
-        "/usr/bin/hidutil"
-        "property"
-        "--match"
-        "{&quot;ProductID&quot;:0x0,&quot;VendorID&quot;:0x0,&quot;Product&quot;:&quot;Apple Internal Keyboard / Trackpad&quot;}"
-        "--set"
-        (
-          let
-            jsonSerializedMappings = builtins.toJSON config.system.keyboard.userKeyMapping;
-            escapedQuotesMappings = builtins.replaceStrings [''\"''] ["&quot;"] jsonSerializedMappings;
-          in
-          escapedQuotesMappings
-        )
-      ];
-      RunAtLoad = true;
     };
   };
 }

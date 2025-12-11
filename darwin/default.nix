@@ -1,5 +1,7 @@
 { pkgs, hostname, username, platform, stateVersion, outputs, lib, isDeterminateNix, ... /* lib, config */ }:
 let
+  inherit (lib) mkDefault;
+
   nixSettings = {
     # Necessary for using flakes on this system.
     experimental-features = "nix-command flakes";
@@ -38,6 +40,7 @@ let
     else "sudo launchctl stop org.nixos.nix-daemon && sudo launchctl start org.nixos.nix-daemon";
 in {
   imports = [
+    ./mixins/desktop/aqua.nix
     ./mixins/users/${username}
     ../modules/darwin
   ] ++ lib.optionals (builtins.pathExists (./workstation/${hostname})) [
@@ -49,7 +52,13 @@ in {
   environment.systemPackages = with pkgs; [
     direnv
     home-manager
+    neovim
+    unstable.neovide
   ];
+  environment.variables = {
+    EDITOR = "nvim";
+    PAGER = "less";
+  };
 
   fonts = {
     packages = with pkgs; [
@@ -133,6 +142,8 @@ in {
       };
     };
   };
+
+  system.primaryUser = mkDefault username;
 
   # Set Git commit hash for darwin-version.
   system.configurationRevision = null; # TODO: Not compatible after moving to unstable

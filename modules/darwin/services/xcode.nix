@@ -1,4 +1,9 @@
-{ lib, config, username, ... }: {
+{ lib, config, username ? null, ... }:
+let
+  cfg = config.oxc.services.xcode;
+  primaryUsername = if username == null then  config.system.primaryUser else username;
+in
+{
   options.oxc.services.xcode = {
     acceptLicense = lib.mkOption {
       default = true;
@@ -7,9 +12,9 @@
   };
 
   # https://github.com/LnL7/nix-darwin/issues/214#issuecomment-2050027696
-  config = lib.mkIf config.oxc.services.xcode.acceptLicense {
+  config = lib.mkIf cfg.acceptLicense {
     system.activationScripts.AcceptXCodeLicense.text = ''
-      sudo --user=${username} xcodebuild -license accept
+      sudo --user=${primaryUsername} xcodebuild -license accept
     '';
   };
 }

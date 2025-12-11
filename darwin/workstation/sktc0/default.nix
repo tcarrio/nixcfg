@@ -4,5 +4,5 @@
 # SATA:        500GB SSD
 
 _: {
-  sk.enable = true;
+  sk.enable = false;
 }
