@@ -169,7 +169,6 @@ let
     "sol"
     "spotify"
     "tailscale-app"
-    "tidal"
     "visual-studio-code"
     "yubico-authenticator"
     "zed"
@@ -177,8 +176,8 @@ let
   ];
 
   masApps = {
-    "XCode" = 497799835;
-    "Flow" = 1423210932;
+    Flow = 1423210932;
+    XCode = 497799835;
   };
 in {
   options.oxc.homebrew = {
