@@ -178,7 +178,7 @@
     git = {
       enable = true;
       settings = {
-        aliases = {
+        alias = {
           a = "add";
           f = "fetch";
           p = "push";
