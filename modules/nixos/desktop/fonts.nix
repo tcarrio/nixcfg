@@ -38,14 +38,14 @@ in
         fira-go
         liberation_ttf
         source-serif
-        ubuntu_font_family
+        ubuntu-classic
         work-sans
       ]) ++ (optionalList (cfg.ultraMode || cfg.japanese) [
         ipafont
         kochi-substitute
       ]) ++ (optionalList (cfg.ultraMode || cfg.emoji) [
         joypixels
-        noto-fonts-emoji
+        noto-fonts-color-emoji
       ]);
 
       # Enable a basic set of fonts providing several font styles and families and reasonable coverage of Unicode.
