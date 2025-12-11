@@ -23,7 +23,7 @@
   };
 
   inputs = {
-    # Primary source from FlakeHub follows the current release cycle, e.g. 25.05.
+    # Primary source from FlakeHub follows the current release cycle, e.g. 25.11.
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
 
     # You can access packages and modules from different nixpkgs revs at the
@@ -37,7 +37,7 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Chaotic's Nyx provides many additional packages like NordVPN
@@ -56,7 +56,7 @@
     devshells.inputs.nixpkgs.follows = "nixpkgs";
 
     # Darwin support with nix-darwin
-    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.05";
+    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.11";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     # nixos-generators for sdcard and raw disk install generation

@@ -114,7 +114,7 @@ Available through `pkgs` in configurations:
 
 - Repository is cloned to `~/0xc/nixcfg` by convention
 - Fish shell is used across all platforms with consistent aliases
-- Configurations support both stable (25.05) and unstable nixpkgs channels
+- Configurations support both stable (25.11) and unstable nixpkgs channels
 - Infrastructure uses OpenTofu with Cloudflare R2 backend for state storage
 - All systems use systemd-boot or GRUB for booting
 - Cross-compilation supported for building across architectures
