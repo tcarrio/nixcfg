@@ -16,7 +16,7 @@ in {
   programs.git = {
     enable = true;
     settings = {
-      aliases = {
+      alias = {
         co = "checkout";
         br = "branch";
         ci = "commit";
