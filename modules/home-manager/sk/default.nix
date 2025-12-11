@@ -130,6 +130,6 @@ in {
         };
     };
 
-    programs.git.userEmail = lib.mkForce "thomas.carrio@skillshare.com";
+    programs.git.settings.user.email = lib.mkForce "thomas.carrio@skillshare.com";
   };
 }
