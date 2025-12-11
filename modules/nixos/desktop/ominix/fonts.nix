@@ -7,7 +7,7 @@ let
 
     noto-fonts
 
-    # for noto-fonts-emoji
+    # for noto-fonts-color-emoji
     noto-fonts-color-emoji
 
     # for noto-fonts-cjk      

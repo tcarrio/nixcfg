@@ -54,7 +54,6 @@ in
           obs-move-transition
           obs-mute-filter
           obs-pipewire-audio-capture
-          obs-rgb-levels-filter
           obs-text-pthread
           obs-scale-to-sound
           advanced-scene-switcher
