@@ -14,7 +14,7 @@
   services.displayManager.gdm.enable = true;
 
   # Disable Wayland (issues with Electron app rendering)
-  services.xserver.displayManager.gdm.wayland = false;
+  services.displayManager.gdm.wayland = true;
 
   # Enable udev rules
   services.udev.packages = with pkgs; [ gnome-settings-daemon ];

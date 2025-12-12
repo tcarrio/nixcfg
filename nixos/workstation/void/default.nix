@@ -21,11 +21,10 @@
   ];
 
   oxc = {
-    # TODO: Fix conflicts with Ominix
-    # containerisation = {
-    #   enable = true;
-    #   engine = "podman";
-    # };
+    containerisation = {
+      enable = true;
+      engine = "podman";
+    };
     desktop = {
       bitwarden.enable = true;
       discord.enable = true;

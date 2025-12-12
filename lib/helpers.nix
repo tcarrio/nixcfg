@@ -35,7 +35,6 @@ in
     ]
     ++ (lib.optionals (installer != null) [ installer ])
     ++ (lib.optionals determinate [ inputs.determinate.nixosModules.default ])
-    ++ (lib.optionals (desktop == "cosmic") [ inputs.nixos-cosmic.nixosModules.default ])
     ++ (lib.optionals (desktop == "hyprvibe") [ inputs.hyprvibe.nixosModules.default ]);
   };
 

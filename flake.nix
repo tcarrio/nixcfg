@@ -71,20 +71,12 @@
     bun2nix.url = "github:baileyluTCD/bun2nix";
     bun2nix.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Omarchy repository for configs and scripts
-    omarchy.url = "github:basecamp/omarchy";
-    omarchy.flake = false;
-
     # Nixvim for neovim configuration
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     # Determinate Nix modules
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
-
-    # NixOS COSMIC Alpha DE
-    nixos-cosmic.url = "github:lilyinstarlight/nixos-cosmic";
-    nixos-cosmic.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     # Hyprvibe (Hyprland) setup
     hyprvibe.url = "github:tcarrio/hyprvibe";
@@ -176,8 +168,8 @@
         "tcarrio@sktc1" = libx.mkHome { hostname = "sktc1"; username = "tcarrio"; platform = "aarch64-darwin"; };
         "tcarrio@sktc2" = libx.mkHome { hostname = "sktc2"; username = "tcarrio"; platform = "aarch64-darwin"; };
         "tcarrio@glass" = libx.mkHome { hostname = "glass"; username = "tcarrio"; desktop = "kde6"; };
-        "tcarrio@obsidian" = libx.mkHome { hostname = "obsidian"; username = "tcarrio"; desktop = "kde6"; };
-        "tcarrio@void" = libx.mkHome { hostname = "void"; username = "tcarrio"; desktop = "ominix"; };
+        "tcarrio@obsidian" = libx.mkHome { hostname = "obsidian"; username = "tcarrio"; desktop = "gnome"; };
+        "tcarrio@void" = libx.mkHome { hostname = "void"; username = "tcarrio"; desktop = "cosmic"; };
         "tcarrio@t510" = libx.mkHome { hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
         "tcarrio@vm" = libx.mkHome { hostname = "vm"; username = "tcarrio"; desktop = "gnome"; };
         "tcarrio@chasm" = libx.mkHome { hostname = "chasm"; username = "tcarrio"; desktop = "i3"; };
@@ -207,8 +199,8 @@
         #  - sudo nixos-rebuild switch --flake $HOME/0xc/nixcfg
         #  - nix build .#nixosConfigurations.ripper.config.system.build.toplevel
         glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "kde6"; };
-        obsidian = libx.mkHost { systemType = "workstation"; hostname = "obsidian"; username = "tcarrio"; desktop = "kde6"; determinate = true; };
-        void = libx.mkHost { systemType = "workstation"; hostname = "void"; username = "tcarrio"; desktop = "ominix"; };
+        obsidian = libx.mkHost { systemType = "workstation"; hostname = "obsidian"; username = "tcarrio"; desktop = "gnome"; determinate = true; };
+        void = libx.mkHost { systemType = "workstation"; hostname = "void"; username = "tcarrio"; desktop = "cosmic"; };
         t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
         t510-headless = libx.mkHost { systemType = "workstation"; hostname = "t510-headless"; username = "tcarrio"; };
         chasm = libx.mkHost { systemType = "workstation"; hostname = "chasm"; username = "tcarrio"; desktop = "i3"; };
@@ -253,7 +245,8 @@
               unstable.bun
               bun2NixPkg
               self.packages.${system}.gh-composer-auth
-              self.packages.${system}.gqurl
+              # TODO: Fix gqurl package
+              # self.packages.${system}.gqurl
               # TODO: Re-enable support for mac-launcher with system-contextual pkgs
               # self.packages.${system}.mac-launcher
               self.packages.${system}.nixvim
@@ -273,7 +266,8 @@
               home-manager
               git
               self.packages.${system}.gh-composer-auth
-              self.packages.${system}.gqurl
+              # TODO: Fix gqurl package
+              # self.packages.${system}.gqurl
               self.packages.${system}.nixvim
             ];
           });
@@ -307,8 +301,8 @@
           (system:
             let
               pkgs = mkPkgsForSystemFromInput system nixpkgs;
-              inherit (bun2nix.lib.${system}) mkBunDerivation;
-              localPackages = (import ./pkgs { inherit pkgs mkBunDerivation nixvim; });
+              mkStandardBun = libx.mkBunDerivation inputs.bun2nix.packages.${system}.default;
+              localPackages = (import ./pkgs { inherit pkgs mkStandardBun nixvim; });
             in
               (lib.optionalAttrs (system == "x86_64-linux") {
                 # TODO: Linode image is still too large: reduction with `qemu-img resize --shrink ./nixos.img 5.5G` didn't error out but image will not boot

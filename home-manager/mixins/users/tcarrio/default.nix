@@ -55,7 +55,8 @@ Host obsidian
     ])
     ++ (with pkgs; [
       gh-composer-auth
-      gqurl
+      # TODO: Fix package
+      # gqurl
     ]);
   };
 

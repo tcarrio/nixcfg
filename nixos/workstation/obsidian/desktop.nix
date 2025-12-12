@@ -1,10 +1,4 @@
 { pkgs, lib, config, ... }: {
-  # Configure ominix settings, which will be ignored if Ominix is not enabled
-  ominix = {
-    wireless.enable = false;
-    bluetooth.enable = false;
-  };
-
   # Global packages on host
   environment.systemPackages = with pkgs; [
     openmw

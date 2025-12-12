@@ -19,7 +19,6 @@ _: {
     ./lutris.nix
     ./microsoft-edge.nix
     ./obs-studio.nix
-    ./ominix
     ./opera.nix
     ./simple-scan.nix
     ./spotify.nix

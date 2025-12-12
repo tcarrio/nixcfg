@@ -14,5 +14,5 @@ in
     forAllLinux
     forAllDarwin;
 
-  inherit (bun) mkBunDerivation mkStandardBun;
+  inherit (bun) mkBunDerivation;
 }

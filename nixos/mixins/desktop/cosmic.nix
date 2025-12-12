@@ -9,7 +9,11 @@
 { pkgs, ... }: {
   # Setup login screen and desktop manager to be COSMIC
   services.desktopManager.cosmic.enable = true;
-  services.displayManager.cosmic-greeter.enable = true;
+  services.displayManager.gdm.enable = true;
+
+  # Use the Gnome Keyring SSH agent setup over OpenSSH
+  services.gnome.gcr-ssh-agent.enable = true;
+  programs.ssh.startAgent = false;
 
   # Support for Clipboard Manager
   environment.sessionVariables.COSMIC_DATA_CONTROL_ENABLED = 1;

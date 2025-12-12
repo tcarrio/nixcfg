@@ -1,5 +1,12 @@
 { config, lib, pkgs, ... }:
-with lib.hm.gvariant;
+let
+  mkTheme = name: package: { inherit name package; };
+
+  # Reusable references for icon, cursor, and GTK theme configs
+  iconTheme = mkTheme "Numix-Square" pkgs.numix-icon-theme-square;
+  cursorTheme = mkTheme "Numix-Cursor" pkgs.numix-cursor-theme;
+  gtkTheme = mkTheme "NumixStandard" pkgs.numix-solarized-gtk-theme;
+in
 {
   dconf.settings = {
     "com/github/stsdc/monitor/settings" = {
@@ -44,12 +51,12 @@ with lib.hm.gvariant;
       clock-format = "24h";
       color-scheme = "prefer-dark";
       cursor-size = 24;
-      cursor-theme = "adwaita";
+      cursor-theme = cursorTheme.name;
       document-font-name = "Work Sans 12";
       font-name = lib.mkDefault "Work Sans 12";
       gtk-theme = "org.gnome.theme";
       gtk-enable-primary-paste = true;
-      icon-theme = "adwaita";
+      icon-theme = iconTheme.name;
       monospace-font-name = "FiraCode Nerd Font Medium 13";
       text-scaling-factor = 1.0;
     };
@@ -123,9 +130,7 @@ with lib.hm.gvariant;
 
   gtk = {
     enable = true;
-    cursorTheme = {
-      name = "adwaita";
-      package = pkgs.adwaita-icon-theme;
+    cursorTheme = cursorTheme // {
       size = 24;
     };
 
@@ -153,20 +158,15 @@ with lib.hm.gvariant;
       };
     };
 
-    iconTheme = {
-      name = "adwaita";
-      package = pkgs.adwaita-icon-theme;
-    };
+    inherit iconTheme;
 
     theme = {
       name = "org.gnome.theme";
-      package = pkgs.numix-solarized-gtk-theme;
+      package = gtkTheme.package;
     };
   };
 
-  home.pointerCursor = {
-    package = pkgs.adwaita-icon-theme;
-    name = "adwaita";
+  home.pointerCursor = cursorTheme // {
     size = 24;
     gtk.enable = true;
     x11.enable = true;

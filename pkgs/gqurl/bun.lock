@@ -1,11 +1,12 @@
 {
   "lockfileVersion": 1,
+  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "@0xc/gqurl",
       "devDependencies": {
         "@biomejs/biome": "^2.0.0",
-        "@types/bun": "latest",
+        "@types/bun": "^1",
       },
       "peerDependencies": {
         "typescript": "^5.0.0",

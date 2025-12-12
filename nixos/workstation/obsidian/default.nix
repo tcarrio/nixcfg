@@ -16,7 +16,6 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
-    # Ominix defines Nvidia hardware config
     ../../mixins/hardware/gtx-1080ti.nix
     ../../mixins/hardware/roccat.nix
     ../../mixins/hardware/systemd-boot.nix
@@ -45,9 +44,7 @@
     virtualisation.enable = true;
   };
 
-  ominix.hardware.gpu.nvidia = true;
   virtualisation.docker.enable = false; 
-
 
   services.ollama = {
     package = pkgs.unstable.ollama-cuda;
