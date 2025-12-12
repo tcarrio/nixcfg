@@ -21,6 +21,7 @@
     ente.enable = true;
     logseq.enable = true;
     obs-studio.enable = true;
+    signal.enable = true;
     steam = {
       enable = true;
       audioSupport.jack = true;

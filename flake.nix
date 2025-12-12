@@ -66,10 +66,6 @@
     # Extended Flatpak configuration
     flatpaks.url = "github:in-a-dil-emma/declarative-flatpak/latest";
 
-    # Zen Browser
-    zen-browser.url = "github:youwen5/zen-browser-flake";
-    zen-browser.inputs.nixpkgs.follows = "nixpkgs-unstable";
-
     # Bun packaging
     bun2nix.url = "github:baileyluTCD/bun2nix";
     bun2nix.inputs.nixpkgs.follows = "nixpkgs";

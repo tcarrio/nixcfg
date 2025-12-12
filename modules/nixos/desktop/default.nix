@@ -21,6 +21,7 @@ _: {
     ./microsoft-edge.nix
     ./obs-studio.nix
     ./opera.nix
+    ./signal.nix
     ./simple-scan.nix
     ./spotify.nix
     ./steam.nix

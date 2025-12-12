@@ -26,7 +26,7 @@
     ../../mixins/users/grigori/default.nix
 
     ../../mixins/servers/pixiecore-pxe.nix
-  ] ++ lib.optional (builtins.isString desktop) ./desktop.nix;
+  ] ++ (lib.optional (builtins.isString desktop) ./desktop.nix);
 
   oxc = {
     services = {
