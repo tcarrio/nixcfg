@@ -63,6 +63,9 @@
     nixos-generators.url = "github:tcarrio/nixos-generators";
     nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Extended Flatpak configuration
+    flatpaks.url = "github:in-a-dil-emma/declarative-flatpak/latest";
+
     # Zen Browser
     zen-browser.url = "github:youwen5/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs-unstable";

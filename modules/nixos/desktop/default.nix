@@ -12,6 +12,7 @@ _: {
     ./ente.nix
     ./evolution.nix
     ./firefox.nix
+    ./flatpak.nix
     ./fonts.nix
     ./fractal.nix
     ./google-chrome.nix

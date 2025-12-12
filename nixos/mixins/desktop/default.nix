@@ -26,6 +26,9 @@ let
     # Disable xterm
     services.xserver.excludePackages = [ pkgs.xterm ];
     services.xserver.desktopManager.xterm.enable = false;
+
+    # We support Flatpak as a default on desktop-enabled systems
+    oxc.desktop.flatpak.enable = true;
   };
   desktopDisabledConfig = {
     hardware.graphics.enable = false;

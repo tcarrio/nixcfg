@@ -32,6 +32,7 @@ in
       (import ./cache-settings.nix (specialArgs // { isDeterminateNix = determinate; }))
       inputs.agenix.nixosModules.default
       inputs.chaotic.nixosModules.default
+      inputs.flatpaks.nixosModules.default
     ]
     ++ (lib.optionals (installer != null) [ installer ])
     ++ (lib.optionals determinate [ inputs.determinate.nixosModules.default ])
