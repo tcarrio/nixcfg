@@ -47,7 +47,9 @@ in
     };
 
     environment.profileRelativeSessionVariables.XDG_DATA_DIR = [
-      "/usr/share:/var/lib/flatpak/exports/share:$HOME/.local/share/flatpak/exports/share"
+      "/usr/share"
+      "/var/lib/flatpak/exports/share"
+      "$HOME/.local/share/flatpak/exports/share"
     ];
 
     xdg.portal.enable = true;
