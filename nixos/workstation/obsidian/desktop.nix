@@ -16,6 +16,7 @@
 
   # Various desktop apps from core modules
   oxc.desktop = {
+    bitwarden.enable = true;
     daw.enable = true;
     fonts.ultraMode = true;
     ente.enable = true;
