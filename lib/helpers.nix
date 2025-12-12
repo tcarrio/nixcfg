@@ -36,7 +36,8 @@ in
     ]
     ++ (lib.optionals (installer != null) [ installer ])
     ++ (lib.optionals determinate [ inputs.determinate.nixosModules.default ])
-    ++ (lib.optionals (desktop == "hyprvibe") [ inputs.hyprvibe.nixosModules.default ]);
+    ++ (lib.optionals (desktop == "hyprvibe") [ inputs.hyprvibe.nixosModules.default ])
+    ++ (lib.optionals (desktop != null) [ inputs.nix-citizen.nixosModules.default ]);
   };
 
   mkDarwin = { hostname, username, stateVersion ? 4, platform ? "aarch64-darwin", determinate ? true }: inputs.nix-darwin.lib.darwinSystem rec {

@@ -7,6 +7,8 @@
     heroic
   ];
 
+  programs.rsi-launcher.enable = true;
+
   # OpenRGB configurations
   services.hardware.openrgb = {
     enable = true;

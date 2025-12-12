@@ -79,6 +79,9 @@
 
     # Hyprvibe (Hyprland) setup
     hyprvibe.url = "github:tcarrio/hyprvibe";
+
+    # Star Citizen
+    nix-citizen.url = "github:LovingMelody/nix-citizen";
   };
   outputs =
     { self
