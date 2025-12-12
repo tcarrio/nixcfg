@@ -14,6 +14,7 @@
 # openh264                                         org.freedesktop.Platform.openh264                          2.5.1                                 2.5.1                    system
 # Freedesktop SDK                                  org.freedesktop.Sdk                                        freedesktop-sdk-25.08.5               25.08                    system
 
+# TODO: Refactor Flatpak installs to home-manager
 { lib, config, ... }:
 let
   cfg = config.oxc.desktop.flatpak;
