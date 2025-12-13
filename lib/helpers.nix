@@ -22,23 +22,29 @@ in
   # - installer: can be one of the following:
   #    - "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
   #    - "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"
-  mkHost = { hostname, username, systemType, desktop ? null, installer ? null, determinate ? true }: lib.nixosSystem rec {
-    specialArgs = {
-      inherit self inputs outputs desktop hostname username stateVersion systemType sshMatrix tailnetMatrix;
-      adminGroup = "@wheel";
+  mkHost = { hostname, username, systemType, desktop ? null, installer ? null, determinate ? true }:
+    let
+      isWorkstation = systemType == "workstation";
+      isGamingSystem = isWorkstation && desktop != null;
+    in lib.nixosSystem rec {
+      specialArgs = {
+        inherit self inputs outputs desktop hostname username stateVersion systemType sshMatrix tailnetMatrix;
+        adminGroup = "@wheel";
+      };
+      modules = [
+        ../nixos
+        (import ./cache-settings.nix (specialArgs // { isDeterminateNix = determinate; }))
+        inputs.agenix.nixosModules.default
+      ]
+      ++ (lib.optionals determinate [ inputs.determinate.nixosModules.default ])
+      ++ (lib.optionals (installer != null) [ installer ])
+      ++ (lib.optionals isWorkstation [
+        inputs.chaotic.nixosModules.default
+        inputs.flatpaks.nixosModules.default
+      ])
+      ++ (lib.optionals (desktop == "hyprvibe") [ inputs.hyprvibe.nixosModules.default ])
+      ++ (lib.optionals isGamingSystem [inputs.nix-citizen.nixosModules.default]);
     };
-    modules = [
-      ../nixos
-      (import ./cache-settings.nix (specialArgs // { isDeterminateNix = determinate; }))
-      inputs.agenix.nixosModules.default
-      inputs.chaotic.nixosModules.default
-      inputs.flatpaks.nixosModules.default
-    ]
-    ++ (lib.optionals (installer != null) [ installer ])
-    ++ (lib.optionals determinate [ inputs.determinate.nixosModules.default ])
-    ++ (lib.optionals (desktop == "hyprvibe") [ inputs.hyprvibe.nixosModules.default ])
-    ++ (lib.optionals (desktop != null) [ inputs.nix-citizen.nixosModules.default ]);
-  };
 
   mkDarwin = { hostname, username, stateVersion ? 4, platform ? "aarch64-darwin", determinate ? true }: inputs.nix-darwin.lib.darwinSystem rec {
     specialArgs = {
