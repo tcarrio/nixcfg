@@ -904,7 +904,9 @@
     "nix-citizen": {
       "inputs": {
         "flake-parts": "flake-parts_3",
-        "nix-gaming": "nix-gaming",
+        "nix-gaming": [
+          "nix-gaming"
+        ],
         "nix-github-actions": "nix-github-actions_2",
         "nixpkgs": "nixpkgs_5",
         "systems": "systems_5",
@@ -970,17 +972,14 @@
     "nix-gaming": {
       "inputs": {
         "flake-parts": "flake-parts_4",
-        "nixpkgs": [
-          "nix-citizen",
-          "nixpkgs"
-        ]
+        "nixpkgs": "nixpkgs_6"
       },
       "locked": {
-        "lastModified": 1765365125,
-        "narHash": "sha256-quV00819KLw8yYcfI1KPWMWVjz9iGqhNdw+CdXbAGYg=",
+        "lastModified": 1765505604,
+        "narHash": "sha256-ldyzNBEwP9qIXz087HGJ73OH8hp1YoPDgtK9aaii1PU=",
         "owner": "fufexan",
         "repo": "nix-gaming",
-        "rev": "5570bb0a25c4fdcab4c57b3f3fac63073701239f",
+        "rev": "2597ac42bcf2b32253ab6acab70264fdbb2b102e",
         "type": "github"
       },
       "original": {
@@ -1325,6 +1324,22 @@
     },
     "nixpkgs_6": {
       "locked": {
+        "lastModified": 1764947035,
+        "narHash": "sha256-EYHSjVM4Ox4lvCXUMiKKs2vETUSL5mx+J2FfutM7T9w=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "a672be65651c80d3f592a89b3945466584a22069",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_7": {
+      "locked": {
         "lastModified": 1765311797,
         "narHash": "sha256-mSD5Ob7a+T2RNjvPvOA1dkJHGVrNVl8ZOrAwBjKBDQo=",
         "rev": "09eb77e94fa25202af8f3e81ddc7353d9970ac1b",
@@ -1450,9 +1465,10 @@
         "nix-citizen": "nix-citizen",
         "nix-darwin": "nix-darwin",
         "nix-formatter-pack": "nix-formatter-pack",
+        "nix-gaming": "nix-gaming",
         "nixos-generators": "nixos-generators",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs_6",
+        "nixpkgs": "nixpkgs_7",
         "nixpkgs-trunk": "nixpkgs-trunk",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nixvim": "nixvim",

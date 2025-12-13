@@ -80,8 +80,10 @@
     # Hyprvibe (Hyprland) setup
     hyprvibe.url = "github:tcarrio/hyprvibe";
 
-    # Star Citizen
+    # Gaming flakes for Star Citizen, Rocket League, etc.
+    nix-gaming.url = "github:fufexan/nix-gaming";
     nix-citizen.url = "github:LovingMelody/nix-citizen";
+    nix-citizen.inputs.nix-gaming.follows = "nix-gaming";
   };
   outputs =
     { self
@@ -122,7 +124,6 @@
       devShellFactory = ({ pkgs, bun2NixPkg, ... }: {
         packages = (
           with pkgs; [
-            nix
             home-manager
             git
             cargo
@@ -201,7 +202,7 @@
         #  - sudo nixos-rebuild switch --flake $HOME/0xc/nixcfg
         #  - nix build .#nixosConfigurations.ripper.config.system.build.toplevel
         glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "kde6"; };
-        obsidian = libx.mkHost { systemType = "workstation"; hostname = "obsidian"; username = "tcarrio"; desktop = "gnome"; determinate = true; };
+        obsidian = libx.mkHost { systemType = "workstation"; hostname = "obsidian"; username = "tcarrio"; desktop = "gnome"; };
         void = libx.mkHost { systemType = "workstation"; hostname = "void"; username = "tcarrio"; desktop = "cosmic"; };
         t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
         t510-headless = libx.mkHost { systemType = "workstation"; hostname = "t510-headless"; username = "tcarrio"; };
