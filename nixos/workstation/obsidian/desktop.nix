@@ -1,10 +1,11 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, inputs, ... }: {
   # Global packages on host
   environment.systemPackages = with pkgs; [
     openmw
     open-webui
     tor-browser
     heroic
+    inputs.nix-gaming.packages.${pkgs.stdenv.hostPlatform.system}.rocket-league
   ];
 
   programs.rsi-launcher.enable = true;
