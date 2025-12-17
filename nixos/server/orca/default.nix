@@ -17,6 +17,7 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     (import ./disks.nix { })
+    (import ./disks-hdds.nix { })
     ../../mixins/hardware/grub-legacy-boot.nix
   ];
 
