@@ -38,7 +38,6 @@
   };
 
   # Services
-  services.cryptpad.enable = true;
 
   # Hardware config
 
