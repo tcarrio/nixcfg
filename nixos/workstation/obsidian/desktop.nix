@@ -42,7 +42,6 @@
     };
     transmission = {
       enable = true;
-      package = pkgs.transmission_4-qt;
       firewall.open = true;
     };
     vscode = {
