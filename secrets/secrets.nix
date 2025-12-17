@@ -3,17 +3,26 @@ let
   inherit (sshMatrix) groups systems;
   inherit (systems) glass;
 
-  autoMeshSystems = [
-    glass.host
-    systems.nix-proxy-droplet.host
-  ];
+  mapSetValues = f: set:
+    map f (
+      map (key: set.${key}) (builtins.attrNames set)
+    );
+
+  allSystemHostKeys = builtins.filter
+    (host: host != null)
+    (mapSetValues
+      (system: if (system ? host) then system.host else null)
+      systems
+    );
+
+  autoMeshSystems = allSystemHostKeys;
 in
 {
   "users/tcarrio/ssh.age".publicKeys = groups.privileged_users ++ [ glass.tcarrio glass.host ];
   "services/netbird/token.age".publicKeys = groups.privileged_users ++ autoMeshSystems;
   "services/tailscale/token.age".publicKeys = groups.privileged_users ++ autoMeshSystems;
   # "services/jira-cli/token.age".publicKeys = macos;
-  "services/acme/cloudflare.age".publicKeys = groups.privileged_users ++ [ systems.nix-proxy-droplet.host ];
+  "services/acme/cloudflare.age".publicKeys = groups.privileged_users ++ [];
   "services/hoarder/env.age".publicKeys = groups.privileged_users ++ [ systems.obsidian.host ];
 
   "network-shares/ds418/smb.conf.age".publicKeys = groups.privileged_users;
