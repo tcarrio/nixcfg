@@ -18,7 +18,6 @@
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     (import ./disks.nix { })
     ../../mixins/hardware/grub-legacy-boot.nix
-    ../../mixins/services/bluetooth.nix
   ];
 
   # boot.swraid.enable = true;
