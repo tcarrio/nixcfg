@@ -1,10 +1,10 @@
 { pkgs, ... }:
-let 
-  mcpdoc-wrapper-of = name: projectUrlMap: 
+let
+  mcpdoc-wrapper-of = name: projectUrlMap:
     let
       urlArgs = builtins.concatStringsSep " " (
-        builtins.map (name: ''"${name}:${projectUrlMap.${name}}"'') 
-        (builtins.attrNames projectUrlMap)
+        builtins.map (name: ''"${name}:${projectUrlMap.${name}}"'')
+          (builtins.attrNames projectUrlMap)
       );
     in
     pkgs.writeShellScriptBin "mcpdoc-wrapper-${name}" ''
@@ -23,7 +23,8 @@ let
     "Effect" = "https://effect.website/llms.txt";
   };
 
-in {
+in
+{
   home.packages = [
     pkgs.unstable.claude-code
 
@@ -31,16 +32,16 @@ in {
     mcpdoc-wrapper-vercel-ai
     mcpdoc-wrapper-effect
   ];
-  
+
   home.file.".mcp.json".text = builtins.toJSON {
     mcpServers = {
       vercel_ai_sdk_docs = {
         command = "${mcpdoc-wrapper-vercel-ai}/bin/mcpdoc-wrapper-vercel-ai";
-        args = [];
+        args = [ ];
       };
       effect_docs = {
         command = "${mcpdoc-wrapper-effect}/bin/mcpdoc-wrapper-effect";
-        args = [];
+        args = [ ];
       };
     };
   };

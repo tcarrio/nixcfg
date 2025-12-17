@@ -190,10 +190,12 @@ let
     XCode = 497799835;
   };
 
-  configuredDefaults = if cfg.defaults
+  configuredDefaults =
+    if cfg.defaults
     then { inherit masApps taps brews casks; }
-    else {};
-in {
+    else { };
+in
+{
   options.oxc.homebrew = {
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -209,7 +211,7 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPath = ["/opt/homebrew/bin"];
+    environment.systemPath = [ "/opt/homebrew/bin" ];
 
     homebrew = {
       enable = true;

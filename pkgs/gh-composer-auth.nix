@@ -1,9 +1,10 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import <nixpkgs> { } }:
 
 let
   ghCli = "${pkgs.gh}/bin/gh";
   composerCfgCmd = "composer config --no-plugins --global";
-in pkgs.writeShellScriptBin "gh-composer-auth" ''
+in
+pkgs.writeShellScriptBin "gh-composer-auth" ''
   #!${pkgs.bash}/bin/bash
   set -e
 

@@ -1,7 +1,6 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, lib, ... }:
 let
   isLinux = pkgs.stdenv.hostPlatform.system == "linux";
-  enableNonConfigurationsByDefault = lib.mkDefault isLinux;
 in
 {
   programs.zed-editor = {
@@ -57,7 +56,7 @@ in
     ## - swift
     ## - vue
     ## - zed-roc
-    extensions = [];
+    extensions = [ ];
 
     # {
     #   "buffer_font_family": "Ubuntu Mono derivative Powerline",

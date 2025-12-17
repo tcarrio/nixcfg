@@ -2,7 +2,7 @@
 # Build them using 'nix build .#example' or (legacy) 'nix-build -A example'
 { pkgs, mkStandardBun, nixvim }: {
   awsesh = pkgs.callPackage ./awsesh.nix { inherit pkgs; };
-  gh-composer-auth = pkgs.callPackage ./gh-composer-auth.nix {};
+  gh-composer-auth = pkgs.callPackage ./gh-composer-auth.nix { };
   kube-rsync = pkgs.callPackage ./kube-rsync/default.nix { inherit pkgs; };
   # TODO: Fix non-Darwin build issue
   # mac-launcher = pkgs.callPackage ./mac-launcher.nix { inherit pkgs; };

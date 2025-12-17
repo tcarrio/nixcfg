@@ -1,12 +1,10 @@
-
-
-
 { lib, config, ... }:
 let
   enabled = config.oxc.spotlight.enable;
 
   inherit (lib) mkOption types;
-in {
+in
+{
   options.oxc.spotlight.enable = mkOption {
     type = types.bool;
     default = true;

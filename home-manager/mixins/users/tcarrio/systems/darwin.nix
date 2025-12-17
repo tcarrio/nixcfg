@@ -1,9 +1,10 @@
-{ pkgs, inputs, platform, config, ...}:
+{ pkgs, inputs, platform, config, ... }:
 let
   agenix = inputs.agenix.packages.${platform}.default;
   homeDir = config.home.homeDirectory;
   secretiveAgentSocket = "${homeDir}/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
-in {
+in
+{
   home.packages = [
     agenix
   ] ++ (with pkgs.unstable; [
@@ -11,7 +12,7 @@ in {
   ]);
 
   home.sessionVariables = {
-    NIXPKGS_ALLOW_UNFREE="1";
+    NIXPKGS_ALLOW_UNFREE = "1";
     SSH_AUTH_SOCK = secretiveAgentSocket;
   };
 

@@ -18,7 +18,7 @@ in
         (
           let
             jsonSerializedMappings = builtins.toJSON config.system.keyboard.userKeyMapping;
-            escapedQuotesMappings = builtins.replaceStrings [''\"''] ["&quot;"] jsonSerializedMappings;
+            escapedQuotesMappings = builtins.replaceStrings [ ''\"'' ] [ "&quot;" ] jsonSerializedMappings;
           in
           escapedQuotesMappings
         )

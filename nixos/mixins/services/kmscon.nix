@@ -2,7 +2,7 @@
   services = {
     kmscon = {
       # Handle DRM race condition between Nvidia driver and KMSCON
-      enable = config.hardware.nvidia.modesetting.enable != true;
+      enable = !config.hardware.nvidia.modesetting.enable;
       hwRender = true;
       fonts = [{
         name = "FiraCode Nerd Font Mono";

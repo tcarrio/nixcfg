@@ -1,4 +1,4 @@
-{ lib, config, pkgs, username, ... }: {
+{ ... }: {
   imports = [
     ./aqua.nix
     ./docker.nix

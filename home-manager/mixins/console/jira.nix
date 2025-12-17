@@ -6,7 +6,8 @@ let
   jiraWrapper = pkgs.writeShellScriptBin "jira" ''
     JIRA_API_TOKEN="$(${pkgs.coreutils}/bin/cat ${config.age.secrets.jira-cli.path})" ${pkgs.jira-cli-go}/bin/jira "$@"
   '';
-in {
+in
+{
   home.packages = [
     jiraWrapper
   ];

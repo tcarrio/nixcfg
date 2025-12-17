@@ -1,4 +1,4 @@
-{ lib, config, inputs, desktop, ... }:
+{ lib, config, ... }:
 let
   cfg = config.oxc.desktop.zen-browser;
 in
@@ -13,11 +13,11 @@ in
 
   config = lib.mkIf cfg.enable {
     assertions =
-      [ { assertion = config.services.flatpak.enable;
-          message = "Flatpak must be enabled to install Zen Browser";
-        }
-      ];
+      [{
+        assertion = config.services.flatpak.enable;
+        message = "Flatpak must be enabled to install Zen Browser";
+      }];
 
-    services.flatpak.packages = ["flathub:app/app.zen_browser.zen//stable"];
+    services.flatpak.packages = [ "flathub:app/app.zen_browser.zen//stable" ];
   };
 }

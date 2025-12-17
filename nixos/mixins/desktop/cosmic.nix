@@ -6,7 +6,7 @@
 # > via --cores 1 or -j 1 or both, on nix build, nix-build, and
 # > nixos-rebuild commands.
 
-{ pkgs, ... }: {
+_: {
   # Setup login screen and desktop manager to be COSMIC
   services.desktopManager.cosmic.enable = true;
   services.displayManager.gdm.enable = true;

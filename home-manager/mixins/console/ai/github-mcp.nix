@@ -10,7 +10,8 @@ let
       --read-only \
       "$@"
   '';
-in {
+in
+{
   home.packages = [
     githubMcpServer
   ];

@@ -5,12 +5,8 @@
 # Consume this with `fetchBunDeps` (recommended)
 # or `pkgs.callPackage` if you wish to handle
 # it manually.
-{
-  copyPathToStore,
-  fetchFromGitHub,
-  fetchgit,
-  fetchurl,
-  ...
+{ fetchurl
+, ...
 }:
 {
   "@biomejs/biome@2.0.6" = fetchurl {

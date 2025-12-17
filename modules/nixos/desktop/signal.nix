@@ -1,4 +1,4 @@
-{ lib, config, inputs, desktop, ... }:
+{ lib, config, desktop, ... }:
 let
   cfg = config.oxc.desktop.signal;
   signalAppId = "org.signal.Signal";
@@ -20,16 +20,17 @@ in
 
   config = lib.mkIf cfg.enable {
     assertions =
-      [ { assertion = config.services.flatpak.enable;
-          message = "Flatpak must be enabled to install Signal Desktop";
-        }
-      ];
+      [{
+        assertion = config.services.flatpak.enable;
+        message = "Flatpak must be enabled to install Signal Desktop";
+      }];
 
-    services.flatpak.packages = ["flathub-beta:app/${signalAppId}//beta"];
+    services.flatpak.packages = [ "flathub-beta:app/${signalAppId}//beta" ];
     services.flatpak.overrides."${signalAppId}" = {
-      Environment = if passwordStore != null
+      Environment =
+        if passwordStore != null
         then { SIGNAL_PASSWORD_STORE = passwordStore; }
-        else {};
+        else { };
     };
   };
 }

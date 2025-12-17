@@ -151,7 +151,8 @@ let
     # Bazel / Starlark
     starlark_rust.enable = true;
   };
-in rec {
+in
+rec {
   # Leader keys
   globals = {
     mapleader = " ";
@@ -197,7 +198,7 @@ in rec {
   keymaps = [
     # Disable Space in normal and visual mode
     {
-      mode = ["n" "v"];
+      mode = [ "n" "v" ];
       key = "<Space>";
       action = "<Nop>";
       options.silent = true;
@@ -349,8 +350,8 @@ in rec {
       styles = {
         comments = { italic = true; };
         keywords = { italic = true; };
-        functions = {};
-        variables = {};
+        functions = { };
+        variables = { };
         sidebars = "dark";
         floats = "dark";
       };
@@ -620,13 +621,12 @@ in rec {
             end, { 'i', 's' })
           '';
         };
-        sources = []
-          ++ (map (name: { inherit name; }) (builtins.attrNames lspServers))
+        sources = (map (name: { inherit name; }) (builtins.attrNames lspServers))
           ++ [
-            { name = "nvim_lsp"; }
-            { name = "luasnip"; }
-            { name = "buffer"; }
-          ];
+          { name = "nvim_lsp"; }
+          { name = "luasnip"; }
+          { name = "buffer"; }
+        ];
       };
     };
 

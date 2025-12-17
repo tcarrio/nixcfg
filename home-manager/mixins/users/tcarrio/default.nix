@@ -27,7 +27,7 @@ Host obsidian
   User tcarrio
     ";
     sessionVariables = {
-      NIXPKGS_ALLOW_UNFREE="1";
+      NIXPKGS_ALLOW_UNFREE = "1";
 
       # Add any more global env vars for sessions here
     };
@@ -37,8 +37,7 @@ Host obsidian
       }
     '';
 
-    packages = []
-    ++ (with pkgs.unstable; [
+    packages = (with pkgs.unstable; [
       act
       cmatrix
       gam
@@ -53,7 +52,7 @@ Host obsidian
       typescript-go
       qq
     ])
-    ++ (with pkgs; [
+      ++ (with pkgs; [
       gh-composer-auth
       # TODO: Fix package
       # gqurl

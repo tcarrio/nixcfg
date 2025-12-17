@@ -19,9 +19,9 @@
               enabled = true;
               value = {
                 parameters = [
-                  65535  # key code for left arrow
+                  65535 # key code for left arrow
                   123
-                  262144  # Ctrl modifier
+                  262144 # Ctrl modifier
                 ];
                 type = "standard";
               };
@@ -31,9 +31,9 @@
               enabled = true;
               value = {
                 parameters = [
-                  65535  # key code for right arrow
+                  65535 # key code for right arrow
                   124
-                  262144  # Ctrl modifier
+                  262144 # Ctrl modifier
                 ];
                 type = "standard";
               };

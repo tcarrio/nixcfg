@@ -1,13 +1,11 @@
-{ lib, config, username, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 let
   cfg = config.sk;
   homeDir = config.home.homeDirectory;
   devDir = "${homeDir}/Developer";
   wsDir = "${devDir}/workstation";
-  repoBase = "Skillshare";
-
-  inherit (config.lib.file) mkOutOfStoreSymlink;
-in {
+in
+{
   imports = [
     ./rancher-desktop.nix
   ];
@@ -36,7 +34,7 @@ in {
       sessionVariables = {
         AWS_REGION = "us-east-1";
         AWS_PROFILE = "skillshare-utility-developer";
-        NIXPKGS_ALLOW_UNFREE="1";
+        NIXPKGS_ALLOW_UNFREE = "1";
         SKILLSHARE_WORKSTATION_WARP = "true";
         SKILLSHARE_SRC_DIRECTORY = "${devDir}";
         PUPPETEER_EXECUTABLE_PATH = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";

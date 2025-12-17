@@ -1,6 +1,6 @@
 { self, inputs, outputs, stateVersion, ... }:
 let
-   inherit (inputs.nixpkgs) lib;
+  inherit (inputs.nixpkgs) lib;
 
   sshMatrix = import ./ssh-matrix.nix { };
   tailnetMatrix = import ./tailnet-matrix.nix { };
@@ -26,7 +26,8 @@ in
     let
       isWorkstation = systemType == "workstation";
       isGamingSystem = isWorkstation && desktop != null;
-    in lib.nixosSystem rec {
+    in
+    lib.nixosSystem rec {
       specialArgs = {
         inherit self inputs outputs desktop hostname username stateVersion systemType sshMatrix tailnetMatrix;
         adminGroup = "@wheel";
@@ -43,7 +44,7 @@ in
         inputs.flatpaks.nixosModules.default
       ])
       ++ (lib.optionals (desktop == "hyprvibe") [ inputs.hyprvibe.nixosModules.default ])
-      ++ (lib.optionals isGamingSystem [inputs.nix-citizen.nixosModules.default]);
+      ++ (lib.optionals isGamingSystem [ inputs.nix-citizen.nixosModules.default ]);
     };
 
   mkDarwin = { hostname, username, stateVersion ? 4, platform ? "aarch64-darwin", determinate ? true }: inputs.nix-darwin.lib.darwinSystem rec {
@@ -62,7 +63,7 @@ in
       }
     ] ++ (if determinate then [
       inputs.determinate.darwinModules.default
-    ] else []);
+    ] else [ ]);
   };
 
   mkSdImage = { hostname, username, platform ? "armv7l-linux" }: inputs.nixos-generators.nixosGenerate {

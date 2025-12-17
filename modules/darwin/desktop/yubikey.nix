@@ -3,7 +3,8 @@ let
   cfg = config.oxc.yubikey;
 
   inherit (lib) mkDefault mkOption types;
-in {
+in
+{
   options.oxc.yubikey.enable = mkOption {
     type = types.bool;
     default = false;
@@ -12,7 +13,7 @@ in {
 
   config = lib.mkIf cfg.enable {
     # We will utilize the Yubico Authenticator cask for managing Yubikeys
-    homebrew.casks = ["yubico-authenticator"];
+    homebrew.casks = [ "yubico-authenticator" ];
     environment.systemPackages = with pkgs; [
       yubikey-manager
       yubikey-piv-tool

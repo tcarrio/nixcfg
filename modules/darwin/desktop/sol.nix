@@ -1,7 +1,8 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 let
   cfg = config.oxc.sol;
-in {
+in
+{
   options.oxc.sol.enable = lib.mkOption {
     type = lib.types.bool;
     default = false;
@@ -10,11 +11,11 @@ in {
 
   config = lib.mkIf cfg.enable {
     homebrew.enable = true;
-    homebrew.casks = ["sol"];
+    homebrew.casks = [ "sol" ];
 
     # Ensure Sol is added to auto-launch on login
     system.activationScripts.extraActivation.text = ''
-       osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/Sol.app", hidden:false}'
+      osascript -e 'tell application "System Events" to make login item at end with properties {path:"/Applications/Sol.app", hidden:false}'
     '';
 
     oxc.spotlight.enable = false;

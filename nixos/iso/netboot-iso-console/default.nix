@@ -1,6 +1,6 @@
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 {
-  imports = [../iso-console];
+  imports = [ ../iso-console ];
 
   services.getty.helpLine = ''
      ██████╗ ██╗  ██╗ ██████╗    ██╗███╗   ██╗██╗██╗  ██╗ ██████╗███████╗ ██████╗ 

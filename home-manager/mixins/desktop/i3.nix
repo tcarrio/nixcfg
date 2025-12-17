@@ -1,25 +1,5 @@
 { pkgs, ... }:
-let
-  colors = {
-    background = "#331e222a";
-    foreground = "#ffffff";
-    fg-blue = "#5294e2";
-    focus-dark = "#1b2124";
-    blue = "#73d0ff";
-    blue-darker = "#0771ed";
-    green = "#bae67e";
-    dark-green = "#75c933";
-    red = "#ff3333";
-    cyan = "#95e6cb";
-    alpha = "#00000000";
-    white = "#fff";
-    yellow = "#FFEF00";
-    coffee = "#805a3f";
-
-    dark-light = "#272A2B";
-    active-light = "#313435";
-  };
-in with pkgs; {
+with pkgs; {
   home.file = {
     ".config/i3/config".text = builtins.readFile ./i3.config;
     ".config/picom/picom.conf".text = builtins.readFile ./picom.conf;
@@ -74,14 +54,14 @@ in with pkgs; {
       border-top-color = "\${colors.background}";
       border-bottom-color = "\${colors.background}";
       enable-ipc = true;
-      
+
       line-size = 1;
       wm-restack = "i3";
       # wm-restack = bspwm
       modules-left = "menu sps i3 title mpd mpd_control";
       modules-center = "";
       modules-right = "pulseaudio mic date cpu caffeine backlightsps caps sps num sps scroll mem wlan battery powermenu";
-      
+
       font-0 = "JetBrainsMono Nerd Font:style=Bold:pixelsize=11;3";
       font-5 = "Iosevka Nerd Font:style=Medium:size=13;2";
       font-1 = "JetBrainsMono Nerd Font:size=10;3";
@@ -98,7 +78,7 @@ in with pkgs; {
 
     "module/title" = {
       type = "internal/xwindow";
-      
+
       # Available tags:
       #   <label> (default)
       format = "<label>";
@@ -106,7 +86,7 @@ in with pkgs; {
       format-prefix-background = "#331e222a";
       format-prefix-foreground = "#ffffff";
       format-prefix-padding = 1;
-      
+
       # Available tokens:
       #   %title%
       # Default: %title%
@@ -115,7 +95,7 @@ in with pkgs; {
       label-background = "#331e222a";
       label-foreground = "#ffffff";
       label-padding = 0;
-      
+
       # Used instead of label when there is no window title
       label-empty = "Desktop";
       label-empty-background = "#331e222a";
@@ -125,38 +105,38 @@ in with pkgs; {
 
     "module/mpd" = {
       type = "internal/mpd";
-      
+
       format = "%a %b %d";
-      
+
       host = "0.0.0.0";
       port = 6600;
-      
+
       interval = 2;
-      
+
       format-online = "<label-song>";
       format-online-background = "\${colors.background}";
       format-online-foreground = "\${colors.fg-blue}";
       # format-online-padding = 20;
-      
-      label-song =  "%{T2}%artist% - %title%%{T-}";
+
+      label-song = "%{T2}%artist% - %title%%{T-}";
       label-song-maxlen = 45;
       label-song-ellipsis = true;
-      
+
       label-offline = "MPD is offline";
     };
 
     "module/mpd_control" = {
       type = "internal/mpd";
-      
+
       interval = 2;
-      
+
       format-online = "<icon-prev> <toggle> <icon-next>";
       format-online-background = "\${colors.background}";
       format-online-foreground = "\${colors.blue}";
       # format-online-padding = 2;
-      
+
       label-offline = "MPD is offline";
-      
+
       # Only applies if <icon-X> is used
       icon-play = "%{T1}%{T-}";
       icon-pause = "%{T1}%{T-}";
@@ -167,13 +147,13 @@ in with pkgs; {
 
     "module/pulseaudio" = {
       type = "internal/pulseaudio";
-      
+
       format-volume-prefix = " ";
       format-volume-prefix-foreground = "\${colors.primary}";
       format-volume = "<label-volume>";
-      
+
       label-volume = "%percentage%%";
-      
+
       label-muted = "muted";
       label-muted-foreground = "\${colors.disabled}";
       click-right = "exec pavucontrol";
@@ -211,13 +191,13 @@ in with pkgs; {
     "module/date" = {
       type = "internal/date";
       interval = 1;
-      
+
       date = "%a %d.%m.%Y";
       date-alt = "%a %d.%m.%Y";
-      
+
       time = "%a %d %b %I:%M";
       time-alt = "%I:%M - %a %d.%m.%Y";
-      
+
       format = "<label>";
       format-padding = 2;
       format-foreground = "$(colors.fg-blue)";
@@ -270,12 +250,12 @@ in with pkgs; {
       # Use the following command to list available cards:
       # $ ls -1 /sys/class/backlight/
       card = "intel_backlight";
-      
+
       format = "<ramp> <label>";
       format-padding = 1;
       format-foreground = "$(color.yellow)";
       enable-scroll = true;
-      
+
       label = "%percentage%% ";
       ramp-foreground = "$(color.yellow)";
       # Only applies if <ramp> is used
@@ -301,51 +281,51 @@ in with pkgs; {
 
     "module/battery" = {
       type = "internal/battery";
-      
+
       full-at = "\${config.battery-full-at}";
       battery = "\${config.battery-bat}";
       adapter = "\${config.battery-adp}";
-      
+
       format-charging = "<animation-charging> <label-charging>";
       label-charging = "%percentage%%";
       # format-charging-underline = "\${colors.foreground}";
-      animation-charging-0 =  "  ";
-      animation-charging-1 =  "  ";
-      animation-charging-2 =  "  ";
-      animation-charging-3 =  "  ";
-      animation-charging-4 =  "  ";
+      animation-charging-0 = "  ";
+      animation-charging-1 = "  ";
+      animation-charging-2 = "  ";
+      animation-charging-3 = "  ";
+      animation-charging-4 = "  ";
       animation-charging-framerate = 750;
-      
+
       format-discharging = "<ramp-capacity> <label-discharging>";
-      label-discharging =  "%percentage%%";
-      
+      label-discharging = "%percentage%%";
+
       #format-discharging-underline = "\${colors.notify}";
-      ramp-capacity-0 =  "  ";
-      ramp-capacity-1 =  "  ";
-      ramp-capacity-2 =  "  ";
-      ramp-capacity-3 =  "  ";
-      ramp-capacity-4 =  "  ";
+      ramp-capacity-0 = "  ";
+      ramp-capacity-1 = "  ";
+      ramp-capacity-2 = "  ";
+      ramp-capacity-3 = "  ";
+      ramp-capacity-4 = "  ";
       ramp-capacity-foreground = "\${colors.notify}";
-      
-      label-full =  "  ";
+
+      label-full = "  ";
       label-full-foreground = "\${colors.success}";
       label-full-underline = "\${colors.success}";
-      
+
       label-padding = 2;
-      
+
       interval = 60;
-      
+
       exec = "~/.config/polybar/scripts/battery_notify.sh";
     };
 
     "module/cpu" = {
       type = "internal/cpu";
       interval = 2.5;
-      
+
       format = "<label>";
       format-padding = 1;
       format-margin = 0;
-      
+
       label = "%{F#58b019}󰻟 %{F-}%percentage%%";
       # format-backgoound = "\${colors.color12} 
       format-foreground = "\${colors.foreground}";
@@ -353,7 +333,7 @@ in with pkgs; {
 
     "module/xwindow" = {
       type = "internal/xwindow";
-      
+
       label = "%title%";
       label-maxlen = 20;
       label-foreground = "\${colors.foreground}";
@@ -366,24 +346,24 @@ in with pkgs; {
 
     "module/i3" = {
       type = "internal/i3";
-      
+
       pin-workspaces = "\${config.i3-pin-workspaces}";
-      
+
       strip-wsnumbers = true;
-      
+
       index-sort = true;
       enable-click = true;
       enable-scroll = true;
       wrapping-scroll = true;
       reverse-scroll = true;
-      
+
       fuzzy-match = false;
-      
+
       # Available tags:
       #   <label-state> (default) - gets replaced with <label-(focused|unfocused|visible|urgent)>
       #   <label-mode> (default)
       format = "<label-state> <label-mode>";
-      
+
       # icons
       ws-icon-0 = "\${config.ws-icon-0}";
       ws-icon-1 = "\${config.ws-icon-1}";
@@ -396,34 +376,34 @@ in with pkgs; {
       ws-icon-8 = "\${config.ws-icon-8}";
       ws-icon-9 = "\${config.ws-icon-9}";
       ws-icon-default = "\${config.ws-icon-default}";
-      
+
       label-monitor = "%name%";
-      
+
       label-dimmed-foreground = "#555";
       label-dimmed-underline = "\${bar/top.background}";
       label-dimmed-focused-background = "#f00";
-      
+
       label-focused = "  ";
       label-focused-foreground = "\${colors.foreground}";
       label-focused-background = "\${colors.background}";
-      
+
       label-occupied = "  ";
       label-occupied-padding = 0;
       label-occupied-foreground = "\${colors.fg-blue}";
-      
+
       label-urgent = "  ";
       label-urgent-foreground = "\${colors.red}";
       label-urgent-padding = 0;
-      
+
       label-unfocused = "  ";
       label-unfocused-foreground = "\${colors.foreground}";
       label-unfocused-padding = 0;
-      
+
       label-empty = "";
       label-empty-padding = 0;
       label-empty-foreground = "\${colors.foreground}";
       label-empty-font = 1;
-      
+
       # Separator in between workspaces
       label-separator = "";
       label-separator-padding = 0;

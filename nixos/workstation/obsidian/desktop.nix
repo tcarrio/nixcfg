@@ -1,4 +1,4 @@
-{ pkgs, lib, config, inputs, ... }: {
+{ pkgs, inputs, ... }: {
   # Global packages on host
   environment.systemPackages = with pkgs; [
     openmw

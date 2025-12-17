@@ -1,4 +1,4 @@
-{ config, lib, username, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 let
   cfg = config.oxc.desktop.nixApplications;
 in

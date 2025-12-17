@@ -89,7 +89,6 @@
     { self
     , nix-formatter-pack
     , nixpkgs
-    , nixpkgs-unstable
     , devshells
     , nix-darwin
     , bun2nix
@@ -113,15 +112,16 @@
         overlays = builtins.attrValues overlays;
       };
 
-      mkSystemFlakeShell = system: let
-        mkPkgsFromInput = mkPkgsForSystemFromInput system;
-        pkgs = mkPkgsFromInput nixpkgs;
-        darwinNixPkgs = if pkgs.stdenv.isDarwin then nix-darwin.packages.${system} else {};
-        bun2NixPkg = bun2nix.packages.${system}.default;
-      in
+      mkSystemFlakeShell = system:
+        let
+          mkPkgsFromInput = mkPkgsForSystemFromInput system;
+          pkgs = mkPkgsFromInput nixpkgs;
+          darwinNixPkgs = if pkgs.stdenv.isDarwin then nix-darwin.packages.${system} else { };
+          bun2NixPkg = bun2nix.packages.${system}.default;
+        in
         shellOptionsFactory: pkgs.mkShell ((shellOptionsFactory { inherit pkgs darwinNixPkgs bun2NixPkg; }) // { NIX_CONFIG = "experimental-features = nix-command flakes"; });
 
-      devShellFactory = ({ pkgs, bun2NixPkg, ... }: {
+      devShellFactory = { pkgs, bun2NixPkg, ... }: {
         packages = (
           with pkgs; [
             home-manager
@@ -139,18 +139,19 @@
             flyctl
           ]
         );
-      });
+      };
     in
     {
       apps = libx.forAllSystems (system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
 
-          mkShellApp = {name ? "script.sh", runtimeInputs ? [], ...} @ opts:
+          mkShellApp = { name ? "script.sh", runtimeInputs ? [ ], ... } @ opts:
             pkgs.writeShellApplication (opts // { inherit name runtimeInputs; });
 
           mkShellAppPath = opts: let app = mkShellApp opts; in "${app}/bin/${app.name}";
-        in {
+        in
+        {
           build-rolling = {
             type = "app";
             program = mkShellAppPath {
@@ -305,28 +306,28 @@
             let
               pkgs = mkPkgsForSystemFromInput system nixpkgs;
               mkStandardBun = libx.mkBunDerivation inputs.bun2nix.packages.${system}.default;
-              localPackages = (import ./pkgs { inherit pkgs mkStandardBun nixvim; });
+              localPackages = import ./pkgs { inherit pkgs mkStandardBun nixvim; };
             in
-              (lib.optionalAttrs (system == "x86_64-linux") {
-                # TODO: Linode image is still too large: reduction with `qemu-img resize --shrink ./nixos.img 5.5G` didn't error out but image will not boot
-                # linode-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "linode-base-image"; username = "archon"; format = "linode"; diskSize = 5120; };
-                digital-ocean-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "generic-base-image"; username = "archon"; format = "do"; };
+            (lib.optionalAttrs (system == "x86_64-linux") {
+              # TODO: Linode image is still too large: reduction with `qemu-img resize --shrink ./nixos.img 5.5G` didn't error out but image will not boot
+              # linode-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "linode-base-image"; username = "archon"; format = "linode"; diskSize = 5120; };
+              digital-ocean-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "generic-base-image"; username = "archon"; format = "do"; };
 
-                ## NUC server configurations
-                system-image-nuc0 = mkNuc "archon" "nuc0";
-                system-image-nuc1 = mkNuc "archon" "nuc1";
-                system-image-nuc2 = mkNuc "archon" "nuc2";
-                system-image-nuc3 = mkNuc "archon" "nuc3";
-                system-image-nuc4 = mkNuc "archon" "nuc4";
-                system-image-nuc5 = mkNuc "archon" "nuc5";
-                system-image-nuc6 = mkNuc "archon" "nuc6";
-                system-image-nuc7 = mkNuc "archon" "nuc7";
-                system-image-nuc8 = mkNuc "archon" "nuc8";
-                system-image-nuc9 = mkNuc "archon" "nuc9";
+              ## NUC server configurations
+              system-image-nuc0 = mkNuc "archon" "nuc0";
+              system-image-nuc1 = mkNuc "archon" "nuc1";
+              system-image-nuc2 = mkNuc "archon" "nuc2";
+              system-image-nuc3 = mkNuc "archon" "nuc3";
+              system-image-nuc4 = mkNuc "archon" "nuc4";
+              system-image-nuc5 = mkNuc "archon" "nuc5";
+              system-image-nuc6 = mkNuc "archon" "nuc6";
+              system-image-nuc7 = mkNuc "archon" "nuc7";
+              system-image-nuc8 = mkNuc "archon" "nuc8";
+              system-image-nuc9 = mkNuc "archon" "nuc9";
 
-                # TODO: Revise init image strategy
-                # nuc-init = mkNuc "nixos"  "nuc-init";
-              }) // localPackages
+              # TODO: Revise init image strategy
+              # nuc-init = mkNuc "nixos"  "nuc-init";
+            }) // localPackages
           );
     };
 }

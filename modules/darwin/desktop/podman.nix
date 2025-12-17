@@ -2,7 +2,7 @@
 let
   cfg = config.oxc.podman;
 
-  podman = pkgs.podman;
+  inherit (pkgs) podman;
 
   dockerCompat = pkgs.runCommand "${podman.pname}-docker-compat-${podman.version}"
     {
@@ -23,7 +23,8 @@ let
         ln -s $f $man/share/man/man1/$basename
       done
     '';
-in {
+in
+{
   options.oxc.podman = {
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -37,14 +38,15 @@ in {
     };
   };
 
-  config = lib.mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [
-      podman
-      podman-compose
-      podman-tui
-      dockerCompat
-    ];
-  } // lib.mkIf (cfg.enable && cfg.desktop.enable) {
-    homebrew.casks = ["podman-desktop"];
+  config = lib.mkIf cfg.enable
+    {
+      environment.systemPackages = with pkgs; [
+        podman
+        podman-compose
+        podman-tui
+        dockerCompat
+      ];
+    } // lib.mkIf (cfg.enable && cfg.desktop.enable) {
+    homebrew.casks = [ "podman-desktop" ];
   };
 }

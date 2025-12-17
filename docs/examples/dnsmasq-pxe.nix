@@ -20,7 +20,7 @@
 
     # TODO: Log configuration
 
-    bootConfigurations = lib.mkOption{
+    bootConfigurations = lib.mkOption {
       type = lib.types.attrsOf lib.types.anything;
       default = { };
       description = "Mapping of MAC addresses to NixOS configurations";

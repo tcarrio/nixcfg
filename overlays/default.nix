@@ -5,7 +5,7 @@
   additions = final: prev:
     let
       inherit (final.stdenv.hostPlatform) system;
-      inherit (import ../lib/bun.nix {}) mkBunDerivation;
+      inherit (import ../lib/bun.nix { }) mkBunDerivation;
       mkStandardBun = mkBunDerivation inputs.bun2nix.packages.${system}.default;
 
       customPkgs = import ../pkgs {
@@ -13,8 +13,8 @@
         inherit (inputs) nixvim;
         inherit mkStandardBun;
       };
-    in (
-      customPkgs
+    in
+    customPkgs
       //
       rec {
         # Override nixvim to automatically use the current nixpkgs allowUnfree configuration
@@ -60,8 +60,7 @@
           }
         )
         );
-      }
-    );
+      };
 
   # This one contains whatever you want to overlay
   # You can change versions, add patches, set compilation flags, anything really.

@@ -1,7 +1,7 @@
-{ config, username, hostname, lib, pkgs, ... }:
+{ config, hostname, lib, ... }:
 let
   cfg = config.sk;
-  inherit (lib) fromHexString mkIf mkOption optional types;
+  inherit (lib) fromHexString mkIf mkOption types;
   mkSkDefault = value: lib.mkOverride 777 value;
 
   ### The following sets up keyboard mapping primitives
@@ -27,7 +27,8 @@ let
     F23 = "0x72";
     F24 = "0x73";
   };
-in {
+in
+{
   options.sk = {
     enable = mkOption {
       type = types.bool;

@@ -162,7 +162,7 @@ in
 
     theme = {
       name = "org.gnome.theme";
-      package = gtkTheme.package;
+      inherit (gtkTheme) package;
     };
   };
 

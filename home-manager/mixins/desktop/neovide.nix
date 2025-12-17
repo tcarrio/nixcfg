@@ -1,11 +1,12 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 let
   neovim = pkgs.nixvim;
-in {
+in
+{
   imports = [
     ../console/neovim.nix
   ];
-  
+
   home.file.".config/neovide/config.toml".text = ''
     # backtraces_path = "/path/to/neovide_backtraces.log"
     fork = false

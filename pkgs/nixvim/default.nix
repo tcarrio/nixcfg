@@ -1,15 +1,16 @@
 { nixvim, pkgs }:
 let
   inherit (pkgs) system;
-  nixvimConfig = (import ./config.nix {
+  nixvimConfig = import ./config.nix {
     inherit pkgs;
     allowUnfree = true;
-  });
-in nixvim.legacyPackages.${system}.makeNixvimWithModule {
+  };
+in
+nixvim.legacyPackages.${system}.makeNixvimWithModule {
   inherit pkgs;
-  module = { ... }: nixvimConfig // {
+  module = _: nixvimConfig // {
     extraPackages = with pkgs; [
-      bat  # Rust-based syntax highlighter/pager for git
+      bat # Rust-based syntax highlighter/pager for git
     ];
   };
 }

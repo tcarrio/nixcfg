@@ -1,7 +1,8 @@
 { pkgs, lib, config, ... }:
 let
   cfg = config.oxc.desktop.steam;
-in {
+in
+{
   options.oxc.desktop.steam = {
     enable = lib.mkOption {
       type = lib.types.bool;

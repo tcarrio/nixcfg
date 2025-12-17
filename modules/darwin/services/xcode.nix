@@ -1,7 +1,7 @@
 { lib, config, username ? null, ... }:
 let
   cfg = config.oxc.services.xcode;
-  primaryUsername = if username == null then  config.system.primaryUser else username;
+  primaryUsername = if username == null then config.system.primaryUser else username;
 in
 {
   options.oxc.services.xcode = {

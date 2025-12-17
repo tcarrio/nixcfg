@@ -44,7 +44,7 @@
     virtualisation.enable = true;
   };
 
-  virtualisation.docker.enable = false; 
+  virtualisation.docker.enable = false;
 
   services.ollama = {
     package = pkgs.unstable.ollama-cuda;

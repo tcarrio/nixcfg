@@ -1,7 +1,7 @@
 let
   sshMatrix = import ../lib/ssh-matrix.nix { };
   inherit (sshMatrix) groups systems;
-  inherit (systems) glass obsidian sktc0 t510 void;
+  inherit (systems) glass;
 
   autoMeshSystems = [
     glass.host

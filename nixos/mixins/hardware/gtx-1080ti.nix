@@ -1,11 +1,4 @@
 { pkgs, config, ... }:
-let
-  ## TODO: Remove manual definition
-  # vulkanDriverFiles = [
-  #   "${config.hardware.nvidia.package}/share/vulkan/icd.d/nvidia_icd.x86_64.json"
-  #   "${config.hardware.nvidia.package.lib32}/share/vulkan/icd.d/nvidia_icd.i686.json"
-  # ];
-in
 {
   environment = {
     systemPackages = with pkgs; [ vulkan-tools nvtopPackages.full ];

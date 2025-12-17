@@ -1,7 +1,8 @@
 { lib, pkgs, config, ... }:
 let
   homeDir = config.home.homeDirectory;
-in with lib.hm.gvariant;
+in
+with lib.hm.gvariant;
 {
   imports = [
     ../../../services/mpris-proxy.nix

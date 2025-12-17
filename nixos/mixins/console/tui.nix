@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }: {
+{ pkgs, ... }: {
   environment.systemPackages = with pkgs.unstable; [
     browsh # browser in terminal
     ddgr # duckduckgo

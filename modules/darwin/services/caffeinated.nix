@@ -3,7 +3,8 @@ let
   cfg = config.oxc.services.caffeinated;
   inherit (lib) mkIf mkOption strings types;
   caffeinateArgs = strings.concatStringsSep " " cfg.arguments;
-in {
+in
+{
   options.oxc.services.caffeinated = {
     enable = mkOption {
       type = types.bool;
