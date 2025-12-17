@@ -17,7 +17,7 @@
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     (import ./disks.nix { })
-    ../../mixins/hardware/systemd-boot.nix
+    ../../mixins/hardware/grub-legacy-boot.nix
   ];
 
   # boot.swraid.enable = true;
@@ -41,7 +41,6 @@
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" ];
     kernelModules = [ "kvm-intel" ];
     kernelPackages = lib.mkDefault pkgs.linuxPackages_5_15;
-    loader.efi.efiSysMountPoint = "/boot/efi";
   };
 
   # Use passed hostname to configure basic networking
