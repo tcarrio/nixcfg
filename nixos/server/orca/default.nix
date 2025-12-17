@@ -16,9 +16,11 @@
     inputs.nixos-hardware.nixosModules.common-cpu-intel
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
+
     (import ./disks.nix { })
     # TODO: Enable once drives are formatted
     # (import ./disks-hdds.nix { })
+
     ../../mixins/hardware/grub-legacy-boot.nix
   ];
 
@@ -29,6 +31,11 @@
 
   oxc.containerisation.enable = true;
   oxc.virtualisation.enable = true;
+
+  oxc.services.tailscale = {
+    enable = true;
+    autoconnect = true;
+  };
 
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" ];

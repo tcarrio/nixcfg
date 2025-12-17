@@ -1,4 +1,8 @@
-{ config, pkgs, lib, ... }: {
+{ config, pkgs, lib, ... }:
+let
+  cfg = config.oxc.services.tailscale;
+in
+{
   options.oxc.services.tailscale = {
     autoconnect = lib.mkOption {
       type = lib.types.bool;
@@ -7,7 +11,7 @@
     };
   };
 
-  config = lib.mkIf config.oxc.services.tailscale.autoconnect {
+  config = lib.mkIf cfg.autoconnect {
     # Mounts the secrets file
     age.secrets.tailscale-token = {
       file = ../../../secrets/services/tailscale/token.age;
