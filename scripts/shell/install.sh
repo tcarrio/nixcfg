@@ -71,6 +71,7 @@ fi
 
 
 # Applying Disko configuration
+echo "Disko configuration was found. What action do you want to take with Disko?"
 DISKO_STEP_CHOICE=$(gum filter --height=7 "Apply" "Mount" "Skip" "Cancel")
 
 case "$DISKO_STEP_CHOICE" in
