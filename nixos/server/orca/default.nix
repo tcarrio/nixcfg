@@ -29,14 +29,6 @@
   oxc.containerisation.enable = true;
   oxc.virtualisation.enable = true;
 
-  oxc.services.remote-builder = {
-    enable = true;
-    hosts.glass = {
-      enable = true;
-      local = true;
-    };
-  };
-
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" ];
     kernelModules = [ "kvm-intel" ];
