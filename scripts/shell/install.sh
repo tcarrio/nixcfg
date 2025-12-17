@@ -29,6 +29,7 @@ pushd "$HOME/0xc/nixcfg" || exit
 if [[ -z "$TARGET_HOST" ]]; then
   echo "ERROR! $(basename "$0") requires a hostname as the first argument"
   echo "       The following hosts are available"
+  # shellcheck disable=SC2012
   ls -1 nixos/*/default.nix | cut -d'/' -f2 | grep -v iso
   echo ""
   usage
@@ -38,6 +39,7 @@ fi
 if [[ -z "$TARGET_USER" ]]; then
   echo "ERROR! $(basename "$0") requires a username as the second argument"
   echo "       The following users are available"
+  # shellcheck disable=SC2010
   ls -1 nixos/mixins/users/ | grep -v -E "nixos|root"
   echo ""
   usage
@@ -47,6 +49,7 @@ fi
 if [[ -z "$TARGET_TYPE" ]]; then
   echo "ERROR! $(basename "$0") requires a type as the third argument"
   echo "       The following types are available"
+  # shellcheck disable=SC2010
   ls -1 nixos/ | grep -v -E "nixos|root|mixins"
   echo ""
   usage
@@ -121,7 +124,7 @@ fi
 
 # Rsync nixcfg to the target install and set the remote origin to SSH.
 sudo mkdir -p "$TARGET_USER_HOME"
-sudo chown $(whoami):root -R "$TARGET_USER_HOME"
+sudo chown "$(whoami)":root -R "$TARGET_USER_HOME"
 rsync -a --delete "$HOME/0xc/" "$TARGET_USER_HOME/0xc/"
 pushd "$TARGET_USER_HOME/0xc/nixcfg" || exit
 git remote set-url origin git@github.com:tcarrio/nixcfg.git
