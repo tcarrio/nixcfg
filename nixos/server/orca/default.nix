@@ -22,7 +22,7 @@
 
   boot.swraid = {
     enable = true;
-    mdadmConf = "MAILADDR=${lib.maintainers.tcarrio.email}";
+    mdadmConf = "MAILADDR=${pkgs.customMaintainer.tcarrio.email}";
   };
 
   oxc.containerisation.enable = true;
