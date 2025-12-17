@@ -13,7 +13,7 @@ in
       inherit inputs outputs desktop hostname platform username stateVersion sshMatrix tailnetMatrix;
     };
     modules = [
-      { nixpkgs = { inherit overlays; }; }
+      { inherit overlays; }
       ../home-manager
       inputs.agenix.homeManagerModules.default
     ];
@@ -34,7 +34,7 @@ in
         adminGroup = "@wheel";
       };
       modules = [
-        { nixpkgs = { inherit overlays; }; }
+        { inherit overlays; }
         ../nixos
         (import ./cache-settings.nix (specialArgs // { isDeterminateNix = determinate; }))
         inputs.agenix.nixosModules.default
@@ -56,6 +56,7 @@ in
       isDeterminateNix = determinate;
     };
     modules = [
+      { inherit overlays; }
       ../darwin
       (import ./cache-settings.nix (specialArgs // { isDeterminateNix = determinate; isDarwin = true; }))
       inputs.home-manager.darwinModules.home-manager
