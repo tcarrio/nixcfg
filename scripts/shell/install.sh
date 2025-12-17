@@ -75,7 +75,7 @@ echo "Disko configuration was found. What action do you want to take with Disko?
 DISKO_STEP_CHOICE=$(gum filter --height=7 "Apply" "Mount" "Skip" "Cancel")
 
 case "$DISKO_STEP_CHOICE" in
-  Overwrite)
+  Apply)
     echo "WARNING! The disks in $TARGET_HOST are about to get wiped"
     echo "         NixOS will be re-installed"
     echo "         This is a destructive operation"
