@@ -4,7 +4,7 @@
 _: {
   disko.devices = {
     disk = {
-      nvme0 = {
+      main = {
         type = "disk";
         device = "/dev/disk/by-id/ata-Corsair_CMFSSD-256D1_131801888FF00002";
         content = {
@@ -34,8 +34,7 @@ _: {
               size = "100%";
               content = {
                 type = "filesystem";
-                format = "xfs";
-                mountOptions = [ "defaults" ];
+                format = "ext4";
                 mountpoint = "/";
               };
             };
