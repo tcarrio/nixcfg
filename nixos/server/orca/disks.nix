@@ -46,14 +46,6 @@ _: {
                 };
 
                 mountpoint = "/partition-root";
-                swap = {
-                  swapfile = {
-                    size = "32G";
-                  };
-                  swapfile1 = {
-                    size = "32G";
-                  };
-                };
               };
             };
           };
