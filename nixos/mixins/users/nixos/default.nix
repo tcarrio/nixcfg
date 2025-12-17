@@ -1,7 +1,8 @@
 { config, desktop, lib, pkgs, sshMatrix, username, ... }:
 let
   ifExists = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
-  install-system = pkgs.writeScriptBin "install-system" (builtins.readFile ../../../../scripts/shell/install.sh);
+  inherit (pkgs.stdenv.hostPlatform) system;
+  inherit (self.packages.${system}) install-system;
 in
 {
   # Only include desktop components if one is supplied.

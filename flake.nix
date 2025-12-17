@@ -325,6 +325,13 @@
               system-image-nuc8 = mkNuc "archon" "nuc8";
               system-image-nuc9 = mkNuc "archon" "nuc9";
 
+              # Installer utility
+              install-system = pkgs.writeShellApplication {
+                name = "install-system";
+                text = builtins.readFile ./scripts/shell/install.sh;
+                runtimeInputs = with pkgs; [nixos-install git gum];
+              };
+
               # TODO: Revise init image strategy
               # nuc-init = mkNuc "nixos"  "nuc-init";
             }) // localPackages

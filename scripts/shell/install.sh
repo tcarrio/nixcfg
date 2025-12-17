@@ -66,34 +66,46 @@ if grep -q "data.keyfile" "$TARGET_HOST_ROOT/disks.nix"; then
   echo -n "$(head -c32 /dev/random | base64)" > /tmp/data.keyfile
 fi
 
-echo "WARNING! The disks in $TARGET_HOST are about to get wiped"
-echo "         NixOS will be re-installed"
-echo "         This is a destructive operation"
-echo
-read -p "Are you sure? [y/N]" -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-  sudo true
 
-  sudo nix run github:nix-community/disko \
-    --extra-experimental-features "nix-command flakes" \
-    --no-write-lock-file \
-    -- \
-    --mode zap_create_mount \
-    "$TARGET_HOST_ROOT/disks.nix"
-else
-  echo "Would you like to continue with the installation?"
-  echo "All disks mounting must have already been prepared!"
-  echo
-  read -p "Continue? [y/N]" -n 1 -r
-  echo
-  if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo "Continuing install..."
-  else
+# Applying Disko configuration
+DISKO_STEP_CHOICE=$(gum filter "Apply" "Mount" "Skip" "Cancel")
+
+case "$DISKO_STEP_CHOICE" in
+  Overwrite)
+    echo "WARNING! The disks in $TARGET_HOST are about to get wiped"
+    echo "         NixOS will be re-installed"
+    echo "         This is a destructive operation"
+    echo
+
+    gum confirm "Are you sure?"
+    echo
+
+    sudo true # just confirming sudo access before execution
+
+    sudo nix run github:nix-community/disko \
+      --extra-experimental-features "nix-command flakes" \
+      --no-write-lock-file \
+      -- \
+      --mode destroy,format,mount \
+      "$TARGET_HOST_ROOT/disks.nix"
+    ;;
+  Mount)
+    echo "Mounting disks based on Disko config..."
+    sudo nix run github:nix-community/disko \
+      --extra-experimental-features "nix-command flakes" \
+      --no-write-lock-file \
+      -- \
+      --mode mount \
+      "$TARGET_HOST_ROOT/disks.nix"
+    ;;
+  Cancel)
     echo "Installation cancelled!"
     exit 1
-  fi
-fi
+    ;;
+  Skip)
+    echo "Continuing install without applying Disko config to disks..."
+    ;;
+esac
 
 if [ -z "$MAX_CONCURRENCY" ]; then
   MAX_CONCURRENCY=$(($(nproc) - 1))
