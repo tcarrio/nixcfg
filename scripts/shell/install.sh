@@ -26,11 +26,21 @@ fi
 
 pushd "$HOME/0xc/nixcfg" || exit
 
+if [[ -z "$TARGET_TYPE" ]]; then
+  echo "ERROR! $(basename "$0") requires a type as the third argument"
+  echo "       The following types are available"
+  # shellcheck disable=SC2010
+  ls -1 nixos/ | grep -v -E "nixos|root|mixins"
+  echo ""
+  usage
+  exit 1
+fi
+
 if [[ -z "$TARGET_HOST" ]]; then
   echo "ERROR! $(basename "$0") requires a hostname as the first argument"
   echo "       The following hosts are available"
   # shellcheck disable=SC2012
-  ls -1 nixos/*/default.nix | cut -d'/' -f2 | grep -v iso
+  ls -1 nixos/*/*/default.nix | cut -d'/' -f2 | grep -v iso
   echo ""
   usage
   exit 1
@@ -41,16 +51,6 @@ if [[ -z "$TARGET_USER" ]]; then
   echo "       The following users are available"
   # shellcheck disable=SC2010
   ls -1 nixos/mixins/users/ | grep -v -E "nixos|root"
-  echo ""
-  usage
-  exit 1
-fi
-
-if [[ -z "$TARGET_TYPE" ]]; then
-  echo "ERROR! $(basename "$0") requires a type as the third argument"
-  echo "       The following types are available"
-  # shellcheck disable=SC2010
-  ls -1 nixos/ | grep -v -E "nixos|root|mixins"
   echo ""
   usage
   exit 1
@@ -71,7 +71,7 @@ fi
 
 
 # Applying Disko configuration
-DISKO_STEP_CHOICE=$(gum filter "Apply" "Mount" "Skip" "Cancel")
+DISKO_STEP_CHOICE=$(gum filter --height=7 "Apply" "Mount" "Skip" "Cancel")
 
 case "$DISKO_STEP_CHOICE" in
   Overwrite)
