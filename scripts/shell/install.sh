@@ -111,7 +111,7 @@ case "$DISKO_STEP_CHOICE" in
     ;;
 esac
 
-if [ -z "$MAX_CONCURRENCY" ]; then
+if [[ -z "${MAX_CONCURRENCY+set}" ]]; then
   MAX_CONCURRENCY=$(($(nproc) - 1))
 fi
 
