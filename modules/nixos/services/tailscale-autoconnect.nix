@@ -36,7 +36,7 @@ in
         # wait for tailscaled to settle
         sleep 2
 
-        if [ ! -d "${config.age.secrets.tailscale-token.path}" ]; then
+        if [ ! -f "${config.age.secrets.tailscale-token.path}" ]; then
           echo "Failed to find token secret at path '${config.age.secrets.tailscale-token.path}'"
           exit 2
         fi
