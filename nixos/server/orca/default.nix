@@ -37,6 +37,10 @@
     autoconnect = true;
   };
 
+  # Services
+
+  services.monica.enable = true;
+
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" ];
     kernelModules = [ "kvm-intel" ];
