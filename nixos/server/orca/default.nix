@@ -38,8 +38,9 @@
   };
 
   # Services
+  services.cryptpad.enable = true;
 
-  services.monica.enable = true;
+  # Hardware config
 
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" ];
