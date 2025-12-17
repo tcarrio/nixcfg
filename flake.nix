@@ -101,8 +101,8 @@
 
       inherit (self) outputs;
       inherit (nixpkgs) lib;
-      libx = import ./lib { inherit self inputs outputs stateVersion; };
       overlays = import ./overlays { inherit inputs; };
+      libx = import ./lib { inherit self inputs outputs stateVersion overlays; };
 
       mkPkgsForSystemFromInput = system: input: import input {
         inherit system;

@@ -1,4 +1,4 @@
-{ self, inputs, outputs, stateVersion, ... }:
+{ self, inputs, outputs, stateVersion, overlays ? [], ... }:
 let
   inherit (inputs.nixpkgs) lib;
 
@@ -13,6 +13,7 @@ in
       inherit inputs outputs desktop hostname platform username stateVersion sshMatrix tailnetMatrix;
     };
     modules = [
+      { inherit overlays; }
       ../home-manager
       inputs.agenix.homeManagerModules.default
     ];
@@ -33,6 +34,7 @@ in
         adminGroup = "@wheel";
       };
       modules = [
+        { inherit overlays; }
         ../nixos
         (import ./cache-settings.nix (specialArgs // { isDeterminateNix = determinate; }))
         inputs.agenix.nixosModules.default
@@ -54,6 +56,7 @@ in
       isDeterminateNix = determinate;
     };
     modules = [
+      { inherit overlays; }
       ../darwin
       (import ./cache-settings.nix (specialArgs // { isDeterminateNix = determinate; isDarwin = true; }))
       inputs.home-manager.darwinModules.home-manager
