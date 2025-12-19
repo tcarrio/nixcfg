@@ -36,9 +36,15 @@ in
           primary = {
             size = "100%";
             content = {
-              type = "filesystem";
-              format = "ext4";
-              mountpoint = "/storage/beorn";
+              type = "btrfs";
+
+              subvolumes = {
+                "@media" = {
+                  mountOptions = [ "compress=zstd" ];
+                };
+              };
+
+              mountpoint = "/md-hdd-array";
             };
           };
         };
