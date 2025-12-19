@@ -43,8 +43,7 @@ function disko::run() {
   disko_config="$1"
 
   local disko_mode
-  disko_mode="${1:-destroy,format,mount}"
-  shift
+  disko_mode="${2:-destroy,format,mount}"
 
   if ! command -v disko >/dev/null 2>/dev/null; then
     sudo nix run github:nix-community/disko \
@@ -75,7 +74,7 @@ function disko::run_with_prompt() {
       echo "         This is a destructive operation"
       echo
 
-      gum confirm "Are you sure?"
+      gum confirm "Are you sure?" || exit 0
       echo
 
       sudo true # confirming sudo access before execution
