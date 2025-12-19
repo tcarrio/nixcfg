@@ -40,6 +40,7 @@ in
 
               subvolumes = {
                 "@media" = {
+                  mountpoint = "/var/lib/media";
                   mountOptions = [ "compress=zstd" ];
                 };
               };
