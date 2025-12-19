@@ -34,7 +34,7 @@
 
   oxc.services.tailscale = {
     enable = true;
-    autoconnect = true;
+    autoconnect = false;
   };
 
   # Services
