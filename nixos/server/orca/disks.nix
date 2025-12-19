@@ -6,6 +6,7 @@ _: {
     disk = {
       main = {
         type = "disk";
+        name = "primary-disk";
         device = "/dev/disk/by-id/ata-Corsair_CMFSSD-256D1_131801888FF00002";
         content = {
           type = "gpt";
@@ -30,12 +31,37 @@ _: {
               };
             };
             root = {
-              name = "root";
               size = "100%";
               content = {
-                type = "filesystem";
-                format = "ext4";
-                mountpoint = "/";
+                type = "btrfs";
+
+                # ⚠️ DESTRUCTIVE ACTION.
+                # This will destroy and re-create partitions on the device!
+                extraArgs = [ "-f" ];
+
+                # Subvolumes must set a mountpoint in order to be mounted,
+                # unless their parent is mounted
+                subvolumes = {
+                  "@" = {
+                    mountpoint = "/";
+                  };
+                  "@home" = {
+                    mountOptions = [ "compress=zstd" ];
+                    mountpoint = "/home";
+                  };
+                  "@nix" = {
+                    mountOptions = [ "compress=zstd" "noatime" ];
+                    mountpoint = "/nix";
+                  };
+                  "@swap" = {
+                    mountpoint = "/.swapvol";
+                    swap = {
+                      swapfile.size = "32G";
+                    };
+                  };
+                };
+
+                mountpoint = "/partition-root";
               };
             };
           };
