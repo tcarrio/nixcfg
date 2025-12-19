@@ -205,7 +205,7 @@ function cli::disko_install() {
   disko::run_with_prompt "$host_disko_config"
 
   # Apply secondary disks-*.nix configs
-  for disko_config in $(find "nixos/$TARGET_HOST_ROOT" -name "disks-*.nix" | sort); do
+  for disko_config in $(find "$TARGET_HOST_ROOT" -name "disks-*.nix" | sort); do
     disko::run_with_prompt "$disko_config"
   done
 }
