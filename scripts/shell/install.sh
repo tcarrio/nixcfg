@@ -56,10 +56,6 @@ function disko::run() {
   fi
 }
 
-function disko::prompt_action() {
-  
-}
-
 function disko::run_with_prompt() {
   local disko_config="$1"
 
