@@ -50,9 +50,9 @@ function disko::run() {
         --extra-experimental-features "nix-command flakes" \
         --no-write-lock-file \
         -- \
-        --mode "$disko_mode" "$@" "$disko_config"
+        --mode "$disko_mode" "$disko_config"
   else
-    sudo disko --mode "$disko_mode" "$@" "$disko_config"
+    sudo disko --mode "$disko_mode" "$disko_config"
   fi
 }
 
