@@ -57,7 +57,8 @@ function disko::run() {
 }
 
 function disko::prompt_action() {
-  echo "How would you like ot proceed for Disko config: ${1:-unknown}"
+  echo "How would you like to proceed for Disko config: ${1:-unknown}"
+
   gum filter --height=7 "Apply" "Mount" "Skip" "Cancel"
 }
 
