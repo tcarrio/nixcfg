@@ -57,7 +57,8 @@ function disko::run() {
 }
 
 function disko::prompt_action() {
-  echo "How would you like to proceed for Disko config: ${1:-unknown}"
+  echo "How would you like to proceed for this Disko config?"
+  echo
 
   gum filter --height=7 "Apply" "Mount" "Skip" "Cancel"
 }
@@ -70,8 +71,11 @@ function disko::run_with_prompt() {
       return
   fi
 
+  echo "Running disko for $disko_config"
+  echo
+
   # Use globally set strategy from env var or prompt user
-  disko_step_choice="${DISKO_STRATEGY:-$(disko::prompt_action "$disko_config")}"
+  disko_step_choice="${DISKO_STRATEGY:-$(disko::prompt_action)}"
 
   case "$disko_step_choice" in
     Apply)
