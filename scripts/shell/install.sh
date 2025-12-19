@@ -118,6 +118,11 @@ example: install.sh t510 tcarrio workstation
 """
 }
 
+function cli::try_unmount() {
+  echo "Preparing script with eager unmount of /mnt/*"
+  sudo unmount -R /mnt || :
+}
+
 function cli::ensure_git_cloned() {
   if [ ! -d "$CONFIG_DIR/.git" ]; then
     git clone "$UPSTREAM_REPO" "$CONFIG_DIR"
@@ -219,6 +224,7 @@ function cli::nixos_install() {
 }
 
 cli::validate_user
+cli::try_unmount
 cli::ensure_git_cloned
 cli::enter_config_working_dir
 cli::validate_params
