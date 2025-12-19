@@ -205,7 +205,7 @@ function cli::nixos_install() {
     -j "$MAX_CONCURRENCY" \
     --cores "$MAX_CONCURRENCY" \
     --no-root-password \
-    --flake ".#$TARGET_NIXOS_CONFIG_NAME"
+    --flake ".#$TARGET_HOST"
 }
 
 cli::validate_user
