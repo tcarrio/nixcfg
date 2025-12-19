@@ -18,8 +18,7 @@
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
     (import ./disks.nix { })
-    # TODO: Enable once drives are formatted
-    # (import ./disks-hdds.nix { })
+    (import ./disks-hdds.nix { })
 
     ../../mixins/hardware/grub-legacy-boot.nix
   ];
