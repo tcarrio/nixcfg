@@ -57,10 +57,7 @@ function disko::run() {
 }
 
 function disko::prompt_action() {
-  echo "How would you like to proceed for this Disko config?"
-  echo
-
-  gum filter --height=7 "Apply" "Mount" "Skip" "Cancel"
+  
 }
 
 function disko::run_with_prompt() {
@@ -75,7 +72,20 @@ function disko::run_with_prompt() {
   echo
 
   # Use globally set strategy from env var or prompt user
-  disko_step_choice="${DISKO_STRATEGY:-$(disko::prompt_action)}"
+  local disko_step_choice
+  case "${DISKO_STRATEGY:-}" in
+    Apply|Mount|Cancel|Skip)
+      disko_step_choice="$DISKO_STRATEGY"
+      echo "Using environment-set strategy for Disko config: $disko_step_choice"
+      echo
+      ;;
+    *)
+      echo "How would you like to proceed for this Disko config?"
+      echo
+
+      gum filter --height=7 "Apply" "Mount" "Skip" "Cancel"
+      ;;
+  esac
 
   case "$disko_step_choice" in
     Apply)
