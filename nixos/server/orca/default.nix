@@ -37,6 +37,7 @@
   };
 
   # Services
+  services.jellyfin.enable = true;
 
   # Hardware config
 
