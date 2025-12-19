@@ -329,7 +329,13 @@
               install-system = pkgs.writeShellApplication {
                 name = "install-system";
                 text = builtins.readFile ./scripts/shell/install.sh;
-                runtimeInputs = with pkgs; [nixos-install git gum];
+                runtimeInputs = [
+                  inputs.disko.packages.${system}.disko
+                ] ++ (with pkgs; [
+                  nixos-install
+                  git
+                  gum
+                ]);
               };
 
               # TODO: Revise init image strategy
