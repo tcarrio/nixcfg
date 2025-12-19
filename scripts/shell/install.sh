@@ -46,17 +46,14 @@ function disko::run() {
   disko_mode="${1:-destroy,format,mount}"
   shift
 
-  local disko_args
-  disko_args=("--mode" "$disko_mode" "${@}"@Q "$disko_config")
-
   if ! command -v disko >/dev/null 2>/dev/null; then
     sudo nix run github:nix-community/disko \
         --extra-experimental-features "nix-command flakes" \
         --no-write-lock-file \
         -- \
-        "${disko_args[@]}"
+        --mode "$disko_mode" "$@" "$disko_config"
   else
-    sudo disko "${disko_args[@]}"
+    sudo disko --mode "$disko_mode" "$@" "$disko_config"
   fi
 }
 
