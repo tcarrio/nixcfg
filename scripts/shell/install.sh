@@ -79,7 +79,7 @@ function disko::run_with_prompt() {
       echo "How would you like to proceed for this Disko config?"
       echo
 
-      gum filter --height=7 "Apply" "Mount" "Skip" "Cancel"
+      disko_step_choice="$(gum filter --height=7 "Apply" "Mount" "Skip" "Cancel")"
       ;;
   esac
 
