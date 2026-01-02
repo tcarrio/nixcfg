@@ -11,6 +11,7 @@ disks:
 vdevs:
   raidz1-0:
     devices:
+      - /disk/ada0
       - /disk/ada2
       - /disk/ada3
       - /disk/ada4
