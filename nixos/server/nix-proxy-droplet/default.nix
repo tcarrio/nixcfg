@@ -68,7 +68,7 @@ in
   };
 
   oxc.services.tailscale.enable = true;
-  oxc.services.tailscale.autoconnect = false;
+  oxc.services.tailscale.autoconnect = true;
   services.smartd.enable = lib.mkForce false;
 
   # Plex NixOS Docs: https://nixos.wiki/wiki/Plex
