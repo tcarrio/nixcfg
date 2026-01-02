@@ -1,4 +1,4 @@
-{ config, desktop, lib, pkgs, sshMatrix, username, ... }:
+{ config, desktop, lib, pkgs, sshMatrix, username, self, ... }:
 let
   ifExists = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
   inherit (pkgs.stdenv.hostPlatform) system;
