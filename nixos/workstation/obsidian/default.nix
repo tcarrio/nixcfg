@@ -23,8 +23,6 @@
     ../../mixins/services/nordvpn.nix
     ../../mixins/services/pipewire.nix
 
-    ../../mixins/users/grigori/default.nix
-
     ../../mixins/servers/pixiecore-pxe.nix
   ] ++ (lib.optional (builtins.isString desktop) ./desktop.nix);
 
