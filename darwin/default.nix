@@ -10,12 +10,15 @@ let
 in
 {
   imports = [
+    # If you want to use modules your own flake exports (from modules/darwin):
+    outputs.darwinModules.default
+
+    # You can also split up your configuration and import pieces of it here:
     ./mixins/desktop/aqua.nix
     ./mixins/users/${username}
-    ../modules/darwin
-  ] ++ lib.optionals (builtins.pathExists (./workstation/${hostname})) [
-    ./workstation/${hostname}
-  ];
+  ]
+  # Only import a workstation configuration if one matching the configured hostname exists
+  ++ lib.optionals (builtins.pathExists (./workstation/${hostname})) [./workstation/${hostname}];
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget

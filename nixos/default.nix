@@ -6,9 +6,17 @@ let
 in
 {
   imports = [
+    # If you want to use modules your own flake exports (from modules/home-manager):
+    outputs.nixosModules.default
+
+    # Or modules exported from other flakes (such as nix-colors):
     inputs.disko.nixosModules.disko
-    ../modules/nixos
+
+    # Or reuse nixpkgs modules via `modulesPath`
     (modulesPath + "/installer/scan/not-detected.nix")
+
+    # You can also split up your configuration and import pieces of it here:
+    ../modules/nixos
     ./${systemType}/${hostname}
     ./mixins/services/fwupd.nix
     ./mixins/services/kmscon.nix
@@ -16,8 +24,10 @@ in
     ./mixins/services/smartmon.nix
     ./mixins/users/root
   ]
-  ++ lib.optional (builtins.isString username) ./mixins/users/${username}
-  ++ lib.optional (builtins.isString desktop) ./mixins/desktop;
+  # Only import desktop configuration if the host is desktop enabled
+  ++ lib.optional (builtins.isString desktop) ./mixins/desktop
+  # Only import user specific configuration if they have bespoke settings
+  ++ lib.optional (builtins.isString username) ./mixins/users/${username};
 
   boot = {
     consoleLogLevel = 0;
@@ -92,7 +102,7 @@ in
   networking = {
     inherit hostName domain;
     useDHCP = lib.mkDefault true;
-    firewall.enable = true;
+    firewall.enable = lib.mkDefault true;
   };
 
   nixpkgs = {

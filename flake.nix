@@ -160,8 +160,18 @@
           ]
         );
       };
-    in
-    {
+    in (
+      {
+        nixosModules = {
+          default = import ./modules/nixos/default.nix;
+        };
+        homeManagerModules = {
+          default = import ./modules/home-manager/default.nix;
+        };
+        darwinModules = {
+          default = import ./modules/darwin/default.nix;
+        };
+      } // {
       apps = libx.forAllSystems (system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
@@ -367,5 +377,5 @@
               # nuc-init = mkNuc "nixos"  "nuc-init";
             }) // localPackages
           );
-    };
+    });
 }

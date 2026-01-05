@@ -3,26 +3,22 @@ let
   inherit (pkgs.stdenv) isDarwin;
 in
 {
-  # Only import desktop configuration if the host is desktop enabled
-  # Only import user specific configuration if they have bespoke settings
   imports = [
     # If you want to use modules your own flake exports (from modules/home-manager):
-    # outputs.homeManagerModules.example
+    outputs.homeManagerModules.default
 
     # Or modules exported from other flakes (such as nix-colors):
     # inputs.nix-colors.homeManagerModules.default
 
     # You can also split up your configuration and import pieces of it here:
     ./mixins/console
-    ../modules/home-manager
   ]
+  # Only import desktop configuration if the host is desktop enabled
   ++ lib.optional (builtins.isString desktop) ./mixins/desktop
+  # Only import user specific configuration if they have bespoke settings
   ++ lib.optional (builtins.isPath (./. + "/mixins/users/${username}")) ./mixins/users/${username};
 
   home = {
-    # activation.report-changes = if isDarwin then "" else config.lib.dag.entryAnywhere ''
-    #   ${pkgs.nvd}/bin/nvd diff $oldGenPath $newGenPath
-    # '';
     homeDirectory = if isDarwin then "/Users/${username}" else "/home/${username}";
     sessionPath = [ "$HOME/.local/bin" ];
     inherit stateVersion;
