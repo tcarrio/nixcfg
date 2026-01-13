@@ -112,6 +112,8 @@ in
         #pubip = "curl -s https://api.ipify.org";
         wttr = "curl -s wttr.in && curl -s v2.wttr.in";
         wttr-bas = "curl -s wttr.in/detroit && curl -s v2.wttr.in/detroit";
+
+        tmp = "pushd \"$(mktemp -d)\"";
       };
     };
   };
