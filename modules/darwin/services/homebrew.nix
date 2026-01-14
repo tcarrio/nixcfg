@@ -160,6 +160,7 @@ let
 
   devCasks = [
     "alacritty"
+    "ghostty"
     "zed"
   ];
 

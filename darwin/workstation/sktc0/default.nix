@@ -5,4 +5,5 @@
 
 _: {
   sk.enable = false;
+  oxc.homebrew.enable = true;
 }

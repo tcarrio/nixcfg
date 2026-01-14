@@ -7,7 +7,6 @@
   home = {
     file = {
       "${config.xdg.configHome}/neofetch/config.conf".text = builtins.readFile ./neofetch.conf;
-      "${config.xdg.configHome}/ghostty/config".text = builtins.readFile ./ghostty.conf;
     };
 
     # A Modern Unix experience

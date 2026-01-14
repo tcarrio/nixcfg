@@ -4,6 +4,7 @@
     ./emote.nix
     ./alacritty.nix
     ./tilix.nix
+    ./ghostty.nix
   ] ++ lib.optional (builtins.pathExists (./. + "/${desktop}.nix")) ./${desktop}.nix;
 
   xresources.properties = {
