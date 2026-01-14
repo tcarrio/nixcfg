@@ -133,7 +133,7 @@ let
 
     # Focus the main window in the list.
     focus-main = {
-        mod = "mod1";
+      mod = "mod1";
       key = "m";
     };
 
