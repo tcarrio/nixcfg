@@ -1,5 +1,6 @@
-{ lib, config, ... }: {
-  home.file."${config.xdg.configHome}/amethyst/amethyst.yaml".text = lib.generators.toYAML {
+{ lib, config, ... }:
+let
+  amethystConfig = {
     # Default settings for Amethyst
     # Repo: `https://github.com/ianyh/Amethyst`
     #
@@ -363,4 +364,6 @@
     # true to display some optional debug information in the layout HUD (default false).
     debug-layout-info = false;
   };
+in {
+  home.file."${config.xdg.configHome}/amethyst/amethyst.yml".text = lib.generators.toYAML { } amethystConfig;
 }
