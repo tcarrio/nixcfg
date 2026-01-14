@@ -1,8 +1,28 @@
-{ config, inputs, ... }: {
+{ config, inputs, pkgs, lib, ... }:
+let
+  isLinux = pkgs.stdenv.hostPlatform.system == "linux";
+in {
   home = {
     file = {
-      "${config.xdg.configHome}/ghostty/config".text = builtins.readFile ./ghostty.conf;
       "${config.xdg.configHome}/ghostty/themes".source = "${inputs.ghostty-catppuccin}/themes";
     };
+  };
+
+  programs.ghostty = {
+    enable = true;
+
+    # Enable Nix management of Ghostty package on Linux only
+    package = if isLinux then pkgs.ghostty else null;
+
+    settings = {
+      font-family = "Ubuntu Mono derivative Powerline";
+      font-size = 14;
+
+      # Theming
+      theme = "Catppuccin Mocha";
+    } // (if !isLinux then {
+      # Use the latest nightly builds
+      auto-update-channel = "tip";
+    } else {});
   };
 }
