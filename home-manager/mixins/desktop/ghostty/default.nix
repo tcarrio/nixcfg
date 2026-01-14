@@ -1,7 +1,8 @@
-{ config, inputs, pkgs, lib, ... }:
+{ config, inputs, pkgs, ... }:
 let
   isLinux = pkgs.stdenv.hostPlatform.system == "linux";
-in {
+in
+{
   home = {
     file = {
       "${config.xdg.configHome}/ghostty/themes".source = "${inputs.ghostty-catppuccin}/themes";
@@ -23,6 +24,6 @@ in {
     } // (if !isLinux then {
       # Use the latest nightly builds
       auto-update-channel = "tip";
-    } else {});
+    } else { });
   };
 }

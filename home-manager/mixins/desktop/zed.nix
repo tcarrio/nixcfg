@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 let
   isLinux = pkgs.stdenv.hostPlatform.system == "linux";
 in

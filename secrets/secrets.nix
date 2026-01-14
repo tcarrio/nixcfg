@@ -22,7 +22,7 @@ in
   "services/netbird/token.age".publicKeys = groups.privileged_users ++ autoMeshSystems;
   "services/tailscale/token.age".publicKeys = groups.privileged_users ++ autoMeshSystems;
   # "services/jira-cli/token.age".publicKeys = macos;
-  "services/acme/cloudflare.age".publicKeys = groups.privileged_users ++ [];
+  "services/acme/cloudflare.age".publicKeys = groups.privileged_users;
   "services/hoarder/env.age".publicKeys = groups.privileged_users ++ [ systems.obsidian.host ];
 
   "network-shares/ds418/smb.conf.age".publicKeys = groups.privileged_users;

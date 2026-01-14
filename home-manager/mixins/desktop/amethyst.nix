@@ -145,7 +145,7 @@ let
 
     # Focus the next screen in the list going clockwise.
     focus-screen-cw = {
-        mod = "mod1";
+      mod = "mod1";
       key = "n";
     };
 
@@ -157,7 +157,7 @@ let
 
     # Move the currently focused window onto the next screen in the list going clockwise.
     swap-screen-cw = {
-        mod = "mod2";
+      mod = "mod2";
       key = "l";
     };
 
@@ -169,13 +169,13 @@ let
 
     # Swap the position of the currently focused window with the next window in the list going clockwise.
     swap-cw = {
-        mod = "mod2";
+      mod = "mod2";
       key = "k";
     };
 
     # Swap the position of the currently focused window with the main window in the list.
     swap-main = {
-        mod = "mod1";
+      mod = "mod1";
       key = "enter";
     };
 
@@ -214,7 +214,7 @@ let
 
     # Select column layout
     select-column-layout = {
-        mod = "mod1";
+      mod = "mod1";
       key = "f";
     };
 
@@ -302,7 +302,7 @@ let
     window-minimum-width = 0;
 
     # List of bundle identifiers for applications to either be automatically floating or automatically tiled based on floating-is-blacklist (default []).
-    floating = [];
+    floating = [ ];
 
     # Boolean flag determining behavior of the floating list. true if the applications should be floating and all others tiled. false if the applications should be tiled and all others floating (default true).
     floating-is-blacklist = true;
@@ -364,6 +364,7 @@ let
     # true to display some optional debug information in the layout HUD (default false).
     debug-layout-info = false;
   };
-in {
+in
+{
   home.file."${config.xdg.configHome}/amethyst/amethyst.yml".text = lib.generators.toYAML { } amethystConfig;
 }

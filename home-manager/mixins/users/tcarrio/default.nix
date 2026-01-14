@@ -52,7 +52,7 @@ Host obsidian
       typescript-go
       qq
     ])
-      ++ (with pkgs; [
+    ++ (with pkgs; [
       gh-composer-auth
       # TODO: Fix package
       # gqurl
