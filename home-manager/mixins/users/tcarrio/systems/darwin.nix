@@ -5,6 +5,11 @@ let
   secretiveAgentSocket = "${homeDir}/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
 in
 {
+  imports = [
+    ../../../desktop/amethyst.nix
+    ../../../desktop/ghostty
+  ];
+
   home.packages = [
     agenix
   ] ++ (with pkgs.unstable; [
