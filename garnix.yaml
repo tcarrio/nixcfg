@@ -1,0 +1,15 @@
+builds:
+  exclude: []
+  include:
+  # Linux systems
+  - nixosConfigurations.*
+  - '*.x86_64-linux.*'
+  - defaultPackage.x86_64-linux
+  - devShell.x86_64-linux
+  # macOS systems
+  - darwinConfigurations.*
+  - '*.aarch64-darwin.*'
+  - defaultPackage.aarch64-darwin
+  - devShell.aarch64-darwin
+  # Shared
+  - homeConfigurations.*
