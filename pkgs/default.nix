@@ -18,4 +18,7 @@
     inherit (pkgs) lib;
     inherit pkgs uv2nixLib;
   };
+  sri-hash-gh-repo = import ./sri-hash-gh-repo.nix {
+    inherit pkgs;
+  };
 }
