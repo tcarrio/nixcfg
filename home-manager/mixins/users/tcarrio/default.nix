@@ -47,6 +47,7 @@ Host obsidian
       gum
       jd-diff-patch
       ncdu
+      nixd
       slumber
       trash-cli
       typescript-go
