@@ -7,6 +7,7 @@ function bootstrapShell() {
   nix develop \
     --extra-experimental-features flakes \
     --extra-experimental-features nix-command \
+    --extra-experimental-features pipe-operators \
     "$NIXCFG_PATH" \
     --command "$@"
 }

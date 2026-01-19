@@ -47,7 +47,7 @@ function disko::run() {
 
   if ! command -v disko >/dev/null 2>/dev/null; then
     sudo nix run github:nix-community/disko \
-        --extra-experimental-features "nix-command flakes" \
+        --extra-experimental-features "nix-command flakes pipe-operators" \
         --no-write-lock-file \
         -- \
         --mode "$disko_mode" "$disko_config"

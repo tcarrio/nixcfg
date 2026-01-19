@@ -9,7 +9,7 @@ let
 
   nixSettings = {
     # Necessary for using flakes on this system.
-    experimental-features = "nix-command flakes";
+    experimental-features = "nix-command flakes pipe-operators";
 
     # Allows users/groups to utilize flake-specific settings
     trusted-users = [

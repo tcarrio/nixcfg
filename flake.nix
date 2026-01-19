@@ -139,7 +139,7 @@
           darwinNixPkgs = if pkgs.stdenv.isDarwin then nix-darwin.packages.${system} else { };
           bun2NixPkg = bun2nix.packages.${system}.default;
         in
-        shellOptionsFactory: pkgs.mkShell ((shellOptionsFactory { inherit pkgs darwinNixPkgs bun2NixPkg; }) // { NIX_CONFIG = "experimental-features = nix-command flakes"; });
+        shellOptionsFactory: pkgs.mkShell ((shellOptionsFactory { inherit pkgs darwinNixPkgs bun2NixPkg; }) // { NIX_CONFIG = "experimental-features = nix-command flakes pipe-operators"; });
 
       devShellFactory = { pkgs, bun2NixPkg, ... }: {
         packages = (
