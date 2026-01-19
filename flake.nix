@@ -70,6 +70,19 @@
     bun2nix.url = "github:baileyluTCD/bun2nix";
     bun2nix.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Python uv packaging (uv2nix)
+    pyproject-nix.url = "github:pyproject-nix/pyproject.nix";
+    pyproject-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    uv2nix.url = "github:pyproject-nix/uv2nix";
+    uv2nix.inputs.pyproject-nix.follows = "pyproject-nix";
+    uv2nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    pyproject-build-systems.url = "github:pyproject-nix/build-system-pkgs";
+    pyproject-build-systems.inputs.pyproject-nix.follows = "pyproject-nix";
+    pyproject-build-systems.inputs.uv2nix.follows = "uv2nix";
+    pyproject-build-systems.inputs.nixpkgs.follows = "nixpkgs";
+
     # Nixvim for neovim configuration
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -97,6 +110,9 @@
     , nix-darwin
     , bun2nix
     , nixvim
+    , uv2nix
+    , pyproject-nix
+    , pyproject-build-systems
     , ...
     } @ inputs:
     let
@@ -310,7 +326,11 @@
             let
               pkgs = mkPkgsForSystemFromInput system nixpkgs;
               mkStandardBun = libx.mkBunDerivation inputs.bun2nix.packages.${system}.default;
-              localPackages = import ./pkgs { inherit pkgs mkStandardBun nixvim; };
+              uv2nixLib = {
+                inherit uv2nix pyproject-nix pyproject-build-systems;
+                python = pkgs.python311;
+              };
+              localPackages = import ./pkgs { inherit pkgs mkStandardBun nixvim uv2nixLib; };
             in
             (lib.optionalAttrs (system == "x86_64-linux") {
               # TODO: Linode image is still too large: reduction with `qemu-img resize --shrink ./nixos.img 5.5G` didn't error out but image will not boot

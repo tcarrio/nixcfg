@@ -8,10 +8,16 @@
       inherit (import ../lib/bun.nix { }) mkBunDerivation;
       mkStandardBun = mkBunDerivation inputs.bun2nix.packages.${system}.default;
 
+      # uv2nix library for Python packages
+      uv2nixLib = {
+        inherit (inputs) uv2nix pyproject-nix pyproject-build-systems;
+        python = final.python311;
+      };
+
       customPkgs = import ../pkgs {
         pkgs = final;
         inherit (inputs) nixvim;
-        inherit mkStandardBun;
+        inherit mkStandardBun uv2nixLib;
       };
     in
     customPkgs
