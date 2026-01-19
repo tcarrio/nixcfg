@@ -31,6 +31,8 @@ in
     # MCP Servers
     mcpdoc-wrapper-vercel-ai
     mcpdoc-wrapper-effect
+
+    pkgs.serena
   ];
 
   home.file.".mcp.json".text = builtins.toJSON {
@@ -42,6 +44,9 @@ in
       effect_docs = {
         command = "${mcpdoc-wrapper-effect}/bin/mcpdoc-wrapper-effect";
         args = [ ];
+      };
+      serena = {
+        command = "${pkgs.serena}/bin/serena start-mcp-server";
       };
     };
   };
