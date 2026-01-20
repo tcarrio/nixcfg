@@ -1,4 +1,4 @@
-{ lib, config, ... }: {
+_: {
   oxc.amethyst = {
     enable = true;
     defaults = true;

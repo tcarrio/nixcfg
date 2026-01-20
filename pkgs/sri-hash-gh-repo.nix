@@ -1,10 +1,5 @@
 { pkgs ? import <nixpkgs> { } }:
 
-let
-  nixCliRootBin = "${pkgs.gh}/bin";
-  prefetchUrlCmd = "${nixCliRootBin}/nix-prefetch-url";
-  nixCmd = "${nixCliRootBin}/nix";
-in
 pkgs.writeShellScriptBin "sri-hash-gh-repo" ''
   #!${pkgs.bash}/bin/bash
   set -e

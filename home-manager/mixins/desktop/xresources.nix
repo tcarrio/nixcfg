@@ -1,4 +1,4 @@
-{ desktop, lib, pkgs, ... }:
+_:
 let
   inherit (config.oxc.palette) colors;
 in

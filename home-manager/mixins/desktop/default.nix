@@ -1,8 +1,6 @@
 { desktop, lib, pkgs, ... }:
 let
   inherit (pkgs.stdenv.hostPlatform) system;
-
-  inherit (config.oxc.palette) colors;
 in
 {
   imports = [

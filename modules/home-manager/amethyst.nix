@@ -367,7 +367,7 @@ let
 
   inherit (lib) types mkEnableOption mkOption mkIf;
 
-  baseSettings = if cfg.defaults then default else {};
+  baseSettings = if cfg.defaults then default else { };
 
   cfg = config.oxc.amethyst;
 in
