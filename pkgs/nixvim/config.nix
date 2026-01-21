@@ -104,6 +104,7 @@ let
     # Nix support
     nil_ls.enable = true;
     nixd.enable = true;
+    nixd.package = pkgs.unstable.nixd;
 
     # Rust support
     rust_analyzer = {

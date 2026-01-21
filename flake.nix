@@ -267,7 +267,7 @@
               darwinNixPkgs.darwin-rebuild
               git
               unstable.bun
-              nixd
+              unstable.nixd
               bun2NixPkg
               self.packages.${system}.gh-composer-auth
               # TODO: Fix gqurl package
