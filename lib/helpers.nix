@@ -7,16 +7,22 @@ let
 in
 {
   # Helper function for generating home-manager configs
-  mkHome = { hostname, username, desktop ? null, platform ? "x86_64-linux" }: inputs.home-manager.lib.homeManagerConfiguration {
-    pkgs = inputs.nixpkgs.legacyPackages.${platform};
-    extraSpecialArgs = {
-      inherit inputs outputs desktop hostname platform username stateVersion sshMatrix tailnetMatrix;
+  mkHome = { hostname, username, desktop ? null, platform ? "x86_64-linux" }:
+    let
+      pkgs = inputs.nixpkgs.legacyPackages.${platform};
+      dendriticHm = (import ../modules/dendritic/serena.nix {
+        lib = pkgs.lib;
+      }).flake.modules.homeModules;
+    in inputs.home-manager.lib.homeManagerConfiguration {
+      inherit pkgs;
+      extraSpecialArgs = {
+        inherit inputs outputs desktop hostname platform username stateVersion sshMatrix tailnetMatrix;
+      };
+      modules = [
+        ../home-manager
+        inputs.agenix.homeManagerModules.default
+      ];
     };
-    modules = [
-      ../home-manager
-      inputs.agenix.homeManagerModules.default
-    ];
-  };
 
   # Helper function for generating host configs
   # - installer: can be one of the following:
