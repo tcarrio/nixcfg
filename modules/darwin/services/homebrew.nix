@@ -161,6 +161,7 @@ let
   devCasks = [
     "alacritty"
     "altair-graphql-client"
+    "atuin-desktop"
     "ghostty"
     "zed"
   ];
