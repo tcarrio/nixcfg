@@ -101,6 +101,10 @@
     # Ghostty theming
     ghostty-catppuccin.url = "github:catppuccin/ghostty";
     ghostty-catppuccin.flake = false;
+
+    # cursor-voice-plugin
+    cursor-voice-plugin.url = "github:tcarrio/cursor-voice-plugin";
+    cursor-voice-plugin.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
   outputs =
     { self

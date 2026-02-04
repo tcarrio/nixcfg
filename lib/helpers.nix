@@ -10,9 +10,6 @@ in
   mkHome = { hostname, username, desktop ? null, platform ? "x86_64-linux" }:
     let
       pkgs = inputs.nixpkgs.legacyPackages.${platform};
-      dendriticHm = (import ../modules/dendritic/serena.nix {
-        lib = pkgs.lib;
-      }).flake.modules.homeModules;
     in inputs.home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
       extraSpecialArgs = {
@@ -21,6 +18,7 @@ in
       modules = [
         ../home-manager
         inputs.agenix.homeManagerModules.default
+        inputs.cursor-voice-plugin.homeManagerModules.default
       ];
     };
 

@@ -1,4 +1,4 @@
-_: {
+{ pkgs, ... }: {
   imports = [
     ../../../desktop/zed.nix
   ];
@@ -19,6 +19,11 @@ _: {
     vue.enable = true;
     yaml.enable = true;
   };
+
+  cursor.voicePlugin.enable = true;
+  cursor.voicePlugin.ffmpeg.enable = false;
+  cursor.voicePlugin.ffmpeg.package = pkgs.ffmpeg-headless;
+  cursor.voicePlugin.pocketTts.package = pkgs.unstable.pocket-tts;
 
   sk.enable = true;
   oxc.console.atuin.enable = false;
