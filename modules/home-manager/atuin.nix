@@ -5,6 +5,11 @@
       default = false;
       description = "Whether to enable the Atuin terminal history";
     };
+    sync = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Whether to enable Atuin terminal history syncing";
+    };
   };
 
   config = lib.mkIf config.oxc.console.atuin.enable {
@@ -17,7 +22,7 @@
       ];
       package = pkgs.atuin;
       settings = {
-        auto_sync = true;
+        auto_sync = config.oxc.console.atuin.sync;
         dialect = "us";
         show_preview = true;
         style = "compact";
