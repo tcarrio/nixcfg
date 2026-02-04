@@ -17,5 +17,6 @@ _: {
   };
 
   sk.enable = true;
-  oxc.console.atuin.enable = false;
+
+  oxc.console.atuin.enable = true;
 }
