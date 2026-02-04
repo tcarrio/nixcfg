@@ -26,5 +26,6 @@
   cursor.voicePlugin.pocketTts.package = pkgs.unstable.pocket-tts;
 
   sk.enable = true;
-  oxc.console.atuin.enable = false;
+
+  oxc.console.atuin.enable = true;
 }
