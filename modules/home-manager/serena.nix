@@ -51,16 +51,17 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-      home.packages = (lib.attrsToList cfg.languages)
-        |> (builtins.filter (kv: kv.value.enable))
-        |> (builtins.map (kv: kv.value.package));
+      home.packages = with pkgs; [ serena ];
 
       home.file.".serena/serena_config.yml".text = lib.generators.toYAML { } {
+        projects = [
+          "/Users/tcarrio/Developer/skillshare-web"
+        ];
         ls_specific_settings = (lib.attrsToList cfg.languages)
           |> (builtins.filter (kv: kv.value.enable))
           |> (builtins.map ({ name, value }: {
             inherit name;
-            value.path = "${value.package}/${value.path}"; }))
+            value.ls_path = "${value.package}/${value.path}"; }))
           |> builtins.listToAttrs;
       };
     };
