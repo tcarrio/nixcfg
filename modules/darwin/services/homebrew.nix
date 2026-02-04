@@ -173,6 +173,7 @@ let
     "amethyst"
     "gimp"
     "logitune"
+    "notunes"
     "signal"
     "sol"
   ];
