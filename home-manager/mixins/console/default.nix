@@ -103,7 +103,7 @@
     };
     fish = {
       enable = true;
-      shellAliases = {
+      shellAliases = rec {
         diff = "diffr";
         glow = "glow --pager";
         ip = lib.mkDefault "ip --color --brief";
@@ -112,6 +112,10 @@
         # Ensures that gh auth uses config that will not conflict
         # with settings in the programs.gh.settings block
         gh-auth = "gh auth login -p ssh -h github.com -w --skip-ssh-key";
+
+        tailscale-ipv4 = "tailscale status --json 2>/dev/null | jq -r '.TailscaleIPs[] | select(. | startswith(\"100.\"))'";
+        tailscale-ipv6 = "tailscale status --json 2>/dev/null | jq -r '.TailscaleIPs[] | select(. | startswith(\"100.\") | not)'";
+        tailscale-ip = tailscale-ipv4; # 🤷
       };
       functions =
         let
