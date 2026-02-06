@@ -7,7 +7,7 @@
 
   inputs.nixcfg.url = "git+file:../";
 
-  outputs = { nixpkgs, flake-utils }:
+  outputs = { nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let pkgs = nixpkgs.legacyPackages.${system}; in
       {
