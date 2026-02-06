@@ -1,8 +1,9 @@
-_:
+{ config, pkgs, lib, ... }:
 let
   inherit (config.oxc.palette) colors;
+  inherit (pkgs.stdenv.hostPlatform) system;
 in
-{
+lib.mkIf (system == "linux") {
   xresources.properties = {
     "XTerm*background" = colors.color0;
     "XTerm*foreground" = colors.color7;

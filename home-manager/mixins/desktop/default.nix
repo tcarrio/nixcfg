@@ -1,19 +1,12 @@
-{ desktop, lib, pkgs, ... }:
-let
-  inherit (pkgs.stdenv.hostPlatform) system;
-in
+{ desktop, lib, pkgs, systemType, ... }:
 {
-  imports = [
-    ./neovide.nix
-  ]
-  ++ lib.optionals (system == "linux") [
-    ./alacritty.nix
-    ./emote.nix
-    ./tilix.nix
-    ./xresources.nix
-  ]
-  ++ lib.optionals (system == "darwin") [
-    ./ghostty.nix
-  ]
-  ++ lib.optionals (builtins.pathExists (./. + "/${desktop}.nix")) ./${desktop}.nix;
+  imports = (
+    [
+      ./emote.nix
+      ./neovide.nix
+      ./ghostty
+      ./xresources.nix
+    ]
+    ++ lib.optional (builtins.pathExists (./. + "/${desktop}.nix")) ./${desktop}.nix
+  );
 }

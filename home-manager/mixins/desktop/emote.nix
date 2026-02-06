@@ -1,5 +1,8 @@
-{ pkgs, ... }:
-{
+{ pkgs, lib, ... }:
+let
+  inherit (pkgs.stdenv.hostPlatform) system;
+in
+lib.mkIf (system == "linux") {
   # https://github.com/tom-james-watson/emote
   home.packages = with pkgs; [
     emote

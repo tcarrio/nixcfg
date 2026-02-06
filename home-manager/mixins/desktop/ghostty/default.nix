@@ -1,6 +1,6 @@
-{ config, inputs, pkgs, ... }:
+{ config, inputs, pkgs, lib, systemType, ... }:
 let
-  isLinux = pkgs.stdenv.hostPlatform.system == "linux";
+  isLinux = systemType == "linux";
 in
 {
   home = {
@@ -12,9 +12,6 @@ in
   programs.ghostty = {
     enable = true;
 
-    # Enable Nix management of Ghostty package on Linux only
-    package = if isLinux then pkgs.ghostty else null;
-
     settings = {
       font-family = "Ubuntu Mono derivative Powerline";
       font-size = 14;
@@ -25,5 +22,8 @@ in
       # Use the latest nightly builds
       auto-update-channel = "tip";
     } else { });
+  } // lib.mkIf isLinux {
+    # Enable Nix management of Ghostty package on Linux only
+    package = pkgs.ghostty;
   };
 }
