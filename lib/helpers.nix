@@ -28,6 +28,7 @@ in
   #    - "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"
   mkHost = { hostname, username, systemType, desktop ? null, installer ? null, determinate ? true }:
     let
+      isIso = builtins.substring 0 4 hostname == "iso-";
       isWorkstation = systemType == "workstation";
       isGamingSystem = isWorkstation && desktop != null;
     in
@@ -43,10 +44,8 @@ in
       ]
       ++ (lib.optionals determinate [ inputs.determinate.nixosModules.default ])
       ++ (lib.optionals (installer != null) [ installer ])
-      ++ (lib.optionals isWorkstation [
-        inputs.chaotic.nixosModules.default
-        inputs.flatpaks.nixosModules.default
-      ])
+      ++ (lib.optionals isWorkstation [ inputs.chaotic.nixosModules.default ])
+      ++ (lib.optionals (desktop != null && (isWorkstation || isIso)) [ inputs.flatpaks.nixosModules.default ])
       ++ (lib.optionals (desktop == "hyprvibe") [ inputs.hyprvibe.nixosModules.default ])
       ++ (lib.optionals isGamingSystem [ inputs.nix-citizen.nixosModules.default ]);
     };
