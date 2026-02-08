@@ -152,11 +152,6 @@ let
   ##################################################
   # Brew casks
   ##################################################
-  securityCasks = [
-    "secretive"
-    "tailscale-app"
-  ];
-
   devCasks = [
     "altair-graphql-client"
     "cursor"
@@ -169,8 +164,7 @@ let
     "google-chrome"
   ];
 
-  casks = securityCasks
-    ++ devCasks
+  casks = devCasks
     ++ webCasks;
 
   ##################################################
