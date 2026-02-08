@@ -274,25 +274,28 @@
         let
           mkFlakeShell = mkSystemFlakeShell system;
         in
-        rec {
-          default = mkFlakeShell ({ pkgs, darwinNixPkgs, bun2NixPkg, ... }: {
-            packages = with pkgs; [
-              home-manager
-              darwinNixPkgs.darwin-rebuild
-              git
-              unstable.bun
-              nixd
-              bun2NixPkg
-              self.packages.${system}.gh-composer-auth
-              # TODO: Fix gqurl package
-              # self.packages.${system}.gqurl
-              # TODO: Re-enable support for mac-launcher with system-contextual pkgs
-              # self.packages.${system}.mac-launcher
-              self.packages.${system}.nixvim
-            ];
-          });
-          dev = default;
-        } // devshells.devShells.${system}
+        (
+          devshells.devShells.${system} // 
+          rec {
+            default = mkFlakeShell ({ pkgs, darwinNixPkgs, bun2NixPkg, ... }: {
+              packages = with pkgs; [
+                home-manager
+                darwinNixPkgs.darwin-rebuild
+                git
+                unstable.bun
+                nixd
+                bun2NixPkg
+                self.packages.${system}.gh-composer-auth
+                # TODO: Fix gqurl package
+                # self.packages.${system}.gqurl
+                # TODO: Re-enable support for mac-launcher with system-contextual pkgs
+                # self.packages.${system}.mac-launcher
+                self.packages.${system}.nixvim
+              ];
+            });
+            dev = default;
+          }
+        )
       )) //
       (libx.forAllLinux (system:
         let
