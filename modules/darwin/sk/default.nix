@@ -42,16 +42,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    oxc.homebrew = {
-      inherit (cfg.homebrew) enable defaults;
-    };
-    homebrew.casks = lib.optionals cfg.homebrew.enable [
-      "cursor"
-      "docker-desktop"
-      "sequel-ace"
-      "visual-studio-code"
-    ];
-
     oxc.services.xcode.acceptLicense = true;
     oxc.services.caffeinated.enable = true;
 
