@@ -216,8 +216,8 @@
       # Support for nix-darwin workstations
       # - darwin-rebuild build --flake .#sktc0
       darwinConfigurations = {
-        "sktc0" = libx.mkDarwin { username = "tcarrio"; hostname = "sktc0"; stateVersion = 4; determinate = true; };
         "sktc2" = libx.mkDarwin { username = "tcarrio"; hostname = "sktc2"; stateVersion = 4; determinate = true; };
+        "gokin" = libx.mkDarwin { username = "tcarrio"; hostname = "gokin"; stateVersion = 4; determinate = true; };
       };
 
       # Expose the package set, including overlays, for convenience.
