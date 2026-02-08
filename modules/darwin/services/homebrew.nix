@@ -15,140 +15,11 @@ let
   ##################################################
   # Brew formulae
   ##################################################
-  containerBrews = [ ]; # "docker" "docker-compose" "colima";
   toolingBrews = [
-    "awscli"
     "ca-certificates"
-    "go-task"
-    "openssl"
-  ];
-  pythonBrews = [
-    "bpython"
-    "pyenv"
-    "python@3.10"
-    "python@3.11"
-    "python@3.12"
-    "python@3.9"
-    "six"
-  ];
-  buildBrews = [
-    "automake"
-    "bison"
-    "cmake"
-  ];
-  bashBrews = [
-    "coreutils"
-    "bats-core"
-    "shellcheck"
-    "shfmt"
-  ];
-  jsBrews = [
-    "bun"
-    "deno"
-    "node"
-  ];
-  formattingBrews = [
-  ];
-  ciBrews = [
-    "circleci"
-    "codefresh"
-  ];
-  cfBrews = [
-    "cloudflared"
-    "flarectl"
-  ];
-  k8sBrews = [
-    "k9s"
-    "kubernetes-cli"
-  ];
-  phpBrews = [
-    "m4"
-    "ninja"
-    "icu4c"
-    "imagemagick"
-    "libedit"
-    "libiconv"
-    "libjpeg"
-    "libpng"
-    "libsodium"
-    "libtool"
-    "libxml2"
-    "libxslt"
-    "libyaml"
-    "libzip"
-    "pcre"
-  ];
-  postgresBrews = [
-    "postgresql"
-    "postgresql@14"
-  ];
-  iacBrews = [
-    "ansible"
-    "terraform"
-    "terragrunt"
-    "terraformer"
-  ];
-  dataScienceBrews = [
-    "r"
-  ];
-  baseBrews = [
-    "autoconf"
-    "brotli"
-    "c-ares"
-    "conftest"
-    "curl"
-    "dbus"
-    "editorconfig"
-    "freetype"
-    "fswatch"
-    "gd"
-    "gettext"
-    "ghostscript"
-    "glib"
-    "gnu-getopt"
-    "gnutls"
-    "go"
-    "gpatch"
-    "graphite2"
-    "graphviz"
-    "hadolint"
-    "k6"
-    "krb5"
-    "mkcert"
-    "pandoc"
-    "pango"
-    "pkg-config"
-    "portaudio"
-    "protobuf"
-    "protobuf@21"
-    "re2c"
-    "readline"
-    "redis"
-    "rustup"
-    "sops"
-    "sqlite"
-    "stern"
-    "unixodbc"
-    "xz"
-    "yarn"
-    "zlib"
   ];
 
-  brews = containerBrews
-    ++ toolingBrews
-    ++ pythonBrews
-    ++ buildBrews
-    ++ bashBrews
-    ++ jsBrews
-    ++ formattingBrews
-    ++ ciBrews
-    ++ cfBrews
-    ++ k8sBrews
-    ++ phpBrews
-    ++ postgresBrews
-    ++ iacBrews
-    ++ dataScienceBrews
-    ++ baseBrews;
+  brews = toolingBrews;
 
   ##################################################
   # Brew casks
@@ -159,15 +30,12 @@ let
   ];
 
   devCasks = [
-    "alacritty"
-    "altair-graphql-client"
     "atuin-desktop"
     "ghostty"
     "zed"
   ];
 
   webCasks = [
-    "google-chrome"
     "zen"
   ];
 
@@ -191,7 +59,6 @@ let
   ##################################################
   masApps = {
     Flow = 1423210932;
-    XCode = 497799835;
   };
 
   configuredDefaults =
@@ -206,7 +73,6 @@ in
       default = false;
       description = "Enable the Homebrew package manager";
     };
-    # TODO: Implement conditionality of this option
     defaults = lib.mkOption {
       type = lib.types.bool;
       default = true;

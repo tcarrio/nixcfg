@@ -29,21 +29,15 @@ let
   };
 in
 {
+  imports = [
+    ./homebrew.nix
+  ];
+
   options.sk = {
     enable = mkOption {
       type = types.bool;
       default = false;
       description = "Whether to enable the SK module.";
-    };
-    homebrew.enable = mkOption {
-      type = types.bool;
-      default = true;
-      description = "Whether to enable Homebrew.";
-    };
-    homebrew.defaults = mkOption {
-      type = types.bool;
-      default = true;
-      description = "Whether to enable the default Homebrew packages";
     };
   };
 
