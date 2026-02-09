@@ -28,4 +28,5 @@
   sk.enable = true;
 
   oxc.console.atuin.enable = true;
+  oxc.console.aws.enable = true;
 }
