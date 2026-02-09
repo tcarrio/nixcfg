@@ -137,11 +137,11 @@
         "systems": "systems_4"
       },
       "locked": {
-        "lastModified": 1770245017,
-        "narHash": "sha256-Hk2P5mkeSmEsktQU/3ZuHbkbEQ1zQjYbr3n8yGFc7b8=",
+        "lastModified": 1770247055,
+        "narHash": "sha256-aQb4l+jG199Auokl7SKca+nyXBilhFRwGo8xHjPKeGA=",
         "owner": "tcarrio",
         "repo": "cursor-voice-plugin",
-        "rev": "503fedaea8f612d3866ba307214332a76dacaeb7",
+        "rev": "a4e6cfde38f0b62e934f399ec0f101a946429f20",
         "type": "github"
       },
       "original": {
