@@ -202,8 +202,7 @@
         "nixos@iso-nuc" = libx.mkHome { hostname = "iso-nuc"; username = "nixos"; };
 
         # Workstations
-        "tcarrio@sktc0" = libx.mkHome { hostname = "sktc0"; username = "tcarrio"; platform = "aarch64-darwin"; };
-        "tcarrio@sktc1" = libx.mkHome { hostname = "sktc1"; username = "tcarrio"; platform = "aarch64-darwin"; };
+        "tcarrio@gokin" = libx.mkHome { hostname = "gokin"; username = "tcarrio"; platform = "aarch64-darwin"; };
         "tcarrio@sktc2" = libx.mkHome { hostname = "sktc2"; username = "tcarrio"; platform = "aarch64-darwin"; };
         "tcarrio@glass" = libx.mkHome { hostname = "glass"; username = "tcarrio"; desktop = "kde6"; };
         "tcarrio@obsidian" = libx.mkHome { hostname = "obsidian"; username = "tcarrio"; desktop = "gnome"; };
@@ -275,7 +274,7 @@
           mkFlakeShell = mkSystemFlakeShell system;
         in
         (
-          devshells.devShells.${system} // 
+          devshells.devShells.${system} //
           rec {
             default = mkFlakeShell ({ pkgs, darwinNixPkgs, bun2NixPkg, ... }: {
               packages = with pkgs; [
