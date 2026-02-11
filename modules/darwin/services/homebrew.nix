@@ -48,10 +48,15 @@ let
     "sol"
   ];
 
+  musicCasks = [
+    "deezer"
+  ];
+
   casks = securityCasks
     ++ devCasks
     ++ webCasks
-    ++ desktopCasks;
+    ++ desktopCasks
+    ++ musicCasks;
 
 
   ##################################################
