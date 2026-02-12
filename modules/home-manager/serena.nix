@@ -4,6 +4,40 @@ let
 
   mkSkProjectPath = name: "${config.sk.srcDir}/${name}";
 
+  managedSerenaConfigFile = pkgs.writeText
+    "serena_config.yml"
+    (lib.generators.toYAML {} {
+      projects = [
+        (mkSkProjectPath "skillshare")
+        (mkSkProjectPath "skillshare-web")
+      ];
+      ls_specific_settings = (lib.attrsToList cfg.languages)
+        |> (builtins.filter (kv: kv.value.enable))
+        |> (builtins.map ({ name, value }: {
+          inherit name;
+          value.ls_path = "${value.package}${value.path}"; }))
+        |> builtins.listToAttrs;
+    });
+
+  # Merging config script
+  # This provides support for a read/write serena_config.yml that the Serena MCP server can modify.
+  # This supports deep-merging the intended values with the existing ones.
+  mergeSerenaConfigScript = pkgs.writeShellScript "merge-serena-config" ''
+    set -eou pipefail
+    SERENA_HOME="$HOME/.serena"
+    mkdir -p "$SERENA_HOME"
+    SERENA_CONFIG_PATH="$SERENA_HOME/serena_config.yml"
+
+    if [ ! -f "$SERENA_CONFIG_PATH" ]; then
+      cat "${managedSerenaConfigFile}" > "$SERENA_CONFIG_PATH"
+    else
+      # Recursively merge the managed config into the existing one, safely overwrite only after success
+      TMP_CONFIG_PATH="$(mktemp)"
+      ${pkgs.jq}/bin/jq -s '.[0] * .[1]' "$SERENA_CONFIG_PATH" "${managedSerenaConfigFile}" > "$TMP_CONFIG_PATH"
+      mv "$TMP_CONFIG_PATH" "$SERENA_CONFIG_PATH"
+    fi
+  '';
+
   cfg = config.ai.serena;
 in
 {
@@ -55,17 +89,9 @@ in
   config = lib.mkIf cfg.enable {
       home.packages = with pkgs; [ serena ];
 
-      home.file.".serena/serena_config.yml".text = lib.generators.toYAML { } {
-        projects = [
-          (mkSkProjectPath "skillshare")
-          (mkSkProjectPath "skillshare-web")
-        ];
-        ls_specific_settings = (lib.attrsToList cfg.languages)
-          |> (builtins.filter (kv: kv.value.enable))
-          |> (builtins.map ({ name, value }: {
-            inherit name;
-            value.ls_path = "${value.package}${value.path}"; }))
-          |> builtins.listToAttrs;
-      };
+      # Merge Nix-managed Serena config into ~/.serena/serena_config.yml using the merge script
+      home.activation.mergeSerenaConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        $DRY_RUN_CMD ${mergeSerenaConfigScript}
+      '';
     };
 }
