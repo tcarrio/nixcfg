@@ -9,6 +9,7 @@ in
     enable = lib.mkEnableOption "Enable Cursor AI";
     riper-5.enable = lib.mkEnableOption "Enable Riper-5 AI";
     serena.enable = lib.mkEnableOption "Enable Serena MCP integration";
+    typescript.enable = lib.mkEnableOption "Enable TypeScript Cursor rules";
   };
 
   config = lib.mkIf cfg.enable {
@@ -27,6 +28,12 @@ in
     # Setup Serena MCP Cursor rules
     // (optionalSet cfg.serena.enable {
       ".cursor/rules/serena.md".source = ./rules/serena.md;
-    });
+    })
+    # Setup TypeScript Cursor rules
+    // (optionalSet cfg.typescript.enable {
+      ".cursor/rules/typescript.md".source = ./rules/typescript.md;
+    })
+    # END OF home.files
+    ;
   };
 }
