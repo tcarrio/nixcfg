@@ -57,8 +57,8 @@ in
 
       home.file.".serena/serena_config.yml".text = lib.generators.toYAML { } {
         projects = [
-          mkSkProjectPath "skillshare"
-          mkSkProjectPath "skillshare-web"
+          (mkSkProjectPath "skillshare")
+          (mkSkProjectPath "skillshare-web")
         ];
         ls_specific_settings = (lib.attrsToList cfg.languages)
           |> (builtins.filter (kv: kv.value.enable))
