@@ -16,6 +16,12 @@ in
     description = "Whether to enable the SK work module";
   };
 
+  options.sk.srcDir = lib.mkOption {
+    type = lib.types.path;
+    default = devDir;
+    description = "The directory where source code is stored";
+  };
+
   options.sk.containerization.engine = lib.mkOption {
     type = lib.types.str;
     default = "docker";

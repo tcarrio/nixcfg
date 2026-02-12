@@ -2,6 +2,8 @@
 let
   mkSerenaEnableOption = desc: lib.mkEnableOption "Enable ${desc} support for Serena";
 
+  mkSkProjectPath = name: "${config.sk.srcDir}/${name}";
+
   cfg = config.ai.serena;
 in
 {
@@ -55,7 +57,8 @@ in
 
       home.file.".serena/serena_config.yml".text = lib.generators.toYAML { } {
         projects = [
-          "/Users/tcarrio/Developer/skillshare-web"
+          mkSkProjectPath "skillshare"
+          mkSkProjectPath "skillshare-web"
         ];
         ls_specific_settings = (lib.attrsToList cfg.languages)
           |> (builtins.filter (kv: kv.value.enable))
