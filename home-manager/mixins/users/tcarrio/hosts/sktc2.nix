@@ -27,6 +27,10 @@
 
   sk.enable = true;
 
+  oxc.ai.cursor.enable = true;
+  oxc.ai.cursor.riper-5.enable = true;
+  oxc.ai.cursor.serena.enable = true;
+
   oxc.console.atuin.enable = true;
   oxc.console.aws.enable = true;
 }
