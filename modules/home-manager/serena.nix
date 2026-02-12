@@ -64,7 +64,7 @@ in
           |> (builtins.filter (kv: kv.value.enable))
           |> (builtins.map ({ name, value }: {
             inherit name;
-            value.ls_path = "${value.package}/${value.path}"; }))
+            value.ls_path = "${value.package}${value.path}"; }))
           |> builtins.listToAttrs;
       };
     };
