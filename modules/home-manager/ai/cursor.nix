@@ -19,11 +19,11 @@ in
       ".cursor/rules/riper-5.mdc".source = ./rules/riper-5.mdc;
 
       # Utility commands for changing RIPER-5 modes
-      "cursor/commands/research.md".text = "ENTER RESEARCH MODE";
-      "cursor/commands/innovate.md".text = "ENTER INNOVATE MODE";
-      "cursor/commands/plan.md".text = "ENTER PLAN MODE";
-      "cursor/commands/execute.md".text = "ENTER EXECUTE MODE";
-      "cursor/commands/review.md".text = "ENTER REVIEW MODE";
+      ".cursor/commands/research.md".text = "ENTER RESEARCH MODE";
+      ".cursor/commands/innovate.md".text = "ENTER INNOVATE MODE";
+      ".cursor/commands/plan.md".text = "ENTER PLAN MODE";
+      ".cursor/commands/execute.md".text = "ENTER EXECUTE MODE";
+      ".cursor/commands/review.md".text = "ENTER REVIEW MODE";
     })
     # Setup Serena MCP Cursor rules
     // (optionalSet cfg.serena.enable {
