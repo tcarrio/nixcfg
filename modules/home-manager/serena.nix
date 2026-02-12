@@ -1,4 +1,4 @@
-{ lib, pkgs, config, options, ... }:
+{ lib, pkgs, config, ... }:
 let
   mkSerenaEnableOption = desc: lib.mkEnableOption "Enable ${desc} support for Serena";
 
@@ -7,7 +7,7 @@ in
 {
   options.ai.serena = {
     enable = lib.mkEnableOption "Enable the Serena MCP server";
-    languages = rec {
+    languages = {
       bash.enable = mkSerenaEnableOption "Bash language";
       bash.package = lib.mkOption { type = lib.types.package; default = pkgs.bash-language-server; };
       bash.path = lib.mkOption { type = lib.types.str; default = "/bin/bash-language-server"; description = "The path to the bash language server command from the package"; };
