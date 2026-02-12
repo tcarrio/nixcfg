@@ -101,6 +101,7 @@ in
         let
           sksh = target: "nix develop ${homeDir}/0xc/sksh#${target} --command \$SHELL";
           skillshareWorkstation = "${wsDir}/bin/skillshare-workstation";
+          orbitComposeFile = "${devDir}/docker-compose.orbit.yaml";
         in
         {
           sk = skillshareWorkstation;
@@ -121,7 +122,9 @@ in
             [ -d "${devDir}" ] && find "${devDir}" -type d -name "node_modules" | xargs -I '{}' -P 12 rm -rf "{}"
           '';
 
-          orbit = "docker compose -f ~/Developer/docker-compose.orbit.yaml";
+          orbit = "docker compose -f ${orbitComposeFile}";
+          lazyorbit = "lazydocker -f ${orbitComposeFile}";
+
           orbimux = "${devDir}/orbimux/orbimux.sh";
         };
     };
