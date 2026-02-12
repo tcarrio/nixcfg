@@ -20,7 +20,7 @@
     yaml.enable = true;
   };
 
-  cursor.voicePlugin.enable = true;
+  cursor.voicePlugin.enable = false;
   cursor.voicePlugin.ffmpeg.enable = false;
   cursor.voicePlugin.ffmpeg.package = pkgs.ffmpeg-headless;
   cursor.voicePlugin.pocketTts.package = pkgs.unstable.pocket-tts;
