@@ -5,19 +5,19 @@
 
   ai.serena.enable = true;
   ai.serena.languages = {
-    bash.enable = false;
+    bash.enable = true;
     elm.enable = false;
     go.enable = false;
     kotlin.enable = false;
     lua.enable = false;
-    markdown.enable = false;
-    nix.enable = false;
+    markdown.enable = true;
+    nix.enable = true;
     rego.enable = false;
     rust.enable = false;
     terraform.enable = false;
     typescript.enable = true;
-    vue.enable = false;
-    yaml.enable = false;
+    vue.enable = true;
+    yaml.enable = true;
   };
 
   cursor.voicePlugin.enable = true;
