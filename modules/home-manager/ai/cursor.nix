@@ -16,7 +16,7 @@ in
     home.file =
     # Setup RIPER-5 Cursor files
     (optionalSet cfg.riper-5.enable {
-      ".cursor/rules/riper-5.md".source = ./rules/riper-5.md;
+      ".cursor/rules/riper-5.mdc".source = ./rules/riper-5.mdc;
 
       # Utility commands for changing RIPER-5 modes
       "cursor/commands/research.md".text = "ENTER RESEARCH MODE";
@@ -27,11 +27,11 @@ in
     })
     # Setup Serena MCP Cursor rules
     // (optionalSet cfg.serena.enable {
-      ".cursor/rules/serena.md".source = ./rules/serena.md;
+      ".cursor/rules/serena.mdc".source = ./rules/serena.mdc;
     })
     # Setup TypeScript Cursor rules
     // (optionalSet cfg.typescript.enable {
-      ".cursor/rules/typescript.md".source = ./rules/typescript.md;
+      ".cursor/rules/typescript.mdc".source = ./rules/typescript.mdc;
     })
     # END OF home.files
     ;
