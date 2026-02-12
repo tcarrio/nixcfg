@@ -37,7 +37,8 @@
             flex
             gcc
             git
-            gitRepo
+            git-lfs
+            git-repo
             gnumake
             gnupg
             gperf
@@ -73,6 +74,7 @@
           runScript = "bash";
           profile = ''
             export USE_CCACHE=1
+            export CCACHE_EXEC=${pkgs.ccache}/bin/ccache
             export ANDROID_JAVA_HOME=${pkgs.jdk11_headless.home}
             # Building involves a phase of unzipping large files into a temporary directory
             export TMPDIR=/tmp
@@ -83,20 +85,18 @@
         name = "android-env-shell";
         nativeBuildInputs = [ fhs ];
         shellHook = ''
+          echo '>>> EXAMPLE STEPS <<<'
+          echo '$ repo init -u https://github.com/LineageOS/android.git -b lineage-18.1 --git-lfs --no-clone-bundle'
+          echo '$ repo sync'
+          echo '$ source build/envsetup.sh'
+          echo '$ breakfast flox'
+          echo 'Get proprietary blobs (see https://wiki.lineageos.org/devices/flox/build#extract-proprietary-blobs)'
+          echo ' (I actually used blobs from https://github.com/TheMuppets, following https://forum.xda-developers.com/showpost.php?s=a6ee98b07b1b0a2f4004b902a65d9dcd&p=76981184&postcount=4)'
+          echo '$ ccache -M 50G (see https://wiki.lineageos.org/devices/flox/build#turn-on-caching-to-speed-up-build)'
+          echo '$ croot'
+          echo '$ brunch flox'
+          echo '$ cd $OUT'
 
-          echo "
-            >>> EXAMPLE STEPS
-            $ repo init -u https://github.com/LineageOS/android.git -b cm-13.0
-            $ repo sync
-            $ source build/envsetup.sh
-            $ breakfast maguro
-            Get proprietary blobs (see https://wiki.lineageos.org/devices/maguro/build#extract-proprietary-blobs)
-             (I actually used blobs from https://github.com/TheMuppets, following https://forum.xda-developers.com/showpost.php?s=a6ee98b07b1b0a2f4004b902a65d9dcd&p=76981184&postcount=4)
-            $ ccache -M 50G (see https://wiki.lineageos.org/devices/maguro/build#turn-on-caching-to-speed-up-build)
-            $ croot
-            $ brunch maguro
-            $ cd $OUT
-          "
           exec android-env
         '';
       };
