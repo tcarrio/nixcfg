@@ -42,7 +42,7 @@
             gnupg
             gperf
             imagemagick
-            jdk8 # was jdk7
+            jdk11_headless # was jdk7
             libxml2
             lz4
             lzop
@@ -73,7 +73,7 @@
           runScript = "bash";
           profile = ''
             export USE_CCACHE=1
-            export ANDROID_JAVA_HOME=${pkgs.jdk8.home}
+            export ANDROID_JAVA_HOME=${pkgs.jdk11_headless.home}
             # Building involves a phase of unzipping large files into a temporary directory
             export TMPDIR=/tmp
           '';
