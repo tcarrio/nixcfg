@@ -13,7 +13,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.file =
+    home.copy-files =
     # Setup RIPER-5 Cursor files
     (optionalSet cfg.riper-5.enable {
       ".cursor/rules/riper-5.mdc".source = ./rules/riper-5.mdc;
