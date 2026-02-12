@@ -2,11 +2,15 @@
 let
   copyFilesScriptForPathEntry = path: entry:
     let
+      pathParts = lib.strings.splitString "/" path;
+      fileName = lib.lists.last pathParts;
+      dirPath = lib.strings.join "/" (lib.lists.init pathParts);
       src = if (entry ? source && entry.source != null)
         then entry.source
         else (
           if (entry ? text && entry.text != null)
-            then pkgs.writeText "file-content" entry.text
+            then
+              pkgs.writeText "${fileName}" entry.text
             else throw "Missing source and text from copy-files option ${path}"
         );
     in pkgs.writeShellScript "apply-copy-files" ''
@@ -15,7 +19,7 @@ let
       target_file="$HOME/${path}"
 
       # Ensure the nested directories exist for the target file
-      target_dir="$(dirname "$HOME"/"${path}")"
+      target_dir="$HOME/${dirPath}"
       if [ ! -d "$target_dir" ]; then
         mkdir -p "$target_dir"
       fi
