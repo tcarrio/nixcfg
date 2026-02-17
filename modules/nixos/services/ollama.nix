@@ -13,7 +13,7 @@ let
     };
   };
 
-  nvidiaConfig = lib.mkIf cfg.hardware == "nvidia" {
+  nvidiaConfig = lib.mkIf (cfg.hardware == "nvidia") {
     environment.systemPackages = with pkgs'; [
       cudaPackages.cudatoolkit
       cudaPackages.cudnn
@@ -52,7 +52,7 @@ in
   options.oxc.services.ollama = {
     enable = lib.mkEnableOption "Enable the Ollama LLM service";
     hardware = lib.mkOption {
-      type = lib.types.enumOf ["nvidia" "cpu"];
+      type = lib.types.enum ["nvidia" "cpu"];
       description = "Which hardware to target for hosting the LLM model";
       default = "cpu";
     };
