@@ -44,24 +44,14 @@
 
   virtualisation.docker.enable = false;
 
-  services.ollama = {
-    package = pkgs.unstable.ollama-cuda;
+  oxc.services.ollama = {
     enable = true;
-    acceleration = "cuda";
-    environmentVariables = {
-      # Adjust this to the best context length for Qwen3 30B A3B model AI!
-      OLLAMA_CONTEXT_LENGTH = "8192";
-    };
-    # TODO: Restrict to tailnet IP
-    # host = tailnetMatrix.hosts.glass;
-    loadModels = [
-      "qwen3:8b" # "hf.co/Qwen/Qwen3-8B"
-      "starcoder2:7b" # "hf.co/bigcode/starcoder2-7b"
-      "hf.co/unsloth/Qwen3-30B-A3B-GGUF:latest"
-      # "hf.co/bunnycore/Qwen2.5-7B-Instruct-Fusion"
-      # "hf.co/bunnycore/Qwen2.5-7B-CyberRombos"
-    ];
+    hardware = "nvidia";
   };
+  services.ollama.loadModels = [
+    # Current system has an Nvidia GTX 1080Ti with 11GB VRAM
+    "hf.co/Ygz-08123/Qwen3-7B-Instruct-Q4_K_M-GGUF:Q4_K_M"
+  ];
 
   boot = {
     # TODO: Enable Zen kernel after triaging Nvidia graphics issues
