@@ -24,11 +24,11 @@
 
   inputs = {
     # Primary source from FlakeHub follows the current release cycle, e.g. 25.11.
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
 
     # You can access packages and modules from different nixpkgs revs at the
     # same time. See 'unstable-packages' overlay in 'overlays/default.nix'.
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
     nixpkgs-trunk.url = "github:nixos/nixpkgs/master";
 
     agenix.url = "github:ryantm/agenix";
