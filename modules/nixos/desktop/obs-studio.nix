@@ -22,7 +22,7 @@ in
     bellsAndWhistles = {
       all = lib.mkOption {
         type = lib.types.bool;
-        default = true;
+        default = false;
         description = "Whether to enable all the OBS Studio bells and whistles";
       };
     };
@@ -56,7 +56,7 @@ in
           obs-pipewire-audio-capture
           obs-text-pthread
           obs-scale-to-sound
-          advanced-scene-switcher
+          # advanced-scene-switcher
           obs-shaderfilter
           obs-source-clone
           obs-source-record
