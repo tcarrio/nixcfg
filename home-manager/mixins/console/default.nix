@@ -235,6 +235,9 @@
           cdr = "!gitcdr() { git config --get checkout.defaultRemote || printf 'origin' ; }; gitcdr";
           bdr = "!gitbdr() { git config branch.$(git bn).remote || git cdr; }; gitbdr";
 
+          # default trunk branch configurations
+          tb = "!gittb() { git ls-remote --symref origin HEAD | grep 'refs/heads/' | sed -nE 's#.*refs/heads/([a-zA-Z0-9]+).*#\1#p'; } gittb";
+
           # short-hands for ignoring and unignoring files without .gitignore
           ignore = "update-index --assume-unchanged";
           ig = "ignore";
