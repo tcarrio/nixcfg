@@ -186,14 +186,6 @@ in
       default = true;
       description = "Whether to enable the default Homebrew packages";
     };
-
-    options.oxc.sk.homebrew = {
-      enable = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Enable the Skillshare set of Homebrew packages";
-      };
-    };
   };
 
   config = mkIf cfg.sk.enable {
