@@ -5,14 +5,30 @@ let
       pathParts = lib.strings.splitString "/" path;
       fileName = lib.lists.last pathParts;
       dirPath = lib.strings.join "/" (lib.lists.init pathParts);
+      # commandStdout = command: "${derivation {
+      #   name = fileName;
+      #   builder = "${pkgs.bash}/bin/bash";
+      #   args = [ "-c" "mkdir -p \"$HOME\" && ${command} > $out" ];
+      #   system = pkgs.stdenv.hostPlatform.system;
+      #   HOME = "$TMPDIR/home";
+      # }}";
+      commandStdout = command: pkgs.runCommand fileName { HOME = "$TMPDIR/home"; } ''
+         mkdir -p $HOME
+         ${command} > $out
+      '';
       src = if (entry ? source && entry.source != null)
         then entry.source
         else (
           if (entry ? text && entry.text != null)
             then
               pkgs.writeText "${fileName}" entry.text
-            else throw "Missing source and text from copy-files option ${path}"
-        );
+            else (
+              if (entry ? command && entry.command != null)
+                then
+                  commandStdout entry.command
+                else throw "Missing source, text, or command from copy-files option ${path}"
+              )
+          );
     in pkgs.writeShellScript "apply-copy-files" ''
       set -eou pipefail
 
@@ -51,6 +67,10 @@ in
         };
         source = mkOption {
           type = nullOr path;
+          default = null;
+        };
+        command = mkOption {
+          type = nullOr str;
           default = null;
         };
       };

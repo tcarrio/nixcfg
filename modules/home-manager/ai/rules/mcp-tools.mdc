@@ -1,0 +1,31 @@
+---
+globs:
+alwaysApply: true
+---
+
+# MCP tools: load and use by default
+
+You have access to MCP (Model Context Protocol) tools via the enabled MCP servers. Their tools are **not** in your default tool list; you must discover and call them explicitly.
+
+## Required behavior
+
+**At the start of any coding or codebase-exploration task** (reading code, finding symbols, editing, refactoring):
+
+1. **Discover available MCP tools.**
+   List the tools for each enabled MCP server. Tool descriptors live under the project's MCP folder (e.g. `mcps/<server>/tools/*.json` in the Cursor project metadata path). Use your file/list tools to list `mcps/<server>/tools/` for each server mentioned in your context (e.g. `user-serena`, `cursor-ide-browser`).
+
+2. **Read tool schemas before use.**
+   Before calling an MCP tool, read its descriptor JSON (name, description, arguments) so you pass correct parameters. Do not guess parameters.
+
+3. **Prefer MCP tools over built-in alternatives** when they are a better fit:
+   - For **symbol-level reading** (classes, functions, methods): use the server's `get_symbols_overview` and `find_symbol` (or equivalent) instead of reading entire files or only using generic codebase search.
+   - For **finding references**: use the server's `find_referencing_symbols` (or equivalent) when available.
+   - For **editing**: use the server's symbol-based edit tools (e.g. `replace_symbol_body`, `insert_before_symbol`, `insert_after_symbol`) when the change spans a whole symbol; use `replace_regex` for small in-symbol edits.
+
+Do **not** default only to built-in tools (e.g. codebase_search, grep, read_file) when an MCP server provides a more precise or efficient tool for the task.
+
+## Summary
+
+- **Always** discover MCP tools at task start when working in a codebase.
+- **Always** read a tool's schema before calling it.
+- **Prefer** MCP/symbolic tools over full-file reads and generic search when they match the task.

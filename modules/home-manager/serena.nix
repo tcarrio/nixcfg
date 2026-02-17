@@ -43,6 +43,14 @@ in
 {
   options.ai.serena = {
     enable = lib.mkEnableOption "Enable the Serena MCP server";
+    package = lib.mkOption {
+      type = lib.types.package;
+      default = pkgs.serena;
+    };
+    config = lib.mkOption {
+      type = lib.types.nullOr lib.types.package;
+      default = null;
+    };
     languages = {
       bash.enable = mkSerenaEnableOption "Bash language";
       bash.package = lib.mkOption { type = lib.types.package; default = pkgs.bash-language-server; };
@@ -87,11 +95,13 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-      home.packages = with pkgs; [ serena ];
+      home.packages = [ cfg.package ];
 
       # Merge Nix-managed Serena config into ~/.serena/serena_config.yml using the merge script
       home.activation.mergeSerenaConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
         $DRY_RUN_CMD ${mergeSerenaConfigScript}
       '';
+
+      ai.serena.config = managedSerenaConfigFile;
     };
 }

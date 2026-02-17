@@ -11,6 +11,16 @@ alwaysApply: true
 
 ---
 
+## 0. Serena MCP Preference
+
+### R0 — Always Utilize Serena Tools When MCP Server is Enabled and Functional
+
+Assume the MCP server is enabled and functional unless it has explicitly critically failed in this session or been disabled.
+
+Prefer Serena tools over built-in tools when MCP server is enabled and functional.
+
+---
+
 ## 1. Serena Activation & Project Onboarding
 
 ### R1 — Always Provide the Full Project Path
@@ -137,6 +147,7 @@ The following are strictly prohibited during any Serena-assisted session:
 
 | Rule | Summary |
 |---|---|
+| **R0** | Always prefer Serena tools unless explicitly disabled or crashing |
 | **R1** | Always pass the full project path; run onboarding if memory files don't exist |
 | **R3** | No regex for file matching — read the whole file, rewrite it completely |
 | **R4** | Use `mcp_serena_create_text_file` for all writes; never use `edit_file` |
