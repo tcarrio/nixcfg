@@ -7,6 +7,7 @@ _: {
     ./networkmanager.nix
     ./nextdns.nix
     ./noisetorch.nix
+    ./ollama.nix
     ./remote-builder.nix
     ./tailscale.nix
     ./tailscale-autoconnect.nix
