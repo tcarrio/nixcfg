@@ -56,9 +56,9 @@ in
   config = lib.mkIf cfg.enable {
     home.copy-files =
     # Setup RIPER-5 Cursor files
-    {
+    (optionalSet cfg.sk.enable {
       ".cursor/skills/jira-ticket-planning.md".source = ./skills/jira-ticket-planning.md;
-    }
+    })
     // (optionalSet cfg.riper-5.enable {
       ".cursor/rules/riper-5.mdc".source = ./rules/riper-5.mdc;
 
