@@ -238,6 +238,9 @@
           # default trunk branch configurations
           tb = "!gittb() { git ls-remote --symref origin HEAD | grep 'refs/heads/' | sed -nE 's#.*refs/heads/([a-zA-Z0-9]+).*#\1#p'; } gittb";
 
+          # checkout utility to checkout the local trunk branch of the repo
+          cot = "!git co $(git tb)";
+
           # short-hands for ignoring and unignoring files without .gitignore
           ignore = "update-index --assume-unchanged";
           ig = "ignore";
