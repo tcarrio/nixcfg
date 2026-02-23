@@ -38,6 +38,16 @@ let
     fi
   '';
 
+  deleteSerenaConfigScript = pkgs.writeShellScript "delete-serena-config" ''
+    set -eou pipefail
+    SERENA_HOME="$HOME/.serena"
+    SERENA_CONFIG_PATH="$SERENA_HOME/serena_config.yml"
+
+    if [ -f "$SERENA_CONFIG_PATH" ]; then
+      rm "$SERENA_CONFIG_PATH"
+    fi
+  '';
+
   cfg = config.ai.serena;
 in
 {
@@ -46,10 +56,17 @@ in
     package = lib.mkOption {
       type = lib.types.package;
       default = pkgs.serena;
+      description = "The Serena MCP server package";
     };
     config = lib.mkOption {
       type = lib.types.nullOr lib.types.package;
       default = null;
+      description = "The configuration file for Serena, expects a derivation reference of a file";
+    };
+    cleanupWhenDisabled = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to cleanup the artifacts of Serena when it is disabled";
     };
     languages = {
       bash.enable = mkSerenaEnableOption "Bash language";
@@ -94,7 +111,7 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
+  config = (lib.mkIf cfg.enable {
       home.packages = [ cfg.package ];
 
       # Merge Nix-managed Serena config into ~/.serena/serena_config.yml using the merge script
@@ -103,5 +120,9 @@ in
       '';
 
       ai.serena.config = managedSerenaConfigFile;
-    };
+    }) // (lib.mkIf (!cfg.enable && cfg.cleanupWhenDisabled) {
+      home.activation.deleteSerenaConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        $DRY_RUN_CMD ${deleteSerenaConfigScript}
+      '';
+    });
 }
