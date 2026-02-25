@@ -21,4 +21,7 @@
   sri-hash-gh-repo = import ./sri-hash-gh-repo.nix {
     inherit pkgs;
   };
+  qq-cli = pkgs.callPackage ./qq-cli.nix {
+    inherit pkgs;
+  };
 }
