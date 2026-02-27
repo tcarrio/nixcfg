@@ -34,6 +34,7 @@ in
         unstable.cursor-cli
         firebase-tools
         google-cloud-sdk
+        qq-cli
       ];
       # General support for non-fish shell or sessions
       sessionPath = [ "/opt/homebrew/bin" "${homeDir}/.asdf/bin" "${homeDir}/.asdf/shims" ];
