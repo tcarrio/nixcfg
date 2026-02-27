@@ -7,6 +7,7 @@
       inherit (final.stdenv.hostPlatform) system;
       inherit (import ../lib/bun.nix { }) mkBunDerivation;
       mkStandardBun = mkBunDerivation inputs.bun2nix.packages.${system}.default;
+      crossDockerPkgs = import inputs.nixpkgs { localSystem = system; crossSystem = "x86_64-linux"; };
 
       # uv2nix library for Python packages
       uv2nixLib = {
@@ -17,7 +18,7 @@
       customPkgs = import ../pkgs {
         pkgs = final;
         inherit (inputs) nixvim;
-        inherit mkStandardBun uv2nixLib;
+        inherit crossDockerPkgs mkStandardBun uv2nixLib;
       };
     in
     customPkgs

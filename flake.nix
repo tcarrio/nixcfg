@@ -340,12 +340,13 @@
             (system:
               let
                 pkgs = mkPkgsForSystemFromInput system nixpkgs;
+                crossDockerPkgs = import nixpkgs { localSystem = system; crossSystem = "x86_64-linux"; };
                 mkStandardBun = libx.mkBunDerivation inputs.bun2nix.packages.${system}.default;
                 uv2nixLib = {
                   inherit uv2nix pyproject-nix pyproject-build-systems;
                   python = pkgs.python311;
                 };
-                localPackages = import ./pkgs { inherit pkgs mkStandardBun nixvim uv2nixLib; };
+                localPackages = import ./pkgs { inherit pkgs crossDockerPkgs mkStandardBun nixvim uv2nixLib; };
               in
               (lib.optionalAttrs (system == "x86_64-linux") {
                 # TODO: Linode image is still too large: reduction with `qemu-img resize --shrink ./nixos.img 5.5G` didn't error out but image will not boot
