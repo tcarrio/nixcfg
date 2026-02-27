@@ -18,7 +18,7 @@ in
     ./mixins/users/${username}
   ]
   # Only import a workstation configuration if one matching the configured hostname exists
-  ++ lib.optionals (builtins.pathExists (./workstation/${hostname})) [./workstation/${hostname}];
+  ++ lib.optional (builtins.pathExists ./workstation/${hostname}) ./workstation/${hostname};
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget

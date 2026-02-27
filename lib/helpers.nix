@@ -10,7 +10,8 @@ in
   mkHome = { hostname, username, desktop ? null, platform ? "x86_64-linux" }:
     let
       pkgs = inputs.nixpkgs.legacyPackages.${platform};
-    in inputs.home-manager.lib.homeManagerConfiguration {
+    in
+    inputs.home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
       extraSpecialArgs = {
         inherit inputs outputs desktop hostname platform username stateVersion sshMatrix tailnetMatrix;

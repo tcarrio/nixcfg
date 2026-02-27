@@ -1,12 +1,10 @@
-{ desktop, lib, pkgs, systemType, ... }:
+{ desktop, lib, ... }:
 {
-  imports = (
-    [
+  imports = [
       ./emote.nix
       ./neovide.nix
       ./ghostty
       ./xresources.nix
     ]
-    ++ lib.optional (builtins.pathExists (./. + "/${desktop}.nix")) ./${desktop}.nix
-  );
+    ++ lib.optional (builtins.pathExists (./. + "/${desktop}.nix")) ./${desktop}.nix;
 }
