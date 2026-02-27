@@ -134,4 +134,8 @@ Host obsidian
       };
     };
   };
+
+  oxc.github.enable = true;
+  oxc.github.cli.enable = true;
+  oxc.github.dash.enable = true;
 }

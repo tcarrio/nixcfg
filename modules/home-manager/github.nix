@@ -2,7 +2,7 @@
 let
   cfg = config.oxc.github;
 in {
-  options = {
+  options.oxc.github = {
     enable = lib.mkEnableOption "GitHub integrations";
 
     cli.enable = lib.mkEnableOption "Enable GitHub CLI";
@@ -27,10 +27,20 @@ in {
 
   config = lib.mkIf cfg.enable {
     home.packages = []
-      ++ lib.optional cfg.cli.enable cfg.cli.package
       ++ lib.optional cfg.dash.enable cfg.dash.package
       ;
 
-      # TODO: Implement config file generation
+    programs.gh = lib.mkIf cfg.cli.enable {
+      enable = true;
+      extensions = with pkgs; [ gh-markdown-preview ];
+      settings = {
+        editor = "${pkgs.nixvim}/bin/nvim";
+        host = "github.com";
+        git_protocol = "ssh";
+        prompt = "enabled";
+      };
+    };
+
+    # TODO: Implement gh-dash config file generation
   };
 }

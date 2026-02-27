@@ -58,6 +58,9 @@
   };
 
   oxc.console.atuin.enable = lib.mkDefault true;
+  oxc.github.enable = lib.mkDefault true;
+  oxc.github.cli.enable = lib.mkDefault true;
+  oxc.github.dash.enable = lib.mkDefault true;
 
   programs = {
     bottom = {
@@ -158,16 +161,6 @@
     fzf = {
       enable = true;
       enableFishIntegration = true;
-    };
-    gh = {
-      enable = true;
-      extensions = with pkgs; [ gh-markdown-preview ];
-      settings = {
-        editor = "nvim";
-        host = "github.com";
-        git_protocol = "ssh";
-        prompt = "enabled";
-      };
     };
     delta = {
       # options = {
