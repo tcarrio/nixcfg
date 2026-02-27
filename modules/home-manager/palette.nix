@@ -1,6 +1,5 @@
-{ lib, config, ... }: {
+{ lib, ... }: {
   options.oxc.palette = {
-    enable = mkEnableOption "palette";
     colors = {
       color0 = lib.mkOption {
         type = lib.types.string;
@@ -83,11 +82,5 @@
         description = "The color15 in the 16-color palette";
       };
     };
-    config = mkIf cfg.enable
-      {
-        home.file."${config.xdg.configHome}/amethyst/amethyst.yml".text = lib.generators.toYAML { } (
-          baseSettings // cfg.settings
-        );
-      };
   };
 }
