@@ -7,9 +7,10 @@
   # TODO: Fix non-Darwin build issue
   # mac-launcher = pkgs.callPackage ./mac-launcher.nix { inherit pkgs; };
   zeit = pkgs.callPackage ./zeit.nix { };
-  gqurl = pkgs.callPackage ./gqurl/default.nix {
-    inherit mkStandardBun;
-  };
+  # TODO: Fix gqurl builder
+  # gqurl = pkgs.callPackage ./gqurl/default.nix {
+  #   inherit mkStandardBun;
+  # };
   nixvim = pkgs.unstable.callPackage ./nixvim/default.nix {
     inherit nixvim;
     pkgs = pkgs.unstable;

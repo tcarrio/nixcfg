@@ -193,8 +193,6 @@ This flake provides several custom packages available through `pkgs` in your Nix
 ### Package List
 
 - **`kube-rsync`** - Kubernetes rsync utility
-- **`zeit`** - Time tracking tool
-- **`gqurl`** - GraphQL URL utility (built with Bun)
 - **`nixvim`** - Pre-configured Neovim with plugins and Tokyo Night theme
 
 ### nixvim Usage
