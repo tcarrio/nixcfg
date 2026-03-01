@@ -23,4 +23,8 @@ jobs:
           persist-credentials: false
       - uses: "DeterminateSystems/determinate-nix-action@v3"
       - uses: DeterminateSystems/flakehub-cache-action@main
-      - run: nix run .#build-rolling
+      - uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 30
+          max_attempts: 4
+          command: nix run .#build-rolling
