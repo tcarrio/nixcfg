@@ -2,8 +2,8 @@
 let
   inherit (inputs.nixpkgs) lib;
 
-  sshMatrix = import ./ssh-matrix.nix { };
-  tailnetMatrix = import ./tailnet-matrix.nix { };
+  sshMatrix = import ./ssh/matrix.nix;
+  tailnetMatrix = import ./tailnet-matrix.nix;
 in
 {
   # Helper function for generating home-manager configs

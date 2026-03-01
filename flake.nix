@@ -204,7 +204,6 @@
         # Workstations
         "tcarrio@gokin" = libx.mkHome { hostname = "gokin"; username = "tcarrio"; platform = "aarch64-darwin"; };
         "tcarrio@sktc2" = libx.mkHome { hostname = "sktc2"; username = "tcarrio"; platform = "aarch64-darwin"; };
-        "tcarrio@glass" = libx.mkHome { hostname = "glass"; username = "tcarrio"; desktop = "kde6"; };
         "tcarrio@obsidian" = libx.mkHome { hostname = "obsidian"; username = "tcarrio"; desktop = "gnome"; };
         "tcarrio@void" = libx.mkHome { hostname = "void"; username = "tcarrio"; desktop = "cosmic"; };
         "tcarrio@t510" = libx.mkHome { hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
@@ -235,7 +234,6 @@
         # Workstations
         #  - sudo nixos-rebuild switch --flake $HOME/0xc/nixcfg
         #  - nix build .#nixosConfigurations.ripper.config.system.build.toplevel
-        glass = libx.mkHost { systemType = "workstation"; hostname = "glass"; username = "tcarrio"; desktop = "kde6"; };
         obsidian = libx.mkHost { systemType = "workstation"; hostname = "obsidian"; username = "tcarrio"; desktop = "gnome"; };
         void = libx.mkHost { systemType = "workstation"; hostname = "void"; username = "tcarrio"; desktop = "cosmic"; };
         t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };

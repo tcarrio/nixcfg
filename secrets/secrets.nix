@@ -1,5 +1,5 @@
 let
-  sshMatrix = import ../lib/ssh-matrix.nix { };
+  sshMatrix = import ../lib/ssh/matrix.nix;
   inherit (sshMatrix) groups systems;
   inherit (systems) glass;
 
