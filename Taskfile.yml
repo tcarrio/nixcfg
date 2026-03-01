@@ -1,0 +1,18 @@
+version: '3'
+
+vars:
+  DEPLOY_DIR: '{{.ROOT_DIR}}/deploy'
+
+tasks:
+  ### BEGIN SECTION: Secrets management for agenix
+  agenix:rekey:
+    desc: Rekey all secrets based on the current secrets.nix definitions.
+    dir: ./secrets
+    cmds:
+      - agenix -r {{.CLI_ARGS}}
+  agenix:edit:
+    desc: Edit the secret at the given path
+    dir: ./secrets
+    cmds:
+      - agenix -e {{.CLI_ARGS}}
+  ### END SECTION: Secrets management for agenix

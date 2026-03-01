@@ -283,6 +283,7 @@
                 git
                 unstable.bun
                 nixd
+                go-task
                 bun2NixPkg
                 self.packages.${system}.gh-composer-auth
                 # TODO: Fix gqurl package
