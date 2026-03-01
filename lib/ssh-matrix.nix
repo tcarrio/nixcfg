@@ -51,7 +51,6 @@ rec {
     deploy_keys = with systems; [
     ];
     backup_keys = [
-      "age1f2xkvt5q7qq4yhgya6qagpd02ffyzyp793pm2jq7fxqru3m054dqfpgf2c"
     ];
   };
 }

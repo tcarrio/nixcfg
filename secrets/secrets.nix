@@ -17,7 +17,11 @@ let
 
   autoMeshSystems = allSystemHostKeys;
 
-  base = groups.privileged_users ++ groups.backup_keys;
+  backupKeys = [
+    "age1f2xkvt5q7qq4yhgya6qagpd02ffyzyp793pm2jq7fxqru3m054dqfpgf2c"
+  ];
+
+  base = groups.privileged_users ++ backupKeys ++ groups.backup_keys;
 
   mkPublicKeys = extraKeys: { publicKeys = base ++ extraKeys; };
 in
