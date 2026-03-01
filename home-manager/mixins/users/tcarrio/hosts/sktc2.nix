@@ -34,4 +34,6 @@
 
   oxc.console.atuin.enable = true;
   oxc.console.aws.enable = true;
+
+  oxc.github.dash.presets = [ "skillshare" "personal" ];
 }

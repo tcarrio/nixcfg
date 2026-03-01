@@ -137,5 +137,7 @@ in
     };
 
     programs.git.settings.user.email = lib.mkForce "thomas.carrio@skillshare.com";
+
+    oxc.github.dash.presets = ["skillshare" "personal"];
   };
 }

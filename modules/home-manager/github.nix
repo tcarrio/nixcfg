@@ -1,7 +1,10 @@
 { config, pkgs, lib, ... }:
 let
   cfg = config.oxc.github;
+  yamlFormat = pkgs.formats.yaml {};
 in {
+  imports = [ ./gh-dash ];
+
   options.oxc.github = {
     enable = lib.mkEnableOption "GitHub integrations";
 
@@ -26,10 +29,6 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = []
-      ++ lib.optional cfg.dash.enable cfg.dash.package
-      ;
-
     programs.gh = lib.mkIf cfg.cli.enable {
       enable = true;
       extensions = with pkgs; [ gh-markdown-preview ];
@@ -40,7 +39,5 @@ in {
         prompt = "enabled";
       };
     };
-
-    # TODO: Implement gh-dash config file generation
   };
 }

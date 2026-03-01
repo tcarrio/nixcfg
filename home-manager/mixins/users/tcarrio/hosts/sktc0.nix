@@ -19,4 +19,6 @@ _: {
   sk.enable = true;
 
   oxc.console.atuin.enable = true;
+
+  oxc.github.dash.presets = [ "skillshare" "personal" ];
 }
