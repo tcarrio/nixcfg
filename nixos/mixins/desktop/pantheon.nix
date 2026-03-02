@@ -32,15 +32,15 @@
         lightdm.enable = true;
         lightdm.greeters.pantheon.enable = true;
       };
+    };
 
-      desktopManager = {
-        pantheon = {
-          enable = true;
-          extraWingpanelIndicators = with pkgs; [
-            # monitor
-            wingpanel-indicator-ayatana
-          ];
-        };
+    desktopManager = {
+      pantheon = {
+        enable = true;
+        extraWingpanelIndicators = with pkgs; [
+          # monitor
+          wingpanel-indicator-ayatana
+        ];
       };
     };
   };
