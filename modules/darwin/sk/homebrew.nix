@@ -175,20 +175,20 @@ let
   };
 in
 {
-  options.sk = {
-    homebrew.enable = mkOption {
+  options.sk.homebrew = {
+    enable = mkOption {
       type = types.bool;
       default = true;
       description = "Whether to enable Homebrew.";
     };
-    homebrew.defaults = mkOption {
+    defaults = mkOption {
       type = types.bool;
       default = true;
       description = "Whether to enable the default Homebrew packages";
     };
   };
 
-  config = mkIf cfg.sk.enable {
+  config = mkIf cfg.enable {
     environment.systemPath = [ "/opt/homebrew/bin" ];
 
     homebrew = { inherit masApps taps brews casks; };
