@@ -45,7 +45,7 @@
 
   oxc.services.ollama = {
     enable = true;
-    hardware = "nvidia";
+    # hardware = "nvidia";
   };
   services.ollama.loadModels = [
     # Current system has an Nvidia GTX 1080Ti with 11GB VRAM
