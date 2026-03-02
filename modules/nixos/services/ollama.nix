@@ -20,14 +20,14 @@ let
       cudaPackages.cuda_cudart
     ];
 
-    environment.sessionVariables = {
-      CUDA_HOME = "${pkgs.cudaPackages.cudatoolkit}";
+    environment.sessionVariables = with pkgs'; {
+      CUDA_HOME = "${cudaPackages.cudatoolkit}";
       LD_LIBRARY_PATH = lib.makeLibraryPath [
-        "${pkgs.cudaPackages.cudatoolkit}"
-        "${pkgs.cudaPackages.cudatoolkit}/lib64"
-        pkgs.cudaPackages.cudnn
-        pkgs.cudaPackages.cuda_cudart
-        pkgs.stdenv.cc.cc.lib
+        "${cudaPackages.cudatoolkit}"
+        "${cudaPackages.cudatoolkit}/lib64"
+        cudaPackages.cudnn
+        cudaPackages.cuda_cudart
+        stdenv.cc.cc.lib
       ];
       CUDA_MODULE_LOADING = "LAZY";
     };
@@ -65,5 +65,5 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable (baseConfig // nvidiaConfig);
+  config = lib.mkIf cfg.enable (lib.mkMerge [baseConfig nvidiaConfig]);
 }
