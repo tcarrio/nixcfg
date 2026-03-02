@@ -6,7 +6,6 @@ in
 {
   imports =
     [
-      ../../console/ai/claude.nix
       ../../console/charm-freeze.nix
       ../../console/zeit.nix
       ../../desktop/discord.nix
