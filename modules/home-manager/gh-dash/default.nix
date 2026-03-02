@@ -13,8 +13,8 @@ let
   loadedPresets = map (name: presetFiles.${name}) cfg.presets;
 
   mergedSections = {
-    prSections = lib.concatMap (p: p.prSections or []) loadedPresets;
-    issuesSections = lib.concatMap (p: p.issuesSections or []) loadedPresets;
+    prSections = lib.concatMap (p: p.prSections or [ ]) loadedPresets;
+    issuesSections = lib.concatMap (p: p.issuesSections or [ ]) loadedPresets;
   };
 
   defaultConfig = {
@@ -38,13 +38,13 @@ in
   options.oxc.github.dash = {
     presets = lib.mkOption {
       type = lib.types.listOf (lib.types.enum (builtins.attrNames presetFiles));
-      default = [];
+      default = [ ];
       description = "List of gh-dash presets to compose. Sections are concatenated in order.";
     };
 
     extraConfig = lib.mkOption {
       type = lib.types.attrs;
-      default = {};
+      default = { };
       description = "Extra gh-dash configuration merged on top of presets (keybindings, theme, repoPaths, etc.)";
     };
 
@@ -61,8 +61,8 @@ in
       cfg.package
     ];
 
-    xdg.configFile."gh-dash/config.yml" = lib.mkIf (cfg.enable && cfg.presets != []) {
-      text = lib.generators.toYAML {} cfg.generatedConfig;
+    xdg.configFile."gh-dash/config.yml" = lib.mkIf (cfg.enable && cfg.presets != [ ]) {
+      text = lib.generators.toYAML { } cfg.generatedConfig;
     };
   };
 }

@@ -29,22 +29,22 @@ in
   "users/tcarrio/ssh.age" = mkPublicKeys [ glass.tcarrio glass.host ];
   "services/netbird/token.age" = mkPublicKeys autoMeshSystems;
   "services/tailscale/token.age" = mkPublicKeys autoMeshSystems;
-  "services/acme/cloudflare.age" = mkPublicKeys [];
+  "services/acme/cloudflare.age" = mkPublicKeys [ ];
   "services/hoarder/env.age" = mkPublicKeys [ systems.obsidian.host ];
 
-  "network-shares/ds418/smb.conf.age" = mkPublicKeys [];
+  "network-shares/ds418/smb.conf.age" = mkPublicKeys [ ];
 
   # primarily maintained via agenix for convenience of scripting automations
-  "hosts/nuc0/ssh_host_ed25519_key.age" = mkPublicKeys [];
-  "hosts/nuc1/ssh_host_ed25519_key.age" = mkPublicKeys [];
-  "hosts/nuc2/ssh_host_ed25519_key.age" = mkPublicKeys [];
-  "hosts/nuc3/ssh_host_ed25519_key.age" = mkPublicKeys [];
-  "hosts/nuc4/ssh_host_ed25519_key.age" = mkPublicKeys [];
-  "hosts/nuc5/ssh_host_ed25519_key.age" = mkPublicKeys [];
-  "hosts/nuc6/ssh_host_ed25519_key.age" = mkPublicKeys [];
-  "hosts/nuc7/ssh_host_ed25519_key.age" = mkPublicKeys [];
-  "hosts/nuc8/ssh_host_ed25519_key.age" = mkPublicKeys [];
-  "hosts/nuc9/ssh_host_ed25519_key.age" = mkPublicKeys [];
+  "hosts/nuc0/ssh_host_ed25519_key.age" = mkPublicKeys [ ];
+  "hosts/nuc1/ssh_host_ed25519_key.age" = mkPublicKeys [ ];
+  "hosts/nuc2/ssh_host_ed25519_key.age" = mkPublicKeys [ ];
+  "hosts/nuc3/ssh_host_ed25519_key.age" = mkPublicKeys [ ];
+  "hosts/nuc4/ssh_host_ed25519_key.age" = mkPublicKeys [ ];
+  "hosts/nuc5/ssh_host_ed25519_key.age" = mkPublicKeys [ ];
+  "hosts/nuc6/ssh_host_ed25519_key.age" = mkPublicKeys [ ];
+  "hosts/nuc7/ssh_host_ed25519_key.age" = mkPublicKeys [ ];
+  "hosts/nuc8/ssh_host_ed25519_key.age" = mkPublicKeys [ ];
+  "hosts/nuc9/ssh_host_ed25519_key.age" = mkPublicKeys [ ];
 
   # spotify + mopidy
   "services/spotify/client.age" = mkPublicKeys groups.users;

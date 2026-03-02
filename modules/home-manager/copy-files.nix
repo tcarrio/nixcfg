@@ -13,23 +13,27 @@ let
       #   HOME = "$TMPDIR/home";
       # }}";
       commandStdout = command: pkgs.runCommand fileName { HOME = "$TMPDIR/home"; } ''
-         mkdir -p $HOME
-         ${command} > $out
+        mkdir -p $HOME
+        ${command} > $out
       '';
-      src = if (entry ? source && entry.source != null)
+      src =
+        if (entry ? source && entry.source != null)
         then entry.source
-        else (
-          if (entry ? text && entry.text != null)
+        else
+          (
+            if (entry ? text && entry.text != null)
             then
               pkgs.writeText "${fileName}" entry.text
-            else (
-              if (entry ? command && entry.command != null)
+            else
+              (
+                if (entry ? command && entry.command != null)
                 then
                   commandStdout entry.command
                 else throw "Missing source, text, or command from copy-files option ${path}"
               )
           );
-    in pkgs.writeShellScript "apply-copy-files" ''
+    in
+    pkgs.writeShellScript "apply-copy-files" ''
       set -eou pipefail
 
       target_file="$HOME/${path}"
@@ -46,7 +50,8 @@ let
   mapFileOptionToActivationScript = name: value:
     let
       copyScript = copyFilesScriptForPathEntry name value;
-    in lib.nameValuePair
+    in
+    lib.nameValuePair
       "activation-copy-files-to-${name}"
       (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
         $DRY_RUN_CMD ${copyScript}
@@ -57,7 +62,7 @@ let
 in
 {
   options.home.copy-files = with lib; mkOption {
-    default = {};
+    default = { };
     description = "A utility module for copying Nix-defined files to a target path relative to the user's home directory";
     type = with types; attrsOf (submodule {
       options = {

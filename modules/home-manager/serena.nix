@@ -6,18 +6,19 @@ let
 
   managedSerenaConfigFile = pkgs.writeText
     "serena_config.yml"
-    (lib.generators.toYAML {} {
+    (lib.generators.toYAML { } {
       projects = [
         (mkSkProjectPath "skillshare")
         (mkSkProjectPath "skillshare-web")
       ];
       ls_specific_settings = (lib.attrsToList cfg.languages)
-        |> (builtins.filter (kv: kv.value.enable))
+        | > (builtins.filter (kv: kv.value.enable))
         |> (builtins.map ({ name, value }: {
-          inherit name;
-          value.ls_path = "${value.package}${value.path}"; }))
-        |> builtins.listToAttrs;
-    });
+      inherit name;
+      value.ls_path = "${value.package}${value.path}";
+    }))
+  |> builtins.listToAttrs;
+  });
 
   # Merging config script
   # This provides support for a read/write serena_config.yml that the Serena MCP server can modify.
@@ -112,17 +113,17 @@ in
   };
 
   config = (lib.mkIf cfg.enable {
-      home.packages = [ cfg.package ];
+    home.packages = [ cfg.package ];
 
-      # Merge Nix-managed Serena config into ~/.serena/serena_config.yml using the merge script
-      home.activation.mergeSerenaConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        $DRY_RUN_CMD ${mergeSerenaConfigScript}
-      '';
+    # Merge Nix-managed Serena config into ~/.serena/serena_config.yml using the merge script
+    home.activation.mergeSerenaConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      $DRY_RUN_CMD ${mergeSerenaConfigScript}
+    '';
 
-      ai.serena.config = managedSerenaConfigFile;
-    }) // (lib.mkIf (!cfg.enable && cfg.cleanupWhenDisabled) {
-      home.activation.deleteSerenaConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        $DRY_RUN_CMD ${deleteSerenaConfigScript}
-      '';
-    });
+    ai.serena.config = managedSerenaConfigFile;
+  }) // (lib.mkIf (!cfg.enable && cfg.cleanupWhenDisabled) {
+    home.activation.deleteSerenaConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      $DRY_RUN_CMD ${deleteSerenaConfigScript}
+    '';
+  });
 }

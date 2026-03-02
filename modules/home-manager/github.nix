@@ -1,8 +1,8 @@
 { config, pkgs, lib, ... }:
 let
   cfg = config.oxc.github;
-  yamlFormat = pkgs.formats.yaml {};
-in {
+in
+{
   imports = [ ./gh-dash ];
 
   options.oxc.github = {
@@ -23,7 +23,7 @@ in {
     };
     dash.config = lib.mkOption {
       type = lib.types.attrs;
-      default = {};
+      default = { };
       description = "GitHub Dash configuration";
     };
   };

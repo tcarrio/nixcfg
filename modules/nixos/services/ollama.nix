@@ -52,7 +52,7 @@ in
   options.oxc.services.ollama = {
     enable = lib.mkEnableOption "Enable the Ollama LLM service";
     hardware = lib.mkOption {
-      type = lib.types.enum ["nvidia" "cpu"];
+      type = lib.types.enum [ "nvidia" "cpu" ];
       description = "Which hardware to target for hosting the LLM model";
       default = "cpu";
     };
