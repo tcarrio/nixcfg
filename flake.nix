@@ -218,9 +218,6 @@
           "gokin" = libx.mkDarwin { username = "tcarrio"; hostname = "gokin"; stateVersion = 4; determinate = true; };
         };
 
-        # Expose the package set, including overlays, for convenience.
-        darwinPackages = self.darwinConfigurations."sktc2".pkgs;
-
         nixosConfigurations = {
           # .iso images
           #  - nix build .#nixosConfigurations.{iso-console|iso-desktop}.config.system.build.isoImage
