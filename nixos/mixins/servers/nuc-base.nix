@@ -8,7 +8,6 @@ in
     inputs.nixos-hardware.nixosModules.common-gpu-intel
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
-    (import ../disks/nuc-sata-ext4.nix { })
   ];
 
   oxc.services.tailscale.enable = true;

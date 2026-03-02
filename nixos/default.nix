@@ -1,4 +1,4 @@
-{ config, desktop, hostname, inputs, lib, modulesPath, outputs, pkgs, stateVersion, systemType, username, ... }:
+{ config, desktop, hostname, inputs, lib, modulesPath, outputs, pkgs, stateVersion, systemType, username, includeDisks, ... }:
 let
   parts = lib.strings.splitString "." hostname;
   hostName = if (builtins.length parts > 1) then builtins.head parts else hostname;
@@ -27,7 +27,9 @@ in
   # Only import desktop configuration if the host is desktop enabled
   ++ lib.optional (builtins.isString desktop) ./mixins/desktop
   # Only import user specific configuration if they have bespoke settings
-  ++ lib.optional (builtins.isString username) ./mixins/users/${username};
+  ++ lib.optional (builtins.isString username) ./mixins/users/${username}
+  # Only import disks config if enabled
+  ++ lib.optional includeDisks ./${systemType}/${hostname}/disks.nix;
 
   boot = {
     consoleLogLevel = 0;

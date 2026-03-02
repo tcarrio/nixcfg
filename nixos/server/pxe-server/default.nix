@@ -10,7 +10,6 @@ in
     inputs.nixos-hardware.nixosModules.common-gpu-amd
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
-    (import ./disks.nix { })
     ../mixins/hardware/systemd-boot.nix
     # ../mixins/services/bluetooth.nix
     # ../mixins/users/tcarrio

@@ -27,7 +27,7 @@ in
   # - installer: can be one of the following:
   #    - "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
   #    - "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"
-  mkHost = { hostname, username, systemType, desktop ? null, installer ? null, determinate ? true }:
+  mkHost = { hostname, username, systemType, desktop ? null, installer ? null, determinate ? true, includeDisks ? (systemType != "iso") }:
     let
       isIso = builtins.substring 0 4 hostname == "iso-";
       isWorkstation = systemType == "workstation";
@@ -35,7 +35,7 @@ in
     in
     lib.nixosSystem rec {
       specialArgs = {
-        inherit self inputs outputs desktop hostname username stateVersion systemType sshMatrix tailnetMatrix;
+        inherit self inputs outputs desktop hostname username stateVersion systemType sshMatrix tailnetMatrix includeDisks;
         adminGroup = "@wheel";
       };
       modules = [
@@ -90,7 +90,7 @@ in
     ];
   };
 
-  mkGeneratorImage = { hostname, username, systemType, desktop ? null, platform ? "x86_64-linux", format ? "raw-efi", extraModules ? { chaotic = false; }, ... }@extraSpecialArgs: inputs.nixos-generators.nixosGenerate {
+  mkGeneratorImage = { hostname, username, systemType, desktop ? null, platform ? "x86_64-linux", format ? "raw-efi", extraModules ? { chaotic = false; }, includeDisks ? false, ... }@extraSpecialArgs: inputs.nixos-generators.nixosGenerate {
     specialArgs = {
       inherit self inputs outputs desktop hostname username stateVersion systemType sshMatrix tailnetMatrix;
     } // extraSpecialArgs;

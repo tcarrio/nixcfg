@@ -233,7 +233,7 @@
           #  - nix build .#nixosConfigurations.ripper.config.system.build.toplevel
           obsidian = libx.mkHost { systemType = "workstation"; hostname = "obsidian"; username = "tcarrio"; desktop = "gnome"; };
           void = libx.mkHost { systemType = "workstation"; hostname = "void"; username = "tcarrio"; desktop = "cosmic"; };
-          t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
+          t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; includeDisks = false; };
           t510-headless = libx.mkHost { systemType = "workstation"; hostname = "t510-headless"; username = "tcarrio"; };
           chasm = libx.mkHost { systemType = "workstation"; hostname = "chasm"; username = "tcarrio"; desktop = "i3"; };
 

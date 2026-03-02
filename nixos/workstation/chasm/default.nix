@@ -6,7 +6,6 @@
 
 { inputs, lib, pkgs, desktop, ... }: {
   imports = [
-    (import ./disks.nix { })
     ./hardware-configuration.nix
 
     inputs.nixos-hardware.nixosModules.common-cpu-intel

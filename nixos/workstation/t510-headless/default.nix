@@ -5,7 +5,6 @@
 
 _: {
   imports = [
-    (import ./disks.nix { })
     ../../iso/iso-console
   ];
 }
