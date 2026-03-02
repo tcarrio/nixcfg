@@ -245,7 +245,6 @@
           #  - nixos-rebuild switch --fast --flake .#${HOST} \
           #      --target-host ${USERNAME}@${HOST}.${TAILNET} \
           #      --build-host  ${USERNAME}@${HOST}.${TAILNET}
-          nuc-init = libx.mkHost { systemType = "server"; hostname = "nuc-init"; username = "nixos"; };
           nuc0 = libx.mkHost { systemType = "server"; hostname = "nuc0"; username = "archon"; };
           nuc1 = libx.mkHost { systemType = "server"; hostname = "nuc1"; username = "archon"; };
           nuc2 = libx.mkHost { systemType = "server"; hostname = "nuc2"; username = "archon"; };
@@ -372,9 +371,6 @@
                     gum
                   ]);
                 };
-
-                # TODO: Revise init image strategy
-                # nuc-init = mkNuc "nixos"  "nuc-init";
               }) // localPackages
             );
       };
