@@ -70,7 +70,6 @@
 
 
   environment.systemPackages = with pkgs; [
-    aider-chat
     distrobox
     google-fonts
     tmux
