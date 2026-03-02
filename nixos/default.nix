@@ -27,9 +27,7 @@ in
   # Only import desktop configuration if the host is desktop enabled
   ++ lib.optional (builtins.isString desktop) ./mixins/desktop
   # Only import user specific configuration if they have bespoke settings
-  ++ lib.optional (builtins.isString username) ./mixins/users/${username}
-  # Only import disks config if enabled
-  ++ lib.optional includeDisks ./${systemType}/${hostname}/disks.nix;
+  ++ lib.optional (builtins.isString username) ./mixins/users/${username};
 
   boot = {
     consoleLogLevel = 0;

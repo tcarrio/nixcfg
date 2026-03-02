@@ -53,7 +53,7 @@
     vscode-server.inputs.nixpkgs.follows = "nixpkgs";
 
     devshells.url = "github:tcarrio/devshells";
-    devshells.inputs.nixpkgs.follows = "nixpkgs";
+    devshells.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     # Darwin support with nix-darwin
     nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.11";
@@ -258,7 +258,7 @@
 
           orca = libx.mkHost { systemType = "server"; hostname = "orca"; username = "archon"; };
 
-          "nix-proxy-droplet" = libx.mkHost { systemType = "server"; hostname = "nix-proxy-droplet"; username = "archon"; };
+          "nix-proxy-droplet" = libx.mkHost { systemType = "server"; hostname = "nix-proxy-droplet"; username = "archon"; includeDisks = false; };
         };
 
         # Devshell for bootstrapping; acessible via 'nix develop' or 'nix-shell' (legacy)
