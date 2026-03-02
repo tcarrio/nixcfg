@@ -1,6 +1,6 @@
 { config, lib, ... }:
 let
-  cfg = config.oxc.sk.homebrew;
+  cfg = config.sk.homebrew;
   inherit (lib) mkIf mkOption types;
 
   ##################################################
