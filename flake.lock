@@ -233,7 +233,7 @@
       "inputs": {
         "nixphps": "nixphps",
         "nixpkgs": [
-          "nixpkgs"
+          "nixpkgs-unstable"
         ],
         "nixpkgs2205": "nixpkgs2205",
         "nixpkgs2305": "nixpkgs2305",
