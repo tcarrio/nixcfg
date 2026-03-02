@@ -24,9 +24,7 @@
 
   services.displayManager.defaultSession = "none+i3";
 
-  xdg.portal.extralPortals = [
-    (pkgs.xdg-desktop-portal-gtk.override {
-      buildPortalsInGnome = true;
-    })
+  xdg.portal.extraPortals = [
+    pkgs.xdg-desktop-portal-gtk
   ];
 }
