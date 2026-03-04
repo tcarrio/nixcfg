@@ -1,7 +1,5 @@
 { username, isDarwin ? false, isDeterminateNix ? false, adminGroup ? null, desktop ? null, ... }:
 let
-  isLinuxGaming = !isDarwin && desktop != null;
-
   lib = {
     optional = predicate: value: if predicate then [ value ] else [ ];
     optionals = predicate: list: if predicate then list else [ ];
@@ -29,10 +27,6 @@ let
     ++ (lib.optionals isDeterminateNix [
       "https://install.determinate.systems"
       "https://cache.flakehub.com"
-    ])
-    ++ (lib.optionals isLinuxGaming [
-      "https://nix-citizen.cachix.org"
-      "https://nix-gaming.cachix.org"
     ]);
 
     trusted-public-keys = [
@@ -46,10 +40,6 @@ let
     ++ (lib.optionals isDeterminateNix [
       "cache.flakehub.com-3:hJuILl5sVK4iKm86JzgdXW12Y2Hwd5G07qKtHTOcDCM="
       "install.determinate.systems-1:EtHx9fW5pgsIvdN9RNeSwgiOc1ZESu8rfNOWhEuMhBI="
-    ])
-    ++ (lib.optionals isLinuxGaming [
-      "nix-citizen.cachix.org-1:lPMkWc2X8XD4/7YPEEwXKKBg+SVbYTVrAaLA2wQTKCo="
-      "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
     ]);
 
     extra-trusted-substituters = [

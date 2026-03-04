@@ -5,15 +5,7 @@
     open-webui
     tor-browser
     heroic
-    inputs.nix-gaming.packages.${pkgs.stdenv.hostPlatform.system}.rocket-league
   ];
-
-  # Star Citizen install and requirements
-  programs.rsi-launcher.enable = true;
-  boot.kernel.sysctl = {
-    "vm.max_map_count" = 16777216;
-    "fs.file-max" = 524288;
-  };
 
   # OpenRGB configurations
   services.hardware.openrgb = {

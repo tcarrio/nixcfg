@@ -22,90 +22,6 @@
     ];
   };
 
-  inputs = {
-    # Primary source from FlakeHub follows the current release cycle, e.g. 25.11.
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
-
-    # You can access packages and modules from different nixpkgs revs at the
-    # same time. See 'unstable-packages' overlay in 'overlays/default.nix'.
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-trunk.url = "github:nixos/nixpkgs/master";
-
-    agenix.url = "github:ryantm/agenix";
-    agenix.inputs.nixpkgs.follows = "nixpkgs";
-
-    disko.url = "github:nix-community/disko";
-    disko.inputs.nixpkgs.follows = "nixpkgs";
-
-    home-manager.url = "github:nix-community/home-manager/release-25.11";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Chaotic's Nyx provides many additional packages like NordVPN
-    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
-    chaotic.inputs.nixpkgs.follows = "nixpkgs-unstable";
-
-    nix-formatter-pack.url = "github:Gerschtli/nix-formatter-pack";
-    nix-formatter-pack.inputs.nixpkgs.follows = "nixpkgs";
-
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-
-    vscode-server.url = "github:msteen/nixos-vscode-server";
-    vscode-server.inputs.nixpkgs.follows = "nixpkgs";
-
-    devshells.url = "github:tcarrio/devshells";
-    devshells.inputs.nixpkgs.follows = "nixpkgs-unstable";
-
-    # Darwin support with nix-darwin
-    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.11";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-
-    # nixos-generators for sdcard and raw disk install generation
-    nixos-generators.url = "github:tcarrio/nixos-generators";
-    nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Extended Flatpak configuration
-    flatpaks.url = "github:in-a-dil-emma/declarative-flatpak/latest";
-
-    # Bun packaging
-    bun2nix.url = "github:baileyluTCD/bun2nix";
-    bun2nix.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Python uv packaging (uv2nix)
-    pyproject-nix.url = "github:pyproject-nix/pyproject.nix";
-    pyproject-nix.inputs.nixpkgs.follows = "nixpkgs";
-
-    uv2nix.url = "github:pyproject-nix/uv2nix";
-    uv2nix.inputs.pyproject-nix.follows = "pyproject-nix";
-    uv2nix.inputs.nixpkgs.follows = "nixpkgs";
-
-    pyproject-build-systems.url = "github:pyproject-nix/build-system-pkgs";
-    pyproject-build-systems.inputs.pyproject-nix.follows = "pyproject-nix";
-    pyproject-build-systems.inputs.uv2nix.follows = "uv2nix";
-    pyproject-build-systems.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Nixvim for neovim configuration
-    nixvim.url = "github:nix-community/nixvim";
-    nixvim.inputs.nixpkgs.follows = "nixpkgs-unstable";
-
-    # Determinate Nix modules
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
-
-    # Hyprvibe (Hyprland) setup
-    hyprvibe.url = "github:tcarrio/hyprvibe";
-
-    # Gaming flakes for Star Citizen, Rocket League, etc.
-    nix-gaming.url = "github:fufexan/nix-gaming";
-    nix-citizen.url = "github:LovingMelody/nix-citizen";
-    nix-citizen.inputs.nix-gaming.follows = "nix-gaming";
-
-    # Ghostty theming
-    ghostty-catppuccin.url = "github:catppuccin/ghostty";
-    ghostty-catppuccin.flake = false;
-
-    # cursor-voice-plugin
-    cursor-voice-plugin.url = "github:tcarrio/cursor-voice-plugin";
-    cursor-voice-plugin.inputs.nixpkgs.follows = "nixpkgs-unstable";
-  };
   outputs =
     { self
     , nix-formatter-pack
@@ -373,4 +289,84 @@
               }) // localPackages
             );
       };
+
+  inputs = {
+    # Primary source from FlakeHub follows the current release cycle, e.g. 25.11.
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
+
+    # You can access packages and modules from different nixpkgs revs at the
+    # same time. See 'unstable-packages' overlay in 'overlays/default.nix'.
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-trunk.url = "github:nixos/nixpkgs/master";
+
+    agenix.url = "github:ryantm/agenix";
+    agenix.inputs.nixpkgs.follows = "nixpkgs";
+
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Chaotic's Nyx provides many additional packages like NordVPN
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+    chaotic.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+    nix-formatter-pack.url = "github:Gerschtli/nix-formatter-pack";
+    nix-formatter-pack.inputs.nixpkgs.follows = "nixpkgs";
+
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    vscode-server.url = "github:msteen/nixos-vscode-server";
+    vscode-server.inputs.nixpkgs.follows = "nixpkgs";
+
+    devshells.url = "github:tcarrio/devshells";
+    devshells.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+    # Darwin support with nix-darwin
+    nix-darwin.url = "github:LnL7/nix-darwin/nix-darwin-25.11";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
+    # nixos-generators for sdcard and raw disk install generation
+    nixos-generators.url = "github:tcarrio/nixos-generators";
+    nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Extended Flatpak configuration
+    flatpaks.url = "github:in-a-dil-emma/declarative-flatpak/latest";
+
+    # Bun packaging
+    bun2nix.url = "github:baileyluTCD/bun2nix";
+    bun2nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Python uv packaging (uv2nix)
+    pyproject-nix.url = "github:pyproject-nix/pyproject.nix";
+    pyproject-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    uv2nix.url = "github:pyproject-nix/uv2nix";
+    uv2nix.inputs.pyproject-nix.follows = "pyproject-nix";
+    uv2nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    pyproject-build-systems.url = "github:pyproject-nix/build-system-pkgs";
+    pyproject-build-systems.inputs.pyproject-nix.follows = "pyproject-nix";
+    pyproject-build-systems.inputs.uv2nix.follows = "uv2nix";
+    pyproject-build-systems.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Nixvim for neovim configuration
+    nixvim.url = "github:nix-community/nixvim";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+    # Determinate Nix modules
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+
+    # Hyprvibe (Hyprland) setup
+    hyprvibe.url = "github:tcarrio/hyprvibe";
+
+    # Ghostty theming
+    ghostty-catppuccin.url = "github:catppuccin/ghostty";
+    ghostty-catppuccin.flake = false;
+
+    # cursor-voice-plugin
+    cursor-voice-plugin.url = "github:tcarrio/cursor-voice-plugin";
+    cursor-voice-plugin.inputs.nixpkgs.follows = "nixpkgs-unstable";
+  };
 }

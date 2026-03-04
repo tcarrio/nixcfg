@@ -48,7 +48,6 @@ in
       ++ (lib.optionals isWorkstation [ inputs.chaotic.nixosModules.default ])
       ++ (lib.optionals (desktop != null && (isWorkstation || isIso)) [ inputs.flatpaks.nixosModules.default ])
       ++ (lib.optionals (desktop == "hyprvibe") [ inputs.hyprvibe.nixosModules.default ])
-      ++ (lib.optionals isGamingSystem [ inputs.nix-citizen.nixosModules.default ])
       ++ (lib.optional includeDisks ../nixos/${systemType}/${hostname}/disks.nix);
     };
 
