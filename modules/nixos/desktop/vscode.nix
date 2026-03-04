@@ -1,6 +1,6 @@
 { pkgs, lib, config, ... }:
 let
-  inherit (lib) mkIf mkOption types;
+  inherit (lib) mkIf mkEnableOption types;
   ext = {
     # bun = {
     #   name = "oven.bun-vscode";
@@ -90,153 +90,37 @@ let
 in
 {
   options.oxc.desktop.vscode = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-      description = "Enable the Visual Studio Code editor.";
-    };
+    enable = mkEnableOption "Enable the Visual Studio Code editor.";
 
     support = {
-      ai = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Whether to enable VS Code support for AI tooling";
-      };
-      bazel = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Whether to enable VS Code support for Bazel";
-      };
-      cpp = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Whether to enable VS Code support for CPP development";
-      };
-      deno = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Whether to enable VS Code support for Deno development";
-      };
-      diff = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Whether to enable VS Code support for diff tooling";
-      };
-      docker = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Whether to enable VS Code support for Docker development";
-      };
-      editorconfig = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Whether to enable VS Code support for EditorConfig";
-      };
-      elm = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Whether to enable VS Code support for Elm development";
-      };
-      extras = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Whether to enable VS Code support for extras extensions like POWER MODEEEE";
-      };
-      github = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Whether to enable VS Code support for GitHub tooling";
-      };
-      gitlens = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Whether to enable VS Code support for the GitLens extension";
-      };
-      go = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Whether to enable VS Code support for Go development";
-      };
-      grpc = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Whether to enable VS Code support for gRPC development";
-      };
-      hugo = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Whether to enable VS Code support for Hugo development";
-      };
-      icons = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Whether to enable VS Code support for additional icons support";
-      };
-      js = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Whether to enable VS Code support for JavaScript development";
-      };
-      linux = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Whether to enable VS Code support for Linux development";
-      };
-      nix = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Whether to enable VS Code support for Nix development";
-      };
-      php = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Whether to enable VS Code support for PHP development";
-      };
-      prisma = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Whether to enable VS Code support for Prisma ORM tooling";
-      };
-      python = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Whether to enable VS Code support for Python development";
-      };
-      rust = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Whether to enable VS Code support for Rust development";
-      };
-      ssh = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Whether to enable VS Code support for SSH tooling";
-      };
-      text = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Whether to enable VS Code support for text editing";
-      };
-      tf = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Whether to enable VS Code support for Terraform / OpenTofu";
-      };
-      vala = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Whether to enable VS Code support for Vala development";
-      };
-      xml = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Whether to enable VS Code support for XML editing";
-      };
-      yaml = mkOption {
-        type = types.bool;
-        default = true;
-        description = "Whether to enable VS Code support for YAML editing";
-      };
+      ai = mkEnableOption  "Enables VS Code support for AI tooling";
+      bazel = mkEnableOption "Enables VS Code support for Bazel";
+      cpp = mkEnableOption  "Enables VS Code support for CPP development";
+      deno = mkEnableOption "Enables VS Code support for Deno development";
+      diff = mkEnableOption "Enables VS Code support for diff tooling";
+      docker = mkEnableOption "Enables VS Code support for Docker development";
+      editorconfig = mkEnableOption "Enables VS Code support for EditorConfig";
+      elm = mkEnableOption  "Enables VS Code support for Elm development";
+      extras = mkEnableOption "Enables VS Code support for extras extensions like POWER MODEEEE";
+      github = mkEnableOption "Enables VS Code support for GitHub tooling";
+      gitlens = mkEnableOption "Enables VS Code support for the GitLens extension";
+      go = mkEnableOption  "Enables VS Code support for Go development";
+      grpc = mkEnableOption "Enables VS Code support for gRPC development";
+      hugo = mkEnableOption "Enables VS Code support for Hugo development";
+      icons = mkEnableOption "Enables VS Code support for additional icons support";
+      js = mkEnableOption  "Enables VS Code support for JavaScript development";
+      linux = mkEnableOption "Enables VS Code support for Linux development";
+      nix = mkEnableOption  "Enables VS Code support for Nix development";
+      php = mkEnableOption  "Enables VS Code support for PHP development";
+      prisma = mkEnableOption "Enables VS Code support for Prisma ORM tooling";
+      python = mkEnableOption "Enables VS Code support for Python development";
+      rust = mkEnableOption "Enables VS Code support for Rust development";
+      ssh = mkEnableOption  "Enables VS Code support for SSH tooling";
+      text = mkEnableOption "Enables VS Code support for text editing";
+      tf = mkEnableOption  "Enables VS Code support for Terraform / OpenTofu";
+      vala = mkEnableOption "Enables VS Code support for Vala development";
+      xml = mkEnableOption  "Enables VS Code support for XML editing";
+      yaml = mkEnableOption "Enables VS Code support for YAML editing";
     };
   };
 
