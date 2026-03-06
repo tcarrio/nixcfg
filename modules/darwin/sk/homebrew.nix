@@ -1,7 +1,6 @@
 { config, lib, ... }:
 let
   cfg = config.sk.homebrew;
-  homebrewCfg = config.oxc.homebrew;
 
   inherit (lib) mkIf mkOption types;
 
@@ -196,7 +195,7 @@ in
     homebrew = { inherit masApps taps brews casks; };
 
     oxc.homebrew = {
-      inherit (homebrewCfg) enable defaults;
+      inherit (cfg) enable defaults;
     };
   };
 }
