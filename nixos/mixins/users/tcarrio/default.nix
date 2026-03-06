@@ -12,6 +12,7 @@ in
     pinentry-tty
     bun
     tmux
+    parallel
   ];
 
   environment.sessionVariables = {

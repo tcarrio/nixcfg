@@ -27,6 +27,7 @@ in
     home-manager
     neovim
     unstable.neovide
+    parallel
   ];
   environment.variables = {
     EDITOR = "nvim";
