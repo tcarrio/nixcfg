@@ -1,16 +1,8 @@
 { config, pkgs, lib, ... }:
 let
   cfg = config.oxc.ai.mcps;
-  inherit (lib) optional mkEnableOption mkOption types;
+  inherit (lib) mkEnableOption mkOption types;
   inherit (lib.attrsets) optionalAttrs;
-
-  mcpdoc-wrapper-vercel-ai = mcpdoc-wrapper-of "vercel-ai" {
-    "Vercel AI SDK" = "https://sdk.vercel.ai/llms.txt";
-  };
-
-  mcpdoc-wrapper-effect = mcpdoc-wrapper-of "effect" {
-    "Effect" = "https://effect.website/llms.txt";
-  };
 
   ### GitHub MCP ###
   # The githubMcpServer package wrapper relies on auth context provided
@@ -111,14 +103,14 @@ in
         enable = mkEnableOption "Enables the github-mcp-server integration";
         pkg = mkOption {
           type = types.package;
-          default = pkgs.unstable.github-mcp-server;
+          default = false; # pkgs.unstable.github-mcp-server;
           description = "The package to use for the github-mcp-server. Will invoke $pkg/bin/github-mcp-server";
         };
       };
       serena = {
         enable = mkOption {
           type = types.bool;
-          default = lib.mkDefault config.ai.serena.enable;
+          default = false; # lib.mkDefault config.ai.serena.enable;
           description = "Enables the serena MCP server integration";
         };
         pkg = mkOption {
@@ -130,13 +122,15 @@ in
     };
   };
 
-  config = {
-    home.packages = packages;
-  }
-  // (optionalAttrs cfg.targets.default.enable {
-    home.file.".mcp.json".text = mcpJsonText;
-  })
-  // (optionalAttrs cfg.targets.cursor.enable {
-    home.file.".cursor/mcp.json".text = mcpJsonText;
-  });
+  config = lib.mkIf cfg.enable (
+    {
+      home.packages = packages;
+    }
+    // (optionalAttrs cfg.targets.default.enable {
+      home.file.".mcp.json".text = mcpJsonText;
+    })
+    // (optionalAttrs cfg.targets.cursor.enable {
+      home.file.".cursor/mcp.json".text = mcpJsonText;
+    })
+  );
 }
