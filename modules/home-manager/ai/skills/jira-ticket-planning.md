@@ -1,10 +1,14 @@
 ---
-name: jira-ticket-planning
 description: Devise various Jira tickets such as User Stories, Tasks, Bugs, Spikes, and more. Utilize for adherence to Agile principles and best practices at Skillshare and expected work planning practices.
 ---
 
+## When to Use
 
-# Jira Planning
+- When planning out trackable upcoming work
+- When the agent or user require Jira tickets
+- When interacting with Jira
+
+## Jira Planning
 
 There are multiple types of Jira issues that I work with:
 
