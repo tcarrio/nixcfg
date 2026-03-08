@@ -88,6 +88,7 @@ in
       agenix
       pciutils
       psmisc
+      unixtools.netstat
       unzip
       usbutils
     ];
