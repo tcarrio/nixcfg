@@ -8,7 +8,7 @@ let
       package = lib.mkDefault pkgs'.ollama;
       enable = true;
       environmentVariables = {
-        OLLAMA_CONTEXT_LENGTH = "${cfg.settings.contextSize}";
+        OLLAMA_CONTEXT_LENGTH = "${builtins.toString cfg.settings.contextSize}";
       };
     };
   };
