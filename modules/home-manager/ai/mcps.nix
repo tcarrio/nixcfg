@@ -48,12 +48,10 @@ let
         "$@"
     '';
   llmWrappers = lib.mapAttrs' (name: { url, title }:
-    let
-      mcpdoc-wrapper = mcpdoc-wrapper-of name {
+    lib.nameValuePair name {
+      command = mcpdoc-wrapper-of name {
         "${title}" = url;
       };
-    in lib.nameValuePair name {
-      command = "${mcpdoc-wrapper}";
     });
 
   ### MCP Server configuration file ###
@@ -80,6 +78,7 @@ let
 in
 {
   options.oxc.ai.mcps = {
+    enable = mkEnableOption "Whether to enable MCP server module";
     targets = {
       default = mkOption {
         type = types.bool;
@@ -126,10 +125,10 @@ in
     {
       home.packages = packages;
     }
-    // (optionalAttrs cfg.targets.default.enable {
+    // (lib.mkIf cfg.targets.default.enable {
       home.file.".mcp.json".text = mcpJsonText;
     })
-    // (optionalAttrs cfg.targets.cursor.enable {
+    // (lib.mkIf cfg.targets.cursor.enable {
       home.file.".cursor/mcp.json".text = mcpJsonText;
     })
   );
