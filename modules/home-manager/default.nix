@@ -1,10 +1,11 @@
 { ... }: {
   imports = [
     ./ai
-    ./copy-files.nix
     ./amethyst.nix
+    ./copy-files.nix
     ./atuin.nix
     ./aws.nix
+    ./gh-dash
     ./github.nix
     ./palette.nix
     ./serena.nix
