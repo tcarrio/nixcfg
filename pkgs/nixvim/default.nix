@@ -1,6 +1,6 @@
 { nixvim, pkgs }:
 let
-  inherit (pkgs) system;
+  inherit (pkgs.stdenv.hostPlatform) system;
   nixvimConfig = import ./config.nix {
     inherit pkgs;
     allowUnfree = true;
