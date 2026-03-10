@@ -16,9 +16,9 @@ _: {
     yaml.enable = true;
   };
 
-  sk.enable = true;
+  sk.enable = false;
 
   oxc.console.atuin.enable = true;
 
-  oxc.github.dash.presets = [ "skillshare" "personal" ];
+  oxc.github.dash.presets = [ "personal" ];
 }
