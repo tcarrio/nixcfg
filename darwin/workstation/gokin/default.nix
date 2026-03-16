@@ -7,4 +7,8 @@ _: {
   sk.enable = false;
   oxc.homebrew.enable = true;
   oxc.homebrew.defaults = true;
+
+  homebrew.casks = [
+    "synology-drive"
+  ];
 }
