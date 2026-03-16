@@ -63,7 +63,8 @@ let
   # App Store apps managed by MAS
   ##################################################
   masApps = {
-    Flow = 1423210932;
+    ## Pomodoro app. Alternative: pomodoro-gtk
+    # Flow = 1423210932;
   };
 
   configuredDefaults =
