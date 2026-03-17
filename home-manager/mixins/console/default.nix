@@ -233,6 +233,7 @@
 
           # checkout utility to checkout the local trunk branch of the repo
           cot = "!git co $(git tb)";
+          rbot = "!git rebase $(git bdr)/$(git tb)";
 
           # short-hands for ignoring and unignoring files without .gitignore
           ignore = "update-index --assume-unchanged";
