@@ -243,7 +243,7 @@
           ls-ig = "ignored";
 
           # git-absord shorthands
-          ab = "absord";
+          ab = "absorb";
           abr = "git absorb --and-rebase";
         };
         push = {
