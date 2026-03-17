@@ -42,6 +42,7 @@ let
   desktopCasks = [
     "amethyst"
     "gimp"
+    "handy"
     "logitune"
     "notunes"
     "signal"
