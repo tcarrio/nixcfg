@@ -55,7 +55,7 @@ let
     });
 
   ### MCP Server configuration file ###
-  mcpJsonText = builtins.toJson {
+  mcpJsonText = builtins.toJSON {
     inherit mcpServers;
   };
   mcpServers = {}
@@ -85,9 +85,9 @@ in
         default = true;
         description = "Enables the ~/.mcp.json output config file";
       };
-      cursor = mkEnableOption "Enables the ~/.cursor/mcp.json output config file for Cursor";
-      codex = mkEnableOption "Enables the ~/.codex/mcp.json output config file for Codex";
-      claude = mkEnableOption "Enables the ~/.codex/mcp.json output config file for Claude";
+      cursor = { enable = mkEnableOption "Enables the ~/.cursor/mcp.json output config file for Cursor"; };
+      codex = { enable = mkEnableOption "Enables the ~/.codex/mcp.json output config file for Codex"; };
+      claude = { enable = mkEnableOption "Enables the ~/.codex/mcp.json output config file for Claude"; };
     };
     servers = {
       llms-docs = {
@@ -102,7 +102,7 @@ in
         enable = mkEnableOption "Enables the github-mcp-server integration";
         pkg = mkOption {
           type = types.package;
-          default = false; # pkgs.unstable.github-mcp-server;
+          default = pkgs.unstable.github-mcp-server;
           description = "The package to use for the github-mcp-server. Will invoke $pkg/bin/github-mcp-server";
         };
       };

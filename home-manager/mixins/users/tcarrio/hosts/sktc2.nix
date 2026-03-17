@@ -32,9 +32,11 @@
   oxc.ai.cursor.serena.enable = false;
   oxc.ai.cursor.sk.enable = true;
 
-  oxc.ai.mcps.enable = true;
-  oxc.ai.target.cursor.enable = true;
-  oxc.ai.servers.github.enable = true;
+  oxc.ai.mcps = {
+    enable = true;
+    targets.cursor.enable = true;
+    servers.github.enable = true;
+  };
 
   oxc.console.atuin.enable = true;
   oxc.console.aws.enable = true;
