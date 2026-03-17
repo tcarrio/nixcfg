@@ -155,6 +155,7 @@ let
   ##################################################
   devCasks = [
     "altair-graphql-client"
+    "codex"
     "cursor"
     "docker-desktop"
     "sequel-ace"
