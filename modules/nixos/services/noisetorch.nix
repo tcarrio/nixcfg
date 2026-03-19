@@ -27,6 +27,7 @@ in
         exec = ''
           ${config.security.wrapperDir}/noisetorch %F
         '';
+        icon = "${pkgs.noisetorch}/share/icons/hicolor/256x256/apps/noisetorch.png";
       })
     ];
   };
