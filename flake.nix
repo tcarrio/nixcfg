@@ -368,5 +368,9 @@
     # cursor-voice-plugin
     cursor-voice-plugin.url = "github:tcarrio/cursor-voice-plugin";
     cursor-voice-plugin.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+    # Declarative libvirt KVM management
+    NixVirt.url = "https://flakehub.com/f/AshleyYakeley/NixVirt/*.tar.gz";
+    NixVirt.inputs.nixpkgs.follows = "nixpkgs";
   };
 }

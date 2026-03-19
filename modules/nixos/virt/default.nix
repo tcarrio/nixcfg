@@ -1,5 +1,9 @@
 { lib, config, pkgs, ... }:
 {
+  imports = [
+    ./home-assistant-kvm.nix
+  ];
+
   options.oxc = {
     containerisation = {
       enable = lib.mkOption {
