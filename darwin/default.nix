@@ -119,4 +119,6 @@ in
 
   # The platform the configuration will be used on.
   nixpkgs.hostPlatform = platform;
+
+  services.karabiner-elements.enable = true;
 }
