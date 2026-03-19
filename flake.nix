@@ -232,7 +232,7 @@
           config.tools = {
             alejandra.enable = false;
             deadnix.enable = true;
-            nixpkgs-fmt.enable = true;
+            nixfmt.enable = true;
             statix.enable = true;
           };
         }
