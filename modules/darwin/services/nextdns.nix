@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   options.oxc.services.nextdns = {
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -19,7 +25,12 @@
 
     services.nextdns = {
       enable = true;
-      arguments = [ "-profile" "${config.oxc.services.nextdns.id}" "-report-client-info" "-auto-activate" ];
+      arguments = [
+        "-profile"
+        "${config.oxc.services.nextdns.id}"
+        "-report-client-info"
+        "-auto-activate"
+      ];
     };
   };
 }

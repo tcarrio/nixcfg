@@ -1,4 +1,9 @@
-{ lib, buildGoModule, fetchFromGitHub, ... }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  ...
+}:
 
 buildGoModule rec {
   pname = "awsesh";
@@ -22,4 +27,3 @@ buildGoModule rec {
     maintainers = with maintainers; [ tcarrio ];
   };
 }
-

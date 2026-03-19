@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   home.packages = with pkgs; [ charm-freeze ];
 
   home.file.".config/freeze/custom.json".text = builtins.readFile ./charm-freeze/config.json;

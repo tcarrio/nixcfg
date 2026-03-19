@@ -1,4 +1,7 @@
-{ pkgs ? import <nixpkgs> { }, lib }:
+{
+  pkgs ? import <nixpkgs> { },
+  lib,
+}:
 
 pkgs.stdenv.mkDerivation rec {
   pname = "mac-launcher";
@@ -42,4 +45,3 @@ pkgs.stdenv.mkDerivation rec {
     maintainers = [ maintainers.tcarrio ];
   };
 }
-

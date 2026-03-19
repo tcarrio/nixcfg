@@ -1,4 +1,7 @@
-{ pkgs, allowUnfree ? true }:
+{
+  pkgs,
+  allowUnfree ? true,
+}:
 let
   pager = "${pkgs.bat}/bin/bat --style=plain --paging=always";
   batTheme = "base16";
@@ -95,8 +98,12 @@ let
       enable = true;
       settings = {
         Lua = {
-          workspace = { checkThirdParty = false; };
-          telemetry = { enable = false; };
+          workspace = {
+            checkThirdParty = false;
+          };
+          telemetry = {
+            enable = false;
+          };
         };
       };
     };
@@ -193,12 +200,14 @@ rec {
     termguicolors = true;
   };
 
-
   # Key mappings based on init.lua
   keymaps = [
     # Disable Space in normal and visual mode
     {
-      mode = [ "n" "v" ];
+      mode = [
+        "n"
+        "v"
+      ];
       key = "<Space>";
       action = "<Nop>";
       options.silent = true;
@@ -339,7 +348,6 @@ rec {
     }
   ];
 
-
   # Colorscheme
   colorschemes.tokyonight = {
     enable = true;
@@ -348,8 +356,12 @@ rec {
       transparent = false;
       terminal_colors = true;
       styles = {
-        comments = { italic = true; };
-        keywords = { italic = true; };
+        comments = {
+          italic = true;
+        };
+        keywords = {
+          italic = true;
+        };
         functions = { };
         variables = { };
         sidebars = "dark";
@@ -495,11 +507,21 @@ rec {
       enable = true;
       settings = {
         signs = {
-          add = { text = "+"; };
-          change = { text = "~"; };
-          delete = { text = "_"; };
-          topdelete = { text = "‾"; };
-          changedelete = { text = "~"; };
+          add = {
+            text = "+";
+          };
+          change = {
+            text = "~";
+          };
+          delete = {
+            text = "_";
+          };
+          topdelete = {
+            text = "‾";
+          };
+          changedelete = {
+            text = "~";
+          };
         };
         on_attach.__raw = ''
           function(bufnr)
@@ -544,13 +566,34 @@ rec {
       enable = true;
       settings = {
         spec = [
-          { __unkeyed-1 = "<leader>c"; group = "[C]ode"; }
-          { __unkeyed-1 = "<leader>d"; group = "[D]ocument"; }
-          { __unkeyed-1 = "<leader>g"; group = "[G]it"; }
-          { __unkeyed-1 = "<leader>h"; group = "More git"; }
-          { __unkeyed-1 = "<leader>r"; group = "[R]ename"; }
-          { __unkeyed-1 = "<leader>s"; group = "[S]earch"; }
-          { __unkeyed-1 = "<leader>w"; group = "[W]orkspace"; }
+          {
+            __unkeyed-1 = "<leader>c";
+            group = "[C]ode";
+          }
+          {
+            __unkeyed-1 = "<leader>d";
+            group = "[D]ocument";
+          }
+          {
+            __unkeyed-1 = "<leader>g";
+            group = "[G]it";
+          }
+          {
+            __unkeyed-1 = "<leader>h";
+            group = "More git";
+          }
+          {
+            __unkeyed-1 = "<leader>r";
+            group = "[R]ename";
+          }
+          {
+            __unkeyed-1 = "<leader>s";
+            group = "[S]earch";
+          }
+          {
+            __unkeyed-1 = "<leader>w";
+            group = "[W]orkspace";
+          }
         ];
       };
     };
@@ -574,7 +617,6 @@ rec {
       enable = true;
       servers = lspServers;
     };
-
 
     # Autocompletion
     cmp = {
@@ -621,8 +663,7 @@ rec {
             end, { 'i', 's' })
           '';
         };
-        sources = (map (name: { inherit name; }) (builtins.attrNames lspServers))
-          ++ [
+        sources = (map (name: { inherit name; }) (builtins.attrNames lspServers)) ++ [
           { name = "nvim_lsp"; }
           { name = "luasnip"; }
           { name = "buffer"; }
@@ -644,7 +685,8 @@ rec {
       ];
     };
 
-  } // pkgs.lib.optionalAttrs allowUnfree {
+  }
+  // pkgs.lib.optionalAttrs allowUnfree {
     # Claude Code AI assistant (unfree license)
     claude-code.enable = false;
   };

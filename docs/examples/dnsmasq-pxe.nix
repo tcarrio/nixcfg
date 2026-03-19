@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   options.oxc.services.pxemasq = {
     enable = lib.mkOption {
       type = lib.types.bool;

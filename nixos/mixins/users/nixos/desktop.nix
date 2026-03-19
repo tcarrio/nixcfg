@@ -1,4 +1,11 @@
-{ desktop, lib, pkgs, username, ... }: {
+{
+  desktop,
+  lib,
+  pkgs,
+  username,
+  ...
+}:
+{
   config.environment.systemPackages = with pkgs; [
     gparted
   ];

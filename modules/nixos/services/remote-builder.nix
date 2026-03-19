@@ -12,7 +12,12 @@ let
     protocol = "ssh-ng";
     maxJobs = 16;
     speedFactor = 8;
-    supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+    supportedFeatures = [
+      "nixos-test"
+      "benchmark"
+      "big-parallel"
+      "kvm"
+    ];
     mandatoryFeatures = [ ];
   };
 in

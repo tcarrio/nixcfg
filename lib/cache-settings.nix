@@ -1,4 +1,10 @@
-{ username, isDarwin ? false, isDeterminateNix ? false, adminGroup ? null, ... }:
+{
+  username,
+  isDarwin ? false,
+  isDeterminateNix ? false,
+  adminGroup ? null,
+  ...
+}:
 let
   lib = {
     optional = predicate: value: if predicate then [ value ] else [ ];
@@ -13,7 +19,8 @@ let
     trusted-users = [
       "root"
       username
-    ] ++ (lib.optional (adminGroup != null) adminGroup);
+    ]
+    ++ (lib.optional (adminGroup != null) adminGroup);
 
     # Configure and verify binary cache stores
     substituters = [
@@ -63,10 +70,7 @@ let
     };
   };
 
-  baseSettings =
-    if isDeterminateNix
-    then determinateNixBaseSettings
-    else baseNixSettings;
+  baseSettings = if isDeterminateNix then determinateNixBaseSettings else baseNixSettings;
 
   darwinDeterminateNixSettings = baseSettings // {
     # On Darwin, the nix.settings MUST NOT be set when nix.enable is false,
@@ -85,13 +89,8 @@ let
   };
 
   determinateSettings =
-    if isDarwin
-    then darwinDeterminateNixSettings
-    else nixosDeterminateNixSettings;
+    if isDarwin then darwinDeterminateNixSettings else nixosDeterminateNixSettings;
 
-  finalSettings =
-    if isDeterminateNix
-    then determinateSettings
-    else baseSettings;
+  finalSettings = if isDeterminateNix then determinateSettings else baseSettings;
 in
 finalSettings

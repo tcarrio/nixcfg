@@ -1,4 +1,10 @@
-{ pkgs, lib, desktop, ... }: {
+{
+  pkgs,
+  lib,
+  desktop,
+  ...
+}:
+{
   environment.systemPackages = lib.optionals (desktop != null) [
     pkgs.netbird-ui
   ];

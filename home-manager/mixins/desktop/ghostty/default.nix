@@ -1,4 +1,11 @@
-{ config, inputs, pkgs, lib, systemType, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  lib,
+  systemType,
+  ...
+}:
 let
   isLinux = systemType == "linux";
 in
@@ -18,11 +25,18 @@ in
 
       # Theming
       theme = "Catppuccin Mocha";
-    } // (if !isLinux then {
-      # Use the latest nightly builds
-      auto-update-channel = "tip";
-    } else { });
-  } // lib.mkIf isLinux {
+    }
+    // (
+      if !isLinux then
+        {
+          # Use the latest nightly builds
+          auto-update-channel = "tip";
+        }
+      else
+        { }
+    );
+  }
+  // lib.mkIf isLinux {
     # Enable Nix management of Ghostty package on Linux only
     package = pkgs.ghostty;
   };

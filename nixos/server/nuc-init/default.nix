@@ -1,6 +1,13 @@
 # Gigabyte GB-BXCEH-2955 (Celeron 2955U: Haswell)
 
-{ inputs, lib, pkgs, sshMatrix, config, ... }:
+{
+  inputs,
+  lib,
+  pkgs,
+  sshMatrix,
+  config,
+  ...
+}:
 let
   mkNetwork = mac: ipSuffix: {
     matchConfig.MACAddress = mac;
@@ -63,7 +70,13 @@ in
   ];
 
   boot = {
-    initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" ];
+    initrd.availableKernelModules = [
+      "xhci_pci"
+      "ehci_pci"
+      "ahci"
+      "usbhid"
+      "uas"
+    ];
     kernelModules = [ "kvm-intel" ];
     kernelPackages = lib.mkDefault pkgs.linuxPackages_5_15;
   };
@@ -92,7 +105,10 @@ in
   systemd.services.install = {
     description = "Bootstrap a NixOS installation";
     wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" "polkit.service" ];
+    after = [
+      "network.target"
+      "polkit.service"
+    ];
     path = [ "/run/current-system/sw/" ];
     script = with pkgs; ''
       ${auto-install-system}/bin/auto-install-system

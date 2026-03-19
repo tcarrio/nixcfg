@@ -1,4 +1,5 @@
-{ ... }: {
+{ ... }:
+{
   nixpkgs.hostPlatform.system = "aarch64-linux";
   nixpkgs.buildPlatform.system = "x86_64-linux";
 

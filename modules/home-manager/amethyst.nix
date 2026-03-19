@@ -365,7 +365,12 @@ let
     debug-layout-info = false;
   };
 
-  inherit (lib) types mkEnableOption mkOption mkIf;
+  inherit (lib)
+    types
+    mkEnableOption
+    mkOption
+    mkIf
+    ;
 
   baseSettings = if cfg.defaults then default else { };
 
@@ -380,10 +385,9 @@ in
     };
     defaults = mkEnableOption "Extend default settings";
   };
-  config = mkIf cfg.enable
-    {
-      home.file."${config.xdg.configHome}/amethyst/amethyst.yml".text = lib.generators.toYAML { } (
-        baseSettings // cfg.settings
-      );
-    };
+  config = mkIf cfg.enable {
+    home.file."${config.xdg.configHome}/amethyst/amethyst.yml".text = lib.generators.toYAML { } (
+      baseSettings // cfg.settings
+    );
+  };
 }

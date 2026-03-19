@@ -1,7 +1,27 @@
-{ self, inputs, outputs, stateVersion, ... }:
+{
+  self,
+  inputs,
+  outputs,
+  stateVersion,
+  ...
+}:
 let
-  helpers = import ./helpers.nix { inherit self inputs outputs stateVersion; };
-  bun = import ./bun.nix { inherit self inputs outputs stateVersion; };
+  helpers = import ./helpers.nix {
+    inherit
+      self
+      inputs
+      outputs
+      stateVersion
+      ;
+  };
+  bun = import ./bun.nix {
+    inherit
+      self
+      inputs
+      outputs
+      stateVersion
+      ;
+  };
 in
 {
   inherit (helpers)
@@ -12,7 +32,8 @@ in
     mkSdImage
     forAllSystems
     forAllLinux
-    forAllDarwin;
+    forAllDarwin
+    ;
 
   inherit (bun) mkBunDerivation;
 }

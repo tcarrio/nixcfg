@@ -7,21 +7,27 @@
   };
 
   outputs =
-    { nixpkgs
-    , flake-utils
-    , ...
+    {
+      nixpkgs,
+      flake-utils,
+      ...
     }:
 
-    flake-utils.lib.eachDefaultSystem (system:
-    let
-      pkgs = import nixpkgs { inherit system; config.allowUnfree = true; };
-    in
-    {
-      devShells.default = pkgs.mkShell {
-        packages = with pkgs; [
-          opencode
-          ollama-cuda
-        ];
-      };
-    });
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        };
+      in
+      {
+        devShells.default = pkgs.mkShell {
+          packages = with pkgs; [
+            opencode
+            ollama-cuda
+          ];
+        };
+      }
+    );
 }

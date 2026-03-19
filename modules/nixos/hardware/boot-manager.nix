@@ -1,8 +1,12 @@
-{ lib, ... }: {
+{ lib, ... }:
+{
   options.oxc.boot = {
     device = {
       type = lib.mkOption {
-        type = lib.types.enum [ "uefi" "bios" ];
+        type = lib.types.enum [
+          "uefi"
+          "bios"
+        ];
         default = "uefi";
         description = "Configures which boot manager format to utilize";
       };
@@ -13,7 +17,10 @@
     };
 
     manager = lib.mkOption {
-      type = lib.types.enum [ "systemd-boot" "grub" ];
+      type = lib.types.enum [
+        "systemd-boot"
+        "grub"
+      ];
       default = "systemd-boot";
       description = "Configured which boot manager to utilize";
     };

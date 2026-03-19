@@ -6,7 +6,8 @@
   ];
 
   home.file = {
-    "${config.xdg.configHome}/autostart/deskmaster-xl.desktop".text = "
+    "${config.xdg.configHome}/autostart/deskmaster-xl.desktop".text =
+      "
       [Desktop Entry]
       Name=Deckmaster XL
       Comment=Deckmaster XL

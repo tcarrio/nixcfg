@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: {
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
   options.oxc.desktop.google-chrome = {
     enable = lib.mkOption {
       type = lib.types.bool;

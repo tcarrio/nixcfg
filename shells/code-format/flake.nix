@@ -7,25 +7,28 @@
   };
 
   outputs =
-    { nixpkgs
-    , flake-utils
+    {
+      nixpkgs,
+      flake-utils,
     }:
 
-    flake-utils.lib.eachDefaultSystem (system:
-    let
-      pkgs = import nixpkgs { inherit system; };
-    in
-    {
-      devShells.default = pkgs.mkShell {
-        packages = with pkgs; [
-          black # Code format Python
-          chroma # Code syntax highlighter
-          mdp # Terminal Markdown presenter
-          nodePackages.prettier # Code format
-          rustfmt # Code format Rust
-          shellcheck # Code lint Shell
-          shfmt # Code format Shell
-        ];
-      };
-    });
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+      in
+      {
+        devShells.default = pkgs.mkShell {
+          packages = with pkgs; [
+            black # Code format Python
+            chroma # Code syntax highlighter
+            mdp # Terminal Markdown presenter
+            nodePackages.prettier # Code format
+            rustfmt # Code format Rust
+            shellcheck # Code lint Shell
+            shfmt # Code format Shell
+          ];
+        };
+      }
+    );
 }

@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: {
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
   home.packages = with pkgs; [
     debootstrap # Terminal Debian installer
     lurk # Modern Unix `strace`

@@ -1,4 +1,5 @@
-{ lib, config, ... }: {
+{ lib, config, ... }:
+{
   options.oxc.services.wait-online = {
     enable = lib.mkOption {
       type = lib.types.bool;

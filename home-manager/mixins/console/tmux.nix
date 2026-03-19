@@ -13,7 +13,9 @@ let
     };
   };
   themeFile = pkgs.mustacheTemplate "onedark-theme.tmux" ./tmux/theme.tmux.tpl theme;
-  tmuxConfig = pkgs.mustacheTemplate "tmux.conf" ./tmux/tmux.conf.tpl { theme.path = "${themeFile}"; };
+  tmuxConfig = pkgs.mustacheTemplate "tmux.conf" ./tmux/tmux.conf.tpl {
+    theme.path = "${themeFile}";
+  };
 in
 {
   home.file.".tmux.conf".source = "${tmuxConfig}";

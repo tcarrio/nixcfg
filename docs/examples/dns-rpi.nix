@@ -2,11 +2,10 @@
 
 {
 
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
@@ -116,7 +115,11 @@
   users.users.alex = {
     isNormalUser = true;
     home = "/home/alex";
-    extraGroups = [ "wheel" "libvirtd" "docker" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel"
+      "libvirtd"
+      "docker"
+    ]; # Enable ‘sudo’ for the user.
     openssh.authorizedKeys.keys = [ "INSERT SSH KEY HERE" ];
     hashedPassword = "INSERT HASHED PASSWORD HERE";
   };
@@ -126,14 +129,12 @@
     parted
   ];
 
-
-  networking.extraHosts =
-    ''
-      10.50.10.2 dns dns.int.example.uk
-      10.50.20.2 dns dns.int.example.uk
-      10.50.30.2 dns dns.int.example.uk
-      10.50.40.2 dns dns.int.example.uk
-    '';
+  networking.extraHosts = ''
+    10.50.10.2 dns dns.int.example.uk
+    10.50.20.2 dns dns.int.example.uk
+    10.50.30.2 dns dns.int.example.uk
+    10.50.40.2 dns dns.int.example.uk
+  '';
 
   services.dnsmasq = {
     enable = true;

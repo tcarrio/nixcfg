@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
   cfg = config.oxc.services.nextdns;
 in
@@ -23,7 +28,14 @@ in
     ];
     services.nextdns = {
       enable = true;
-      arguments = [ "-profile" cfg.profile "-cache-size" "10MB" "-report-client-info" "-auto-activate" ];
+      arguments = [
+        "-profile"
+        cfg.profile
+        "-cache-size"
+        "10MB"
+        "-report-client-info"
+        "-auto-activate"
+      ];
     };
   };
 }

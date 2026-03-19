@@ -14,8 +14,15 @@
     description = "Automatic connection to Netbird";
 
     # make sure netbird is running before trying to connect to netbird
-    after = [ "network-pre.target" "netbird.service" ];
-    wants = [ "network-pre.target" "netbird.service" "run-agenix.d.mount" ];
+    after = [
+      "network-pre.target"
+      "netbird.service"
+    ];
+    wants = [
+      "network-pre.target"
+      "netbird.service"
+      "run-agenix.d.mount"
+    ];
     wantedBy = [ "multi-user.target" ];
 
     # set this service as a oneshot job

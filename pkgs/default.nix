@@ -1,6 +1,12 @@
 # Custom packages, that can be defined similarly to ones from nixpkgs
 # Build them using 'nix build .#example' or (legacy) 'nix-build -A example'
-{ pkgs, nixvim, uv2nixLib, ... }: {
+{
+  pkgs,
+  nixvim,
+  uv2nixLib,
+  ...
+}:
+{
   awsesh = pkgs.callPackage ./awsesh.nix { inherit pkgs; };
   gh-composer-auth = pkgs.callPackage ./gh-composer-auth.nix { };
   kube-rsync = pkgs.callPackage ./kube-rsync/default.nix { inherit pkgs; };

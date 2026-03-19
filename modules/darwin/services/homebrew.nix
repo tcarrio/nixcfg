@@ -2,7 +2,6 @@
 let
   cfg = config.oxc.homebrew;
 
-
   ##################################################
   # Brew taps
   ##################################################
@@ -10,7 +9,6 @@ let
     "codefresh-io/cli"
     "oven-sh/bun"
   ];
-
 
   ##################################################
   # Brew formulae
@@ -52,12 +50,7 @@ let
     "deezer"
   ];
 
-  casks = securityCasks
-    ++ devCasks
-    ++ webCasks
-    ++ desktopCasks
-    ++ musicCasks;
-
+  casks = securityCasks ++ devCasks ++ webCasks ++ desktopCasks ++ musicCasks;
 
   ##################################################
   # App Store apps managed by MAS
@@ -68,9 +61,17 @@ let
   };
 
   configuredDefaults =
-    if cfg.defaults
-    then { inherit masApps taps brews casks; }
-    else { };
+    if cfg.defaults then
+      {
+        inherit
+          masApps
+          taps
+          brews
+          casks
+          ;
+      }
+    else
+      { };
 in
 {
   options.oxc.homebrew = {
@@ -97,6 +98,7 @@ in
       # to update brew packages, use `brew update`
       global.autoUpdate = false;
       onActivation.autoUpdate = false;
-    } // configuredDefaults;
+    }
+    // configuredDefaults;
   };
 }

@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
   inherit (lib) mkIf mkEnableOption;
   ext = {
@@ -129,12 +134,15 @@ in
       cfgx = config.oxc.desktop.vscode;
     in
     mkIf cfgx.enable {
-      environment.systemPackages = with pkgs; [
-        (vscode-with-extensions.override {
-          inherit (trunk) vscode;
-          vscodeExtensions = with vscode-extensions;
-            # globally enabled extensions
-            lib.optionals cfgx.support.bazel [ bazelbuild.vscode-bazel ]
+      environment.systemPackages =
+        with pkgs;
+        [
+          (vscode-with-extensions.override {
+            inherit (trunk) vscode;
+            vscodeExtensions =
+              with vscode-extensions;
+              # globally enabled extensions
+              lib.optionals cfgx.support.bazel [ bazelbuild.vscode-bazel ]
               ++ lib.optionals cfgx.support.cpp [ ms-vscode.cpptools ]
               ++ lib.optionals cfgx.support.deno [ denoland.vscode-deno ]
               ++ lib.optionals cfgx.support.diff [ ryu1kn.partial-diff ]
@@ -147,14 +155,28 @@ in
               ++ lib.optionals cfgx.support.grpc [ zxh404.vscode-proto3 ]
               ++ lib.optionals cfgx.support.icons [ vscode-icons-team.vscode-icons ]
               ++ lib.optionals cfgx.support.js [ esbenp.prettier-vscode ]
-              ++ lib.optionals cfgx.support.linux [ coolbear.systemd-unit-file timonwong.shellcheck mads-hartmann.bash-ide-vscode ]
-              ++ lib.optionals cfgx.support.nix [ bbenoist.nix jnoortheen.nix-ide arrterian.nix-env-selector ]
+              ++ lib.optionals cfgx.support.linux [
+                coolbear.systemd-unit-file
+                timonwong.shellcheck
+                mads-hartmann.bash-ide-vscode
+              ]
+              ++ lib.optionals cfgx.support.nix [
+                bbenoist.nix
+                jnoortheen.nix-ide
+                arrterian.nix-env-selector
+              ]
               ++ lib.optionals cfgx.support.php [ bmewburn.vscode-intelephense-client ]
               ++ lib.optionals cfgx.support.prisma [ prisma.prisma ]
-              ++ lib.optionals cfgx.support.python [ ms-python.python ms-python.vscode-pylance ]
+              ++ lib.optionals cfgx.support.python [
+                ms-python.python
+                ms-python.vscode-pylance
+              ]
               ++ lib.optionals cfgx.support.rust [ rust-lang.rust-analyzer ]
               ++ lib.optionals cfgx.support.ssh [ ms-vscode-remote.remote-ssh ]
-              ++ lib.optionals cfgx.support.text [ streetsidesoftware.code-spell-checker yzhang.markdown-all-in-one ]
+              ++ lib.optionals cfgx.support.text [
+                streetsidesoftware.code-spell-checker
+                yzhang.markdown-all-in-one
+              ]
               ++ lib.optionals cfgx.support.tf [ hashicorp.terraform ]
               ++ lib.optionals cfgx.support.xml [ dotjoshjohnson.xml ]
               ++ lib.optionals cfgx.support.yaml [ redhat.vscode-yaml ]
@@ -162,41 +184,50 @@ in
               # the most simple way to calculate a package's SHA256 is to simply
               # copy over an invalid SHA256 and the nixos-rebuild will fail,
               # with output for the specified and actual hash values.
-              ++ vscode-utils.extensionsFromVscodeMarketplace
-              # globally enabled extensions
-              ([
-                ext.nightfox-theme
-                ext.non-breaking-space-highlighter
-              ]
-              ++ lib.optionals cfgx.support.ai [ ext.claude-code ]
-              ++ lib.optionals cfgx.support.cpp [ ]
-              ++ lib.optionals cfgx.support.diff [ ]
-              ++ lib.optionals cfgx.support.docker [ ]
-              ++ lib.optionals cfgx.support.editorconfig [ ]
-              ++ lib.optionals cfgx.support.elm [ ]
-              ++ lib.optionals cfgx.support.extras [ ext.vscode-power-mode ]
-              ++ lib.optionals cfgx.support.github [ ]
-              ++ lib.optionals cfgx.support.gitlens [ ]
-              ++ lib.optionals cfgx.support.go [ ]
-              ++ lib.optionals cfgx.support.hugo [ ext.language-hugo-vscode ]
-              ++ lib.optionals cfgx.support.icons [ ]
-              ++ lib.optionals cfgx.support.js [ ]
-              ++ lib.optionals cfgx.support.linux [ /** TODO: Fix ext.linux-desktop-file */ ]
-              ++ lib.optionals cfgx.support.nix [ ]
-              ++ lib.optionals cfgx.support.php [ ]
-              ++ lib.optionals cfgx.support.python [ ]
-              ++ lib.optionals cfgx.support.rust [ ]
-              ++ lib.optionals cfgx.support.ssh [ /** TODO: Fix ext.remote-ssh-edit */ ]
-              # TODO: Determine root cause of manifest issues
-              # ++ lib.optionals cfgx.support.text [ext.simple-rst ext.vscode-mdx ext.vscode-mdx-preview]
-              ++ lib.optionals cfgx.support.xml [ ]
-              ++ lib.optionals cfgx.support.yaml [ ]
-              )
-          ;
-        })
-      ]
-      ++ lib.optionals cfgx.support.rust [ cargo ]
-      ++ lib.optionals cfgx.support.ai [ unstable.claude-code ];
+              ++
+                vscode-utils.extensionsFromVscodeMarketplace
+                  # globally enabled extensions
+                  (
+                    [
+                      ext.nightfox-theme
+                      ext.non-breaking-space-highlighter
+                    ]
+                    ++ lib.optionals cfgx.support.ai [ ext.claude-code ]
+                    ++ lib.optionals cfgx.support.cpp [ ]
+                    ++ lib.optionals cfgx.support.diff [ ]
+                    ++ lib.optionals cfgx.support.docker [ ]
+                    ++ lib.optionals cfgx.support.editorconfig [ ]
+                    ++ lib.optionals cfgx.support.elm [ ]
+                    ++ lib.optionals cfgx.support.extras [ ext.vscode-power-mode ]
+                    ++ lib.optionals cfgx.support.github [ ]
+                    ++ lib.optionals cfgx.support.gitlens [ ]
+                    ++ lib.optionals cfgx.support.go [ ]
+                    ++ lib.optionals cfgx.support.hugo [ ext.language-hugo-vscode ]
+                    ++ lib.optionals cfgx.support.icons [ ]
+                    ++ lib.optionals cfgx.support.js [ ]
+                    ++ lib.optionals cfgx.support.linux [
+                      /**
+                        TODO: Fix ext.linux-desktop-file
+                      */
+                    ]
+                    ++ lib.optionals cfgx.support.nix [ ]
+                    ++ lib.optionals cfgx.support.php [ ]
+                    ++ lib.optionals cfgx.support.python [ ]
+                    ++ lib.optionals cfgx.support.rust [ ]
+                    ++ lib.optionals cfgx.support.ssh [
+                      /**
+                        TODO: Fix ext.remote-ssh-edit
+                      */
+                    ]
+                    # TODO: Determine root cause of manifest issues
+                    # ++ lib.optionals cfgx.support.text [ext.simple-rst ext.vscode-mdx ext.vscode-mdx-preview]
+                    ++ lib.optionals cfgx.support.xml [ ]
+                    ++ lib.optionals cfgx.support.yaml [ ]
+                  );
+          })
+        ]
+        ++ lib.optionals cfgx.support.rust [ cargo ]
+        ++ lib.optionals cfgx.support.ai [ unstable.claude-code ];
 
       # May require the service to be enable/started for the user
       # - systemctl --user enable auto-fix-vscode-server.service --now

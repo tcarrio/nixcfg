@@ -10,7 +10,13 @@
 # SATA:        WD Red 1TB HDD
 # SATA:        WD Red 1TB HDD
 
-{ inputs, lib, pkgs, hostname, ... }:
+{
+  inputs,
+  lib,
+  pkgs,
+  hostname,
+  ...
+}:
 {
   imports = [
     inputs.nixos-hardware.nixosModules.common-cpu-intel
@@ -41,7 +47,13 @@
   # Hardware config
 
   boot = {
-    initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" ];
+    initrd.availableKernelModules = [
+      "xhci_pci"
+      "ehci_pci"
+      "ahci"
+      "usbhid"
+      "uas"
+    ];
     kernelModules = [ "kvm-intel" ];
     kernelPackages = lib.mkDefault pkgs.linuxPackages_5_15;
   };

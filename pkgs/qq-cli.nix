@@ -1,4 +1,9 @@
-{ lib, buildGoModule, fetchFromGitHub, ... }:
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
+  ...
+}:
 
 # See https://github.com/JFryy/qq
 buildGoModule rec {

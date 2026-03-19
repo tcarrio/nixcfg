@@ -27,7 +27,13 @@
 # --import
 # --graphics none --boot uefi
 
-{ config, inputs, lib, pkgs, ... }:
+{
+  config,
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 let
   inherit (inputs.NixVirt.lib.domain) templates writeXML;
 
@@ -71,35 +77,44 @@ let
 
     virtualisation.libvirt = {
       enable = true;
-      connections."qemu:///system".networks =
-        [
-          {
-            definition = writeXML (templates.bridge
-              {
-                uuid = "70b08691-28dc-4b47-90a1-45bbeac9ab5a";
-                subnet_byte = 71;
-              });
-            active = true;
-          }
-        ];
-      connections."qemu:///session".domains =
-        [
-          {
-            definition = writeXML (templates.linux
-              {
-                name = "haos";
-                uuid = "975bda2d-8644-43b3-a389-8fed5038f19f";
-                vcpu = { count = 2; };
-                memory = { count = 4; unit = "GiB"; };
-                storage_vol = { pool = "HaosVM"; volume = "${cfg.imageDir}/${fileName}"; };
-                ## TODO: Some storage volume work
-                # backing_vol = /home/ashley/VM-Storage/Base.qcow2;
-              });
-          }
-        ];
+      connections."qemu:///system".networks = [
+        {
+          definition = writeXML (
+            templates.bridge {
+              uuid = "70b08691-28dc-4b47-90a1-45bbeac9ab5a";
+              subnet_byte = 71;
+            }
+          );
+          active = true;
+        }
+      ];
+      connections."qemu:///session".domains = [
+        {
+          definition = writeXML (
+            templates.linux {
+              name = "haos";
+              uuid = "975bda2d-8644-43b3-a389-8fed5038f19f";
+              vcpu = {
+                count = 2;
+              };
+              memory = {
+                count = 4;
+                unit = "GiB";
+              };
+              storage_vol = {
+                pool = "HaosVM";
+                volume = "${cfg.imageDir}/${fileName}";
+              };
+              ## TODO: Some storage volume work
+              # backing_vol = /home/ashley/VM-Storage/Base.qcow2;
+            }
+          );
+        }
+      ];
     };
   };
-in {
+in
+{
   options.oxc.vms.haos = {
     enable = lib.mkEnableOption "Enable the KVM-backed Home Assistant OS service";
     version = lib.mkOption {

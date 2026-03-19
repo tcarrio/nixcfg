@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   # Global packages on host
   environment.systemPackages = with pkgs; [
     openmw

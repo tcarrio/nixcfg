@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   # https://github.com/LnL7/nix-darwin/issues/214#issuecomment-2050027696
   home.activation = {
     rsync-home-manager-applications = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

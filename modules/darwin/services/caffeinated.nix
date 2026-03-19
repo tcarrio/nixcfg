@@ -1,7 +1,17 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 let
   cfg = config.oxc.services.caffeinated;
-  inherit (lib) mkIf mkOption strings types;
+  inherit (lib)
+    mkIf
+    mkOption
+    strings
+    types
+    ;
   caffeinateArgs = strings.concatStringsSep " " cfg.arguments;
 in
 {

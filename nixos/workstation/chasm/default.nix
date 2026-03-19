@@ -4,7 +4,14 @@
 # RAM:         4GB DDR3
 # SATA:        120GB SSD
 
-{ inputs, lib, pkgs, desktop, ... }: {
+{
+  inputs,
+  lib,
+  pkgs,
+  desktop,
+  ...
+}:
+{
   imports = [
     ./hardware-configuration.nix
 
@@ -14,7 +21,8 @@
     inputs.nixos-hardware.nixosModules.common-pc-ssd
 
     ../../mixins/hardware/systemd-boot.nix
-  ] ++ lib.optional (builtins.isString desktop) ./desktop.nix;
+  ]
+  ++ lib.optional (builtins.isString desktop) ./desktop.nix;
 
   oxc = {
     services = {
@@ -33,9 +41,19 @@
     kernelPackages = pkgs.linuxPackages_zen;
     blacklistedKernelModules = lib.mkDefault [ "nouveau" ];
     extraModulePackages = [ ];
-    initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "nvme" ];
+    initrd.availableKernelModules = [
+      "xhci_pci"
+      "ahci"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+      "nvme"
+    ];
     initrd.kernelModules = [ ];
-    kernelModules = [ "kvm-amd" "nvidia" ];
+    kernelModules = [
+      "kvm-amd"
+      "nvidia"
+    ];
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;

@@ -1,5 +1,6 @@
-{ pkgs, ... }: {
-  # links /libexec from derivations to /run/current-system/sw 
+{ pkgs, ... }:
+{
+  # links /libexec from derivations to /run/current-system/sw
   environment.pathsToLink = [ "/libexec" ];
 
   services.xserver = {

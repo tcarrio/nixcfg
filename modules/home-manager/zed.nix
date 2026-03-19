@@ -1,7 +1,13 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.oxc.zed-editor;
-in {
+in
+{
   options.oxc.zed-editor = {
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -62,52 +68,54 @@ in {
     ## - vue
     ## - zed-roc
     extensions = lib.mkOption {
-      default = [];
+      default = [ ];
       description = "The extensions to enable for the Zed editor by default";
-      type = lib.types.listOf (lib.types.enum [
-        "astro"
-        "beancount"
-        "clojure"
-        "csharp"
-        "dart"
-        "deno"
-        "elixir"
-        "elm"
-        "emmet"
-        "erlang"
-        "glsl"
-        "haskell"
-        "html"
-        "java"
-        "kotlin"
-        "log"
-        "lua"
-        "nix"
-        "nu"
-        "ocaml"
-        "perplexity"
-        "php"
-        "postgres-context-server"
-        "prisma"
-        "proto"
-        "purescript"
-        "racket"
-        "ruby"
-        "ruff"
-        "scheme"
-        "slash-commands-example"
-        "snippets"
-        "sql"
-        "svelte"
-        "swift"
-        "terraform"
-        "test-extension"
-        "toml"
-        "uiua"
-        "vue"
-        "zed-roc"
-        "zig"
-      ]);
+      type = lib.types.listOf (
+        lib.types.enum [
+          "astro"
+          "beancount"
+          "clojure"
+          "csharp"
+          "dart"
+          "deno"
+          "elixir"
+          "elm"
+          "emmet"
+          "erlang"
+          "glsl"
+          "haskell"
+          "html"
+          "java"
+          "kotlin"
+          "log"
+          "lua"
+          "nix"
+          "nu"
+          "ocaml"
+          "perplexity"
+          "php"
+          "postgres-context-server"
+          "prisma"
+          "proto"
+          "purescript"
+          "racket"
+          "ruby"
+          "ruff"
+          "scheme"
+          "slash-commands-example"
+          "snippets"
+          "sql"
+          "svelte"
+          "swift"
+          "terraform"
+          "test-extension"
+          "toml"
+          "uiua"
+          "vue"
+          "zed-roc"
+          "zig"
+        ]
+      );
     };
   };
 
@@ -148,7 +156,10 @@ in {
           dock = "bottom";
           detect_venv = {
             on = {
-              directories = [ ".venv" "venv" ];
+              directories = [
+                ".venv"
+                "venv"
+              ];
               activate_script = "default";
             };
           };
@@ -165,7 +176,6 @@ in {
           toolbar.title = true;
           working_directory = "current_project_directory";
         };
-
 
         minimap = {
           show = "always";
@@ -210,24 +220,41 @@ in {
           };
         };
 
-
         languages = {
           "Elixir" = {
-            language_servers = [ "!lexical" "elixir-ls" "!next-ls" ];
+            language_servers = [
+              "!lexical"
+              "elixir-ls"
+              "!next-ls"
+            ];
             formatter = {
               external = {
                 command = "mix";
-                arguments = [ "format" "--stdin-filename" "{buffer_path}" "-" ];
+                arguments = [
+                  "format"
+                  "--stdin-filename"
+                  "{buffer_path}"
+                  "-"
+                ];
               };
             };
             format_on_save = "on";
           };
           "HEEX" = {
-            language_servers = [ "!lexical" "elixir-ls" "!next-ls" ];
+            language_servers = [
+              "!lexical"
+              "elixir-ls"
+              "!next-ls"
+            ];
             formatter = {
               external = {
                 command = "mix";
-                arguments = [ "format" "--stdin-filename" "{buffer_path}" "-" ];
+                arguments = [
+                  "format"
+                  "--stdin-filename"
+                  "{buffer_path}"
+                  "-"
+                ];
               };
             };
             format_on_save = "on";

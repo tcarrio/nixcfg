@@ -1,6 +1,12 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
-  copyFilesScriptForPathEntry = path: entry:
+  copyFilesScriptForPathEntry =
+    path: entry:
     let
       pathParts = lib.strings.splitString "/" path;
       fileName = lib.lists.last pathParts;
@@ -12,24 +18,25 @@ let
       #   system = pkgs.stdenv.hostPlatform.system;
       #   HOME = "$TMPDIR/home";
       # }}";
-      commandStdout = command: pkgs.runCommand fileName { HOME = "$TMPDIR/home"; } ''
-        mkdir -p $HOME
-        ${command} > $out
-      '';
+      commandStdout =
+        command:
+        pkgs.runCommand fileName { HOME = "$TMPDIR/home"; } ''
+          mkdir -p $HOME
+          ${command} > $out
+        '';
       src =
-        if (entry ? source && entry.source != null)
-        then entry.source
+        if (entry ? source && entry.source != null) then
+          entry.source
         else
           (
-            if (entry ? text && entry.text != null)
-            then
+            if (entry ? text && entry.text != null) then
               pkgs.writeText "${fileName}" entry.text
             else
               (
-                if (entry ? command && entry.command != null)
-                then
+                if (entry ? command && entry.command != null) then
                   commandStdout entry.command
-                else throw "Missing source, text, or command from copy-files option ${path}"
+                else
+                  throw "Missing source, text, or command from copy-files option ${path}"
               )
           );
     in
@@ -47,40 +54,44 @@ let
       cat "${src}" > "$target_file"
     '';
 
-  mapFileOptionToActivationScript = name: value:
+  mapFileOptionToActivationScript =
+    name: value:
     let
       copyScript = copyFilesScriptForPathEntry name value;
     in
-    lib.nameValuePair
-      "activation-copy-files-to-${name}"
-      (lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    lib.nameValuePair "activation-copy-files-to-${name}" (
+      lib.hm.dag.entryAfter [ "writeBoundary" ] ''
         $DRY_RUN_CMD ${copyScript}
-      '');
-
+      ''
+    );
 
   cfg = config.home.copy-files;
 in
 {
-  options.home.copy-files = with lib; mkOption {
-    default = { };
-    description = "A utility module for copying Nix-defined files to a target path relative to the user's home directory";
-    type = with types; attrsOf (submodule {
-      options = {
-        text = mkOption {
-          type = nullOr str;
-          default = null;
-        };
-        source = mkOption {
-          type = nullOr path;
-          default = null;
-        };
-        command = mkOption {
-          type = nullOr str;
-          default = null;
-        };
-      };
-    });
-  };
+  options.home.copy-files =
+    with lib;
+    mkOption {
+      default = { };
+      description = "A utility module for copying Nix-defined files to a target path relative to the user's home directory";
+      type =
+        with types;
+        attrsOf (submodule {
+          options = {
+            text = mkOption {
+              type = nullOr str;
+              default = null;
+            };
+            source = mkOption {
+              type = nullOr path;
+              default = null;
+            };
+            command = mkOption {
+              type = nullOr str;
+              default = null;
+            };
+          };
+        });
+    };
 
   config = lib.mkIf ((builtins.length (lib.attrNames cfg)) > 0) {
     home.activation = lib.attrsets.mapAttrs' mapFileOptionToActivationScript cfg;

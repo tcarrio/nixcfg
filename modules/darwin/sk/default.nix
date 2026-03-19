@@ -1,7 +1,17 @@
-{ config, hostname, lib, ... }:
+{
+  config,
+  hostname,
+  lib,
+  ...
+}:
 let
   cfg = config.sk;
-  inherit (lib) fromHexString mkIf mkOption types;
+  inherit (lib)
+    fromHexString
+    mkIf
+    mkOption
+    types
+    ;
   mkSkDefault = value: lib.mkOverride 777 value;
 
   ### The following sets up keyboard mapping primitives
@@ -52,7 +62,10 @@ in
         enableKeyMapping = true;
         userKeyMapping = [
           # Maps Caps Lock to F24, a useful binding for various applications such as Cursor Tab
-          { HIDKeyboardModifierMappingSrc = keymapCode keyCodes.CapsLock; HIDKeyboardModifierMappingDst = keymapCode keyCodes.F24; }
+          {
+            HIDKeyboardModifierMappingSrc = keymapCode keyCodes.CapsLock;
+            HIDKeyboardModifierMappingDst = keymapCode keyCodes.F24;
+          }
         ];
       };
     };

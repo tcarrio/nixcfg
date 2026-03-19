@@ -1,4 +1,9 @@
-{ lib, pkgs, sshMatrix, ... }:
+{
+  lib,
+  pkgs,
+  sshMatrix,
+  ...
+}:
 {
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 

@@ -1,4 +1,5 @@
-{ username, ... }: {
+{ username, ... }:
+{
   hyprvibe = {
     desktop = {
       enable = true;

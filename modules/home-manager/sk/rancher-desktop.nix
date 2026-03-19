@@ -13,11 +13,16 @@ in
 
   config = lib.mkIf rancherDesktopEnabled {
     home.file = {
-      ".docker/cli-plugins/docker-buildx".source = mkOutOfStoreSymlink "${homeDirectory}/.rd/bin/docker-buildx";
-      ".docker/cli-plugins/docker-compose".source = mkOutOfStoreSymlink "${homeDirectory}/.rd/bin/docker-compose";
-      ".docker/cli-plugins/docker-credential-ecr-login".source = mkOutOfStoreSymlink "${homeDirectory}/.rd/bin/docker-credential-ecr-login";
-      ".docker/cli-plugins/docker-credential-none".source = mkOutOfStoreSymlink "${homeDirectory}/.rd/bin/docker-credential-none";
-      ".docker/cli-plugins/docker-credential-osxkeychain".source = mkOutOfStoreSymlink "${homeDirectory}/.rd/bin/docker-credential-osxkeychain";
+      ".docker/cli-plugins/docker-buildx".source =
+        mkOutOfStoreSymlink "${homeDirectory}/.rd/bin/docker-buildx";
+      ".docker/cli-plugins/docker-compose".source =
+        mkOutOfStoreSymlink "${homeDirectory}/.rd/bin/docker-compose";
+      ".docker/cli-plugins/docker-credential-ecr-login".source =
+        mkOutOfStoreSymlink "${homeDirectory}/.rd/bin/docker-credential-ecr-login";
+      ".docker/cli-plugins/docker-credential-none".source =
+        mkOutOfStoreSymlink "${homeDirectory}/.rd/bin/docker-credential-none";
+      ".docker/cli-plugins/docker-credential-osxkeychain".source =
+        mkOutOfStoreSymlink "${homeDirectory}/.rd/bin/docker-credential-osxkeychain";
     };
   };
 }

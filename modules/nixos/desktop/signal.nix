@@ -1,13 +1,20 @@
-{ lib, config, desktop, ... }:
+{
+  lib,
+  config,
+  desktop,
+  ...
+}:
 let
   cfg = config.oxc.desktop.signal;
   signalAppId = "org.signal.Signal";
-  passwordStore = rec {
-    gnome = "gnome-libsecret";
-    cinnamon = gnome;
-    mate = gnome;
-    # TODO: Support for other desktop's respective secret manager
-  }."${desktop}" or null;
+  passwordStore =
+    rec {
+      gnome = "gnome-libsecret";
+      cinnamon = gnome;
+      mate = gnome;
+      # TODO: Support for other desktop's respective secret manager
+    }
+    ."${desktop}" or null;
 in
 {
   options.oxc.desktop.signal = {
@@ -19,18 +26,16 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    assertions =
-      [{
+    assertions = [
+      {
         assertion = config.services.flatpak.enable;
         message = "Flatpak must be enabled to install Signal Desktop";
-      }];
+      }
+    ];
 
     services.flatpak.packages = [ "flathub-beta:app/${signalAppId}//beta" ];
     services.flatpak.overrides."${signalAppId}" = {
-      Environment =
-        if passwordStore != null
-        then { SIGNAL_PASSWORD_STORE = passwordStore; }
-        else { };
+      Environment = if passwordStore != null then { SIGNAL_PASSWORD_STORE = passwordStore; } else { };
     };
   };
 }

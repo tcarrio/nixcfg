@@ -7,7 +7,11 @@ _: {
       y = 8;
     };
     keyboard.bindings = [
-      { key = "N"; mods = "Control|Shift"; action = "CreateNewWindow"; }
+      {
+        key = "N";
+        mods = "Control|Shift";
+        action = "CreateNewWindow";
+      }
     ];
   };
 }

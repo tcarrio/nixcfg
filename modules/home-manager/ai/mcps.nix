@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   cfg = config.oxc.ai.mcps;
   inherit (lib) mkEnableOption mkOption types;
@@ -33,11 +38,11 @@ let
   # Provides utility wrapping of llms.txt resources online behind a
   # local Python server to fulfill an MCP server with more interactive
   # documentation access targeted at LLM consumption.
-  mcpdoc-wrapper-of = name: projectUrlMap:
+  mcpdoc-wrapper-of =
+    name: projectUrlMap:
     let
       urlArgs = builtins.concatStringsSep " " (
-        builtins.map (name: ''"${name}:${projectUrlMap.${name}}"'')
-          (builtins.attrNames projectUrlMap)
+        builtins.map (name: ''"${name}:${projectUrlMap.${name}}"'') (builtins.attrNames projectUrlMap)
       );
     in
     pkgs.writeScript "mcpdoc-wrapper-${name}" ''
@@ -47,33 +52,37 @@ let
         --transport stdio \
         "$@"
     '';
-  llmWrappers = lib.mapAttrs' (name: { url, title }:
+  llmWrappers = lib.mapAttrs' (
+    name:
+    { url, title }:
     lib.nameValuePair name {
       command = mcpdoc-wrapper-of name {
         "${title}" = url;
       };
-    });
+    }
+  );
 
   ### MCP Server configuration file ###
   mcpJsonText = builtins.toJSON {
     inherit mcpServers;
   };
-  mcpServers = { }
+  mcpServers =
+    { }
     // (optionalAttrs cfg.servers.llms-docs.enable llmWrappers)
     // (optionalAttrs cfg.servers.github.enable {
-    github = {
-      command = "${githubMcpServer}/bin/github-mcp-server";
-    };
-  })
+      github = {
+        command = "${githubMcpServer}/bin/github-mcp-server";
+      };
+    })
     // (optionalAttrs cfg.servers.serena.enable {
-    serena = {
-      command = "${cfg.serena.pkg}/bin/serena start-mcp-server";
-    };
-  });
+      serena = {
+        command = "${cfg.serena.pkg}/bin/serena start-mcp-server";
+      };
+    });
 
   packages = [ ]
-    # // (optional cfg.serena.enable cfg.serena.pkg)
-    # // (optional cfg.github.enable githubMcpServer);
+  # // (optional cfg.serena.enable cfg.serena.pkg)
+  # // (optional cfg.github.enable githubMcpServer);
   ;
 in
 {
@@ -85,9 +94,15 @@ in
         default = true;
         description = "Enables the ~/.mcp.json output config file";
       };
-      cursor = { enable = mkEnableOption "Enables the ~/.cursor/mcp.json output config file for Cursor"; };
-      codex = { enable = mkEnableOption "Enables the ~/.codex/mcp.json output config file for Codex"; };
-      claude = { enable = mkEnableOption "Enables the ~/.codex/mcp.json output config file for Claude"; };
+      cursor = {
+        enable = mkEnableOption "Enables the ~/.cursor/mcp.json output config file for Cursor";
+      };
+      codex = {
+        enable = mkEnableOption "Enables the ~/.codex/mcp.json output config file for Codex";
+      };
+      claude = {
+        enable = mkEnableOption "Enables the ~/.codex/mcp.json output config file for Claude";
+      };
     };
     servers = {
       llms-docs = {

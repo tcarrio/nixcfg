@@ -1,4 +1,9 @@
-{ config, pkgs, sshMatrix, ... }:
+{
+  config,
+  pkgs,
+  sshMatrix,
+  ...
+}:
 let
   ifExists = groups: builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 
@@ -7,7 +12,10 @@ in
 {
   users.users."${userName}" = {
     description = "Remote builder daemon user";
-    extraGroups = ifExists [ "docker" "podman" ];
+    extraGroups = ifExists [
+      "docker"
+      "podman"
+    ];
     hashedPassword = "!"; # password login is disabled for this user
     homeMode = "0711";
     isNormalUser = true;

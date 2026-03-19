@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
   inherit (pkgs) writeShellApplication;
 
@@ -67,8 +72,15 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [ aws-sso aws-list-accounts aws-ecr-login ]
-      ++ (with pkgs; [ jq jtbl ])
-      ++ (if config.oxc.console.aws.useNixPackage then [ pkgs.awscli2 ] else [ ]);
+    home.packages = [
+      aws-sso
+      aws-list-accounts
+      aws-ecr-login
+    ]
+    ++ (with pkgs; [
+      jq
+      jtbl
+    ])
+    ++ (if config.oxc.console.aws.useNixPackage then [ pkgs.awscli2 ] else [ ]);
   };
 }

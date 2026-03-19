@@ -8,13 +8,19 @@
 # - https://github.com/oraios/serena
 # - https://pyproject-nix.github.io/uv2nix/usage/getting-started.html
 
-{ lib
-, pkgs
-, uv2nixLib
+{
+  lib,
+  pkgs,
+  uv2nixLib,
 }:
 
 let
-  inherit (uv2nixLib) uv2nix pyproject-nix pyproject-build-systems python;
+  inherit (uv2nixLib)
+    uv2nix
+    pyproject-nix
+    pyproject-build-systems
+    python
+    ;
 
   # Fetch the Serena source with the uv.lock file
   src = pkgs.fetchFromGitHub {
@@ -34,15 +40,16 @@ let
   };
 
   # Get the base Python package set for the specified Python version
-  pythonSet = (pkgs.callPackage pyproject-nix.build.packages {
-    inherit python;
-  }).overrideScope
-    (
-      lib.composeManyExtensions [
-        pyproject-build-systems.overlays.default
-        overlay
-      ]
-    );
+  pythonSet =
+    (pkgs.callPackage pyproject-nix.build.packages {
+      inherit python;
+    }).overrideScope
+      (
+        lib.composeManyExtensions [
+          pyproject-build-systems.overlays.default
+          overlay
+        ]
+      );
 
   # Build the virtual environment with all dependencies
   venv = pythonSet.mkVirtualEnv "serena-env" workspace.deps.default;

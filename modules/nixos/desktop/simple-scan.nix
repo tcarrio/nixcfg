@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: {
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
   options.oxc.desktop.simple-scan = {
     enable = lib.mkOption {
       type = lib.types.bool;

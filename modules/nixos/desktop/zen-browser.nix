@@ -12,11 +12,12 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    assertions =
-      [{
+    assertions = [
+      {
         assertion = config.services.flatpak.enable;
         message = "Flatpak must be enabled to install Zen Browser";
-      }];
+      }
+    ];
 
     services.flatpak.packages = [ "flathub:app/app.zen_browser.zen//stable" ];
   };

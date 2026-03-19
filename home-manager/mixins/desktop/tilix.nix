@@ -51,7 +51,24 @@ with lib.hm.gvariant;
       highlight-background-color = "#1E1E1E1E2020";
       highlight-colors-set = false;
       highlight-foreground-color = "#C8C8C8C8C8C8";
-      palette = [ "#121212121414" "#D6D62B2B2B2B" "#4141DDDD7575" "#FFFFB6B63838" "#2828A9A9FFFF" "#E6E66D6DFFFF" "#1414E5E5D3D3" "#C8C8C8C8C8C8" "#434343434545" "#DEDE56565656" "#A1A1EEEEBBBB" "#FFFFC5C56060" "#9494D4D4FFFF" "#F2F2B6B6FFFF" "#A0A0F5F5EDED" "#E9E9E9E9E9E9" ];
+      palette = [
+        "#121212121414"
+        "#D6D62B2B2B2B"
+        "#4141DDDD7575"
+        "#FFFFB6B63838"
+        "#2828A9A9FFFF"
+        "#E6E66D6DFFFF"
+        "#1414E5E5D3D3"
+        "#C8C8C8C8C8C8"
+        "#434343434545"
+        "#DEDE56565656"
+        "#A1A1EEEEBBBB"
+        "#FFFFC5C56060"
+        "#9494D4D4FFFF"
+        "#F2F2B6B6FFFF"
+        "#A0A0F5F5EDED"
+        "#E9E9E9E9E9E9"
+      ];
       scrollback-unlimited = true;
       terminal-title = "";
       use-system-font = false;
@@ -65,7 +82,11 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/settings-daemon/plugins/media-keys" = {
-      custom-keybindings = [ "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/" "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/" "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/" ];
+      custom-keybindings = [
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/"
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/"
+      ];
       terminal = [ "" ];
     };
 

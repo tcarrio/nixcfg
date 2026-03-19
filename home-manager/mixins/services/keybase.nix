@@ -1,4 +1,10 @@
-{ desktop, lib, pkgs, ... }: {
+{
+  desktop,
+  lib,
+  pkgs,
+  ...
+}:
+{
   imports = lib.optionals (desktop != null) [
     ../desktop/keybase.nix
   ];

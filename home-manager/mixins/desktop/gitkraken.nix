@@ -1,5 +1,4 @@
-_:
-{
+_: {
   home.file = {
     ".gitkraken/themes/bearded-vivid-black.jsonc".text = ''
       {

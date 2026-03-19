@@ -1,12 +1,21 @@
-{ pkgs, hostname, username, platform, stateVersion, lib, isDeterminateNix, ... /* lib, config */ }:
+{
+  pkgs,
+  hostname,
+  username,
+  platform,
+  stateVersion,
+  lib,
+  isDeterminateNix,
+  ... # lib, config
+}:
 let
   inherit (lib) mkDefault;
 
-
   reload-nix-service =
-    if isDeterminateNix
-    then "sudo launchctl stop systems.determinate.nix-daemon && sudo launchctl start systems.determinate.nix-daemon"
-    else "sudo launchctl stop org.nixos.nix-daemon && sudo launchctl start org.nixos.nix-daemon";
+    if isDeterminateNix then
+      "sudo launchctl stop systems.determinate.nix-daemon && sudo launchctl start systems.determinate.nix-daemon"
+    else
+      "sudo launchctl stop org.nixos.nix-daemon && sudo launchctl start org.nixos.nix-daemon";
 in
 {
   imports = [

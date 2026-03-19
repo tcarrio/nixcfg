@@ -1,4 +1,9 @@
-{ inputs, lib, pkgs, ... }:
+{
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
 let
   dnsHostName = "carrio.dev";
   internalDnsHostName = "int.${dnsHostName}";
@@ -20,7 +25,13 @@ in
   oxc.virtualisation.enable = true;
 
   boot = {
-    initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usbhid" "uas" ];
+    initrd.availableKernelModules = [
+      "xhci_pci"
+      "ehci_pci"
+      "ahci"
+      "usbhid"
+      "uas"
+    ];
     kernelModules = [ "kvm-intel" ];
     kernelPackages = lib.mkDefault pkgs.linuxPackages_5_15;
     # loader.grub.enable = false;
@@ -30,16 +41,17 @@ in
   # Use passed hostname to configure basic networking
   networking = {
     defaultGateway = "192.168.40.1";
-    interfaces.enp3s0.ipv4.addresses = [{
-      address = "192.168.40.200";
-      prefixLength = 24;
-    }];
+    interfaces.enp3s0.ipv4.addresses = [
+      {
+        address = "192.168.40.200";
+        prefixLength = 24;
+      }
+    ];
     nameservers = [ "192.168.40.1" ];
     useDHCP = true;
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-
 
   # --- NETWORK --- #
   networking.hostName = "dns"; # Define your hostname.

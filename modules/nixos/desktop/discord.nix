@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 {
   options.oxc.desktop.discord = {
     enable = lib.mkOption {
@@ -16,8 +21,6 @@
 
   config = lib.mkIf config.oxc.desktop.discord.enable {
     environment.systemPackages =
-      if config.oxc.desktop.discord.krisp
-      then [ pkgs.discord-krisp ]
-      else [ pkgs.discord ];
+      if config.oxc.desktop.discord.krisp then [ pkgs.discord-krisp ] else [ pkgs.discord ];
   };
 }

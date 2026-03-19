@@ -1,23 +1,35 @@
-{ lib, hostname, inputs, platform, pkgs, desktop, ... }:
+{
+  lib,
+  hostname,
+  inputs,
+  platform,
+  pkgs,
+  desktop,
+  ...
+}:
 let
   systemInfo = lib.splitString "-" platform;
   systemType = builtins.elemAt systemInfo 1;
 in
 {
-  imports =
-    [
-      ../../console/charm-freeze.nix
-      ../../console/zeit.nix
-      ../../desktop/discord.nix
-    ]
-    ++ lib.optional (desktop != null) ./desktop.nix
-    ++ lib.optional (builtins.pathExists (./. + "/hosts/${hostname}.nix")) ./hosts/${hostname}.nix
-    ++ lib.optional (builtins.pathExists (./. + "/hosts/${hostname}/default.nix")) ./hosts/${hostname}/default.nix
-    ++ lib.optional (builtins.pathExists (./. + "/systems/${systemType}.nix")) ./systems/${systemType}.nix;
+  imports = [
+    ../../console/charm-freeze.nix
+    ../../console/zeit.nix
+    ../../desktop/discord.nix
+  ]
+  ++ lib.optional (desktop != null) ./desktop.nix
+  ++ lib.optional (builtins.pathExists (./. + "/hosts/${hostname}.nix")) ./hosts/${hostname}.nix
+  ++ lib.optional (builtins.pathExists (
+    ./. + "/hosts/${hostname}/default.nix"
+  )) ./hosts/${hostname}/default.nix
+  ++ lib.optional (builtins.pathExists (
+    ./. + "/systems/${systemType}.nix"
+  )) ./systems/${systemType}.nix;
 
   home = {
     file."0xc/devshells".source = inputs.devshells;
-    file.".ssh/config".text = "
+    file.".ssh/config".text =
+      "
 Host github.com
   HostName github.com
   User git
@@ -37,27 +49,28 @@ Host obsidian
       }
     '';
 
-    packages = (with pkgs.unstable; [
-      act
-      cmatrix
-      gam
-      git-absorb
-      git-filter-repo
-      gitleaks
-      gum
-      jd-diff-patch
-      ncdu
-      nixd
-      slumber
-      trash-cli
-      typescript-go
-      qq
-    ])
-    ++ (with pkgs; [
-      gh-composer-auth
-      # TODO: Fix package
-      # gqurl
-    ]);
+    packages =
+      (with pkgs.unstable; [
+        act
+        cmatrix
+        gam
+        git-absorb
+        git-filter-repo
+        gitleaks
+        gum
+        jd-diff-patch
+        ncdu
+        nixd
+        slumber
+        trash-cli
+        typescript-go
+        qq
+      ])
+      ++ (with pkgs; [
+        gh-composer-auth
+        # TODO: Fix package
+        # gqurl
+      ]);
   };
 
   programs = {

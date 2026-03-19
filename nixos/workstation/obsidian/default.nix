@@ -6,7 +6,15 @@
 # SATA:        500GB SSD
 # SATA:        2TB SSHD
 
-{ config, inputs, lib, pkgs, desktop, ... }: {
+{
+  config,
+  inputs,
+  lib,
+  pkgs,
+  desktop,
+  ...
+}:
+{
   imports = [
     ./hardware-configuration.nix
 
@@ -23,7 +31,8 @@
     ../../mixins/services/pipewire.nix
 
     ../../mixins/servers/pixiecore-pxe.nix
-  ] ++ (lib.optional (builtins.isString desktop) ./desktop.nix);
+  ]
+  ++ (lib.optional (builtins.isString desktop) ./desktop.nix);
 
   oxc = {
     services = {
@@ -58,16 +67,25 @@
     kernelPackages = pkgs.linuxKernel.packages.linux_6_6; # previous kernel in 24.11
 
     extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
-    initrd.availableKernelModules = [ "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" "nvme" ];
+    initrd.availableKernelModules = [
+      "xhci_pci"
+      "ahci"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+      "nvme"
+    ];
     initrd.kernelModules = [ "nvidia" ];
-    kernelModules = [ "kvm-amd" "nvidia" ];
+    kernelModules = [
+      "kvm-amd"
+      "nvidia"
+    ];
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
       efi.efiSysMountPoint = "/boot/efi";
     };
   };
-
 
   environment.systemPackages = with pkgs; [
     distrobox

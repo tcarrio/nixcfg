@@ -1,6 +1,13 @@
-{ disks ? [ "/dev/vda" ], ... }:
+{
+  disks ? [ "/dev/vda" ],
+  ...
+}:
 let
-  defaultXfsOpts = [ "defaults" "relatime" "nodiratime" ];
+  defaultXfsOpts = [
+    "defaults"
+    "relatime"
+    "nodiratime"
+  ];
 in
 {
   disko.devices = {
@@ -11,12 +18,13 @@ in
         content = {
           type = "table";
           format = "gpt";
-          partitions = [{
-            name = "boot";
-            start = "0%";
-            end = "1M";
-            flags = [ "bios_grub" ];
-          }
+          partitions = [
+            {
+              name = "boot";
+              start = "0%";
+              end = "1M";
+              flags = [ "bios_grub" ];
+            }
             {
               name = "ESP";
               start = "1M";
@@ -42,7 +50,8 @@ in
                 mountpoint = "/";
                 mountOptions = defaultXfsOpts;
               };
-            }];
+            }
+          ];
         };
       };
     };

@@ -3,7 +3,13 @@
 # https://github.com/tfc/nixos-auto-installer        #
 ######################################################
 
-{ config, pkgs, lib, modulesPath, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  modulesPath,
+  ...
+}:
 let
   # can't use pkgs.nixos because we're setting nixpkgs config settings
   # (at least allowUnfree) in install config.
@@ -39,7 +45,10 @@ in
   systemd.services.install = {
     description = "Bootstrap a NixOS installation";
     wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" "polkit.service" ];
+    after = [
+      "network.target"
+      "polkit.service"
+    ];
     path = [ "/run/current-system/sw/" ];
     script = with pkgs; ''
       # this is just for debugging purposes, can be removed when it all works

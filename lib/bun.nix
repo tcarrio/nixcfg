@@ -1,6 +1,6 @@
-_:
-{
-  mkBunDerivation = bun2nix:
+_: {
+  mkBunDerivation =
+    bun2nix:
     { path }:
     let
       manifest = builtins.fromJSON (builtins.readFile "${path}/package.json");

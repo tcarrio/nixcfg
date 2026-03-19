@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   imports = [
     ../../../desktop/zed.nix
   ];
@@ -41,5 +42,8 @@
   oxc.console.atuin.enable = true;
   oxc.console.aws.enable = true;
 
-  oxc.github.dash.presets = [ "skillshare" "personal" ];
+  oxc.github.dash.presets = [
+    "skillshare"
+    "personal"
+  ];
 }

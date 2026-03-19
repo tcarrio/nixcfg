@@ -1,4 +1,12 @@
-{ desktop, lib, outputs, pkgs, stateVersion, username, ... }:
+{
+  desktop,
+  lib,
+  outputs,
+  pkgs,
+  stateVersion,
+  username,
+  ...
+}:
 let
   inherit (pkgs.stdenv) isDarwin;
 in
@@ -55,7 +63,11 @@ in
   nix = {
     package = lib.mkDefault pkgs.nix;
     settings = {
-      experimental-features = [ "nix-command" "flakes" "pipe-operators" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+        "pipe-operators"
+      ];
       warn-dirty = false;
     };
   };

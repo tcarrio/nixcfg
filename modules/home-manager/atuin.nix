@@ -1,4 +1,10 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   options.oxc.console.atuin = {
     enable = lib.mkOption {
       type = lib.types.bool;

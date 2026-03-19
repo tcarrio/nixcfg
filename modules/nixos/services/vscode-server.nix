@@ -1,4 +1,10 @@
-{ lib, config, inputs, ... }: {
+{
+  lib,
+  config,
+  inputs,
+  ...
+}:
+{
   options.oxc.desktop.vscode.server = {
     enable = lib.mkOption {
       type = lib.types.bool;

@@ -1,5 +1,4 @@
-_:
-{
+_: {
   # enables Yubikey
   security.pam.services = {
     login.u2fAuth = true;

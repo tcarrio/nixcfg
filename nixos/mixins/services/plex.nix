@@ -124,7 +124,10 @@ in
 
   systemd.services."provision-tailnet-certificate" = {
     wants = [ "tailscale.service" ];
-    path = with pkgs; [ tailscale jq ];
+    path = with pkgs; [
+      tailscale
+      jq
+    ];
     script = with pkgs; ''
       if ! ${tailscale}/bin/tailscale status; then
         exit 7
@@ -137,7 +140,7 @@ in
         --key-file=/var/lib/acme/${tailnet_domain}/key.pem \
         --min-validity=48h \
         ${tailnet_domain}
-      
+
       chown -R ${config.services.nginx.user}:${config.services.nginx.group} /var/lib/acme/${tailnet_domain}
     '';
   };

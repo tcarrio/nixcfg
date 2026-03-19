@@ -1,8 +1,22 @@
-{ config, desktop, hostname, inputs, lib, modulesPath, outputs, pkgs, stateVersion, systemType, username, ... }:
+{
+  config,
+  desktop,
+  hostname,
+  inputs,
+  lib,
+  modulesPath,
+  outputs,
+  pkgs,
+  stateVersion,
+  systemType,
+  username,
+  ...
+}:
 let
   parts = lib.strings.splitString "." hostname;
   hostName = if (builtins.length parts > 1) then builtins.head parts else hostname;
-  domain = if (builtins.length parts > 1) then builtins.concatStringsSep "." (builtins.tail parts) else null;
+  domain =
+    if (builtins.length parts > 1) then builtins.concatStringsSep "." (builtins.tail parts) else null;
 in
 {
   imports = [
@@ -78,12 +92,14 @@ in
 
   environment = {
     # Eject nano and perl from the system
-    defaultPackages = with pkgs; lib.mkForce [
-      gitMinimal
-      home-manager
-      rsync
-      vim
-    ];
+    defaultPackages =
+      with pkgs;
+      lib.mkForce [
+        gitMinimal
+        home-manager
+        rsync
+        vim
+      ];
     systemPackages = with pkgs; [
       agenix
       pciutils

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib.hm.gvariant;
 {
   dconf.settings = {
@@ -95,7 +100,10 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/desktop/input-sources" = {
-      xkb-options = [ "grp:alt_shift_toggle" "caps:none" ];
+      xkb-options = [
+        "grp:alt_shift_toggle"
+        "caps:none"
+      ];
     };
 
     "org/gnome/desktop/interface" = {
@@ -130,7 +138,16 @@ with lib.hm.gvariant;
       button-layout = ":minimize,maximize,close";
       num-workspaces = 8;
       titlebar-font = "Work Sans Semi-Bold 12";
-      workspace-names = [ "Web" "Work" "Chat" "Code" "Virt" "Cast" "Fun" "Stuff" ];
+      workspace-names = [
+        "Web"
+        "Work"
+        "Chat"
+        "Code"
+        "Virt"
+        "Cast"
+        "Fun"
+        "Stuff"
+      ];
     };
 
     "org/gnome/GWeather" = {
@@ -145,14 +162,15 @@ with lib.hm.gvariant;
       check-alive-timeout = 0;
     };
 
-
     "org/gnome/mutter/keybindings" = {
       toggle-tiled-left = [ "<Super>Left" ];
       toggle-tiled-right = [ "<Super>Right" ];
     };
 
     "org/gnome/settings-daemon/plugins/media-keys" = {
-      custom-keybindings = [ "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/" ];
+      custom-keybindings = [
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+      ];
     };
 
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
@@ -245,7 +263,8 @@ with lib.hm.gvariant;
   };
 
   home.file = {
-    "${config.xdg.configHome}/autostart/ibus-daemon.desktop".text = "
+    "${config.xdg.configHome}/autostart/ibus-daemon.desktop".text =
+      "
 [Desktop Entry]
 Name=IBus Daemon
 Comment=IBus Daemon
@@ -256,7 +275,8 @@ Terminal=false
 NoDisplay=true
 StartupNotify=false";
 
-    "${config.xdg.configHome}/autostart/monitor.desktop".text = "
+    "${config.xdg.configHome}/autostart/monitor.desktop".text =
+      "
 [Desktop Entry]
 Name=Monitor Indicators
 Comment=Monitor Indicators

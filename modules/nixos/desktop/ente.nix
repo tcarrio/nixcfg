@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: {
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
   options.oxc.desktop.ente = {
     enable = lib.mkOption {
       type = lib.types.bool;

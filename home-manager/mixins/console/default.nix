@@ -1,4 +1,10 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   imports = [
     ./neovim.nix
     ./tmux.nix
@@ -154,8 +160,14 @@
           sriSha512Url = makeSriUrlHasherFishFunction "sha512";
         };
       plugins = with pkgs.fishPlugins; [
-        { name = "foreign-env"; inherit (foreign-env) src; }
-        { name = "fzf"; inherit (fzf-fish) src; }
+        {
+          name = "foreign-env";
+          inherit (foreign-env) src;
+        }
+        {
+          name = "fzf";
+          inherit (fzf-fish) src;
+        }
       ];
     };
     fzf = {

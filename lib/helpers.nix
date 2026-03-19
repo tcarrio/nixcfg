@@ -1,22 +1,46 @@
-{ self, inputs, outputs, stateVersion, ... }:
+{
+  self,
+  inputs,
+  outputs,
+  stateVersion,
+  ...
+}:
 let
   inherit (inputs.nixpkgs) lib;
 
   sshMatrix = import ./ssh/matrix.nix;
   tailnetMatrix = import ./tailnet-matrix.nix;
 
-  overlaysModule = { nixpkgs.overlays = builtins.attrValues self.overlays; };
+  overlaysModule = {
+    nixpkgs.overlays = builtins.attrValues self.overlays;
+  };
 in
 {
   # Helper function for generating home-manager configs
-  mkHome = { hostname, username, desktop ? null, platform ? "x86_64-linux" }:
+  mkHome =
+    {
+      hostname,
+      username,
+      desktop ? null,
+      platform ? "x86_64-linux",
+    }:
     let
       pkgs = inputs.nixpkgs.legacyPackages.${platform};
     in
     inputs.home-manager.lib.homeManagerConfiguration {
       inherit pkgs;
       extraSpecialArgs = {
-        inherit inputs outputs desktop hostname platform username stateVersion sshMatrix tailnetMatrix;
+        inherit
+          inputs
+          outputs
+          desktop
+          hostname
+          platform
+          username
+          stateVersion
+          sshMatrix
+          tailnetMatrix
+          ;
       };
       modules = [
         ../home-manager
@@ -30,15 +54,38 @@ in
   # - installer: can be one of the following:
   #    - "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
   #    - "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"
-  mkHost = { hostname, username, systemType, desktop ? null, installer ? null, determinate ? true, includeDisks ? (systemType != "iso") }:
+  mkHost =
+    {
+      hostname,
+      username,
+      systemType,
+      desktop ? null,
+      installer ? null,
+      determinate ? true,
+      includeDisks ? (systemType != "iso"),
+    }:
     let
       isIso = builtins.substring 0 4 hostname == "iso-";
       isWorkstation = systemType == "workstation";
-      agenixOverlaysModule = { nixpkgs.overlays = [inputs.agenix.overlays.default]; };
+      agenixOverlaysModule = {
+        nixpkgs.overlays = [ inputs.agenix.overlays.default ];
+      };
     in
     lib.nixosSystem rec {
       specialArgs = {
-        inherit self inputs outputs desktop hostname username stateVersion systemType sshMatrix tailnetMatrix includeDisks;
+        inherit
+          self
+          inputs
+          outputs
+          desktop
+          hostname
+          username
+          stateVersion
+          systemType
+          sshMatrix
+          tailnetMatrix
+          includeDisks
+          ;
         adminGroup = "@wheel";
       };
       modules = [
@@ -51,74 +98,144 @@ in
       ++ (lib.optionals determinate [ inputs.determinate.nixosModules.default ])
       ++ (lib.optionals (installer != null) [ installer ])
       ++ (lib.optionals isWorkstation [ inputs.chaotic.nixosModules.default ])
-      ++ (lib.optionals (desktop != null && (isWorkstation || isIso)) [ inputs.flatpaks.nixosModules.default ])
+      ++ (lib.optionals (desktop != null && (isWorkstation || isIso)) [
+        inputs.flatpaks.nixosModules.default
+      ])
       ++ (lib.optionals (desktop == "hyprvibe") [ inputs.hyprvibe.nixosModules.default ])
       ++ (lib.optional includeDisks ../nixos/${systemType}/${hostname}/disks.nix);
     };
 
-  mkDarwin = { hostname, username, stateVersion ? 4, platform ? "aarch64-darwin", determinate ? true }: inputs.nix-darwin.lib.darwinSystem rec {
-    specialArgs = {
-      inherit self inputs outputs hostname username platform stateVersion sshMatrix tailnetMatrix;
-      adminGroup = "@admin";
-      isDeterminateNix = determinate;
+  mkDarwin =
+    {
+      hostname,
+      username,
+      stateVersion ? 4,
+      platform ? "aarch64-darwin",
+      determinate ? true,
+    }:
+    inputs.nix-darwin.lib.darwinSystem rec {
+      specialArgs = {
+        inherit
+          self
+          inputs
+          outputs
+          hostname
+          username
+          platform
+          stateVersion
+          sshMatrix
+          tailnetMatrix
+          ;
+        adminGroup = "@admin";
+        isDeterminateNix = determinate;
+      };
+      modules = [
+        ../darwin
+        (import ./cache-settings.nix (
+          specialArgs
+          // {
+            isDeterminateNix = determinate;
+            isDarwin = true;
+          }
+        ))
+        inputs.home-manager.darwinModules.home-manager
+        outputs.darwinModules.default
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+        }
+        overlaysModule
+      ]
+      ++ (
+        if determinate then
+          [
+            inputs.determinate.darwinModules.default
+          ]
+        else
+          [ ]
+      );
     };
-    modules = [
-      ../darwin
-      (import ./cache-settings.nix (specialArgs // { isDeterminateNix = determinate; isDarwin = true; }))
-      inputs.home-manager.darwinModules.home-manager
-      outputs.darwinModules.default
-      {
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-      }
-      overlaysModule
-    ] ++ (if determinate then [
-      inputs.determinate.darwinModules.default
-    ] else [ ]);
-  };
 
-  mkSdImage = { hostname, username, platform ? "armv7l-linux" }: inputs.nixos-generators.nixosGenerate {
-    specialArgs = {
-      inherit self inputs outputs hostname username platform stateVersion sshMatrix tailnetMatrix;
+  mkSdImage =
+    {
+      hostname,
+      username,
+      platform ? "armv7l-linux",
+    }:
+    inputs.nixos-generators.nixosGenerate {
+      specialArgs = {
+        inherit
+          self
+          inputs
+          outputs
+          hostname
+          username
+          platform
+          stateVersion
+          sshMatrix
+          tailnetMatrix
+          ;
+      };
+
+      system = platform;
+      format = if platform == "armv7l-linux" then "sd-armv7l-installer" else "sd-aarch64-installer";
+
+      # pkgs = inputs.nixpkgs.legacyPackages."${platform}";
+      # lib = inputs.nixpkgs.legacyPackages."${platform}".lib;
+
+      modules = [
+        ../nixos
+        inputs.agenix.nixosModules.default
+        overlaysModule
+      ];
     };
 
-    system = platform;
-    format =
-      if platform == "armv7l-linux"
-      then "sd-armv7l-installer"
-      else "sd-aarch64-installer";
-
-    # pkgs = inputs.nixpkgs.legacyPackages."${platform}";
-    # lib = inputs.nixpkgs.legacyPackages."${platform}".lib;
-
-    modules = [
-      ../nixos
-      inputs.agenix.nixosModules.default
-      overlaysModule
-    ];
-  };
-
-  mkGeneratorImage = { hostname, username, systemType, desktop ? null, platform ? "x86_64-linux", format ? "raw-efi", extraModules ? { chaotic = false; }, ... }@extraSpecialArgs: inputs.nixos-generators.nixosGenerate {
-    specialArgs = {
-      inherit self inputs outputs desktop hostname username stateVersion systemType sshMatrix tailnetMatrix;
-    } // extraSpecialArgs;
-
-    system = platform;
-    inherit format;
-    # pkgs = inputs.nixpkgs.legacyPackages."${platform}";
-    # lib = inputs.nixpkgs.legacyPackages."${platform}".lib;
-
-    modules = [
-      (_: { nix.registry.nixpkgs.flake = inputs.nixpkgs; })
-      ../nixos
-      inputs.agenix.nixosModules.default
-      {
-        boot.kernelParams = [ "console=tty0" ]; # enable physical display tty, not serial port
+  mkGeneratorImage =
+    {
+      hostname,
+      username,
+      systemType,
+      desktop ? null,
+      platform ? "x86_64-linux",
+      format ? "raw-efi",
+      extraModules ? {
+        chaotic = false;
+      },
+      ...
+    }@extraSpecialArgs:
+    inputs.nixos-generators.nixosGenerate {
+      specialArgs = {
+        inherit
+          self
+          inputs
+          outputs
+          desktop
+          hostname
+          username
+          stateVersion
+          systemType
+          sshMatrix
+          tailnetMatrix
+          ;
       }
-      overlaysModule
-    ]
-    ++ (lib.optional extraModules."chaotic" inputs.chaotic.nixosModules.default);
-  };
+      // extraSpecialArgs;
+
+      system = platform;
+      inherit format;
+      # pkgs = inputs.nixpkgs.legacyPackages."${platform}";
+      # lib = inputs.nixpkgs.legacyPackages."${platform}".lib;
+
+      modules = [
+        (_: { nix.registry.nixpkgs.flake = inputs.nixpkgs; })
+        ../nixos
+        inputs.agenix.nixosModules.default
+        {
+          boot.kernelParams = [ "console=tty0" ]; # enable physical display tty, not serial port
+        }
+        overlaysModule
+      ]
+      ++ (lib.optional extraModules."chaotic" inputs.chaotic.nixosModules.default);
+    };
 
   forAllLinux = lib.genAttrs [
     ## So long and thanks for all the fish

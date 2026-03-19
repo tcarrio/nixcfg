@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   cfg = config.sk;
   homeDir = config.home.homeDirectory;
@@ -37,7 +42,11 @@ in
         qq-cli
       ];
       # General support for non-fish shell or sessions
-      sessionPath = [ "/opt/homebrew/bin" "${homeDir}/.asdf/bin" "${homeDir}/.asdf/shims" ];
+      sessionPath = [
+        "/opt/homebrew/bin"
+        "${homeDir}/.asdf/bin"
+        "${homeDir}/.asdf/shims"
+      ];
       sessionVariables = {
         AWS_REGION = "us-east-1";
         AWS_PROFILE = "skillshare-utility-developer";
@@ -138,6 +147,9 @@ in
 
     programs.git.settings.user.email = lib.mkForce "thomas.carrio@skillshare.com";
 
-    oxc.github.dash.presets = [ "skillshare" "personal" ];
+    oxc.github.dash.presets = [
+      "skillshare"
+      "personal"
+    ];
   };
 }

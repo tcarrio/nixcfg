@@ -1,4 +1,10 @@
-{ pkgs, inputs, platform, config, ... }:
+{
+  pkgs,
+  inputs,
+  platform,
+  config,
+  ...
+}:
 let
   agenix = inputs.agenix.packages.${platform}.default;
   homeDir = config.home.homeDirectory;
@@ -12,7 +18,8 @@ in
 
   home.packages = [
     agenix
-  ] ++ (with pkgs.unstable; [
+  ]
+  ++ (with pkgs.unstable; [
     mas
   ]);
 

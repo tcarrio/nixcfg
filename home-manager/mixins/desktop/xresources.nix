@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 let
   inherit (config.oxc.palette) colors;
   inherit (pkgs.stdenv.hostPlatform) system;

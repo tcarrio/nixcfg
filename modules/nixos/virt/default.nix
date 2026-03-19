@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 {
   imports = [
     # ./home-assistant-kvm.nix
@@ -12,7 +17,10 @@
         description = "Enable containerisation.";
       };
       engine = lib.mkOption {
-        type = lib.types.enum [ "docker" "podman" ];
+        type = lib.types.enum [
+          "docker"
+          "podman"
+        ];
         default = "docker";
         description = "The containerisation tool to use.";
       };
@@ -46,22 +54,29 @@
           docker-compose
           lazydocker
         ];
-        podman = with pkgs; [
-          buildah
-          distrobox
-          fuse-overlayfs
-          podman-compose
-          podman-tui
-        ] ++ lib.optionals config.oxc.containerisation.desktopApp [ podman-desktop ];
+        podman =
+          with pkgs;
+          [
+            buildah
+            distrobox
+            fuse-overlayfs
+            podman-compose
+            podman-tui
+          ]
+          ++ lib.optionals config.oxc.containerisation.desktopApp [ podman-desktop ];
       };
 
-      virtualisationPackages = lib.optionals config.oxc.virtualisation.enable (with pkgs; [
-        quickemu
-        xorg.xhost # for running X11 apps in distrobox
-      ]);
+      virtualisationPackages = lib.optionals config.oxc.virtualisation.enable (
+        with pkgs;
+        [
+          quickemu
+          xorg.xhost # for running X11 apps in distrobox
+        ]
+      );
     in
     {
-      environment.systemPackages = packages.${config.oxc.containerisation.engine} ++ virtualisationPackages;
+      environment.systemPackages =
+        packages.${config.oxc.containerisation.engine} ++ virtualisationPackages;
 
       virtualisation = {
         docker = lib.mkIf isDocker {

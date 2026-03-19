@@ -1,4 +1,5 @@
-{ config, ... }: {
+{ config, ... }:
+{
   networking = {
     firewall = {
       checkReversePath = "loose";

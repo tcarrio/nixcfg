@@ -1,9 +1,10 @@
-{ lib, ... }: {
+{ lib, ... }:
+{
   options.oxc.palette = {
     colors = {
       color0 = lib.mkOption {
         type = lib.types.string;
-        default = "#141417"; #Black + DarkGrey
+        default = "#141417"; # Black + DarkGrey
         description = "The color0 in the 16-color palette";
       };
       color8 = lib.mkOption {
@@ -13,7 +14,7 @@
       };
       color1 = lib.mkOption {
         type = lib.types.string;
-        default = "#D62C2C"; #DarkRed + Red
+        default = "#D62C2C"; # DarkRed + Red
         description = "The color1 in the 16-color palette";
       };
       color9 = lib.mkOption {
@@ -23,7 +24,7 @@
       };
       color2 = lib.mkOption {
         type = lib.types.string;
-        default = "#42DD76"; #DarkGreen + Green
+        default = "#42DD76"; # DarkGreen + Green
         description = "The color2 in the 16-color palette";
       };
       color10 = lib.mkOption {
@@ -33,7 +34,7 @@
       };
       color3 = lib.mkOption {
         type = lib.types.string;
-        default = "#FFB638"; #DarkYellow + Yellow
+        default = "#FFB638"; # DarkYellow + Yellow
         description = "The color3 in the 16-color palette";
       };
       color11 = lib.mkOption {
@@ -43,7 +44,7 @@
       };
       color4 = lib.mkOption {
         type = lib.types.string;
-        default = "#28A9FF"; #DarkBlue + Blue
+        default = "#28A9FF"; # DarkBlue + Blue
         description = "The color4 in the 16-color palette";
       };
       color12 = lib.mkOption {
@@ -53,7 +54,7 @@
       };
       color5 = lib.mkOption {
         type = lib.types.string;
-        default = "#E66DFF"; #DarkMagenta + Magenta
+        default = "#E66DFF"; # DarkMagenta + Magenta
         description = "The color5 in the 16-color palette";
       };
       color13 = lib.mkOption {
@@ -63,7 +64,7 @@
       };
       color6 = lib.mkOption {
         type = lib.types.string;
-        default = "#14E5D4"; #DarkCyan + Cyan
+        default = "#14E5D4"; # DarkCyan + Cyan
         description = "The color6 in the 16-color palette";
       };
       color14 = lib.mkOption {
@@ -73,7 +74,7 @@
       };
       color7 = lib.mkOption {
         type = lib.types.string;
-        default = "#c8c8c8"; #LightGrey + White
+        default = "#c8c8c8"; # LightGrey + White
         description = "The color7 in the 16-color palette";
       };
       color15 = lib.mkOption {

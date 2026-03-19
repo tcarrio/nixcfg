@@ -1,4 +1,9 @@
-{ desktop, lib, pkgs, ... }:
+{
+  desktop,
+  lib,
+  pkgs,
+  ...
+}:
 let
   desktopEnabledConfig = {
     imports = [
@@ -7,7 +12,11 @@ let
     ++ lib.optional (builtins.pathExists (./. + "/${desktop}.nix")) ./${desktop}.nix;
 
     boot = {
-      kernelParams = [ "quiet" "vt.global_cursor_default=0" "mitigations=off" ];
+      kernelParams = [
+        "quiet"
+        "vt.global_cursor_default=0"
+        "mitigations=off"
+      ];
       plymouth.enable = true;
     };
 

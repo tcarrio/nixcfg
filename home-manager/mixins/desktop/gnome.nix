@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   mkTheme = name: package: { inherit name package; };
 
@@ -44,7 +49,10 @@ in
     };
 
     "org/gnome/desktop/input-sources" = {
-      xkb-options = [ "grp:alt_shift_toggle" "caps:none" ];
+      xkb-options = [
+        "grp:alt_shift_toggle"
+        "caps:none"
+      ];
     };
 
     "org/gnome/desktop/interface" = {
@@ -81,7 +89,16 @@ in
       button-layout = ":minimize,maximize,close";
       num-workspaces = 8;
       titlebar-font = "Work Sans Semi-Bold 12";
-      workspace-names = [ "Web" "Work" "Chat" "Code" "Virt" "Cast" "Fun" "Stuff" ];
+      workspace-names = [
+        "Web"
+        "Work"
+        "Chat"
+        "Code"
+        "Virt"
+        "Cast"
+        "Fun"
+        "Stuff"
+      ];
     };
 
     "org/gnome/GWeather" = {
@@ -92,7 +109,6 @@ in
       workspaces-only-on-primary = false;
       dynamic-workspaces = false;
     };
-
 
     "org/gnome/mutter/keybindings" = {
       toggle-tiled-left = [ "<Super>Left" ];

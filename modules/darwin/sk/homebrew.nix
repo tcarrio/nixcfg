@@ -12,7 +12,6 @@ let
     "oven-sh/bun"
   ];
 
-
   ##################################################
   # Brew formulae
   ##################################################
@@ -134,7 +133,8 @@ let
     "zlib"
   ];
 
-  brews = containerBrews
+  brews =
+    containerBrews
     ++ toolingBrews
     ++ pythonBrews
     ++ buildBrews
@@ -166,8 +166,7 @@ let
     "google-chrome"
   ];
 
-  casks = devCasks
-    ++ webCasks;
+  casks = devCasks ++ webCasks;
 
   ##################################################
   # App Store apps managed by MAS
@@ -193,7 +192,14 @@ in
   config = mkIf cfg.enable {
     environment.systemPath = [ "/opt/homebrew/bin" ];
 
-    homebrew = { inherit masApps taps brews casks; };
+    homebrew = {
+      inherit
+        masApps
+        taps
+        brews
+        casks
+        ;
+    };
 
     oxc.homebrew = {
       inherit (cfg) enable defaults;

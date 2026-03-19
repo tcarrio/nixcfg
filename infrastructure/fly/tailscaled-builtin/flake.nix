@@ -4,9 +4,13 @@
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   inputs.flake-utils.url = "github:numtide/flake-utils";
 
-  outputs = { self, nixpkgs, ... }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let pkgs = nixpkgs.legacyPackages.${system}; in
+  outputs =
+    { self, nixpkgs, ... }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
       {
         packages =
           let
@@ -24,41 +28,40 @@
 
               exec ${selfPackages.default}/bin/hello
             '';
-            imageArch =
-              if pkgs.lib.strings.hasPrefix "x86_64" system
-              then "amd64"
-              else "arm64";
+            imageArch = if pkgs.lib.strings.hasPrefix "x86_64" system then "amd64" else "arm64";
           in
           {
-            httpServer = port: htmlContent: pkgs.stdenv.mkDerivation {
-              name = "simple-http-server";
-              version = "0.1.0";
+            httpServer =
+              port: htmlContent:
+              pkgs.stdenv.mkDerivation {
+                name = "simple-http-server";
+                version = "0.1.0";
 
-              # No source to build
-              phases = [ "installPhase" ];
+                # No source to build
+                phases = [ "installPhase" ];
 
-              # Install our HTML content and start script
-              installPhase = ''
-                mkdir -p $out/bin $out/html
+                # Install our HTML content and start script
+                installPhase = ''
+                  mkdir -p $out/bin $out/html
 
-                # Write the HTML content
-                echo '${htmlContent}' > $out/html/index.html
+                  # Write the HTML content
+                  echo '${htmlContent}' > $out/html/index.html
 
-                # Create a wrapper script that executes the server
-                cat > $out/bin/run-server <<EOF
-                #!${pkgs.bash}/bin/bash
-                cd $out/html
-                exec ${pkgs.python3}/bin/python -m http.server ${toString port}
-                EOF
+                  # Create a wrapper script that executes the server
+                  cat > $out/bin/run-server <<EOF
+                  #!${pkgs.bash}/bin/bash
+                  cd $out/html
+                  exec ${pkgs.python3}/bin/python -m http.server ${toString port}
+                  EOF
 
-                chmod +x $out/bin/run-server
-              '';
+                  chmod +x $out/bin/run-server
+                '';
 
-              meta = {
-                description = "A simple HTTP server exposing HTML content on port ${toString port}";
-                license = pkgs.lib.licenses.mit;
+                meta = {
+                  description = "A simple HTTP server exposing HTML content on port ${toString port}";
+                  license = pkgs.lib.licenses.mit;
+                };
               };
-            };
 
             # Create a specific instance of our server with defined content
             exampleServer = httpServer 8080 ''
@@ -75,7 +78,6 @@
                 </body>
               </html>
             '';
-
 
             default = pkgs.hello;
 

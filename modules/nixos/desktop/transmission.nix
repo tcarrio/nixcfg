@@ -1,17 +1,25 @@
-{ lib, config, pkgs, desktop, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  desktop,
+  ...
+}:
 let
   qtPackage = pkgs.transmission_4-qt;
   gtkPackage = pkgs.transmission_4-gtk;
-  defaultPackage = {
-    "cinnamon" = gtkPackage;
-    "cosmic" = gtkPackage;
-    "gnome" = gtkPackage;
-    "hyprland" = qtPackage;
-    "i3" = qtPackage;
-    "kde" = qtPackage;
-    "kde6" = qtPackage;
-    "pantheon" = gtkPackage;
-  }.${desktop} or qtPackage;
+  defaultPackage =
+    {
+      "cinnamon" = gtkPackage;
+      "cosmic" = gtkPackage;
+      "gnome" = gtkPackage;
+      "hyprland" = qtPackage;
+      "i3" = qtPackage;
+      "kde" = qtPackage;
+      "kde6" = qtPackage;
+      "pantheon" = gtkPackage;
+    }
+    .${desktop} or qtPackage;
 
   cfg = config.oxc.desktop.transmission;
 in

@@ -18,9 +18,12 @@ rec {
       manualKeys.yubikeyFido
     ];
 
-    users = with systems; [
-      void.tcarrio
-    ] ++ privileged_users;
+    users =
+      with systems;
+      [
+        void.tcarrio
+      ]
+      ++ privileged_users;
 
     deploy_keys = with systems; [
     ];

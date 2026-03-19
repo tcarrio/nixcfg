@@ -3,7 +3,8 @@ let
   cfg = config.oxc.services.keymappings;
 in
 {
-  options.oxc.services.keymappings.enable = lib.mkEnableOption "Enables the service which applies nix-darwin configured keymappings at boot";
+  options.oxc.services.keymappings.enable =
+    lib.mkEnableOption "Enables the service which applies nix-darwin configured keymappings at boot";
 
   config = lib.mkIf cfg.enable {
     # Launchd service based on https://github.com/antoineco/dotfiles/blob/901a5ae6f4cb6f6f810b9657596708f614c4de96/flake.nix#L376-L393

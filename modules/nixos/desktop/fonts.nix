@@ -1,4 +1,9 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   cfg = config.oxc.desktop.fonts;
 
@@ -31,22 +36,26 @@ in
   config = lib.mkIf cfg.ultraMode {
     fonts = {
       fontDir.enable = true;
-      packages = with pkgs; (optionalList cfg.ultraMode [
-        nerd-fonts.fira-code
-        nerd-fonts.ubuntu-mono
-        fira
-        fira-go
-        liberation_ttf
-        source-serif
-        ubuntu-classic
-        work-sans
-      ]) ++ (optionalList (cfg.ultraMode || cfg.japanese) [
-        ipafont
-        kochi-substitute
-      ]) ++ (optionalList (cfg.ultraMode || cfg.emoji) [
-        joypixels
-        noto-fonts-color-emoji
-      ]);
+      packages =
+        with pkgs;
+        (optionalList cfg.ultraMode [
+          nerd-fonts.fira-code
+          nerd-fonts.ubuntu-mono
+          fira
+          fira-go
+          liberation_ttf
+          source-serif
+          ubuntu-classic
+          work-sans
+        ])
+        ++ (optionalList (cfg.ultraMode || cfg.japanese) [
+          ipafont
+          kochi-substitute
+        ])
+        ++ (optionalList (cfg.ultraMode || cfg.emoji) [
+          joypixels
+          noto-fonts-color-emoji
+        ]);
 
       # Enable a basic set of fonts providing several font styles and families and reasonable coverage of Unicode.
       enableDefaultPackages = cfg.ultraMode;
@@ -54,10 +63,25 @@ in
       fontconfig = lib.mkIf cfg.ultraMode {
         antialias = true;
         defaultFonts = {
-          serif = [ "Source Serif" "IPAPMincho" ];
-          sansSerif = [ "Work Sans" "Fira Sans" "FiraGO" "IPAGothic" ];
-          monospace = [ "FiraCode Nerd Font Mono" "SauceCodePro Nerd Font Mono" "IPAGothic" ];
-          emoji = [ "Joypixels" "Noto Color Emoji" ];
+          serif = [
+            "Source Serif"
+            "IPAPMincho"
+          ];
+          sansSerif = [
+            "Work Sans"
+            "Fira Sans"
+            "FiraGO"
+            "IPAGothic"
+          ];
+          monospace = [
+            "FiraCode Nerd Font Mono"
+            "SauceCodePro Nerd Font Mono"
+            "IPAGothic"
+          ];
+          emoji = [
+            "Joypixels"
+            "Noto Color Emoji"
+          ];
         };
         enable = true;
         hinting = {

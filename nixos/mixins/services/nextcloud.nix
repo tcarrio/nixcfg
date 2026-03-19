@@ -1,6 +1,11 @@
 # Reference: https://carjorvaz.com/posts/the-holy-grail-nextcloud-setup-made-easy-by-nixos/
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   fqdn = "nextcloud.${config.domainName}";
 in
@@ -34,7 +39,14 @@ in
       extraApps = with config.services.nextcloud.package.packages.apps; {
         # List of apps we want to install and are already packaged in
         # https://github.com/NixOS/nixpkgs/blob/master/pkgs/servers/nextcloud/packages/nextcloud-apps.json
-        inherit calendar contacts mail notes onlyoffice tasks;
+        inherit
+          calendar
+          contacts
+          mail
+          notes
+          onlyoffice
+          tasks
+          ;
 
         # Custom app installation example.
         # cookbook = pkgs.fetchNextcloudApp rec {

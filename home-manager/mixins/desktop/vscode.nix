@@ -16,9 +16,11 @@ let
     };
     "editor.fontLigatures" = true;
     "editor.fontSize" = 12;
-    "editor.fontFamily" = "'Ubuntu Mono derivative Powerline', 'CaskaydiaMono Nerd Font Propo', 'Droid Sans Mono', 'monospace', monospace";
+    "editor.fontFamily" =
+      "'Ubuntu Mono derivative Powerline', 'CaskaydiaMono Nerd Font Propo', 'Droid Sans Mono', 'monospace', monospace";
     "terminal.integrated.fontSize" = 12;
-    "terminal.integrated.fontFamily" = "'Ubuntu Mono derivative Powerline', 'CaskaydiaMono Nerd Font Propo', 'Droid Sans Mono', 'monospace', monospace";
+    "terminal.integrated.fontFamily" =
+      "'Ubuntu Mono derivative Powerline', 'CaskaydiaMono Nerd Font Propo', 'Droid Sans Mono', 'monospace', monospace";
     "workbench.colorTheme" = "Terafox";
   };
 in

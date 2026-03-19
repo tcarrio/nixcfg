@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib.hm.gvariant;
 {
   dconf.settings = {
@@ -103,7 +108,10 @@ with lib.hm.gvariant;
     };
 
     "org/mate/desktop/peripherals/keyboard/kbd" = {
-      options = [ "terminate\tterminate:ctrl_alt_bksp" "caps\tcaps:none" ];
+      options = [
+        "terminate\tterminate:ctrl_alt_bksp"
+        "caps\tcaps:none"
+      ];
     };
 
     "org/mate/desktop/peripherals/mouse" = {
@@ -214,7 +222,14 @@ with lib.hm.gvariant;
     };
 
     "org/mate/media-handling" = {
-      autorun-x-content-start-app = [ "x-content/software" "x-content/video-bluray.xml" "x-content/video-dvd.xml" "x-content/video-hddvd.xml" "x-content/video-svcd.xml" "x-content/video-vcd.xml" ];
+      autorun-x-content-start-app = [
+        "x-content/software"
+        "x-content/video-bluray.xml"
+        "x-content/video-dvd.xml"
+        "x-content/video-hddvd.xml"
+        "x-content/video-svcd.xml"
+        "x-content/video-vcd.xml"
+      ];
     };
 
     "org/mate/panel" = {

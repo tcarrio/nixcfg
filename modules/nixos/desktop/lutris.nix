@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: {
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
   options.oxc.desktop.lutris = {
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -16,11 +22,14 @@
   };
 
   config = lib.mkIf config.oxc.desktop.lutris.enable {
-    environment.systemPackages = with pkgs; [
-      lutris
-    ] ++ lib.optionals config.oxc.desktop.lutris.wine.enable [
-      wineWowPackages.stable
-      winetricks
-    ];
+    environment.systemPackages =
+      with pkgs;
+      [
+        lutris
+      ]
+      ++ lib.optionals config.oxc.desktop.lutris.wine.enable [
+        wineWowPackages.stable
+        winetricks
+      ];
   };
 }

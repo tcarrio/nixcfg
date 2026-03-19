@@ -1,5 +1,6 @@
 { pkgs, ... }:
-with pkgs; {
+with pkgs;
+{
   home.file = {
     ".config/i3/config".text = builtins.readFile ./i3.config;
     ".config/picom/picom.conf".text = builtins.readFile ./picom.conf;
@@ -327,7 +328,7 @@ with pkgs; {
       format-margin = 0;
 
       label = "%{F#58b019}󰻟 %{F-}%percentage%%";
-      # format-backgoound = "\${colors.color12} 
+      # format-backgoound = "\${colors.color12}
       format-foreground = "\${colors.foreground}";
     };
 
@@ -412,8 +413,8 @@ with pkgs; {
 
     "module/caffeine" = {
       type = "custom/ipc";
-      hook-0 = "echo \" 󰾪 \""; #Use a Nerd or FontAwesome icon for the off state
-      hook-1 = "echo \"  \""; #Use a Nerd or FontAwesome icon for the on state
+      hook-0 = "echo \" 󰾪 \""; # Use a Nerd or FontAwesome icon for the off state
+      hook-1 = "echo \"  \""; # Use a Nerd or FontAwesome icon for the on state
       click-left = "/usr/local/bin/caffeine";
       initial = 1;
       format = "<label>";

@@ -3,11 +3,11 @@
 #   enable = false;
 #   listenAddress = "0.0.0.0";
 #   listenPort = 10809;
-# 
+#
 #   extraOptions = {
 #     allowlist = true;
 #   };
-# 
+#
 #   exports = {
 #     dvd-drive = {
 #       path = "/dev/sr0";
@@ -34,7 +34,10 @@ in
     exports = {
       dvd-drive = {
         path = "/dev/sr0";
-        allowAddresses = [ homeNetworkCidrRange tailnetCidrRange ];
+        allowAddresses = [
+          homeNetworkCidrRange
+          tailnetCidrRange
+        ];
         extraOptions = {
           readonly = "true";
         };

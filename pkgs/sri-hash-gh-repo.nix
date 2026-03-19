@@ -1,4 +1,6 @@
-{ pkgs ? import <nixpkgs> { } }:
+{
+  pkgs ? import <nixpkgs> { },
+}:
 
 pkgs.writeShellScriptBin "sri-hash-gh-repo" ''
   #!${pkgs.bash}/bin/bash

@@ -3,7 +3,13 @@
 # RAM:         8GB DDR2
 # SATA:        500GB SSD
 
-{ inputs, lib, pkgs, ... }: {
+{
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
+{
   imports = [
     (import ../t510-headless/disks.nix { })
 
@@ -46,10 +52,17 @@
     virtualisation.enable = true;
   };
 
-
   boot = {
     kernelPackages = pkgs.linuxPackages_zen;
-    initrd.availableKernelModules = [ "ehci_pci" "ahci" "firewire_ohci" "usb_storage" "sd_mod" "sr_mod" "sdhci_pci" ];
+    initrd.availableKernelModules = [
+      "ehci_pci"
+      "ahci"
+      "firewire_ohci"
+      "usb_storage"
+      "sd_mod"
+      "sr_mod"
+      "sdhci_pci"
+    ];
     initrd.kernelModules = [ ];
     kernelModules = [ ];
     extraModulePackages = [ ];

@@ -3,17 +3,11 @@ let
   inherit (sshMatrix) groups systems;
   inherit (systems) glass;
 
-  mapSetValues = f: set:
-    map f (
-      map (key: set.${key}) (builtins.attrNames set)
-    );
+  mapSetValues = f: set: map f (map (key: set.${key}) (builtins.attrNames set));
 
-  allSystemHostKeys = builtins.filter
-    (host: host != null)
-    (mapSetValues
-      (system: if (system ? host) then system.host else null)
-      systems
-    );
+  allSystemHostKeys = builtins.filter (host: host != null) (
+    mapSetValues (system: if (system ? host) then system.host else null) systems
+  );
 
   autoMeshSystems = allSystemHostKeys;
 
@@ -26,7 +20,10 @@ let
   mkPublicKeys = extraKeys: { publicKeys = base ++ extraKeys; };
 in
 {
-  "users/tcarrio/ssh.age" = mkPublicKeys [ glass.tcarrio glass.host ];
+  "users/tcarrio/ssh.age" = mkPublicKeys [
+    glass.tcarrio
+    glass.host
+  ];
   "services/netbird/token.age" = mkPublicKeys autoMeshSystems;
   "services/tailscale/token.age" = mkPublicKeys autoMeshSystems;
   "services/acme/cloudflare.age" = mkPublicKeys [ ];

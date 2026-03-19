@@ -2,7 +2,8 @@
 { inputs, ... }:
 {
   # This one brings our custom packages from the 'pkgs' directory
-  additions = final: prev:
+  additions =
+    final: prev:
     let
       inherit (final.stdenv.hostPlatform) system;
       inherit (import ../lib/bun.nix { }) mkBunDerivation;
@@ -21,10 +22,10 @@
       };
     in
     customPkgs
-    //
-    rec {
+    // rec {
       # Override nixvim to automatically use the current nixpkgs allowUnfree configuration
-      mustacheTemplate = name: template: data:
+      mustacheTemplate =
+        name: template: data:
         prev.stdenv.mkDerivation {
           name = "${name}";
 
@@ -36,7 +37,10 @@
 
           # Disable phases which are not needed. In particular the unpackPhase will
           # fail, if no src attribute is set
-          phases = [ "buildPhase" "installPhase" ];
+          phases = [
+            "buildPhase"
+            "installPhase"
+          ];
 
           buildPhase = ''
             ${prev.mustache-go}/bin/mustache $jsonDataPath ${template} > file
@@ -48,23 +52,27 @@
           '';
         };
 
-      mustacheTemplateContent = n: t: d: builtins.readFile "${mustacheTemplate n t d}";
+      mustacheTemplateContent =
+        n: t: d:
+        builtins.readFile "${mustacheTemplate n t d}";
 
       # provide a bun-baseline package that uses the baseline release to support older CPU architectures
-      bun-baseline = prev.bun.overrideAttrs (old: (
-        let
-          sources = {
-            "x86_64-linux" = prev.fetchurl {
-              url = "https://github.com/oven-sh/bun/releases/download/bun-v${old.version}/bun-linux-x64-baseline.zip";
-              hash = "sha256-ytd1am7hbzQyoyj4Aj/FzUMRBoIurPptbTr7rW/cJNs=";
+      bun-baseline = prev.bun.overrideAttrs (
+        old:
+        (
+          let
+            sources = {
+              "x86_64-linux" = prev.fetchurl {
+                url = "https://github.com/oven-sh/bun/releases/download/bun-v${old.version}/bun-linux-x64-baseline.zip";
+                hash = "sha256-ytd1am7hbzQyoyj4Aj/FzUMRBoIurPptbTr7rW/cJNs=";
+              };
             };
-          };
-        in
-        {
-          pname = "bun-baseline";
-          src = if (builtins.hasAttr system sources) then sources.${system} else old.src;
-        }
-      )
+          in
+          {
+            pname = "bun-baseline";
+            src = if (builtins.hasAttr system sources) then sources.${system} else old.src;
+          }
+        )
       );
     };
 
@@ -77,16 +85,19 @@
     # ...
     # });
 
-    customMaintainer = prev.lib.maintainers.overrideAttrs (oldAttrs: oldAttrs // {
-      tcarrio = {
-        email = "tom@carrio.dev";
-        github = "tcarrio";
-        githubId = 8659099;
-        name = "Tom Carrio";
-      };
-    });
+    customMaintainer = prev.lib.maintainers.overrideAttrs (
+      oldAttrs:
+      oldAttrs
+      // {
+        tcarrio = {
+          email = "tom@carrio.dev";
+          github = "tcarrio";
+          githubId = 8659099;
+          name = "Tom Carrio";
+        };
+      }
+    );
   };
-
 
   # When applied, the stable nixpkgs set (declared in the flake inputs) will
   # be accessible through 'pkgs.unstable'

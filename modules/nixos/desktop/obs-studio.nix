@@ -1,6 +1,18 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
-  inherit (lib) elem mkIf mkEnableOption mkOption optionals types;
+  inherit (lib)
+    elem
+    mkIf
+    mkEnableOption
+    mkOption
+    optionals
+    types
+    ;
 
   cfg = config.oxc.desktop.obs-studio;
 
@@ -8,12 +20,12 @@ let
   isNvidiaHardware = elem "nvidia" config.services.xserver.videoDrivers;
 
   package =
-    if isNvidiaHardware
-    then
+    if isNvidiaHardware then
       (cfg.package.override {
         cudaSupport = true;
       })
-    else cfg.package;
+    else
+      cfg.package;
 
   basePlugins = with cfg.plugins; [
     obs-3d-effect
@@ -39,8 +51,7 @@ let
 
   amdPlugins = [ pkgs.obs-studio-plugins.obs-vaapi ];
 
-  plugins = basePlugins
-    ++ (optionals isAmdHardware amdPlugins);
+  plugins = basePlugins ++ (optionals isAmdHardware amdPlugins);
 in
 {
   options.oxc.desktop.obs-studio = {
@@ -71,13 +82,15 @@ in
   config = mkIf cfg.enable {
     # https://nixos.wiki/wiki/OBS_Studio
     boot =
-      if cfg.virtualCamera.enable
-      then {
-        extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
-        extraModprobeConfig = ''
-          options v4l2loopback devices=1 video_nr=13 card_label="OBS Virtual Camera" exclusive_caps=1
-        '';
-      } else { };
+      if cfg.virtualCamera.enable then
+        {
+          extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
+          extraModprobeConfig = ''
+            options v4l2loopback devices=1 video_nr=13 card_label="OBS Virtual Camera" exclusive_caps=1
+          '';
+        }
+      else
+        { };
 
     programs.obs-studio = {
       enable = true;

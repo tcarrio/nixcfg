@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -13,8 +18,7 @@ in
       enable = mkOption {
         type = types.bool;
         default = false;
-        description =
-          "Whether to enable the Colima container service.";
+        description = "Whether to enable the Colima container service.";
       };
       arguments = mkOption {
         type = types.listOf types.str;
@@ -25,8 +29,7 @@ in
       automaticBoot = mkOption {
         type = types.bool;
         default = false;
-        description =
-          "Whether to start the Colima service at boot time.";
+        description = "Whether to start the Colima service at boot time.";
       };
     };
   };
@@ -41,8 +44,7 @@ in
     launchd.daemons.colima = lib.optional cfg.automaticBoot {
       path = [ colima ];
       serviceConfig.Program = "${colima}/bin/colima";
-      serviceConfig.ProgramArguments =
-        [ "start" ] ++ cfg.arguments;
+      serviceConfig.ProgramArguments = [ "start" ] ++ cfg.arguments;
       serviceConfig.KeepAlive = false;
       serviceConfig.RunAtLoad = true;
     };

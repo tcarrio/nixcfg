@@ -1,4 +1,5 @@
-{ lib, config, ... }: {
+{ lib, config, ... }:
+{
   options.oxc.nix.unfree = {
     enable = lib.mkOption {
       default = true;

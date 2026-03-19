@@ -1,5 +1,10 @@
 # Auto-generated using compose2nix v0.3.2-pre.
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 {
   # Runtime
@@ -26,7 +31,14 @@
     environmentFiles = [
       "/run/agenix/hoarder-env-file"
     ];
-    cmd = [ "--no-sandbox" "--disable-gpu" "--disable-dev-shm-usage" "--remote-debugging-address=0.0.0.0" "--remote-debugging-port=9222" "--hide-scrollbars" ];
+    cmd = [
+      "--no-sandbox"
+      "--disable-gpu"
+      "--disable-dev-shm-usage"
+      "--remote-debugging-address=0.0.0.0"
+      "--remote-debugging-port=9222"
+      "--hide-scrollbars"
+    ];
     log-driver = "journald";
     extraOptions = [
       "--network-alias=chrome"

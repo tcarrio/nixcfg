@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.oxc.ai.cursor;
 
@@ -15,11 +20,12 @@ let
       PATH = "${generateSerenaConfigPath}/bin";
       HOME = "$TMPDIR/home";
       injectConfigScript =
-        if serenaCfg.config != null
-        then ''
-          cat "${serenaCfg.config}" 2>/dev/null 1> "$HOME/.serena/serena_config.yml"
-        ''
-        else null;
+        if serenaCfg.config != null then
+          ''
+            cat "${serenaCfg.config}" 2>/dev/null 1> "$HOME/.serena/serena_config.yml"
+          ''
+        else
+          null;
       injectFrontmatterScript = ''
         cat << EOF > "$out"
         ---
@@ -81,7 +87,7 @@ in
       // (optionalSet cfg.typescript.enable {
         ".cursor/rules/typescript.mdc".source = ./rules/typescript.mdc;
       })
-      # END OF home.files
+    # END OF home.files
     ;
   };
 }
