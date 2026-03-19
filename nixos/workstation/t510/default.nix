@@ -24,7 +24,6 @@
   oxc = {
     desktop = {
       bitwarden.enable = true;
-      zed-editor.enable = true;
 
       vscode.support = {
         deno = true;

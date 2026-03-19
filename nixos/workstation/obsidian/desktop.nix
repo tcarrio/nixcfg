@@ -66,7 +66,6 @@
       };
       server.enable = true;
     };
-    zed-editor.enable = false;
     zen-browser.enable = true;
   };
 }

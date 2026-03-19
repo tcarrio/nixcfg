@@ -29,7 +29,6 @@ _: {
     ./transmission.nix
     ./vivaldi.nix
     ./vscode.nix
-    ./zed.nix
     ./zen-browser.nix
   ];
 }

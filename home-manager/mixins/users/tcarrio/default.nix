@@ -1,4 +1,4 @@
-{ lib, hostname, inputs, platform, pkgs, ... }:
+{ lib, hostname, inputs, platform, pkgs, desktop, ... }:
 let
   systemInfo = lib.splitString "-" platform;
   systemType = builtins.elemAt systemInfo 1;
@@ -10,6 +10,7 @@ in
       ../../console/zeit.nix
       ../../desktop/discord.nix
     ]
+    ++ lib.optional (desktop != null) ./desktop.nix
     ++ lib.optional (builtins.pathExists (./. + "/hosts/${hostname}.nix")) ./hosts/${hostname}.nix
     ++ lib.optional (builtins.pathExists (./. + "/hosts/${hostname}/default.nix")) ./hosts/${hostname}/default.nix
     ++ lib.optional (builtins.pathExists (./. + "/systems/${systemType}.nix")) ./systems/${systemType}.nix;
@@ -137,4 +138,15 @@ Host obsidian
   oxc.github.enable = true;
   oxc.github.cli.enable = true;
   oxc.github.dash.enable = true;
+
+  oxc.zed-editor.enable = true;
+  oxc.zed-editor.extensions = [
+    "html"
+    "nix"
+    "php"
+    "prisma"
+    "sql"
+    "terraform"
+    "toml"
+  ];
 }

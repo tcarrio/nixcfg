@@ -32,7 +32,6 @@ let
   devCasks = [
     "atuin-desktop"
     "ghostty"
-    "zed"
   ];
 
   webCasks = [

@@ -10,5 +10,6 @@
     ./palette.nix
     ./serena.nix
     ./sk
+    ./zed.nix
   ];
 }
