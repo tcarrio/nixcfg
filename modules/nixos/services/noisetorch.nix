@@ -5,7 +5,7 @@ let
 in
 {
   options.oxc.services.noisetorch = with lib; {
-    enable = mkEnableOption "noisetorch";
+    enable = mkEnableOption "Enable the NoiseTorch program to provide noise suppression in audio devices";
   };
 
   config = lib.mkIf cfg.enable {
