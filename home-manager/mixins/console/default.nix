@@ -132,19 +132,19 @@
             if [ -d $HOME/0xc/nixcfg ]
               nix develop $HOME/0xc/nixcfg#$argv[1]
             else
-              nix develop github:( \
-                git remote -v \
-                  | grep '(push)' \
-                  | awk '{print $2}' \
-                  | cut -d ':' -f 2 \
-                  | rev \
-                  | ${pkgs.gnused}/bin/sed 's/tig.//' \
-                  | rev \
+              nix develop github:( \\
+                git remote -v \\
+                | grep '(push)' \\
+                | awk '{print $2}' \\
+                | cut -d ':' -f 2 \\
+                | rev \\
+                | ${pkgs.gnused}/bin/sed 's/tig.//' \\
+                | rev \\
               )#$argv[1];
             end
           '';
           is-number = ''
-            string match --quiet --regex "^\d+\$" $argv[1]
+            string match --quiet --regex "^\\d+\\$" $argv[1]
           '';
           deploy-nuc = "is-number $argv[1] && nixos-rebuild --fast --flake $HOME/0xc/nixcfg#nuc$argv[1] --target-host root@192.168.40.20$argv[1] $argv[2..]";
 
@@ -221,7 +221,7 @@
           # squash it
           sq = "!gitsq() { git rb -i $(git sr $1) $2; }; gitsq";
           # generate patch
-          gp = "!gitgenpatch() { target=$1; git format-patch $target --stdout | ${pkgs.gnused}/bin/sed -n -e '/^diff --git/,$p' | head -n -3; }; gitgenpatch";
+          gp = "!gitgenpatch() { target=$1; git format-patch $target --stdout | ${pkgs.gnused}/bin/sed -rn '/^diff --git/,$p' | head -n -3; }; gitgenpatch";
 
           # default remote configurations
           sdr = "config checkout.defaultRemote";
@@ -229,7 +229,7 @@
           bdr = "!gitbdr() { git config branch.$(git bn).remote || git cdr; }; gitbdr";
 
           # default trunk branch configurations
-          tb = "!gittb() { git ls-remote --symref origin HEAD | grep 'refs/heads/' | ${pkgs.gnused}/bin/sed -rn 's#.*refs/heads/([a-zA-Z0-9]+).*#\1#p'; }; gittb";
+          tb = "!gittb() { git ls-remote --symref origin HEAD | grep 'refs/heads/' | ${pkgs.gnused}/bin/sed -rn 's#.*refs/heads/([a-zA-Z0-9]+).*#\\1#p'; }; gittb";
 
           # checkout utility to checkout the local trunk branch of the repo
           cot = "!git co $(git tb)";
