@@ -43,25 +43,9 @@ _: {
                     mountOptions = [ "compress=zstd" "noatime" ];
                     mountpoint = "/nix";
                   };
-                  "/swap" = {
-                    mountpoint = "/.swapvol";
-                    swap = {
-                      swapfile.size = "32G";
-                      swapfile2.size = "32G";
-                      swapfile2.path = "rel-path";
-                    };
-                  };
                 };
 
                 mountpoint = "/partition-root";
-                swap = {
-                  swapfile = {
-                    size = "32G";
-                  };
-                  swapfile1 = {
-                    size = "32G";
-                  };
-                };
               };
             };
           };
