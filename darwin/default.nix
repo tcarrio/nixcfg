@@ -1,4 +1,4 @@
-{ pkgs, hostname, username, platform, stateVersion, outputs, lib, isDeterminateNix, ... /* lib, config */ }:
+{ pkgs, hostname, username, platform, stateVersion, lib, isDeterminateNix, ... /* lib, config */ }:
 let
   inherit (lib) mkDefault;
 
@@ -10,9 +10,6 @@ let
 in
 {
   imports = [
-    # If you want to use modules your own flake exports (from modules/darwin):
-    outputs.darwinModules.default
-
     # You can also split up your configuration and import pieces of it here:
     ./mixins/desktop/aqua.nix
     ./mixins/users/${username}
@@ -45,17 +42,6 @@ in
       nerd-fonts.iosevka-term-slab
       nerd-fonts.jetbrains-mono
       nerd-fonts.symbols-only
-    ];
-  };
-
-  nixpkgs = {
-    # You can add overlays here
-    overlays = [
-      # Add overlays your own flake exports (from overlays and pkgs dir):
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.unstable-packages
-      outputs.overlays.trunk-packages
     ];
   };
 

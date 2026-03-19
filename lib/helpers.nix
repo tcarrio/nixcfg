@@ -4,6 +4,8 @@ let
 
   sshMatrix = import ./ssh/matrix.nix;
   tailnetMatrix = import ./tailnet-matrix.nix;
+
+  overlaysModule = { nixpkgs.overlays = builtins.attrValues self.overlays; };
 in
 {
   # Helper function for generating home-manager configs
@@ -20,6 +22,7 @@ in
         ../home-manager
         inputs.agenix.homeManagerModules.default
         inputs.cursor-voice-plugin.homeManagerModules.default
+        overlaysModule
       ];
     };
 
@@ -31,6 +34,7 @@ in
     let
       isIso = builtins.substring 0 4 hostname == "iso-";
       isWorkstation = systemType == "workstation";
+      agenixOverlaysModule = { nixpkgs.overlays = [inputs.agenix.overlays.default]; };
     in
     lib.nixosSystem rec {
       specialArgs = {
@@ -41,6 +45,8 @@ in
         ../nixos
         (import ./cache-settings.nix (specialArgs // { isDeterminateNix = determinate; }))
         inputs.agenix.nixosModules.default
+        overlaysModule
+        agenixOverlaysModule
       ]
       ++ (lib.optionals determinate [ inputs.determinate.nixosModules.default ])
       ++ (lib.optionals (installer != null) [ installer ])
@@ -60,10 +66,12 @@ in
       ../darwin
       (import ./cache-settings.nix (specialArgs // { isDeterminateNix = determinate; isDarwin = true; }))
       inputs.home-manager.darwinModules.home-manager
+      outputs.darwinModules.default
       {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
       }
+      overlaysModule
     ] ++ (if determinate then [
       inputs.determinate.darwinModules.default
     ] else [ ]);
@@ -86,6 +94,7 @@ in
     modules = [
       ../nixos
       inputs.agenix.nixosModules.default
+      overlaysModule
     ];
   };
 
@@ -106,6 +115,7 @@ in
       {
         boot.kernelParams = [ "console=tty0" ]; # enable physical display tty, not serial port
       }
+      overlaysModule
     ]
     ++ (lib.optional extraModules."chaotic" inputs.chaotic.nixosModules.default);
   };
