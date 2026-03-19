@@ -12,7 +12,7 @@ let
         (mkSkProjectPath "skillshare-web")
       ];
       ls_specific_settings = (lib.attrsToList cfg.languages)
-        |> (builtins.filter (kv: kv.value.enable))
+        | > (builtins.filter (kv: kv.value.enable))
         |> (builtins.map ({ name, value }: {
       inherit name;
       value.ls_path = "${value.package}${value.path}";

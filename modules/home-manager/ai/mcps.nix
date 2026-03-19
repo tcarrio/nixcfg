@@ -58,23 +58,23 @@ let
   mcpJsonText = builtins.toJSON {
     inherit mcpServers;
   };
-  mcpServers = {}
+  mcpServers = { }
     // (optionalAttrs cfg.servers.llms-docs.enable llmWrappers)
     // (optionalAttrs cfg.servers.github.enable {
-      github = {
-        command = "${githubMcpServer}/bin/github-mcp-server";
-      };
-    })
+    github = {
+      command = "${githubMcpServer}/bin/github-mcp-server";
+    };
+  })
     // (optionalAttrs cfg.servers.serena.enable {
-      serena = {
-        command = "${cfg.serena.pkg}/bin/serena start-mcp-server";
-      };
-    });
+    serena = {
+      command = "${cfg.serena.pkg}/bin/serena start-mcp-server";
+    };
+  });
 
-  packages = []
+  packages = [ ]
     # // (optional cfg.serena.enable cfg.serena.pkg)
     # // (optional cfg.github.enable githubMcpServer);
-    ;
+  ;
 in
 {
   options.oxc.ai.mcps = {
@@ -94,7 +94,7 @@ in
         enable = mkEnableOption "Enables mcpdoc wrapping of various llms.txt site resources";
         sources = lib.mkOption {
           type = types.attrset;
-          default = {};
+          default = { };
           description = "Map of various llms.txt sites. Keys are used for mcp.json keys, values are transformed into mcpdoc wrapper.";
         };
       };

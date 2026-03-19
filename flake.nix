@@ -82,213 +82,213 @@
       };
     in
     {
-        nixosModules = {
-          default = import ./modules/nixos/default.nix;
-        };
-        homeManagerModules = {
-          default = import ./modules/home-manager/default.nix;
-        };
-        darwinModules = {
-          default = import ./modules/darwin/default.nix;
-        };
-      } // {
-        apps = libx.forAllSystems (system:
-          let
-            pkgs = nixpkgs.legacyPackages.${system};
-
-            mkShellApp = { name ? "script.sh", runtimeInputs ? [ ], ... } @ opts:
-              pkgs.writeShellApplication (opts // { inherit name runtimeInputs; });
-
-            mkShellAppPath = opts: let app = mkShellApp opts; in "${app}/bin/${app.name}";
-          in
-          {
-            build-rolling = {
-              type = "app";
-              program = mkShellAppPath {
-                text = builtins.readFile ./scripts/shell/build-rolling.sh;
-              };
-            };
-          }
-        );
-
-        # home-manager switch -b backup --flake $HOME/0xc/nixcfg
-        # nix build .#homeConfigurations."tcarrio@ripper".activationPackage
-        homeConfigurations = {
-          # .iso images
-          "nixos@iso-nuc" = libx.mkHome { hostname = "iso-nuc"; username = "nixos"; };
-
-          # Workstations
-          "tcarrio@gokin" = libx.mkHome { hostname = "gokin"; username = "tcarrio"; platform = "aarch64-darwin"; };
-          "tcarrio@sktc2" = libx.mkHome { hostname = "sktc2"; username = "tcarrio"; platform = "aarch64-darwin"; };
-          "tcarrio@obsidian" = libx.mkHome { hostname = "obsidian"; username = "tcarrio"; desktop = "gnome"; };
-          "tcarrio@void" = libx.mkHome { hostname = "void"; username = "tcarrio"; desktop = "cosmic"; };
-          "tcarrio@t510" = libx.mkHome { hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
-          "tcarrio@vm" = libx.mkHome { hostname = "vm"; username = "tcarrio"; desktop = "gnome"; };
-          "tcarrio@chasm" = libx.mkHome { hostname = "chasm"; username = "tcarrio"; desktop = "i3"; };
-        };
-
-        # Support for nix-darwin workstations
-        # - darwin-rebuild build --flake .#sktc0
-        darwinConfigurations = {
-          "sktc2" = libx.mkDarwin { username = "tcarrio"; hostname = "sktc2"; stateVersion = 4; determinate = true; };
-          "gokin" = libx.mkDarwin { username = "tcarrio"; hostname = "gokin"; stateVersion = 4; determinate = true; };
-        };
-
-        nixosConfigurations = {
-          # .iso images
-          #  - nix build .#nixosConfigurations.{iso-console|iso-desktop}.config.system.build.isoImage
-          iso-nuc = libx.mkHost { systemType = "iso"; hostname = "iso-nuc"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"; determinate = false; };
-          iso-console = libx.mkHost { systemType = "iso"; hostname = "iso-console"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"; determinate = false; };
-          iso-desktop = libx.mkHost { systemType = "iso"; hostname = "iso-desktop"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"; desktop = "gnome"; determinate = false; };
-          iso-recovery-console = libx.mkHost { systemType = "iso"; hostname = "iso-recovery"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"; determinate = false; };
-          iso-recovery-desktop = libx.mkHost { systemType = "iso"; hostname = "iso-recovery"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"; desktop = "cinnamon"; determinate = false; };
-          netboot-console = libx.mkHost { systemType = "iso"; hostname = "netboot-iso-console"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/netboot/netboot-minimal.nix"; determinate = false; };
-
-          # Workstations
-          #  - sudo nixos-rebuild switch --flake $HOME/0xc/nixcfg
-          #  - nix build .#nixosConfigurations.ripper.config.system.build.toplevel
-          obsidian = libx.mkHost { systemType = "workstation"; hostname = "obsidian"; username = "tcarrio"; desktop = "gnome"; };
-          void = libx.mkHost { systemType = "workstation"; hostname = "void"; username = "tcarrio"; desktop = "cosmic"; };
-          t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; includeDisks = false; };
-          t510-headless = libx.mkHost { systemType = "workstation"; hostname = "t510-headless"; username = "tcarrio"; };
-          chasm = libx.mkHost { systemType = "workstation"; hostname = "chasm"; username = "tcarrio"; desktop = "i3"; };
-
-          # Servers
-          # Can be executed locally:
-          #  - sudo nixos-rebuild switch --flake $HOME/0xc/nixcfg
-          #
-          # Or remotely:
-          #  - nixos-rebuild switch --fast --flake .#${HOST} \
-          #      --target-host ${USERNAME}@${HOST}.${TAILNET} \
-          #      --build-host  ${USERNAME}@${HOST}.${TAILNET}
-          nuc0 = libx.mkHost { systemType = "server"; hostname = "nuc0"; username = "archon"; };
-          nuc1 = libx.mkHost { systemType = "server"; hostname = "nuc1"; username = "archon"; };
-          nuc2 = libx.mkHost { systemType = "server"; hostname = "nuc2"; username = "archon"; };
-          nuc3 = libx.mkHost { systemType = "server"; hostname = "nuc3"; username = "archon"; };
-          nuc4 = libx.mkHost { systemType = "server"; hostname = "nuc4"; username = "archon"; };
-          nuc5 = libx.mkHost { systemType = "server"; hostname = "nuc5"; username = "archon"; };
-          nuc6 = libx.mkHost { systemType = "server"; hostname = "nuc6"; username = "archon"; };
-          nuc7 = libx.mkHost { systemType = "server"; hostname = "nuc7"; username = "archon"; };
-          nuc8 = libx.mkHost { systemType = "server"; hostname = "nuc8"; username = "archon"; };
-          nuc9 = libx.mkHost { systemType = "server"; hostname = "nuc9"; username = "archon"; };
-
-          orca = libx.mkHost { systemType = "server"; hostname = "orca"; username = "archon"; };
-
-          "nix-proxy-droplet" = libx.mkHost { systemType = "server"; hostname = "nix-proxy-droplet"; username = "archon"; includeDisks = false; };
-        };
-
-        # Devshell for bootstrapping; acessible via 'nix develop' or 'nix-shell' (legacy)
-        devShells = (libx.forAllDarwin (system:
-          let
-            mkFlakeShell = mkSystemFlakeShell system;
-          in
-          devshells.devShells.${system} //
-            rec {
-              default = mkFlakeShell ({ pkgs, darwinNixPkgs, bun2NixPkg, ... }: {
-                packages = with pkgs; [
-                  home-manager
-                  darwinNixPkgs.darwin-rebuild
-                  git
-                  unstable.bun
-                  nixd
-                  go-task
-                  bun2NixPkg
-                  self.packages.${system}.gh-composer-auth
-                  # TODO: Fix gqurl package
-                  # self.packages.${system}.gqurl
-                  # TODO: Re-enable support for mac-launcher with system-contextual pkgs
-                  # self.packages.${system}.mac-launcher
-                  self.packages.${system}.nixvim
-                ];
-              });
-              dev = default;
-            }
-        )) //
-        (libx.forAllLinux (system:
-          let
-            mkFlakeShell = mkSystemFlakeShell system;
-          in
-          rec {
-            installers = mkFlakeShell ({ pkgs, ... }: {
-              packages = with pkgs; [
-                nix
-                home-manager
-                git
-                self.packages.${system}.gh-composer-auth
-                # TODO: Fix gqurl package
-                # self.packages.${system}.gqurl
-                self.packages.${system}.nixvim
-              ];
-            });
-            default = dev;
-            dev = mkFlakeShell devShellFactory;
-          } // devshells.devShells.${system}
-        ));
-
-        # nix fmt
-        formatter = libx.forAllSystems (system:
-          nix-formatter-pack.lib.mkFormatter {
-            pkgs = nixpkgs.legacyPackages.${system};
-            config.tools = {
-              alejandra.enable = false;
-              deadnix.enable = true;
-              nixpkgs-fmt.enable = true;
-              statix.enable = true;
-            };
-          }
-        );
-
-        # Custom packages and modifications, exported as overlays
-        inherit overlays;
-
-        # Custom packages; acessible via 'nix build', 'nix shell', etc
-        packages =
-          let
-            mkNuc = user: name: libx.mkGeneratorImage { systemType = "server"; hostname = name; username = user; };
-          in
-          libx.forAllSystems
-            (system:
-              let
-                pkgs = mkPkgsForSystemFromInput system nixpkgs;
-                mkStandardBun = libx.mkBunDerivation inputs.bun2nix.packages.${system}.default;
-                uv2nixLib = {
-                  inherit uv2nix pyproject-nix pyproject-build-systems;
-                  python = pkgs.python311;
-                };
-                localPackages = import ./pkgs { inherit pkgs mkStandardBun nixvim uv2nixLib; };
-              in
-              (lib.optionalAttrs (system == "x86_64-linux") {
-                # TODO: Linode image is still too large: reduction with `qemu-img resize --shrink ./nixos.img 5.5G` didn't error out but image will not boot
-                # linode-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "linode-base-image"; username = "archon"; format = "linode"; diskSize = 5120; };
-                digital-ocean-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "generic-base-image"; username = "archon"; format = "do"; };
-
-                ## NUC server configurations
-                system-image-nuc0 = mkNuc "archon" "nuc0";
-                system-image-nuc1 = mkNuc "archon" "nuc1";
-                system-image-nuc2 = mkNuc "archon" "nuc2";
-                system-image-nuc3 = mkNuc "archon" "nuc3";
-                system-image-nuc4 = mkNuc "archon" "nuc4";
-                system-image-nuc5 = mkNuc "archon" "nuc5";
-                system-image-nuc6 = mkNuc "archon" "nuc6";
-                system-image-nuc7 = mkNuc "archon" "nuc7";
-                system-image-nuc8 = mkNuc "archon" "nuc8";
-                system-image-nuc9 = mkNuc "archon" "nuc9";
-
-                # Installer utility
-                install-system = pkgs.writeShellApplication {
-                  name = "install-system";
-                  text = builtins.readFile ./scripts/shell/install.sh;
-                  runtimeInputs = [
-                    inputs.disko.packages.${system}.disko
-                  ] ++ (with pkgs; [
-                    nixos-install
-                    git
-                    gum
-                  ]);
-                };
-              }) // localPackages
-            );
+      nixosModules = {
+        default = import ./modules/nixos/default.nix;
       };
+      homeManagerModules = {
+        default = import ./modules/home-manager/default.nix;
+      };
+      darwinModules = {
+        default = import ./modules/darwin/default.nix;
+      };
+    } // {
+      apps = libx.forAllSystems (system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+
+          mkShellApp = { name ? "script.sh", runtimeInputs ? [ ], ... } @ opts:
+            pkgs.writeShellApplication (opts // { inherit name runtimeInputs; });
+
+          mkShellAppPath = opts: let app = mkShellApp opts; in "${app}/bin/${app.name}";
+        in
+        {
+          build-rolling = {
+            type = "app";
+            program = mkShellAppPath {
+              text = builtins.readFile ./scripts/shell/build-rolling.sh;
+            };
+          };
+        }
+      );
+
+      # home-manager switch -b backup --flake $HOME/0xc/nixcfg
+      # nix build .#homeConfigurations."tcarrio@ripper".activationPackage
+      homeConfigurations = {
+        # .iso images
+        "nixos@iso-nuc" = libx.mkHome { hostname = "iso-nuc"; username = "nixos"; };
+
+        # Workstations
+        "tcarrio@gokin" = libx.mkHome { hostname = "gokin"; username = "tcarrio"; platform = "aarch64-darwin"; };
+        "tcarrio@sktc2" = libx.mkHome { hostname = "sktc2"; username = "tcarrio"; platform = "aarch64-darwin"; };
+        "tcarrio@obsidian" = libx.mkHome { hostname = "obsidian"; username = "tcarrio"; desktop = "gnome"; };
+        "tcarrio@void" = libx.mkHome { hostname = "void"; username = "tcarrio"; desktop = "cosmic"; };
+        "tcarrio@t510" = libx.mkHome { hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; };
+        "tcarrio@vm" = libx.mkHome { hostname = "vm"; username = "tcarrio"; desktop = "gnome"; };
+        "tcarrio@chasm" = libx.mkHome { hostname = "chasm"; username = "tcarrio"; desktop = "i3"; };
+      };
+
+      # Support for nix-darwin workstations
+      # - darwin-rebuild build --flake .#sktc0
+      darwinConfigurations = {
+        "sktc2" = libx.mkDarwin { username = "tcarrio"; hostname = "sktc2"; stateVersion = 4; determinate = true; };
+        "gokin" = libx.mkDarwin { username = "tcarrio"; hostname = "gokin"; stateVersion = 4; determinate = true; };
+      };
+
+      nixosConfigurations = {
+        # .iso images
+        #  - nix build .#nixosConfigurations.{iso-console|iso-desktop}.config.system.build.isoImage
+        iso-nuc = libx.mkHost { systemType = "iso"; hostname = "iso-nuc"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"; determinate = false; };
+        iso-console = libx.mkHost { systemType = "iso"; hostname = "iso-console"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"; determinate = false; };
+        iso-desktop = libx.mkHost { systemType = "iso"; hostname = "iso-desktop"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-graphical-calamares.nix"; desktop = "gnome"; determinate = false; };
+        iso-recovery-console = libx.mkHost { systemType = "iso"; hostname = "iso-recovery"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"; determinate = false; };
+        iso-recovery-desktop = libx.mkHost { systemType = "iso"; hostname = "iso-recovery"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"; desktop = "cinnamon"; determinate = false; };
+        netboot-console = libx.mkHost { systemType = "iso"; hostname = "netboot-iso-console"; username = "nixos"; installer = nixpkgs + "/nixos/modules/installer/netboot/netboot-minimal.nix"; determinate = false; };
+
+        # Workstations
+        #  - sudo nixos-rebuild switch --flake $HOME/0xc/nixcfg
+        #  - nix build .#nixosConfigurations.ripper.config.system.build.toplevel
+        obsidian = libx.mkHost { systemType = "workstation"; hostname = "obsidian"; username = "tcarrio"; desktop = "gnome"; };
+        void = libx.mkHost { systemType = "workstation"; hostname = "void"; username = "tcarrio"; desktop = "cosmic"; };
+        t510 = libx.mkHost { systemType = "workstation"; hostname = "t510"; username = "tcarrio"; desktop = "pantheon"; includeDisks = false; };
+        t510-headless = libx.mkHost { systemType = "workstation"; hostname = "t510-headless"; username = "tcarrio"; };
+        chasm = libx.mkHost { systemType = "workstation"; hostname = "chasm"; username = "tcarrio"; desktop = "i3"; };
+
+        # Servers
+        # Can be executed locally:
+        #  - sudo nixos-rebuild switch --flake $HOME/0xc/nixcfg
+        #
+        # Or remotely:
+        #  - nixos-rebuild switch --fast --flake .#${HOST} \
+        #      --target-host ${USERNAME}@${HOST}.${TAILNET} \
+        #      --build-host  ${USERNAME}@${HOST}.${TAILNET}
+        nuc0 = libx.mkHost { systemType = "server"; hostname = "nuc0"; username = "archon"; };
+        nuc1 = libx.mkHost { systemType = "server"; hostname = "nuc1"; username = "archon"; };
+        nuc2 = libx.mkHost { systemType = "server"; hostname = "nuc2"; username = "archon"; };
+        nuc3 = libx.mkHost { systemType = "server"; hostname = "nuc3"; username = "archon"; };
+        nuc4 = libx.mkHost { systemType = "server"; hostname = "nuc4"; username = "archon"; };
+        nuc5 = libx.mkHost { systemType = "server"; hostname = "nuc5"; username = "archon"; };
+        nuc6 = libx.mkHost { systemType = "server"; hostname = "nuc6"; username = "archon"; };
+        nuc7 = libx.mkHost { systemType = "server"; hostname = "nuc7"; username = "archon"; };
+        nuc8 = libx.mkHost { systemType = "server"; hostname = "nuc8"; username = "archon"; };
+        nuc9 = libx.mkHost { systemType = "server"; hostname = "nuc9"; username = "archon"; };
+
+        orca = libx.mkHost { systemType = "server"; hostname = "orca"; username = "archon"; };
+
+        "nix-proxy-droplet" = libx.mkHost { systemType = "server"; hostname = "nix-proxy-droplet"; username = "archon"; includeDisks = false; };
+      };
+
+      # Devshell for bootstrapping; acessible via 'nix develop' or 'nix-shell' (legacy)
+      devShells = (libx.forAllDarwin (system:
+        let
+          mkFlakeShell = mkSystemFlakeShell system;
+        in
+        devshells.devShells.${system} //
+        rec {
+          default = mkFlakeShell ({ pkgs, darwinNixPkgs, bun2NixPkg, ... }: {
+            packages = with pkgs; [
+              home-manager
+              darwinNixPkgs.darwin-rebuild
+              git
+              unstable.bun
+              nixd
+              go-task
+              bun2NixPkg
+              self.packages.${system}.gh-composer-auth
+              # TODO: Fix gqurl package
+              # self.packages.${system}.gqurl
+              # TODO: Re-enable support for mac-launcher with system-contextual pkgs
+              # self.packages.${system}.mac-launcher
+              self.packages.${system}.nixvim
+            ];
+          });
+          dev = default;
+        }
+      )) //
+      (libx.forAllLinux (system:
+        let
+          mkFlakeShell = mkSystemFlakeShell system;
+        in
+        rec {
+          installers = mkFlakeShell ({ pkgs, ... }: {
+            packages = with pkgs; [
+              nix
+              home-manager
+              git
+              self.packages.${system}.gh-composer-auth
+              # TODO: Fix gqurl package
+              # self.packages.${system}.gqurl
+              self.packages.${system}.nixvim
+            ];
+          });
+          default = dev;
+          dev = mkFlakeShell devShellFactory;
+        } // devshells.devShells.${system}
+      ));
+
+      # nix fmt
+      formatter = libx.forAllSystems (system:
+        nix-formatter-pack.lib.mkFormatter {
+          pkgs = nixpkgs.legacyPackages.${system};
+          config.tools = {
+            alejandra.enable = false;
+            deadnix.enable = true;
+            nixpkgs-fmt.enable = true;
+            statix.enable = true;
+          };
+        }
+      );
+
+      # Custom packages and modifications, exported as overlays
+      inherit overlays;
+
+      # Custom packages; acessible via 'nix build', 'nix shell', etc
+      packages =
+        let
+          mkNuc = user: name: libx.mkGeneratorImage { systemType = "server"; hostname = name; username = user; };
+        in
+        libx.forAllSystems
+          (system:
+            let
+              pkgs = mkPkgsForSystemFromInput system nixpkgs;
+              mkStandardBun = libx.mkBunDerivation inputs.bun2nix.packages.${system}.default;
+              uv2nixLib = {
+                inherit uv2nix pyproject-nix pyproject-build-systems;
+                python = pkgs.python311;
+              };
+              localPackages = import ./pkgs { inherit pkgs mkStandardBun nixvim uv2nixLib; };
+            in
+            (lib.optionalAttrs (system == "x86_64-linux") {
+              # TODO: Linode image is still too large: reduction with `qemu-img resize --shrink ./nixos.img 5.5G` didn't error out but image will not boot
+              # linode-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "linode-base-image"; username = "archon"; format = "linode"; diskSize = 5120; };
+              digital-ocean-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "generic-base-image"; username = "archon"; format = "do"; };
+
+              ## NUC server configurations
+              system-image-nuc0 = mkNuc "archon" "nuc0";
+              system-image-nuc1 = mkNuc "archon" "nuc1";
+              system-image-nuc2 = mkNuc "archon" "nuc2";
+              system-image-nuc3 = mkNuc "archon" "nuc3";
+              system-image-nuc4 = mkNuc "archon" "nuc4";
+              system-image-nuc5 = mkNuc "archon" "nuc5";
+              system-image-nuc6 = mkNuc "archon" "nuc6";
+              system-image-nuc7 = mkNuc "archon" "nuc7";
+              system-image-nuc8 = mkNuc "archon" "nuc8";
+              system-image-nuc9 = mkNuc "archon" "nuc9";
+
+              # Installer utility
+              install-system = pkgs.writeShellApplication {
+                name = "install-system";
+                text = builtins.readFile ./scripts/shell/install.sh;
+                runtimeInputs = [
+                  inputs.disko.packages.${system}.disko
+                ] ++ (with pkgs; [
+                  nixos-install
+                  git
+                  gum
+                ]);
+              };
+            }) // localPackages
+          );
+    };
 
   inputs = {
     # Primary source from FlakeHub follows the current release cycle, e.g. 25.11.

@@ -1,6 +1,6 @@
 { pkgs, lib, config, ... }:
 let
-  inherit (lib) mkIf mkEnableOption types;
+  inherit (lib) mkIf mkEnableOption;
   ext = {
     # bun = {
     #   name = "oven.bun-vscode";
@@ -93,33 +93,33 @@ in
     enable = mkEnableOption "Enable the Visual Studio Code editor.";
 
     support = {
-      ai = mkEnableOption  "Enables VS Code support for AI tooling";
+      ai = mkEnableOption "Enables VS Code support for AI tooling";
       bazel = mkEnableOption "Enables VS Code support for Bazel";
-      cpp = mkEnableOption  "Enables VS Code support for CPP development";
+      cpp = mkEnableOption "Enables VS Code support for CPP development";
       deno = mkEnableOption "Enables VS Code support for Deno development";
       diff = mkEnableOption "Enables VS Code support for diff tooling";
       docker = mkEnableOption "Enables VS Code support for Docker development";
       editorconfig = mkEnableOption "Enables VS Code support for EditorConfig";
-      elm = mkEnableOption  "Enables VS Code support for Elm development";
+      elm = mkEnableOption "Enables VS Code support for Elm development";
       extras = mkEnableOption "Enables VS Code support for extras extensions like POWER MODEEEE";
       github = mkEnableOption "Enables VS Code support for GitHub tooling";
       gitlens = mkEnableOption "Enables VS Code support for the GitLens extension";
-      go = mkEnableOption  "Enables VS Code support for Go development";
+      go = mkEnableOption "Enables VS Code support for Go development";
       grpc = mkEnableOption "Enables VS Code support for gRPC development";
       hugo = mkEnableOption "Enables VS Code support for Hugo development";
       icons = mkEnableOption "Enables VS Code support for additional icons support";
-      js = mkEnableOption  "Enables VS Code support for JavaScript development";
+      js = mkEnableOption "Enables VS Code support for JavaScript development";
       linux = mkEnableOption "Enables VS Code support for Linux development";
-      nix = mkEnableOption  "Enables VS Code support for Nix development";
-      php = mkEnableOption  "Enables VS Code support for PHP development";
+      nix = mkEnableOption "Enables VS Code support for Nix development";
+      php = mkEnableOption "Enables VS Code support for PHP development";
       prisma = mkEnableOption "Enables VS Code support for Prisma ORM tooling";
       python = mkEnableOption "Enables VS Code support for Python development";
       rust = mkEnableOption "Enables VS Code support for Rust development";
-      ssh = mkEnableOption  "Enables VS Code support for SSH tooling";
+      ssh = mkEnableOption "Enables VS Code support for SSH tooling";
       text = mkEnableOption "Enables VS Code support for text editing";
-      tf = mkEnableOption  "Enables VS Code support for Terraform / OpenTofu";
+      tf = mkEnableOption "Enables VS Code support for Terraform / OpenTofu";
       vala = mkEnableOption "Enables VS Code support for Vala development";
-      xml = mkEnableOption  "Enables VS Code support for XML editing";
+      xml = mkEnableOption "Enables VS Code support for XML editing";
       yaml = mkEnableOption "Enables VS Code support for YAML editing";
     };
   };

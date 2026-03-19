@@ -31,7 +31,6 @@ in
     let
       isIso = builtins.substring 0 4 hostname == "iso-";
       isWorkstation = systemType == "workstation";
-      isGamingSystem = isWorkstation && desktop != null;
     in
     lib.nixosSystem rec {
       specialArgs = {
@@ -90,7 +89,7 @@ in
     ];
   };
 
-  mkGeneratorImage = { hostname, username, systemType, desktop ? null, platform ? "x86_64-linux", format ? "raw-efi", extraModules ? { chaotic = false; }, includeDisks ? false, ... }@extraSpecialArgs: inputs.nixos-generators.nixosGenerate {
+  mkGeneratorImage = { hostname, username, systemType, desktop ? null, platform ? "x86_64-linux", format ? "raw-efi", extraModules ? { chaotic = false; }, ... }@extraSpecialArgs: inputs.nixos-generators.nixosGenerate {
     specialArgs = {
       inherit self inputs outputs desktop hostname username stateVersion systemType sshMatrix tailnetMatrix;
     } // extraSpecialArgs;

@@ -1,4 +1,4 @@
-{ config, desktop, hostname, inputs, lib, modulesPath, outputs, pkgs, stateVersion, systemType, username, includeDisks, ... }:
+{ config, desktop, hostname, inputs, lib, modulesPath, outputs, pkgs, stateVersion, systemType, username, ... }:
 let
   parts = lib.strings.splitString "." hostname;
   hostName = if (builtins.length parts > 1) then builtins.head parts else hostname;

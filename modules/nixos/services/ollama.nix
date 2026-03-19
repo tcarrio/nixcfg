@@ -65,5 +65,5 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable (lib.mkMerge [baseConfig nvidiaConfig]);
+  config = lib.mkIf cfg.enable (lib.mkMerge [ baseConfig nvidiaConfig ]);
 }

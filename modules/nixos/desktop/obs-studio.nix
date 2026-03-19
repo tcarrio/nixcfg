@@ -7,10 +7,12 @@ let
   isAmdHardware = elem "amd" config.services.xserver.videoDrivers;
   isNvidiaHardware = elem "nvidia" config.services.xserver.videoDrivers;
 
-  package = if isNvidiaHardware
-    then (cfg.package.override {
-      cudaSupport = true;
-    })
+  package =
+    if isNvidiaHardware
+    then
+      (cfg.package.override {
+        cudaSupport = true;
+      })
     else cfg.package;
 
   basePlugins = with cfg.plugins; [
@@ -35,7 +37,7 @@ let
     wlrobs
   ];
 
-  amdPlugins = [pkgs.obs-studio-plugins.obs-vaapi];
+  amdPlugins = [ pkgs.obs-studio-plugins.obs-vaapi ];
 
   plugins = basePlugins
     ++ (optionals isAmdHardware amdPlugins);

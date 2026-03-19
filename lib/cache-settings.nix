@@ -1,4 +1,4 @@
-{ username, isDarwin ? false, isDeterminateNix ? false, adminGroup ? null, desktop ? null, ... }:
+{ username, isDarwin ? false, isDeterminateNix ? false, adminGroup ? null, ... }:
 let
   lib = {
     optional = predicate: value: if predicate then [ value ] else [ ];
