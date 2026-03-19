@@ -3,14 +3,10 @@
 # RAM:         16GB DDR4
 # SATA:        500GB SSD
 
-{ pkgs, ... }: {
+_: {
   sk.enable = false;
   oxc.homebrew.enable = true;
   oxc.homebrew.defaults = true;
-
-  environment.systemPackages = [
-    pkgs.unstable.pomodoro-gtk
-  ];
 
   homebrew.casks = [
     "synology-drive"
