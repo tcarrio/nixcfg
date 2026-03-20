@@ -154,11 +154,13 @@
           hostname = "gokin";
           username = "tcarrio";
           platform = "aarch64-darwin";
+          desktop = "aqua";
         };
         "tcarrio@sktc2" = libx.mkHome {
           hostname = "sktc2";
           username = "tcarrio";
           platform = "aarch64-darwin";
+          desktop = "aqua";
         };
         "tcarrio@obsidian" = libx.mkHome {
           hostname = "obsidian";
@@ -188,19 +190,21 @@
       };
 
       # Support for nix-darwin workstations
-      # - darwin-rebuild build --flake .#sktc0
+      # - darwin-rebuild build --flake .#gokin
       darwinConfigurations = {
         "sktc2" = libx.mkDarwin {
           username = "tcarrio";
           hostname = "sktc2";
           stateVersion = 4;
           determinate = true;
+          desktop = "aqua";
         };
         "gokin" = libx.mkDarwin {
           username = "tcarrio";
           hostname = "gokin";
           stateVersion = 4;
           determinate = true;
+          desktop = "aqua";
         };
       };
 

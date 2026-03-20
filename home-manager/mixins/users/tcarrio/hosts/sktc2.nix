@@ -1,9 +1,5 @@
 { pkgs, ... }:
 {
-  imports = [
-    ../../../desktop/zed.nix
-  ];
-
   ai.serena.enable = true;
   ai.serena.languages = {
     bash.enable = true;

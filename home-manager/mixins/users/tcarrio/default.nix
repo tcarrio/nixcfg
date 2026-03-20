@@ -10,6 +10,7 @@
 let
   systemInfo = lib.splitString "-" platform;
   systemType = builtins.elemAt systemInfo 1;
+  optionalPathExists = path: lib.optional (builtins.pathExists path) path;
 in
 {
   imports = [
@@ -18,13 +19,9 @@ in
     ../../desktop/discord.nix
   ]
   ++ lib.optional (desktop != null) ./desktop.nix
-  ++ lib.optional (builtins.pathExists (./. + "/hosts/${hostname}.nix")) ./hosts/${hostname}.nix
-  ++ lib.optional (builtins.pathExists (
-    ./. + "/hosts/${hostname}/default.nix"
-  )) ./hosts/${hostname}/default.nix
-  ++ lib.optional (builtins.pathExists (
-    ./. + "/systems/${systemType}.nix"
-  )) ./systems/${systemType}.nix;
+  ++ optionalPathExists ./hosts/${hostname}.nix
+  ++ optionalPathExists ./hosts/${hostname}/default.nix
+  ++ optionalPathExists ./systems/${systemType}.nix;
 
   home = {
     file."0xc/devshells".source = inputs.devshells;

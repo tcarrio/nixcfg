@@ -111,6 +111,7 @@ in
     {
       hostname,
       username,
+      desktop ? null,
       stateVersion ? 4,
       platform ? "aarch64-darwin",
       determinate ? true,
@@ -124,6 +125,7 @@ in
           hostname
           username
           platform
+          desktop
           stateVersion
           sshMatrix
           tailnetMatrix
@@ -162,6 +164,7 @@ in
     {
       hostname,
       username,
+      desktop ? null,
       platform ? "armv7l-linux",
     }:
     inputs.nixos-generators.nixosGenerate {
@@ -170,6 +173,7 @@ in
           self
           inputs
           outputs
+          desktop
           hostname
           username
           platform

@@ -6,6 +6,7 @@
   stateVersion,
   lib,
   isDeterminateNix,
+  desktop,
   ... # lib, config
 }:
 let
@@ -19,12 +20,10 @@ let
 in
 {
   imports = [
-    # You can also split up your configuration and import pieces of it here:
-    ./mixins/desktop/aqua.nix
     ./mixins/users/${username}
   ]
-  # Only import a workstation configuration if one matching the configured hostname exists
-  ++ lib.optionals (builtins.pathExists (./workstation/${hostname})) [ ./workstation/${hostname} ];
+  ++ lib.optional (builtins.pathExists (./desktop/${desktop}.nix)) ./desktop/${desktop}.nix
+  ++ lib.optional (builtins.pathExists (./workstation/${hostname})) ./workstation/${hostname};
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
@@ -35,6 +34,7 @@ in
     unstable.neovide
     parallel
   ];
+
   environment.variables = {
     EDITOR = "nvim";
     PAGER = "less";
