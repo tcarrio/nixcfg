@@ -590,5 +590,8 @@
     # Declarative libvirt KVM management
     NixVirt.url = "https://flakehub.com/f/AshleyYakeley/NixVirt/*.tar.gz";
     NixVirt.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Handy: Speech-to-text assistant
+    handy.url = "github:cjpais/Handy";
   };
 }
