@@ -45,6 +45,7 @@ let
     "rnnoise"
     "signal"
     "sol"
+    "vocaster-hub"
   ];
 
   musicCasks = [
