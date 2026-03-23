@@ -45,6 +45,7 @@ in
       modules = [
         ../home-manager
         inputs.agenix.homeManagerModules.default
+        inputs.handy.homeManagerModules.default
         inputs.cursor-voice-plugin.homeManagerModules.default
         overlaysModule
       ];
@@ -92,6 +93,7 @@ in
         ../nixos
         (import ./cache-settings.nix (specialArgs // { isDeterminateNix = determinate; }))
         inputs.agenix.nixosModules.default
+        inputs.handy.nixosModules.default
         overlaysModule
         agenixOverlaysModule
       ]

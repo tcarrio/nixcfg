@@ -564,15 +564,16 @@
         "nixpkgs": "nixpkgs_5"
       },
       "locked": {
-        "lastModified": 1774177864,
-        "narHash": "sha256-meGtruZ6FXAW9hYnzfo0k4/i8wQD2ya1neeNc7CxXyQ=",
+        "lastModified": 1773900763,
+        "narHash": "sha256-bN3y2RZIrCrSHBZzcdgkpWaYA6ZSJzjksR/IfT8GPn0=",
         "owner": "cjpais",
         "repo": "Handy",
-        "rev": "05f6bdfb50d81f1cb46633aac73564870e25334c",
+        "rev": "cb32d35b9ea4b087ee0e0531eac103b43979e9b3",
         "type": "github"
       },
       "original": {
         "owner": "cjpais",
+        "ref": "v0.7.12",
         "repo": "Handy",
         "type": "github"
       }

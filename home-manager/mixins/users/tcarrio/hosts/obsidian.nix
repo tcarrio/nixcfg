@@ -2,6 +2,7 @@
   lib,
   pkgs,
   config,
+  inputs,
   ...
 }:
 let
@@ -12,6 +13,15 @@ with lib.hm.gvariant;
   imports = [
     ../../../services/mpris-proxy.nix
   ];
+
+  # Cross-platform speech-to-text assistant
+  services.handy.enable = true;
+  services.handy.package = inputs.handy.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  dconf.settings."org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/handy0" = {
+    name = "handy transcription toggle";
+    command = "handy --toggle-transcription";
+    binding = "<Ctrl>space";
+  };
 
   home = {
     sessionPath = [ ];

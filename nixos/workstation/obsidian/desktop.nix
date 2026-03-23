@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   # Global packages on host
   environment.systemPackages = with pkgs; [
@@ -6,6 +6,8 @@
     open-webui
     tor-browser
     heroic
+    dotool # for Wayland-compatible STT
+    wtype # for Wayland-compatible STT
   ];
 
   # OpenRGB configurations
@@ -14,6 +16,9 @@
     motherboard = "amd";
     package = pkgs.openrgb-with-all-plugins;
   };
+
+  # Cross-platform speech-to-text assistant. More configurations in home-manager.
+  programs.handy.enable = true;
 
   # Various desktop apps from core modules
   oxc.desktop = {

@@ -592,6 +592,6 @@
     NixVirt.inputs.nixpkgs.follows = "nixpkgs";
 
     # Handy: Speech-to-text assistant
-    handy.url = "github:cjpais/Handy";
+    handy.url = "github:cjpais/Handy/v0.7.12";
   };
 }
