@@ -23,7 +23,7 @@ in
   imports = [
     ./mixins/users/${username}
   ]
-  ++ lib.optional (builtins.pathExists (./desktop/${desktop}.nix)) ./desktop/${desktop}.nix
+  ++ lib.optional (builtins.pathExists (./mixins/desktop/${desktop}.nix)) ./mixins/desktop/${desktop}.nix
   ++ lib.optional (builtins.pathExists (./workstation/${hostname})) ./workstation/${hostname};
 
   # List packages installed in system profile. To search by name, run:
