@@ -42,6 +42,7 @@ let
     "handy"
     "logitune"
     "notunes"
+    "rnnoise"
     "signal"
     "sol"
   ];
