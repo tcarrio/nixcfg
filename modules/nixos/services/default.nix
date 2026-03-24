@@ -9,6 +9,7 @@ _: {
     ./noisetorch.nix
     ./ollama.nix
     ./remote-builder.nix
+    ./tailnet.nix
     ./tailscale.nix
     ./tailscale-autoconnect.nix
     ./unfree.nix
