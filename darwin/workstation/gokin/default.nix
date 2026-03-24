@@ -8,6 +8,10 @@ _: {
   oxc.homebrew.enable = true;
   oxc.homebrew.defaults = true;
 
+  environment.systemPackages = with pkgs.unstable; [
+    openssh
+  ];
+
   homebrew.casks = [
     "synology-drive"
   ];
