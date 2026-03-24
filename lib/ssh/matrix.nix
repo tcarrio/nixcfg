@@ -13,6 +13,7 @@ rec {
     ];
 
     privileged_users = with systems; [
+      gokin.tcarrio
       obsidian.host
       obsidian.tcarrio
       manualKeys.yubikeyFido
