@@ -17,6 +17,15 @@
   hostname,
   ...
 }:
+let
+  inetConfig = {
+    dns = [
+      "45.90.28.130"
+      "45.90.30.130"
+    ];
+    gateway = "192.168.40.1";
+  };
+in
 {
   imports = [
     inputs.nixos-hardware.nixosModules.common-cpu-intel
@@ -61,13 +70,15 @@
   # Use passed hostname to configure basic networking
   networking.hostName = hostname;
 
-  systemd.network.networks."10-lan" = {
+  systemd.network.networks."20-lan" = {
+    inherit (inetConfig) dns gateway;
+    matchConfig.Name = "enp2s0";
+    address = "192.168.40.251/24";
+  };
+  systemd.network.networks."30-lan" = {
+    inherit (inetConfig) dns gateway;
     matchConfig.Name = "enp3s0";
-    networkConfig = {
-      Address = "192.168.40.250/24";
-      Gateway = "192.168.40.1";
-      DNS = "192.168.40.1";
-    };
+    address = "192.168.40.250/24";
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
