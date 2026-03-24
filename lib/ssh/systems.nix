@@ -4,7 +4,7 @@
 # as a nested object, and it drops the "host" element completely and results in `glass = "..."`.
 {
   gokin = {
-    tcarrio = "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEcwjBDRXg5VsSheH3SX0mx+LIO0LYwS64APlxF0pW68Xl2K2r/+CjmkZjVFS1IgZXjyDot8qZgMVXIMAnjydcM= GitHub-NoPrompt-Gokin@secretive.gokin.local";
+    tcarrio = "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBMraFs21gOnLAfu27wDvjdR5Z9xEDFetHeTKNjVA89HkM/8LGSS3Zch26/nEMZKqFPYNxhb7MoWVWUGsckOimeY= Secured-TouchID-Key@secretive.gokin.local";
   };
 
   # Glass RIP see obsidian
