@@ -3,5 +3,6 @@ _: {
     ./desktop
     ./services
     ./sk
+    ../shared
   ];
 }

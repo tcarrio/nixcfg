@@ -12,5 +12,6 @@
     ./serena.nix
     ./sk
     ./zed.nix
+    ../shared
   ];
 }
