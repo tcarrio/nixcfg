@@ -3,8 +3,8 @@
 # not seem to support nested properties inline, e.g. `glass.host = "..."` is not interpreted
 # as a nested object, and it drops the "host" element completely and results in `glass = "..."`.
 {
-  sktc0 = {
-    tcarrio = "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBADpxbxYDu9fhk30IeUP21WUGn4nyAX0uff4o7fF+memMmrR4A4/V8H7vj2ucNunk4gbisvit1LQXEcINZVy+kk= GitHub-NoPrompt@secretive.alum.local";
+  gokin = {
+    tcarrio = "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEcwjBDRXg5VsSheH3SX0mx+LIO0LYwS64APlxF0pW68Xl2K2r/+CjmkZjVFS1IgZXjyDot8qZgMVXIMAnjydcM= GitHub-NoPrompt-Gokin@secretive.gokin.local";
   };
 
   # Glass RIP see obsidian
