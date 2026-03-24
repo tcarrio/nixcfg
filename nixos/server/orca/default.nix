@@ -15,6 +15,7 @@
   lib,
   pkgs,
   hostname,
+  config,
   ...
 }:
 let
@@ -52,6 +53,9 @@ in
   # Services
   services.jellyfin.enable = true;
   services.jellyfin.openFirewall = true;
+
+  services.pocket-id.enable = true;
+  services.pocket-id.settings.APP_URL = "http://${config.oxc.tailnet.hosts."${hostname}"}";
 
   # Hardware config
 
