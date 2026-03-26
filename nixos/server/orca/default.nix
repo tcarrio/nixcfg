@@ -26,13 +26,18 @@ let
     ];
     gateway = "192.168.40.1";
   };
+  externalHostnames = rec {
+    base = "carrio.me";
+    auth = "auth.${base}";
+  };
+  tailhost = config.oxc.tailnet.hosts.${hostname};
 in
 {
   imports = [
     inputs.nixos-hardware.nixosModules.common-cpu-intel
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
-    (import ./disks-hdds.nix { })
+    ./disks-hdds.nix
     ../../mixins/hardware/grub-legacy-boot.nix
   ];
 
@@ -50,12 +55,54 @@ in
     ssh.enable = true;
   };
 
-  # Services
-  services.jellyfin.enable = true;
-  services.jellyfin.openFirewall = true;
+  ### Services ###
+  oxc.services.acme.enable = true;
+  oxc.services.acme.nginx.hosts = [externalHostnames.auth];
 
-  services.pocket-id.enable = true;
-  services.pocket-id.settings.APP_URL = "http://${config.oxc.tailnet.hosts."${hostname}"}";
+  # PocketID for centralized auth based on passkeys
+  services.pocket-id = {
+    enable = true;
+    settings = {
+      APP_URL = "https://${externalHostnames.auth}";
+      HOST = tailhost;
+      PORT = "1411";
+      ANALYTICS_DISABLED = true;
+    };
+  };
+  services.nginx.virtualHosts."${externalHostnames.auth}" = {
+    http2 = true;
+    locations."/".proxyPass = "http://${tailhost}:${config.services.pocket-id.settings.PORT or "1411"}";
+    extraConfig = ''
+      resolver ${config.oxc.tailnet.dns} valid=30s;
+
+      # Why this is important: https://blog.cloudflare.com/ocsp-stapling-how-cloudflare-just-made-ssl-30/
+      ssl_stapling on;
+      ssl_stapling_verify on;
+
+      ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+      ssl_prefer_server_ciphers on;
+
+      # Forward real IP and host to upstream
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+      proxy_set_header Host $server_addr;
+      proxy_set_header Referer $server_addr;
+      proxy_set_header Origin $server_addr;
+
+      # Nginx default client_max_body_size is 1MB
+      client_max_body_size 20M;
+
+      # Websockets
+      proxy_http_version 1.1;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
+
+      # Buffering off send to the client as soon as the data is received from upstream.
+      proxy_redirect off;
+      proxy_buffering off;
+    '';
+  };
 
   # Hardware config
 
