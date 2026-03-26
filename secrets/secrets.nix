@@ -26,14 +26,11 @@ let
   mkPublicKeys = extraKeys: { publicKeys = base ++ extraKeys; };
 in
 {
-  "users/tcarrio/ssh.age" = mkPublicKeys [
-    glass.tcarrio
-    glass.host
-  ];
+  "users/tcarrio/ssh.age" = mkPublicKeys [];
   "services/netbird/token.age" = mkPublicKeys autoMeshSystems;
   "services/tailscale/token.age" = mkPublicKeys autoMeshSystems;
   "services/acme/cloudflare.age" = mkPublicKeys [ ];
-  "services/hoarder/env.age" = mkPublicKeys [ systems.obsidian.host ];
+  "services/hoarder/env.age" = mkPublicKeys [ ];
 
   "network-shares/ds418/smb.conf.age" = mkPublicKeys [ ];
 
