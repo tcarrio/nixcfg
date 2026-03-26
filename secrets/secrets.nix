@@ -11,11 +11,17 @@ let
 
   autoMeshSystems = allSystemHostKeys;
 
-  backupKeys = [
-    "age1f2xkvt5q7qq4yhgya6qagpd02ffyzyp793pm2jq7fxqru3m054dqfpgf2c"
+  ageKeys = {
+    backup = "age1f2xkvt5q7qq4yhgya6qagpd02ffyzyp793pm2jq7fxqru3m054dqfpgf2c";
+    # macOS host-specific keys
+    # gokin = TODO
+  };
+
+  backupKeys = with ageKeys; [
+    backup
   ];
 
-  base = groups.privileged_users ++ backupKeys ++ groups.backup_keys;
+  base = groups.privileged_users ++  ++ groups.backup_keys;
 
   mkPublicKeys = extraKeys: { publicKeys = base ++ extraKeys; };
 in

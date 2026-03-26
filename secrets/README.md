@@ -48,6 +48,14 @@ Re-keying will be required if you are including a new host/user public key in th
 
 To re-key agenix, run `task agenix:rekey` or `agenix -r` inside the `secrets/` directory.
 
+## Backup keys
+
+There is a backup `age` key that can be utilized for decryption, re-keying, or other `agenix` interactions.
+
+You will have to bootstrap the `age1f2xkvt5q7qq4yhgya6qagpd02ffyzyp793pm2jq7fxqru3m054dqfpgf2c` key in your environment.
+
+Configure it at `$HOME/.age/key.txt`, owned by `root:root` (Linux/NixOS) or `root:admin` (Darwin/macOS) with permissions `640`.
+
 <!-- References -->
 
 [ssh-matrix]: ../lib/ssh-matrix.nix
