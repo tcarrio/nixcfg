@@ -65,6 +65,7 @@ Host obsidian
       ])
       ++ (with pkgs; [
         gh-composer-auth
+        uri-decode
         # TODO: Fix package
         # gqurl
       ]);
