@@ -1,5 +1,5 @@
 _: {
-  chaotic.nordvpn.enable = true;
+  chaotic.nordvpn.enable = false;
 
   networking.firewall = {
     allowedTCPPorts = [ 443 ];
