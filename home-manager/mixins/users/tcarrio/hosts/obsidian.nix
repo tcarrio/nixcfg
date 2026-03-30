@@ -38,6 +38,8 @@ with lib.hm.gvariant;
     };
     packages = with pkgs; [
       gotop
+      unstable.opencode
+      unstable.opencode-desktop
     ];
   };
 
