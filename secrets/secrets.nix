@@ -1,13 +1,51 @@
 let
   sshMatrix = import ../lib/ssh/matrix.nix;
+
   inherit (sshMatrix) groups systems;
   inherit (systems) glass;
 
   mapSetValues = f: set: map f (map (key: set.${key}) (builtins.attrNames set));
 
-  allSystemHostKeys = builtins.filter (host: host != null) (
-    mapSetValues (system: if (system ? host) then system.host else null) systems
-  );
+  allSystemHostKeys = systems
+    |> mapSetValues (system: system.host or null)
+    |> builtins.filter (host: host != null);
+
+  matches = pattern: string: string
+    |> builtins.match pattern
+    |> builtins.isList;
+
+  # Various key type matchers
+  isAgeKey = matches "age[0-9a-z]+";
+  isRsaKey = matches "ssh-rsa[[:space:]].*";
+  isEd25519 = matches "ssh-ed25519[[:space:]].*";
+  # 'sk-' prefixed keys require security key confirmation
+  isEcdsaKey = matches "(|sk-)ecdsa-sha2-nistp256(@openssh\\.com)?[[:space:]].*";
+
+  matcherMap = {
+    age = isAgeKey;
+    rsa = isRsaKey;
+    ed25519 = isEd25519;
+    ecdsa = isEcdsaKey;
+    enclave = isEcdsaKey;
+    yubikey = isEcdsaKey;
+  };
+
+  # Determine matcher function by the key type.
+  # TODO: More extensive checking, right now this incorporates only what matters for my repo
+  matcherByKeyType = type: (matcherMap."${type}" or (_: true));
+
+  filterByKeyType = keyTypes: keys:
+    let
+      keyInKeyTypes = key: (
+        builtins.any
+          (keyType: matcherByKeyType keyType key)
+          keyTypes
+      );
+    in
+      builtins.filter keyInKeyTypes keys;
+
+  agenixSupportedKeyTypes = ["age" "rsa" "ed25519"];
+  agenixSupportedKeyFilter = filterByKeyType agenixSupportedKeyTypes;
 
   autoMeshSystems = allSystemHostKeys;
 
@@ -21,9 +59,9 @@ let
     backup
   ];
 
-  base = groups.privileged_users ++  ++ groups.backup_keys;
+  base = groups.privileged_users ++ backupKeys ++ groups.backup_keys;
 
-  mkPublicKeys = extraKeys: { publicKeys = base ++ extraKeys; };
+  mkPublicKeys = extraKeys: { publicKeys = agenixSupportedKeyFilter (base ++ extraKeys); };
 in
 {
   "users/tcarrio/ssh.age" = mkPublicKeys [];
