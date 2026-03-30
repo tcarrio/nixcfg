@@ -1,7 +1,7 @@
 version: '3'
 
 vars:
-  DEPLOY_DIR: '{{.ROOT_DIR}}/deploy'
+  FLAKE_DIR: '{{.ROOT_DIR}}'
 
 tasks:
   ### BEGIN SECTION: Secrets management for agenix
@@ -16,3 +16,113 @@ tasks:
     cmds:
       - agenix -e {{.CLI_ARGS}}
   ### END SECTION: Secrets management for agenix
+
+  ### BEGIN SECTION: NixOS
+  nixos:rebuild:
+    desc: Build and switch to a new NixOS configuration. Override target with --flake.
+    cmds:
+      - |
+        if echo "{{.CLI_ARGS}}" | grep -q '\-\-flake'; then
+          sudo nixos-rebuild switch {{.CLI_ARGS}}
+        else
+          sudo nixos-rebuild switch --flake {{.FLAKE_DIR}} {{.CLI_ARGS}}
+        fi
+  nixos:build:
+    desc: Build a NixOS configuration without switching. Override target with --flake.
+    cmds:
+      - |
+        if echo "{{.CLI_ARGS}}" | grep -q '\-\-flake'; then
+          nixos-rebuild build {{.CLI_ARGS}}
+        else
+          nixos-rebuild build --flake {{.FLAKE_DIR}} {{.CLI_ARGS}}
+        fi
+  nixos:test:
+    desc: Build and activate a NixOS configuration without adding it to the bootloader. Override target with --flake.
+    cmds:
+      - |
+        if echo "{{.CLI_ARGS}}" | grep -q '\-\-flake'; then
+          sudo nixos-rebuild test {{.CLI_ARGS}}
+        else
+          sudo nixos-rebuild test --flake {{.FLAKE_DIR}} {{.CLI_ARGS}}
+        fi
+  ### END SECTION: NixOS
+
+  ### BEGIN SECTION: Darwin
+  darwin:rebuild:
+    desc: Build and switch to a new nix-darwin configuration. Override target with --flake.
+    cmds:
+      - |
+        if echo "{{.CLI_ARGS}}" | grep -q '\-\-flake'; then
+          sudo darwin-rebuild switch {{.CLI_ARGS}}
+        else
+          sudo darwin-rebuild switch --flake {{.FLAKE_DIR}}#$(hostname) {{.CLI_ARGS}}
+        fi
+  darwin:build:
+    desc: Build a nix-darwin configuration without switching. Override target with --flake.
+    cmds:
+      - |
+        if echo "{{.CLI_ARGS}}" | grep -q '\-\-flake'; then
+          darwin-rebuild build {{.CLI_ARGS}}
+        else
+          darwin-rebuild build --flake {{.FLAKE_DIR}}#$(hostname) {{.CLI_ARGS}}
+        fi
+  ### END SECTION: Darwin
+
+  ### BEGIN SECTION: Home Manager
+  hm:rebuild:
+    desc: Build and switch to a new Home Manager configuration. Override target with --flake.
+    cmds:
+      - |
+        if echo "{{.CLI_ARGS}}" | grep -q '\-\-flake'; then
+          home-manager switch -b backup {{.CLI_ARGS}}
+        else
+          home-manager switch -b backup --flake '{{.FLAKE_DIR}}#$(whoami)@$(hostname)' {{.CLI_ARGS}}
+        fi
+  hm:build:
+    desc: Build a Home Manager activation package without switching. Pass a full target to override.
+    cmds:
+      - |
+        if [ -n "{{.CLI_ARGS}}" ]; then
+          nix build {{.CLI_ARGS}}
+        else
+          nix build '{{.FLAKE_DIR}}#homeConfigurations."$(whoami)@$(hostname)".activationPackage'
+        fi
+  ### END SECTION: Home Manager
+
+  ### BEGIN SECTION: Utility
+  lock:update:
+    desc: Recreate the flake lock file. Pass a path to override the default flake directory.
+    cmds:
+      - |
+        if [ -n "{{.CLI_ARGS}}" ]; then
+          nix flake lock --recreate-lock-file {{.CLI_ARGS}}
+        else
+          nix flake lock --recreate-lock-file {{.FLAKE_DIR}}
+        fi
+  gc:
+    desc: Run Nix garbage collection (delete older than 28 days).
+    cmds:
+      - sudo nix-collect-garbage --delete-older-than 28d {{.CLI_ARGS}}
+  rebuild-host:
+    desc: Rebuild the host configuration (auto-detects NixOS or Darwin). Override target with --flake.
+    cmds:
+      - |
+        if [ "$(uname -s)" = "Darwin" ]; then
+          DEFAULT="{{.FLAKE_DIR}}#$(hostname)"
+          CMD="darwin-rebuild"
+        else
+          DEFAULT="{{.FLAKE_DIR}}"
+          CMD="nixos-rebuild"
+        fi
+        if echo "{{.CLI_ARGS}}" | grep -q '\-\-flake'; then
+          sudo $CMD switch {{.CLI_ARGS}}
+        else
+          sudo $CMD switch --flake $DEFAULT {{.CLI_ARGS}}
+        fi
+  rebuild-all:
+    desc: Run garbage collection, rebuild host, and rebuild home-manager.
+    cmds:
+      - task: gc
+      - task: rebuild-host
+      - task: hm:rebuild
+  ### END SECTION: Utility
