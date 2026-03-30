@@ -22,7 +22,7 @@ tasks:
     desc: Build and switch to a new NixOS configuration. Override target with --flake.
     cmds:
       - |
-        if echo "{{.CLI_ARGS}}" | grep -q '\-\-flake'; then
+        if echo "{{.CLI_ARGS}}" | grep -q -e '--flake'; then
           sudo nixos-rebuild switch {{.CLI_ARGS}}
         else
           sudo nixos-rebuild switch --flake {{.FLAKE_DIR}} {{.CLI_ARGS}}
@@ -31,7 +31,7 @@ tasks:
     desc: Build a NixOS configuration without switching. Override target with --flake.
     cmds:
       - |
-        if echo "{{.CLI_ARGS}}" | grep -q '\-\-flake'; then
+        if echo "{{.CLI_ARGS}}" | grep -q -e '--flake'; then
           nixos-rebuild build {{.CLI_ARGS}}
         else
           nixos-rebuild build --flake {{.FLAKE_DIR}} {{.CLI_ARGS}}
@@ -40,19 +40,74 @@ tasks:
     desc: Build and activate a NixOS configuration without adding it to the bootloader. Override target with --flake.
     cmds:
       - |
-        if echo "{{.CLI_ARGS}}" | grep -q '\-\-flake'; then
+        if echo "{{.CLI_ARGS}}" | grep -q -e '--flake'; then
           sudo nixos-rebuild test {{.CLI_ARGS}}
         else
           sudo nixos-rebuild test --flake {{.FLAKE_DIR}} {{.CLI_ARGS}}
         fi
   ### END SECTION: NixOS
 
+  ### BEGIN SECTION: NixOS Remote
+  nixos:deploy:
+    desc: Deploy to a remote NixOS host. Requires --remote-target=user@host. Optionally --build-host=user@host and --flake=TARGET.
+    cmds:
+      - |
+        REMOTE_TARGET=""
+        BUILD_HOST=""
+        FLAKE_OVERRIDE=""
+        EXTRA_ARGS=""
+        for arg in {{.CLI_ARGS}}; do
+          case "$arg" in
+            --remote-target=*) REMOTE_TARGET="${arg#*=}" ;;
+            --build-host=*)    BUILD_HOST="${arg#*=}" ;;
+            --flake=*)         FLAKE_OVERRIDE="${arg#*=}" ;;
+            *)                 EXTRA_ARGS="$EXTRA_ARGS $arg" ;;
+          esac
+        done
+        if [ -z "$REMOTE_TARGET" ]; then
+          echo "Error: --remote-target=user@host is required" >&2
+          exit 1
+        fi
+        FLAKE="${FLAKE_OVERRIDE:-{{.FLAKE_DIR}}}"
+        CMD="nixos-rebuild switch --fast --flake $FLAKE --target-host $REMOTE_TARGET --use-remote-sudo"
+        if [ -n "$BUILD_HOST" ]; then
+          CMD="$CMD --build-host $BUILD_HOST"
+        fi
+        $CMD $EXTRA_ARGS
+  nixos:deploy-nuc:
+    desc: Deploy to a NUC server. Pass NUC number as first arg (e.g. task nixos:deploy-nuc -- 5).
+    cmds:
+      - |
+        NUC_NUM=""
+        EXTRA_ARGS=""
+        for arg in {{.CLI_ARGS}}; do
+          if [ -z "$NUC_NUM" ]; then
+            if ! echo "$arg" | grep -qE '^[0-9]+$'; then
+              echo "Error: first argument must be a NUC number (got: $arg)" >&2
+              exit 1
+            fi
+            NUC_NUM="$arg"
+          else
+            EXTRA_ARGS="$EXTRA_ARGS $arg"
+          fi
+        done
+        if [ -z "$NUC_NUM" ]; then
+          echo "Error: provide a NUC number (e.g. task nixos:deploy-nuc -- 5)" >&2
+          exit 1
+        fi
+        nixos-rebuild switch --fast \
+          --flake {{.FLAKE_DIR}}#nuc$NUC_NUM \
+          --target-host archon@192.168.40.20$NUC_NUM \
+          --use-remote-sudo \
+          $EXTRA_ARGS
+  ### END SECTION: NixOS Remote
+
   ### BEGIN SECTION: Darwin
   darwin:rebuild:
     desc: Build and switch to a new nix-darwin configuration. Override target with --flake.
     cmds:
       - |
-        if echo "{{.CLI_ARGS}}" | grep -q '\-\-flake'; then
+        if echo "{{.CLI_ARGS}}" | grep -q -e '--flake'; then
           sudo darwin-rebuild switch {{.CLI_ARGS}}
         else
           sudo darwin-rebuild switch --flake {{.FLAKE_DIR}}#$(hostname) {{.CLI_ARGS}}
@@ -61,7 +116,7 @@ tasks:
     desc: Build a nix-darwin configuration without switching. Override target with --flake.
     cmds:
       - |
-        if echo "{{.CLI_ARGS}}" | grep -q '\-\-flake'; then
+        if echo "{{.CLI_ARGS}}" | grep -q -e '--flake'; then
           darwin-rebuild build {{.CLI_ARGS}}
         else
           darwin-rebuild build --flake {{.FLAKE_DIR}}#$(hostname) {{.CLI_ARGS}}
@@ -73,7 +128,7 @@ tasks:
     desc: Build and switch to a new Home Manager configuration. Override target with --flake.
     cmds:
       - |
-        if echo "{{.CLI_ARGS}}" | grep -q '\-\-flake'; then
+        if echo "{{.CLI_ARGS}}" | grep -q -e '--flake'; then
           home-manager switch -b backup {{.CLI_ARGS}}
         else
           home-manager switch -b backup --flake '{{.FLAKE_DIR}}#$(whoami)@$(hostname)' {{.CLI_ARGS}}
@@ -114,7 +169,7 @@ tasks:
           DEFAULT="{{.FLAKE_DIR}}"
           CMD="nixos-rebuild"
         fi
-        if echo "{{.CLI_ARGS}}" | grep -q '\-\-flake'; then
+        if echo "{{.CLI_ARGS}}" | grep -q -e '--flake'; then
           sudo $CMD switch {{.CLI_ARGS}}
         else
           sudo $CMD switch --flake $DEFAULT {{.CLI_ARGS}}
