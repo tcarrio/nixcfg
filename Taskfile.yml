@@ -131,7 +131,7 @@ tasks:
         if echo "{{.CLI_ARGS}}" | grep -q -e '--flake'; then
           home-manager switch -b backup {{.CLI_ARGS}}
         else
-          home-manager switch -b backup --flake '{{.FLAKE_DIR}}#$(whoami)@$(hostname)' {{.CLI_ARGS}}
+          home-manager switch -b backup --flake "{{.FLAKE_DIR}}#$(whoami)@$(hostname)" {{.CLI_ARGS}}
         fi
   hm:build:
     desc: Build a Home Manager activation package without switching. Pass a full target to override.
