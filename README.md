@@ -292,7 +292,7 @@ Here is the directory structure I'm using.
 [ZeroTier]: ./nixos/mixins/services/zerotier.nix
 [Podman & Distrobox]: ./nixos/mixins/virt/podman.nix
 
-![neofetch on Designare](.github/screenshots/neofetch.png)
+![fastfetch on Designare](.github/screenshots/neofetch.png)
 
 ### The Desktop 🖥️
 
