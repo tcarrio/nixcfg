@@ -56,6 +56,7 @@ Host obsidian
         gitleaks
         gum
         jd-diff-patch
+        opencode
         ncdu
         nixd
         slumber

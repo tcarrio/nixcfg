@@ -13,6 +13,7 @@ _: {
   ];
 
   homebrew.casks = [
+    "opencode-desktop"
     "synology-drive"
   ];
 }
