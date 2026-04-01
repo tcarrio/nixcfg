@@ -75,7 +75,7 @@
     python3
     curl
     htop
-    neofetch
+    fastfetch
     wget
   ];
 

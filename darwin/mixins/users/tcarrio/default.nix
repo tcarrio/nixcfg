@@ -21,7 +21,7 @@
       lazydocker
 
       # utilities
-      neofetch
+      fastfetch
       tmux
       slumber
       tokei
