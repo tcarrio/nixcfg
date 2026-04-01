@@ -74,7 +74,7 @@ let
 
   setup.navigator = ''
     -- Configure the navigator.lua plugin
-    require('navigator').setup()
+    require('Navigator').setup()
   '';
 
   setup.colorscheme = ''
@@ -457,39 +457,48 @@ rec {
     # Treesitter
     treesitter = {
       enable = true;
-      settings = {
-        ensure_installed = [
-          "go"
-          "json"
-          "lua"
-          "nix"
-          "php"
-          "python"
-          "rust"
-          "tsx"
-          "javascript"
-          "typescript"
-          "vimdoc"
-          "vim"
-          "bash"
-        ];
-        auto_install = false;
-        highlight = {
-          enable = true;
-        };
-        indent = {
-          enable = true;
-        };
-        incremental_selection = {
-          enable = true;
-          keymaps = {
-            init_selection = "<c-space>";
-            node_incremental = "<c-space>";
-            scope_incremental = "<c-s>";
-            node_decremental = "<M-space>";
-          };
-        };
-      };
+      highlight.enable = true;
+      indent.enable = true;
+      grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+        # Languages
+        css
+        go
+        graphql
+        hcl
+        javascript
+        json
+        lua
+        nix
+        php
+        python
+        rust
+        scss
+        sql
+        toml
+        tsx
+        typescript
+        vim
+        vimdoc
+        yaml
+        # Markup
+        html
+        markdown
+        markdown_inline
+        # Formats
+        dockerfile
+        make
+        regex
+        # Git
+        comment
+        diff
+        git_rebase
+        gitcommit
+        git_config
+        gitignore
+        # Shell
+        bash
+        fish
+      ];
     };
 
     # Treesitter textobjects
