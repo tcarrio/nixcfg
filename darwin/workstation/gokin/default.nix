@@ -10,6 +10,7 @@
 
   environment.systemPackages = with pkgs.unstable; [
     openssh
+    freetube
   ];
 
   homebrew.casks = [
