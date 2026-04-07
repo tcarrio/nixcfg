@@ -172,6 +172,7 @@ let
   # App Store apps managed by MAS
   ##################################################
   masApps = {
+    Flow = 1423210932;
     XCode = 497799835;
   };
 in
