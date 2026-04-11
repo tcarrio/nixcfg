@@ -7,6 +7,7 @@
 }:
 let
   homeDir = config.home.homeDirectory;
+  handyPkg = inputs.handy.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in
 with lib.hm.gvariant;
 {
@@ -16,11 +17,16 @@ with lib.hm.gvariant;
 
   # Cross-platform speech-to-text assistant
   services.handy.enable = true;
-  services.handy.package = inputs.handy.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  services.handy.package = handyPkg;
   dconf.settings."org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/handy0" = {
     name = "handy transcription toggle";
-    command = "handy --toggle-transcription";
+    command = "${handyPkg}/bin/handy --toggle-transcription";
     binding = "<Ctrl>space";
+  };
+  dconf.settings."org/gnome/settings-daemon/plugins/media-keys" = {
+    custom-keybindings = [
+      "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/handy0/"
+    ];
   };
 
   home = {
@@ -36,10 +42,10 @@ with lib.hm.gvariant;
         prefix = [ "${homeDir}/Code" ]
       '';
     };
-    packages = with pkgs; [
+    packages = with pkgs.unstable; [
       gotop
-      unstable.opencode
-      unstable.opencode-desktop
+      opencode
+      opencode-desktop
     ];
   };
 
