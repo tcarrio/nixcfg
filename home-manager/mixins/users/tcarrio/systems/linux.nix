@@ -5,7 +5,6 @@
     ../../../desktop/celluloid.nix
     ../../../desktop/dconf-editor.nix
     ../../../desktop/gnome-sound-recorder.nix
-    ../../../desktop/tilix.nix
     ../../../desktop/emote.nix
   ];
 
