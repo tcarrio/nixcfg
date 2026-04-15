@@ -13,6 +13,7 @@ in
 {
   imports = [
     ./rancher-desktop.nix
+    ./asdf.nix
   ];
 
   options.sk.enable = lib.mkOption {
