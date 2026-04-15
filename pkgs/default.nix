@@ -13,6 +13,7 @@
   # TODO: Fix non-Darwin build issue
   # mac-launcher = pkgs.callPackage ./mac-launcher.nix { inherit pkgs; };
   zeit = pkgs.callPackage ./zeit.nix { };
+  pug = pkgs.callPackage ./pug.nix { };
   # TODO: Fix gqurl builder
   # gqurl = pkgs.callPackage ./gqurl/default.nix {
   #   inherit mkStandardBun;
