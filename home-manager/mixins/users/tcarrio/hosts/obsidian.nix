@@ -23,9 +23,15 @@ with lib.hm.gvariant;
     command = "${handyPkg}/bin/handy --toggle-transcription";
     binding = "<Ctrl>space";
   };
+  dconf.settings."org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/handy1" = {
+    name = "handy transcription cancel";
+    command = "${handyPkg}/bin/handy --cancel";
+    binding = "<Ctrl>escape";
+  };
   dconf.settings."org/gnome/settings-daemon/plugins/media-keys" = {
     custom-keybindings = [
       "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/handy0/"
+      "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/handy1/"
     ];
   };
 
