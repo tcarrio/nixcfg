@@ -80,8 +80,9 @@ let
 
   pname = if withMedia then "endcord" else "endcord-lite";
 
-  ldLibraryPath = lib.makeLibraryPath [ pkgs.libpulseaudio ];
-  binPath = lib.makeBinPath (lib.optional withMedia pkgs.pulseaudio);
+  isLinux = pkgs.stdenv.isLinux;
+  ldLibraryPath = lib.optionalString (withMedia && isLinux) (lib.makeLibraryPath [ pkgs.libpulseaudio ]);
+  binPath = lib.makeBinPath (lib.optional (withMedia && isLinux) pkgs.pulseaudio);
 
 in
 pkgs.stdenv.mkDerivation {
@@ -93,7 +94,7 @@ pkgs.stdenv.mkDerivation {
   nativeBuildInputs = with pkgs; [ makeWrapper ];
 
   buildInputs = [ python ]
-    ++ lib.optional withMedia pkgs.pulseaudio;
+    ++ lib.optional (withMedia && isLinux) pkgs.pulseaudio;
 
   installPhase = ''
     runHook preInstall
@@ -103,7 +104,7 @@ pkgs.stdenv.mkDerivation {
 
     mkdir -p $out/bin
     makeWrapper ${python.interpreter} $out/bin/endcord \
-      --prefix LD_LIBRARY_PATH : "${ldLibraryPath}" \
+      ${lib.optionalString (ldLibraryPath != "") "--prefix LD_LIBRARY_PATH : \"${ldLibraryPath}\""} \
       --prefix PYTHONPATH : "$out/share/endcord:${venv}/${python.sitePackages}" \
       ${lib.optionalString (binPath != "") "--prefix PATH : \"${binPath}\""} \
       --add-flags "$out/share/endcord/main.py"
