@@ -6,9 +6,9 @@
 #   2. Let uv2nix build the venv including compiled Cython extensions
 #   3. Copy the application source and create a wrapper for main.py
 #
-# Note: The media dependency group (av, pillow, dave-py) is not yet included,
-# so terminal ASCII media rendering is unavailable. Media can still be opened
-# in external applications.
+# Variants:
+#   endcord             - lite, no terminal ASCII media rendering
+#   endcord.override { withMedia = true; }  - full media support (av, pillow, dave-py)
 #
 # Optional runtime dependencies (install separately):
 #   xclip | wl-clipboard  - Clipboard support (X11 / Wayland)
@@ -24,6 +24,7 @@
   lib,
   pkgs,
   uv2nixLib,
+  withMedia ? false,
 }:
 
 let
@@ -70,18 +71,29 @@ let
         ]
       );
 
-  venv = pythonSet.mkVirtualEnv "endcord-env" workspace.deps.default;
+  venv = pythonSet.mkVirtualEnv "endcord-env" (
+    if withMedia then
+      lib.mapAttrs (name: _: [ "media" ]) workspace.deps.default
+    else
+      workspace.deps.default
+  );
+
+  pname = if withMedia then "endcord" else "endcord-lite";
+
+  ldLibraryPath = lib.makeLibraryPath [ pkgs.libpulseaudio ];
+  binPath = lib.makeBinPath (lib.optional withMedia pkgs.pulseaudio);
 
 in
 pkgs.stdenv.mkDerivation {
-  pname = "endcord";
+  inherit pname;
   version = "1.4.2";
 
   inherit src;
 
   nativeBuildInputs = with pkgs; [ makeWrapper ];
 
-  buildInputs = [ python ];
+  buildInputs = [ python ]
+    ++ lib.optional withMedia pkgs.pulseaudio;
 
   installPhase = ''
     runHook preInstall
@@ -91,14 +103,16 @@ pkgs.stdenv.mkDerivation {
 
     mkdir -p $out/bin
     makeWrapper ${python.interpreter} $out/bin/endcord \
+      --prefix LD_LIBRARY_PATH : "${ldLibraryPath}" \
       --prefix PYTHONPATH : "$out/share/endcord:${venv}/${python.sitePackages}" \
+      ${lib.optionalString (binPath != "") "--prefix PATH : \"${binPath}\""} \
       --add-flags "$out/share/endcord/main.py"
 
     runHook postInstall
   '';
 
   meta = with lib; {
-    description = "Feature rich Discord TUI client";
+    description = "Feature rich Discord TUI client${lib.optionalString (!withMedia) " (lite, no media support)"}";
     homepage = "https://github.com/sparklost/endcord";
     license = licenses.gpl3;
     maintainers = with maintainers; [ tcarrio ];

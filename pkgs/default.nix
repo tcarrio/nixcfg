@@ -30,6 +30,10 @@ in
   endcord = pkgs.callPackage ./endcord.nix {
     inherit pkgs uv2nixLib;
   };
+  endcord-media = pkgs.callPackage ./endcord.nix {
+    inherit pkgs uv2nixLib;
+    withMedia = true;
+  };
   sri-hash-gh-repo = pkgs.callPackage ./sri-hash-gh-repo.nix {};
   uri-decode = pkgs.callPackage ./uri-decode.nix {};
   qq-cli = pkgs.callPackage ./qq-cli.nix {};
