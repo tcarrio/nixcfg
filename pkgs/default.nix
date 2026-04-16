@@ -27,11 +27,9 @@ in
   serena = pkgs.callPackage ./serena/default.nix {
     inherit uv2nixLib;
   };
-  ### TODO: Complete the custom buildPhase necessary for endcord
-  # endcord = pkgs.callPackage ./endcord.nix {
-  #   inherit (pkgs) lib;
-  #   inherit pkgs uv2nixLib;
-  # };
+  endcord = pkgs.callPackage ./endcord.nix {
+    inherit pkgs uv2nixLib;
+  };
   sri-hash-gh-repo = pkgs.callPackage ./sri-hash-gh-repo.nix {};
   uri-decode = pkgs.callPackage ./uri-decode.nix {};
   qq-cli = pkgs.callPackage ./qq-cli.nix {};
