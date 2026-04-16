@@ -3,9 +3,10 @@
   imports = [
     ./ai
     ./amethyst.nix
-    ./copy-files.nix
     ./atuin.nix
     ./aws.nix
+    ./copy-files.nix
+    ./endcord.nix
     ./gh-dash
     ./github.nix
     ./palette.nix
