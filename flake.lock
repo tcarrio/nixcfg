@@ -578,6 +578,22 @@
         "type": "github"
       }
     },
+    "happy-nixpkgs": {
+      "locked": {
+        "lastModified": 1774979085,
+        "narHash": "sha256-TXAA4LfO3IyDBeApM3PUIK5wNFLMf1rRlrGllcR+LN4=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "08ffd53feb3b628c471e2f6009ed007589dca8e1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "08ffd53feb3b628c471e2f6009ed007589dca8e1",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -1578,6 +1594,7 @@
         "flatpaks": "flatpaks",
         "ghostty-catppuccin": "ghostty-catppuccin",
         "handy": "handy",
+        "happy-nixpkgs": "happy-nixpkgs",
         "home-manager": "home-manager_3",
         "hyprvibe": "hyprvibe",
         "nix-darwin": "nix-darwin",
