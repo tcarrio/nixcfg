@@ -27,10 +27,10 @@ in
   serena = pkgs.callPackage ./serena/default.nix {
     inherit uv2nixLib;
   };
-  endcord = pkgs.callPackage ./endcord.nix {
+  endcord = pkgs.callPackage ./endcord {
     inherit pkgs uv2nixLib;
   };
-  endcord-media = pkgs.callPackage ./endcord.nix {
+  endcord-media = pkgs.callPackage ./endcord {
     inherit pkgs uv2nixLib;
     withMedia = true;
   };

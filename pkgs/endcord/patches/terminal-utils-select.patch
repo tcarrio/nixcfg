@@ -1,0 +1,125 @@
+Replace O_NONBLOCK with select.select() in esc_detector() and read_key()
+
+On macOS, stdin (fd 0), stdout (fd 1), and stderr (fd 2) share the same
+kernel file description. Setting O_NONBLOCK on stdin via fcntl also makes
+stdout non-blocking. When stdout is non-blocking and the output buffer is
+full, write() raises BlockingIOError (errno 35 / EWOULDBLOCK).
+
+This manifested during QR code login: the esc_detector daemon thread sets
+O_NONBLOCK on stdin. After the thread exits, the main thread calls print()
+on now-non-blocking stdout, causing the crash.
+
+Using select.select() to poll for readable data on stdin avoids modifying
+any fd flags entirely.
+
+--- a/endcord/terminal_utils.py
++++ b/endcord/terminal_utils.py
+@@ -21,6 +21,7 @@
+     kernel32.GetConsoleMode(H_STDOUT, ctypes.byref(OLD_OUT_MODE))
+ else:
+     import fcntl
++    import select
+     import termios
+     import tty
+     STDIN_FD = sys.stdin.fileno()
+@@ -124,43 +125,35 @@
+ def read_key():
+     """Blocking read key, return key code like curses.getch(), alt sequences are not handled"""
+     fd = sys.stdin.fileno()
+-    old_flags = fcntl.fcntl(fd, fcntl.F_GETFL)
+-    try:
+-        # wait for first byte
+-        first = os.read(fd, 1)
+ 
+-        # using O_NONBLOCK instead select() for windows compatibility
+-        fcntl.fcntl(fd, fcntl.F_SETFL, old_flags | os.O_NONBLOCK)
++    # wait for first byte
++    select.select([fd], [], [])
++    first = os.read(fd, 1)
++
++    # backspace
++    if first == b"\x7f":
++        return 263
++
++    # single code
++    if first != b"\x1b":
++        return KEY_CODES.get(first, ord(first))
++
++    # escape sequences
++    seq = first
++    start = time.time()
++    while time.time() - start < 0.01:   # 10ms timeout
++        ready, _, _ = select.select([fd], [], [], 0.001)
++        if ready:
++            byte = os.read(fd, 1)
++            if not byte:
++                continue
++            seq += byte
++            if seq in KEY_CODES:
++                return KEY_CODES[seq]
++            if len(seq) > 6:
++                break
+ 
+-        # backspace
+-        if first == b"\x7f":
+-            return 263
+-
+-        # single code
+-        if first != b"\x1b":
+-            return KEY_CODES.get(first, ord(first))
+-
+-        # escape sequences
+-        seq = first
+-        start = time.time()
+-        while time.time() - start < 0.01:   # 10ms timeout
+-            try:
+-                byte = os.read(fd, 1)
+-                if not byte:
+-                    time.sleep(0.001)
+-                    continue
+-                seq += byte
+-                if seq in KEY_CODES:
+-                    return KEY_CODES[seq]
+-                if len(seq) > 6:
+-                    break
+-            except BlockingIOError:
+-                time.sleep(0.001)
+-
+-        return 27
+-
+-    finally:
+-        fcntl.fcntl(fd, fcntl.F_SETFL, old_flags)
++    return 27
+ 
+ 
+ def read_key_win():
+@@ -189,22 +182,15 @@
+     global run_esc_detector
+     run_esc_detector = True
+     fd = sys.stdin.fileno()
+-    old_flags = fcntl.fcntl(fd, fcntl.F_GETFL)
+-    try:
+-        fcntl.fcntl(fd, fcntl.F_SETFL, old_flags | os.O_NONBLOCK)
+-        while run_esc_detector:
+-            try:
++    while run_esc_detector:
++        try:
++            ready, _, _ = select.select([fd], [], [], 0.01)
++            if ready:
+                 byte = os.read(fd, 1)
+-                if not byte:
+-                    time.sleep(0.01)
+-                elif byte == b"\x1b":
++                if byte == b"\x1b":
+                     run_esc_detector = False
+-                else:
+-                    time.sleep(0.01)
+-            except BlockingIOError:
+-                time.sleep(0.01)
+-    finally:
+-        fcntl.fcntl(fd, fcntl.F_SETFL, old_flags)
++        except (OSError, ValueError):
++            time.sleep(0.01)
+ 
+ 
+ def esc_detector_win():

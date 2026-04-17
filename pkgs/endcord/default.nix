@@ -91,6 +91,8 @@ pkgs.stdenv.mkDerivation {
 
   inherit src;
 
+  patches = [ ./patches/terminal-utils-select.patch ];
+
   nativeBuildInputs = with pkgs; [ makeWrapper ];
 
   buildInputs = [ python ]
