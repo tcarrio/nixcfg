@@ -33,22 +33,6 @@ in
   home.packages = [
     happy-coder
     pkgs.unstable.nodejs
-    # (happy-coder.overrideAttrs (final: prev: {
-    #   version = "0.14.0-0 ";
-    #   src = fetchFromGitHub {
-    #     owner = "slopus";
-    #     repo = "happy-cli";
-    #     rev = "d7e9957c25bac4c9cfefa8e221a32346eab7d6ee";
-    #     hash = "sha256-kEYgo+n1qv+jJ9GvqiwJtf6JSA2xSkLMEbvuY/b7Gdk=";
-    #   };
-    #   # passthru = prev.passthru // {
-    #   #     sources = prev.passthru.sources // {
-    #   #         "aarch64-darwin" = fetchurl {
-    #   #             url = "https://github.com/oven-sh/bun/releases/download/bun-v${version}/bun-darwin-aarch64.zip";
-    #   #             # hash = "";
-    #   #         };
-    #   #     };
-    #   # };
-    # }))
+    pkgs.unstable.mistral-vibe
   ];
 }
