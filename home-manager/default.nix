@@ -5,6 +5,7 @@
   pkgs,
   stateVersion,
   username,
+  inputs,
   ...
 }:
 let
@@ -29,6 +30,16 @@ in
   home = {
     homeDirectory = if isDarwin then "/Users/${username}" else "/home/${username}";
     sessionPath = [ "$HOME/.local/bin" ];
+    sessionVariables = {
+      # Prefer pinning of the flake inputs for Nix package resolution
+      # Bypasses cloning behavior to retrieve `nixpkgs` dynamically and
+      # instead utilizes the `outPath` of current inputs
+      NIX_PATH = {
+        nixpkgs = inputs.nixpkgs-unstable;
+      } |> lib.mapAttrsToList (key: value: "${key}=${value.outPath}")
+        |> lib.concatStringsSep ":"
+        |> lib.mkOverride 999;
+    };
     inherit stateVersion;
     inherit username;
   };
