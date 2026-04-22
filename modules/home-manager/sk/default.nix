@@ -38,8 +38,6 @@ in
     home = {
       packages = with pkgs; [
         unstable.cursor-cli
-        firebase-tools
-        google-cloud-sdk
         qq-cli
       ];
       # General support for non-fish shell or sessions
