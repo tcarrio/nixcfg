@@ -26,10 +26,6 @@
       slumber
       tokei
       tree
-
-      # ai tooling
-      claude-code
-      cursor-cli
     ])
     ++ (with pkgs; [
       # Neovim overlays onto base pkgs
