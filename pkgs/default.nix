@@ -4,6 +4,7 @@
   pkgs,
   nixvim,
   uv2nixLib,
+  mkStandardBun,
   ...
 }:
 let
@@ -17,10 +18,9 @@ in
   # mac-launcher = pkgs.callPackage ./mac-launcher.nix { inherit pkgs; };
   zeit = pkgs.callPackage ./zeit.nix {};
   pug = pkgs.callPackage ./pug.nix {};
-  # TODO: Fix gqurl builder
-  # gqurl = pkgs.callPackage ./gqurl/default.nix {
-  #   inherit mkStandardBun;
-  # };
+  gqurl = pkgs.callPackage ./gqurl/default.nix {
+    inherit mkStandardBun;
+  };
   nixvim = pkgs.unstable.callPackage ./nixvim/default.nix {
     inherit nixvim;
   };
