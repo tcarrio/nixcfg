@@ -13,6 +13,7 @@ with lib.hm.gvariant;
 {
   imports = [
     ../../../services/mpris-proxy.nix
+    ../../../desktop/le-code
   ];
 
   # Cross-platform speech-to-text assistant
