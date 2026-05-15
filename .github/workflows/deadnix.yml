@@ -10,7 +10,7 @@ jobs:
     name: Dead Nix Analysis
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: DeterminateSystems/nix-installer-action@v20
       - uses: DeterminateSystems/magic-nix-cache-action@v13
       - uses: astro/deadnix-action@v1
