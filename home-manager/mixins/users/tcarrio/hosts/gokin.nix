@@ -1,12 +1,19 @@
-{ pkgs, inputs, ... }:
+{ config, pkgs, inputs, ... }:
 let
   happyNixpkgs = import inputs.happy-nixpkgs {
     inherit (pkgs.stdenv.hostPlatform) system;
     config.allowUnfree = true;
   };
   happy-coder = happyNixpkgs.happy-coder;
+  homeDir = config.home.homeDirectory;
 in
 {
+  # home.sessionPath = ["${homeDir}/.bun/bin"];
+  programs.fish.shellAliases = {
+    happy-vibe = "bunx happy acp -- vibe-acp";
+    happy-opencode = "bunx happy acp -- opencode acp";
+  };
+
   ai.serena.enable = true;
   ai.serena.languages = {
     bash.enable = true;
@@ -34,5 +41,6 @@ in
     happy-coder
     pkgs.unstable.nodejs
     pkgs.unstable.mistral-vibe
+    pkgs.unstable.claude-code
   ];
 }
