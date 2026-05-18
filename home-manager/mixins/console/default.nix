@@ -114,7 +114,6 @@
       enable = true;
       shellAliases = rec {
         diff = "diffr";
-        glow = "glow --pager";
         ip = lib.mkDefault "ip --color --brief";
         top = "htop";
         tree = "eza --tree";
