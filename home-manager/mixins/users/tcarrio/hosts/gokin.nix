@@ -40,7 +40,6 @@ in
   home.packages = [
     happy-coder
     pkgs.unstable.nodejs
-    pkgs.unstable.mistral-vibe
     pkgs.unstable.claude-code
   ];
 }

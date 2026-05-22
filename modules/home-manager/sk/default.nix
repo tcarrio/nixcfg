@@ -12,8 +12,9 @@ let
 in
 {
   imports = [
-    ./rancher-desktop.nix
     ./asdf.nix
+    ./disabled.nix
+    ./rancher-desktop.nix
   ];
 
   options.sk.enable = lib.mkOption {
