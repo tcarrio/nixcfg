@@ -3,11 +3,21 @@
   inputs,
   pkgs,
   lib,
-  systemType,
   ...
 }:
 let
-  isLinux = systemType == "linux";
+  inherit (pkgs.stdenv.hostPlatform) isLinux isDarwin;
+  linuxOptions = lib.mkIf isLinux {
+    # Enable Nix management of Ghostty package on Linux only
+    package = pkgs.unstable.ghostty;
+  };
+  darwinOptions = lib.mkIf isDarwin {
+    package = pkgs.empty;
+    settings = {
+      # Use the latest nightly builds
+      auto-update-channel = "tip";
+    };
+  };
 in
 {
   home = {
@@ -16,28 +26,19 @@ in
     };
   };
 
-  programs.ghostty = {
-    enable = true;
+  programs.ghostty = lib.mkMerge [
+    {
+      enable = true;
 
-    settings = {
-      font-family = "Ubuntu Mono derivative Powerline";
-      font-size = 14;
+      settings = {
+        font-family = "Ubuntu Mono derivative Powerline";
+        font-size = 14;
 
-      # Theming
-      theme = "Catppuccin Mocha";
+        # Theming
+        theme = "Catppuccin Mocha";
+      };
     }
-    // (
-      if !isLinux then
-        {
-          # Use the latest nightly builds
-          auto-update-channel = "tip";
-        }
-      else
-        { }
-    );
-  }
-  // lib.mkIf isLinux {
-    # Enable Nix management of Ghostty package on Linux only
-    package = pkgs.ghostty;
-  };
+    linuxOptions
+    darwinOptions
+  ];
 }

@@ -14,6 +14,7 @@ with lib.hm.gvariant;
   imports = [
     ../../../services/mpris-proxy.nix
     ../../../desktop/le-code
+    ../../../desktop/ghostty
   ];
 
   # Cross-platform speech-to-text assistant
