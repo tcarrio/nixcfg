@@ -29,6 +29,7 @@
     # ../../mixins/network-shares/ds418-nfs.nix
     # ../../mixins/services/nordvpn.nix
     ../../mixins/services/pipewire.nix
+    ./llama.nix
 
     ../../mixins/servers/pixiecore-pxe.nix
   ]
@@ -53,13 +54,15 @@
   virtualisation.docker.enable = false;
 
   oxc.services.ollama = {
-    enable = true;
+    enable = false;
     # hardware = "nvidia";
   };
-  services.ollama.loadModels = [
-    # Current system has an Nvidia GTX 1080Ti with 11GB VRAM
-    "hf.co/Ygz-08123/Qwen3-7B-Instruct-Q4_K_M-GGUF:Q4_K_M"
-  ];
+  # services.ollama.loadModels = [
+  #   # Current system has an Nvidia GTX 1080Ti with 11GB VRAM
+  #   "hf.co/Ygz-08123/Qwen3-7B-Instruct-Q4_K_M-GGUF:Q4_K_M"
+  # ];
+
+
 
   boot = {
     kernelPackages = pkgs.linuxPackages_zen;
