@@ -514,7 +514,7 @@
 
   inputs = {
     # Primary source from FlakeHub follows the current release cycle, e.g. 25.11.
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
+    nixpkgs.url = "github:NixOS/nixpkgs/26.05-pre";
 
     # You can access packages and modules from different nixpkgs revs at the
     # same time. See 'unstable-packages' overlay in 'overlays/default.nix'.
