@@ -2,19 +2,16 @@
 
 let
   pkgs' = pkgs.unstable;
-  cudaPackages = pkgs'.cudaPackages_12;
-  inherit (cudaPackages) cudatoolkit;
 
   # Use upstream llama-cpp from nixpkgs-unstable with CUDA CC 6.1 support
-  package = pkgs'.llama-cpp.overrideAttrs (old: {
-    cudaSupport = true;
-    inherit cudaPackages;
-    cmakeFlags = (old.cmakeFlags or []) ++ [
-      "-DCMAKE_CUDA_ARCHITECTURES=61"
-      "-DCMAKE_CUDA_COMPILER_TOOLKIT=${cudatoolkit}/bin"
-    ];
-    nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ cudatoolkit ];
-  });
+  package = (pkgs'.llama-cpp
+    .override {
+      cudaSupport = true;
+      cudaPackages = pkgs'.cudaPackages_12;
+    })
+    .overrideAttrs (old: {
+      cmakeFlags = (old.cmakeFlags or []) ++ [ "-DCMAKE_CUDA_ARCHITECTURES=61" ];
+    });
 in
 {
   environment.systemPackages = [package];
