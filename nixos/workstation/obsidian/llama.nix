@@ -1,22 +1,35 @@
 { config, pkgs, lib, ... }:
 
+let
+  pkgs' = pkgs.unstable;
+  cudaPackages = pkgs'.cudaPackages_12;
+  inherit (cudaPackages) cudatoolkit;
+
+  # Use upstream llama-cpp from nixpkgs-unstable with CUDA CC 6.1 support
+  package = pkgs'.llama-cpp.overrideAttrs (old: {
+    cudaSupport = true;
+    inherit cudaPackages;
+    cmakeFlags = (old.cmakeFlags or []) ++ [
+      "-DCMAKE_CUDA_ARCHITECTURES=61"
+      "-DCMAKE_CUDA_COMPILER_TOOLKIT=${cudatoolkit}/bin"
+    ];
+    nativeBuildInputs = (old.nativeBuildInputs or []) ++ [ cudatoolkit ];
+  });
+in
 {
+  environment.systemPackages = [package];
+
   services.llama-cpp = {
-    enable = true;
-    package = (pkgs.llama-cpp.override {
-      cudaSupport = true;
-    });
+    enable = false;
+
+    inherit package;
 
     model = "/home/tcarrio/.local/share/llama-cpp/models/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf";
 
     extraFlags = [
-      "--ngl 999"
-      "--tensor-split blk\.([0-9]|1[0-9]|2[0-9])\.=CUDA0,exps=CPU"
-      "--batch-size 4096"
-      "--ubatch-size 4096"
-      "--ctx-size 32768"
-      "--threads 16"
-      "--flash-attn"
+      "--n-gpu-layers" "10"
+      "--ctx-size" "8192"
+      "--threads" "8"
       "--no-mmap"
     ];
 
