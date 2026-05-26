@@ -201,4 +201,34 @@ in
     else
       null
   ) config.services.bind.zones;
+
+  # System checks for BIND validation
+  config.system.checks = lib.mkIf config.services.bind.enable [
+    # Validate generated zone files
+    (pkgs.writeShellScriptBin "bind-zone-validation" ''
+      set -e
+      echo "Validating BIND zone files..."
+      ${lib.concatMapStringsSep "\n" (zoneName: 
+        let zoneConfig = config.services.bind.zones.${zoneName};
+        in
+          if zoneConfig.records != null then
+            let
+              zoneFile = pkgs.writeText "${zoneName}-validation.zone" 
+                (generateZoneFile {
+                  zone = zoneName;
+                  records = zoneConfig.records;
+                  ttl = zoneConfig.zoneTtl;
+                  inherit (zoneConfig) soa;
+                });
+            in ''
+              echo "Validating zone: ${zoneName}"
+              ${config.services.bind.package}/bin/named-checkzone "${zoneName}" "${zoneFile}"
+            ''
+          else ""
+      ) (builtins.attrNames config.services.bind.zones)}
+      echo "All BIND zone files validated successfully"
+    '')
+  ];
+}
+  ];
 }
