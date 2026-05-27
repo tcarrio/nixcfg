@@ -40,5 +40,11 @@
     address = "192.168.1.222/24";
   };
 
+  # AMD GPU
+  boot.initrd.kernelModules = [ "amdgpu" ];
+  environment.variables.ROC_ENABLE_PRE_VEGA = "1";
+
+  # Host architecture
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
+
