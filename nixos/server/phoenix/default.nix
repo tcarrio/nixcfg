@@ -29,16 +29,17 @@
 
   # Networking
   networking.hostName = hostname;
-  systemd.network.enable = true;
-  systemd.network.networks."20-lan" = {
-    dns = [
-      "45.90.28.130"
-      "45.90.30.130"
-    ];
-    gateway = "192.168.1.1";
-    matchConfig.Name = "enp3s0";
-    address = "192.168.1.222/24";
-  };
+  # TODO: Migrate from DHCP to Nix configuration 
+  # systemd.network.enable = true;
+  # systemd.network.networks."20-lan" = {
+  #   dns = [
+  #     "45.90.28.130"
+  #     "45.90.30.130"
+  #   ];
+  #   gateway = "192.168.1.1";
+  #   matchConfig.Name = "enp3s0";
+  #   address = ["192.168.1.80/24"];
+  # };
 
   # AMD GPU
   boot.initrd.kernelModules = [ "amdgpu" ];
