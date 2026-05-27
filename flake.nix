@@ -355,6 +355,12 @@
           username = "archon";
         };
 
+        phoenix = libx.mkHost {
+          systemType = "server";
+          hostname = "phoenix";
+          username = "archon";
+        };
+
         "nix-proxy-droplet" = libx.mkHost {
           systemType = "server";
           hostname = "nix-proxy-droplet";
