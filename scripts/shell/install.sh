@@ -120,7 +120,7 @@ example: install.sh t510 tcarrio workstation
 
 function cli::try_unmount() {
   echo "Preparing script with eager unmount of /mnt/*"
-  sudo unmount -R /mnt || :
+  sudo umount -R /mnt || :
 }
 
 function cli::ensure_git_cloned() {
