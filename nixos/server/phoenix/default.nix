@@ -4,8 +4,12 @@
   inputs,
   lib,
   hostname ? "phoenix",
+  pkgs,
   ...
 }:
+let
+  ollama = pkgs.ollama-vulkan;
+in
 {
   imports = [
     inputs.nixos-hardware.nixosModules.common-cpu-intel
@@ -17,7 +21,7 @@
 
   oxc.services.tailscale = {
     enable = true;
-    autoconnect = false;
+    autoconnect = true;
     ssh.enable = true;
   };
 
@@ -44,6 +48,26 @@
   # AMD GPU
   boot.initrd.kernelModules = [ "amdgpu" ];
   environment.variables.ROC_ENABLE_PRE_VEGA = "1";
+  hardware.graphics.enable = true;
+  hardware.graphics.enable32Bit = true;
+
+
+  # Ollama server with Vulkan support
+  environment.systemPackages = [ ollama ];
+  services.ollama = {
+    enable = true;
+    package = ollama;
+    host = "0.0.0.0";
+  };
+  systemd.services.ollama.environment = {
+    GGML_VK_VISIBLE_DEVICES = "0";
+    OLLAMA_VULKAN = "1";
+  };
+  services.open-webui = {
+    enable = false;
+    # host = "0.0.0.0";
+  };
+  # networking.firewall.allowedTCPPorts = [8080];
 
   # Host architecture
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
