@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 {
   console.keyMap = lib.mkForce "us";
 
@@ -6,4 +6,8 @@
 
   # Some devices have RAID controllers that I want to utilize
   boot.swraid.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    gum
+  ];
 }
