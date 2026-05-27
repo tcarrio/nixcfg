@@ -90,6 +90,8 @@
               go-task
               wakeonlan
               yarn2nix
+              jq
+              nix-converter
             ])
             ++ (with pkgs.unstable; [
               bun
@@ -393,6 +395,8 @@
                   unstable.bun
                   nixd
                   go-task
+                  nix-converter
+                  jq
                   bun2NixPkg
                   self.packages.${system}.gh-composer-auth
                   # TODO: Fix gqurl package
@@ -419,6 +423,8 @@
                   nix
                   home-manager
                   git
+                  nix-converter
+                  jq
                   self.packages.${system}.gh-composer-auth
                   # TODO: Fix gqurl package
                   # self.packages.${system}.gqurl
