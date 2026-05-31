@@ -11,6 +11,7 @@ _: {
     ./remote-builder.nix
     ./tailscale.nix
     ./tailscale-autoconnect.nix
+    ./tailscale-cert.nix
     ./unfree.nix
     ./vscode-server.nix
   ];
