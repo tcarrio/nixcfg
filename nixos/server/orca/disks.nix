@@ -77,6 +77,7 @@ in
             vdev = [
               {
                 mode = "raidz2";
+                ashift = "12";
                 members = [
                   "data-0"
                   "data-1"
@@ -90,17 +91,16 @@ in
           };
         };
 
-        # Pool-level options (only valid pool/vdev properties)
+        # Pool-level options
         options = {
-          ashift = "12"; # 4K sector alignment for modern drives
           autotrim = "on";
-          dnodesize = "auto";
         };
 
         rootFsOptions = {
           compression = "zstd";
           acltype = "posixacl";
           xattr = "sa";
+          dnodesize = "auto";
           "com.sun:auto-snapshot" = "false";
           mountpoint = "/";
         };
