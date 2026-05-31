@@ -119,7 +119,8 @@ in
 
   # Use passed hostname to configure basic networking
   networking.hostName = hostname;
-  networking.hostId = substring 0 8 (hashString "sha512" hostname);
+  networking.hostId = builtins.hashString "sha512" hostname
+    |> builtins.substring 0 8;
 
   systemd.network.networks."20-lan" = {
     inherit (inetConfig) dns gateway;
