@@ -130,8 +130,8 @@ in
   # nixpkgs.config.permittedInsecurePackages = ["openssl-1.1.1w"];
   # Enable Caddy reverse proxy, listening for Tailnet host requests
   services.home-assistant.config.http = {
-    server_host = "::1";
-    trusted_proxies = [ "::1" ];
+    server_host = "127.0.0.1";
+    trusted_proxies = [ "127.0.0.1" ];
     use_x_forwarded_for = true;
   };
   services.caddy = {
@@ -140,7 +140,7 @@ in
       reverse_proxy 127.0.0.1:8123
     '';
   };
-  networking.firewall.allowedTCPPorts = [ 443 config.services.home-assistant.config.http.server_port ];
+  networking.firewall.allowedTCPPorts = [ 443 ];
   # Allow Caddy to generate certificates
   services.tailscale.permitCertUid = "caddy";
   # Ensure the Caddy server starts after Tailscale authentication
