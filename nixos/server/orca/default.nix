@@ -129,6 +129,11 @@ in
   # Add-ons that depend on SSL 1.x may require the following insecure package be permitted
   # nixpkgs.config.permittedInsecurePackages = ["openssl-1.1.1w"];
   # Enable Caddy reverse proxy, listening for Tailnet host requests
+  services.home-assistant.config.http = {
+    server_host = "::1";
+    trusted_proxies = [ "::1" ];
+    use_x_forwarded_for = true;
+  };
   services.caddy = {
     enable = true;
     virtualHosts."orca.griffin-cobra.ts.net".extraConfig = ''
