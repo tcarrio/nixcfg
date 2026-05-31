@@ -69,24 +69,24 @@ in
       # https://www.home-assistant.io/integrations/default_config/
       default_config = {};
       # Connect to local PostgreSQL service
-      recorder.db_url = "postgresql://@/hass";
+      # recorder.db_url = "postgresql://@/hass";
     };
     # Ensure support for PostgreSQL driver
-    package = (pkgs.home-assistant.override {
-      extraPackages = py: with py; [ psycopg2 ];
-    }).overrideAttrs (oldAttrs: {
-      doInstallCheck = false;
-    });
+    # package = (pkgs.home-assistant.override {
+    #   extraPackages = py: with py; [ psycopg2 ];
+    # }).overrideAttrs (oldAttrs: {
+    #   doInstallCheck = false;
+    # });
   };
   # Enable and set up Home Assistant on PostgreSQL
-  services.postgresql = {
-    enable = true;
-    ensureDatabases = [ "hass" ];
-    ensureUsers = [{
-      name = "hass";
-      ensureDBOwnership = true;
-    }];
-  };
+  # services.postgresql = {
+  #   enable = true;
+  #   ensureDatabases = [ "hass" ];
+  #   ensureUsers = [{
+  #     name = "hass";
+  #     ensureDBOwnership = true;
+  #   }];
+  # };
   # Add-ons that depend on SSL 1.x may require the following insecure package be permitted
   # nixpkgs.config.permittedInsecurePackages = ["openssl-1.1.1w"];
   # Enable Caddy reverse proxy, listening for Tailnet host requests
