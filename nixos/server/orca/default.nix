@@ -1,7 +1,7 @@
 # Motherboard: Supermicro X9SCL/X9SCM
-# CPU:         Intel Celeron G1610T (2) @ 2.300GHz
+# CPU:         Intel(R) Xeon(R) E3-1270 V2 (8) @ 3.50 GHz
 # GPU:         Matrox Electronics Systems Ltd. X9SCM-F Motherboard
-# RAM:         16GB DDR3
+# RAM:         32GB DDR3
 # SATA:        WD 300GB HDD
 # SATA:        Corsair 256G
 # SATA:        WD Red 1TB HDD
