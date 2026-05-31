@@ -61,8 +61,8 @@ in
     extraComponents = [
       # Components required to complete the onboarding
       "esphome"
-      # "met"
-      # "radio_browser"
+      "met"
+      "radio_browser"
     ];
     config = {
       # Includes dependencies for a basic setup
@@ -100,6 +100,11 @@ in
     #   doInstallCheck = false;
     # });
   };
+  # Ensure existence of automations.yaml file
+  systemd.tmpfiles.rules = [
+    "f ${config.services.home-assistant.configDir}/automations.yaml 0755 hass hass"
+  ];
+
   # Enable and set up Home Assistant on PostgreSQL
   # services.postgresql = {
   #   enable = true;
