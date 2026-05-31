@@ -77,7 +77,6 @@ in
             vdev = [
               {
                 mode = "raidz2";
-                ashift = "12";
                 members = [
                   "data-0"
                   "data-1"
@@ -93,6 +92,7 @@ in
 
         # Pool-level options
         options = {
+          ashift = "12";
           autotrim = "on";
         };
 
