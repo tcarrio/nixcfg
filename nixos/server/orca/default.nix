@@ -25,10 +25,6 @@ let
     ];
     gateway = "192.168.1.1";
   };
-  externalHostnames = rec {
-    base = "carrio.me";
-    auth = "auth.${base}";
-  };
   tailhost = config.oxc.tailnet.hosts.${hostname};
 in
 {
@@ -75,6 +71,7 @@ in
   networking.hostId = builtins.hashString "sha512" hostname
     |> builtins.substring 0 8;
 
+  systemd.network.enable = true;
   systemd.network.networks."20-lan" = {
     inherit (inetConfig) dns gateway;
     matchConfig.Name = "enp2s0";
