@@ -94,7 +94,6 @@ in
         options = {
           ashift = "12"; # 4K sector alignment for modern drives
           autotrim = "on";
-          compression = "zstd";
           dnodesize = "auto";
         };
 
