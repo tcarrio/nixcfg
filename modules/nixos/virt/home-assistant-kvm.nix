@@ -35,7 +35,7 @@
   ...
 }:
 let
-  inherit (inputs.NixVirt.lib.domain) templates writeXML;
+  inherit (inputs.NixVirt.lib) domain network;
 
   cfg = config.oxc.vms.haos;
 
@@ -79,8 +79,8 @@ let
       enable = true;
       connections."qemu:///system".networks = [
         {
-          definition = writeXML (
-            templates.bridge {
+          definition = network.writeXML (
+            network.templates.bridge {
               uuid = "70b08691-28dc-4b47-90a1-45bbeac9ab5a";
               subnet_byte = 71;
             }
@@ -90,8 +90,8 @@ let
       ];
       connections."qemu:///session".domains = [
         {
-          definition = writeXML (
-            templates.linux {
+          definition = domain.writeXML (
+            domain.templates.linux {
               name = "haos";
               uuid = "975bda2d-8644-43b3-a389-8fed5038f19f";
               vcpu = {
@@ -115,6 +115,8 @@ let
   };
 in
 {
+  imports = [inputs.NixVirt.nixosModules.default];
+
   options.oxc.vms.haos = {
     enable = lib.mkEnableOption "Enable the KVM-backed Home Assistant OS service";
     version = lib.mkOption {

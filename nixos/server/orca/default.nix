@@ -31,7 +31,8 @@ in
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     ./disks.nix
-    ./hass.nix
+    # ./hass.nix
+    ./haos.nix
     ./media-server.nix
     ../../mixins/hardware/grub-legacy-boot.nix
     # "${inputs.nixpkgs-unstable}/nixos/modules/services/home-automation/home-assistant.nix"
