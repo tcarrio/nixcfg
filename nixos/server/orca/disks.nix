@@ -90,18 +90,18 @@ in
           };
         };
 
-        # Pool-level options
+        # Pool-level options (only valid pool/vdev properties)
         options = {
           ashift = "12"; # 4K sector alignment for modern drives
           autotrim = "on";
           compression = "zstd";
-          acltype = "posixacl";
-          xattr = "sa";
           dnodesize = "auto";
         };
 
         rootFsOptions = {
           compression = "zstd";
+          acltype = "posixacl";
+          xattr = "sa";
           "com.sun:auto-snapshot" = "false";
           mountpoint = "/";
         };
