@@ -37,7 +37,7 @@ in
     inputs.nixos-hardware.nixosModules.common-cpu-intel
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
-    ./disks-hdds.nix
+    ./disks.nix
     ../../mixins/hardware/grub-legacy-boot.nix
   ];
 

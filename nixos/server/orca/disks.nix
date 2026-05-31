@@ -1,15 +1,42 @@
-### ROOT DISKS:
+### ROOT DISKS - ZFS L2ARC Cache Device
 # /dev/disk/by-id/ata-Corsair_CMFSSD-256D1_131801888FF00002 -> /dev/sdb
+### HDD DISKS - ZFS RAIDZ2 Configuration
+# /dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J7TLCSNX -> /dev/sdb
+# /dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J2TJHS9P -> /dev/sdc
+# /dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XV4KDD -> /dev/sdd
+# /dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XR859D -> /dev/sde
+# /dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J0KV5L3F -> /dev/sdf
+_:
+let
+  type = "gpt";
 
-_: {
+  fillZfsPartition = {
+    size = "100%";
+    content = {
+      type = "zfs";
+      pool = "zroot";
+    };
+  };
+  mkZfsDisk = device: {
+    type = "disk";
+    inherit device;
+    content = {
+      inherit type;
+      partitions = {
+        zfs = fillZfsPartition;
+      };
+    };
+  };
+in
+{
   disko.devices = {
     disk = {
-      main = {
+      cache-0 = {
         type = "disk";
-        name = "primary-disk";
+        name = "boot-cache-disk";
         device = "/dev/disk/by-id/ata-Corsair_CMFSSD-256D1_131801888FF00002";
         content = {
-          type = "gpt";
+          inherit type;
           partitions = {
             boot = {
               name = "boot";
@@ -30,42 +57,101 @@ _: {
                 mountpoint = "/boot";
               };
             };
-            root = {
-              size = "100%";
-              content = {
-                type = "btrfs";
+            cache = fillZfsPartition;
+          };
+        };
+      };
+      data-0 = mkZfsDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J7TLCSNX";
+      data-1 = mkZfsDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J2TJHS9P";
+      data-2 = mkZfsDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XV4KDD";
+      data-3 = mkZfsDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XR859D";
+      data-4 = mkZfsDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J0KV5L3F";
+    };
 
-                # ⚠️ DESTRUCTIVE ACTION.
-                # This will destroy and re-create partitions on the device!
-                extraArgs = [ "-f" ];
+    zpool = {
+      zroot = {
+        type = "zpool";
+        mode = {
+          topology = {
+            type = "topology";
+            vdev = [
+              {
+                mode = "raidz2";
+                members = [
+                  "data-0"
+                  "data-1"
+                  "data-2"
+                  "data-3"
+                  "data-4"
+                ];
+              }
+            ];
+            cache = [ "cache" ];
+          };
+        };
 
-                # Subvolumes must set a mountpoint in order to be mounted,
-                # unless their parent is mounted
-                subvolumes = {
-                  "@" = {
-                    mountpoint = "/";
-                  };
-                  "@home" = {
-                    mountOptions = [ "compress=zstd" ];
-                    mountpoint = "/home";
-                  };
-                  "@nix" = {
-                    mountOptions = [
-                      "compress=zstd"
-                      "noatime"
-                    ];
-                    mountpoint = "/nix";
-                  };
-                  "@swap" = {
-                    mountpoint = "/.swapvol";
-                    swap = {
-                      swapfile.size = "32G";
-                    };
-                  };
-                };
+        # Pool-level options
+        options = {
+          ashift = "12"; # 4K sector alignment for modern drives
+          autotrim = "on";
+          compression = "zstd";
+          acltype = "posixacl";
+          xattr = "sa";
+          dnodesize = "auto";
+        };
 
-                mountpoint = "/partition-root";
-              };
+        rootFsOptions = {
+          compression = "zstd";
+          "com.sun:auto-snapshot" = "false";
+          mountpoint = "/";
+        };
+
+        # Initial datasets
+        datasets = {
+          "etc" = {
+            type = "zfs_fs";
+            mountpoint = "/etc";
+            options = {
+              compression = "zstd";
+              "com.sun:auto-snapshot" = "true";
+              "com.sun:auto-snapshot:frequent" = "0";
+              "com.sun:auto-snapshot:hourly" = "0";
+              "com.sun:auto-snapshot:daily" = "91";
+              "com.sun:auto-snapshot:weekly" = "0";
+            };
+          };
+          "home" = {
+            type = "zfs_fs";
+            mountpoint = "/home";
+            options = {
+              compression = "zstd";
+              acltype = "posixacl";
+              xattr = "sa";
+              "com.sun:auto-snapshot" = "true";
+              "com.sun:auto-snapshot:frequent" = "0";
+              "com.sun:auto-snapshot:hourly" = "0";
+              "com.sun:auto-snapshot:daily" = "0";
+              "com.sun:auto-snapshot:weekly" = "13";
+            };
+          };
+          "nix" = {
+            type = "zfs_fs";
+            mountpoint = "/nix";
+            options = {
+              compression = "zstd";
+              "com.sun:auto-snapshot" = "false";
+            };
+          };
+          "var" = {
+            type = "zfs_fs";
+            mountpoint = "/var";
+            options = {
+              compression = "zstd";
+              "com.sun:auto-snapshot" = "true";
+              "com.sun:auto-snapshot:frequent" = "0";
+              "com.sun:auto-snapshot:hourly" = "2184";
+              "com.sun:auto-snapshot:daily" = "0";
+              "com.sun:auto-snapshot:weekly" = "0";
             };
           };
         };
