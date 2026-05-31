@@ -86,7 +86,7 @@ in
                 ];
               }
             ];
-            cache = [ "cache" ];
+            cache = [ "boot-cache-disk-cache" ];
           };
         };
 
