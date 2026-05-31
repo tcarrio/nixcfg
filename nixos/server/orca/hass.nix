@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 {
 ### START SECTION: HOME ASSISTANT ###
   # Prefer to use nixpkgs-unstable's module definition
