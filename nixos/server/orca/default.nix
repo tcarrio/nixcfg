@@ -117,7 +117,6 @@ in
   systemd.tmpfiles.rules = [
     "f ${config.services.home-assistant.configDir}/automations.yaml 0755 hass hass"
   ];
-
   # Enable and set up Home Assistant on PostgreSQL
   # services.postgresql = {
   #   enable = true;
@@ -136,7 +135,7 @@ in
       reverse_proxy 127.0.0.1:8123
     '';
   };
-  networking.firewall.allowedTCPPorts = [ 443 ];
+  networking.firewall.allowedTCPPorts = [ 443 config.services.home-assistant.config.http.server_port ];
   # Allow Caddy to generate certificates
   services.tailscale.permitCertUid = "caddy";
   # Ensure the Caddy server starts after Tailscale authentication
