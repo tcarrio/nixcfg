@@ -75,12 +75,12 @@ in
   systemd.network.networks."20-lan" = {
     inherit (inetConfig) dns gateway;
     matchConfig.Name = "enp2s0";
-    address = "192.168.1.251/24";
+    address = ["192.168.1.251/24"];
   };
   systemd.network.networks."30-lan" = {
     inherit (inetConfig) dns gateway;
     matchConfig.Name = "enp3s0";
-    address = "192.168.1.250/24";
+    address = ["192.168.1.250/24"];
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
