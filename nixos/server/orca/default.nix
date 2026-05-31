@@ -20,10 +20,8 @@
 }:
 let
   inetConfig = {
-    dns = [
-      "192.168.1.1"
-    ];
-    gateway = "192.168.1.1";
+    dns = ["192.168.1.1"];
+    gateway = ["192.168.1.1"];
   };
   tailhost = config.oxc.tailnet.hosts.${hostname};
 in
