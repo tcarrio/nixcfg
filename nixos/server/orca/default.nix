@@ -137,9 +137,10 @@ in
 
   services.zfs.autoSnapshot = {
     enable = true;
-    frequent.enable = false;
-    hourly.enable = true;
-    daily.enable = true;
-    weekly.enable = true;
+    # datasets have specific snapshot retention defined explicitly.
+    frequent = 0;
+    hourly = 0;
+    daily = 60;
+    weekly = 0;
   };
 }
