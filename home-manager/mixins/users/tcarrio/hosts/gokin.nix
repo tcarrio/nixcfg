@@ -1,11 +1,14 @@
-{ config, pkgs, inputs, ... }:
+{
+  pkgs,
+  inputs,
+  ...
+}:
 let
   happyNixpkgs = import inputs.happy-nixpkgs {
     inherit (pkgs.stdenv.hostPlatform) system;
     config.allowUnfree = true;
   };
-  happy-coder = happyNixpkgs.happy-coder;
-  homeDir = config.home.homeDirectory;
+  inherit (happyNixpkgs) happy-coder;
 in
 {
   # home.sessionPath = ["${homeDir}/.bun/bin"];

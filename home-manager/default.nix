@@ -34,9 +34,11 @@ in
       # Prefer pinning of the flake inputs for Nix package resolution
       # Bypasses cloning behavior to retrieve `nixpkgs` dynamically and
       # instead utilizes the `outPath` of current inputs
-      NIX_PATH = {
-        nixpkgs = inputs.nixpkgs-unstable;
-      } |> lib.mapAttrsToList (key: value: "${key}=${value.outPath}")
+      NIX_PATH =
+        {
+          nixpkgs = inputs.nixpkgs-unstable;
+        }
+        |> lib.mapAttrsToList (key: value: "${key}=${value.outPath}")
         |> lib.concatStringsSep ":"
         |> lib.mkOverride 999;
     };

@@ -62,8 +62,6 @@
   #   "hf.co/Ygz-08123/Qwen3-7B-Instruct-Q4_K_M-GGUF:Q4_K_M"
   # ];
 
-
-
   boot = {
     kernelPackages = pkgs.linuxPackages_zen;
 

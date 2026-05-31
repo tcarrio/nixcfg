@@ -57,7 +57,7 @@ in
 
   ### Services ###
   oxc.services.acme.enable = true;
-  oxc.services.acme.nginx.hosts = [externalHostnames.auth];
+  oxc.services.acme.nginx.hosts = [ externalHostnames.auth ];
 
   # PocketID for centralized auth based on passkeys
   services.pocket-id = {

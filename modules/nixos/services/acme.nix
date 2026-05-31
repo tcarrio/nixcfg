@@ -8,7 +8,8 @@ let
     "500" = "Internal Server Error";
   };
 
-  nginxCerts = (lib.optionals cfg.enable cfg.nginx.hosts)
+  nginxCerts =
+    (lib.optionals cfg.enable cfg.nginx.hosts)
     |> builtins.map (host: {
       name = host;
       value = {
@@ -21,7 +22,8 @@ let
     })
     |> builtins.listToAttrs;
 
-  nginxVirtualHosts = (lib.optionals cfg.enable cfg.nginx.hosts)
+  nginxVirtualHosts =
+    (lib.optionals cfg.enable cfg.nginx.hosts)
     |> builtins.map (host: {
       name = host;
       value = {
@@ -33,15 +35,16 @@ let
     |> builtins.listToAttrs;
 
   nginxDefaultHost = (
-    if cfg.nginx.default != null
-    then {
-      # Add support for 404s on unregistered hosts
-      "_" = {
-        default = true;
-        locations."/".return = "${cfg.nginx.default} '${codeMap.${cfg.nginx.default} or "???"}'";
-      };
-    }
-    else {}
+    if cfg.nginx.default != null then
+      {
+        # Add support for 404s on unregistered hosts
+        "_" = {
+          default = true;
+          locations."/".return = "${cfg.nginx.default} '${codeMap.${cfg.nginx.default} or "???"}'";
+        };
+      }
+    else
+      { }
   );
 in
 {
@@ -49,7 +52,7 @@ in
     enable = lib.mkEnableOption "Enable support for ACME LetsEncrypt protocol";
 
     provider = lib.mkOption {
-      type = lib.types.enum ["cloudflare"];
+      type = lib.types.enum [ "cloudflare" ];
       default = "cloudflare";
       description = "The provider to use for ACME verification";
     };
@@ -57,7 +60,7 @@ in
     nginx = {
       hosts = lib.mkOption {
         type = lib.types.listOf lib.types.str;
-        default = [];
+        default = [ ];
         description = "Nginx hostnames to generate certificates for";
       };
       default = lib.mkOption {

@@ -88,12 +88,9 @@ let
     nix.settings = nixSettings;
   };
 
-  determinateSettings = if isDarwin
-    then darwinDeterminateNixSettings
-    else nixosDeterminateNixSettings;
+  determinateSettings =
+    if isDarwin then darwinDeterminateNixSettings else nixosDeterminateNixSettings;
 
-  finalSettings = if isDeterminateNix
-    then determinateSettings
-    else baseSettings;
+  finalSettings = if isDeterminateNix then determinateSettings else baseSettings;
 in
 finalSettings

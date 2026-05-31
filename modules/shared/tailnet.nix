@@ -1,4 +1,5 @@
-{ lib, ... }: {
+{ lib, ... }:
+{
   options.oxc.tailnet = {
     dns = lib.mkOption {
       type = lib.types.str;

@@ -2,17 +2,13 @@ let
   sshMatrix = import ../lib/ssh/matrix.nix;
 
   inherit (sshMatrix) groups systems;
-  inherit (systems) glass;
 
   mapSetValues = f: set: map f (map (key: set.${key}) (builtins.attrNames set));
 
-  allSystemHostKeys = systems
-    |> mapSetValues (system: system.host or null)
-    |> builtins.filter (host: host != null);
+  allSystemHostKeys =
+    systems |> mapSetValues (system: system.host or null) |> builtins.filter (host: host != null);
 
-  matches = pattern: string: string
-    |> builtins.match pattern
-    |> builtins.isList;
+  matches = pattern: string: string |> builtins.match pattern |> builtins.isList;
 
   # Various key type matchers
   isAgeKey = matches "age[0-9a-z]+";
@@ -34,17 +30,18 @@ let
   # TODO: More extensive checking, right now this incorporates only what matters for my repo
   matcherByKeyType = type: (matcherMap."${type}" or (_: true));
 
-  filterByKeyType = keyTypes: keys:
+  filterByKeyType =
+    keyTypes: keys:
     let
-      keyInKeyTypes = key: (
-        builtins.any
-          (keyType: matcherByKeyType keyType key)
-          keyTypes
-      );
+      keyInKeyTypes = key: (builtins.any (keyType: matcherByKeyType keyType key) keyTypes);
     in
-      builtins.filter keyInKeyTypes keys;
+    builtins.filter keyInKeyTypes keys;
 
-  agenixSupportedKeyTypes = ["age" "rsa" "ed25519"];
+  agenixSupportedKeyTypes = [
+    "age"
+    "rsa"
+    "ed25519"
+  ];
   agenixSupportedKeyFilter = filterByKeyType agenixSupportedKeyTypes;
 
   autoMeshSystems = allSystemHostKeys;
@@ -64,7 +61,7 @@ let
   mkPublicKeys = extraKeys: { publicKeys = agenixSupportedKeyFilter (base ++ extraKeys); };
 in
 {
-  "users/tcarrio/ssh.age" = mkPublicKeys [];
+  "users/tcarrio/ssh.age" = mkPublicKeys [ ];
   "services/netbird/token.age" = mkPublicKeys autoMeshSystems;
   "services/tailscale/token.age" = mkPublicKeys autoMeshSystems;
   "services/acme/cloudflare.age" = mkPublicKeys [ ];

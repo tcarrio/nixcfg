@@ -2,7 +2,7 @@
 let
   base = mkStandardBun { path = ./.; };
 in
-base.overrideAttrs (old: {
+base.overrideAttrs (_old: {
   pname = "gqurl";
   meta.mainProgram = "gqurl";
   buildPhase = ''
@@ -11,15 +11,15 @@ base.overrideAttrs (old: {
     runHook postBuild
   '';
   installPhase = ''
-    runHook preInstall
-    mkdir -p $out/bin
-    cp index.js $out/bin/gqurl.js
-    cat > $out/bin/gqurl <<'SCRIPT'
-#!/bin/sh
-SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
-exec bun "$SCRIPT_DIR/gqurl.js" "$@"
-SCRIPT
-    chmod +x $out/bin/gqurl
-    runHook postInstall
+        runHook preInstall
+        mkdir -p $out/bin
+        cp index.js $out/bin/gqurl.js
+        cat > $out/bin/gqurl <<'SCRIPT'
+    #!/bin/sh
+    SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
+    exec bun "$SCRIPT_DIR/gqurl.js" "$@"
+    SCRIPT
+        chmod +x $out/bin/gqurl
+        runHook postInstall
   '';
 })

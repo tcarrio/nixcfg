@@ -1,4 +1,4 @@
-{ pkgs, username, ... }:
+{ username, ... }:
 {
   imports = [
     ../../../desktop/audio-recorder.nix

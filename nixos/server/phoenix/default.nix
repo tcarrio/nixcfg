@@ -33,7 +33,7 @@ in
 
   # Networking
   networking.hostName = hostname;
-  # TODO: Migrate from DHCP to Nix configuration 
+  # TODO: Migrate from DHCP to Nix configuration
   # systemd.network.enable = true;
   # systemd.network.networks."20-lan" = {
   #   dns = [
@@ -50,7 +50,6 @@ in
   environment.variables.ROC_ENABLE_PRE_VEGA = "1";
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = true;
-
 
   # Ollama server with Vulkan support
   environment.systemPackages = [ ollama ];
@@ -72,4 +71,3 @@ in
   # Host architecture
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }
-

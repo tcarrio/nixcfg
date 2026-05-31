@@ -73,15 +73,17 @@ let
 
   venv = pythonSet.mkVirtualEnv "endcord-env" (
     if withMedia then
-      lib.mapAttrs (name: _: [ "media" ]) workspace.deps.default
+      lib.mapAttrs (_name: _: [ "media" ]) workspace.deps.default
     else
       workspace.deps.default
   );
 
   pname = if withMedia then "endcord" else "endcord-lite";
 
-  isLinux = pkgs.stdenv.isLinux;
-  ldLibraryPath = lib.optionalString (withMedia && isLinux) (lib.makeLibraryPath [ pkgs.libpulseaudio ]);
+  inherit (pkgs.stdenv) isLinux;
+  ldLibraryPath = lib.optionalString (withMedia && isLinux) (
+    lib.makeLibraryPath [ pkgs.libpulseaudio ]
+  );
   binPath = lib.makeBinPath (lib.optional (withMedia && isLinux) pkgs.pulseaudio);
 
 in
@@ -95,8 +97,7 @@ pkgs.stdenv.mkDerivation {
 
   nativeBuildInputs = with pkgs; [ makeWrapper ];
 
-  buildInputs = [ python ]
-    ++ lib.optional (withMedia && isLinux) pkgs.pulseaudio;
+  buildInputs = [ python ] ++ lib.optional (withMedia && isLinux) pkgs.pulseaudio;
 
   installPhase = ''
     runHook preInstall
@@ -115,7 +116,9 @@ pkgs.stdenv.mkDerivation {
   '';
 
   meta = with lib; {
-    description = "Feature rich Discord TUI client${lib.optionalString (!withMedia) " (lite, no media support)"}";
+    description = "Feature rich Discord TUI client${
+      lib.optionalString (!withMedia) " (lite, no media support)"
+    }";
     homepage = "https://github.com/sparklost/endcord";
     license = licenses.gpl3;
     maintainers = with maintainers; [ tcarrio ];

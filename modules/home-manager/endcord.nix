@@ -7,36 +7,45 @@
 let
   cfg = config.oxc.endcord;
 
-  endcordPkg =
-    if cfg.enableMedia then
-      cfg.package.override { withMedia = true; }
-    else
-      cfg.package;
+  endcordPkg = if cfg.enableMedia then cfg.package.override { withMedia = true; } else cfg.package;
 
-  toPyValue = v:
-    if v == null then "None"
-    else if v == true then "True"
-    else if v == false then "False"
-    else if builtins.isInt v then toString v
-    else if builtins.isFloat v then toString v
+  toPyValue =
+    v:
+    if v == null then
+      "None"
+    else if v then
+      "True"
+    else if !v then
+      "False"
+    else if builtins.isInt v then
+      toString v
+    else if builtins.isFloat v then
+      toString v
     else if builtins.isString v then
-      let escaped = builtins.replaceStrings ["\\"] ["\\\\"] v;
-      in "\"${escaped}\""
+      let
+        escaped = builtins.replaceStrings [ "\\" ] [ "\\\\" ] v;
+      in
+      "\"${escaped}\""
     else if builtins.isList v then
       "[${lib.concatStringsSep ", " (map toPyValue v)}]"
-    else throw "endcord: cannot serialize ${builtins.typeOf v}";
+    else
+      throw "endcord: cannot serialize ${builtins.typeOf v}";
 
   filterNulls = lib.filterAttrs (_: v: v != null);
 
-  toEndcordINI = sections:
+  toEndcordINI =
+    sections:
     let
-      mkSection = name: values:
-        let filtered = filterNulls values;
+      mkSection =
+        name: values:
+        let
+          filtered = filterNulls values;
         in
-        if filtered == { } then ""
-        else "[${name}]\n" + lib.concatStringsSep "\n" (
-          lib.mapAttrsToList (k: v: "${k} = ${toPyValue v}") filtered
-        );
+        if filtered == { } then
+          ""
+        else
+          "[${name}]\n"
+          + lib.concatStringsSep "\n" (lib.mapAttrsToList (k: v: "${k} = ${toPyValue v}") filtered);
       parts = lib.filter (s: s != "") (lib.mapAttrsToList mkSection sections);
     in
     if parts == [ ] then "" else lib.concatStringsSep "\n\n" parts + "\n";
@@ -58,16 +67,20 @@ let
     unspecified
     ;
 
-  mkOpt = type: desc: lib.mkOption {
-    type = nullOr type;
-    default = null;
-    description = desc;
-  };
+  mkOpt =
+    type: desc:
+    lib.mkOption {
+      type = nullOr type;
+      default = null;
+      description = desc;
+    };
 
-  sectionType = options: submodule {
-    freeformType = attrsOf unspecified;
-    options = options;
-  };
+  sectionType =
+    options:
+    submodule {
+      freeformType = attrsOf unspecified;
+      inherit options;
+    };
 
 in
 {
@@ -285,7 +298,10 @@ in
     home.packages = [ endcordPkg ];
 
     xdg.configFile."endcord/config.ini" = lib.mkIf hasConfig {
-      text = toEndcordINI { main = mainConfig; theme = themeConfig; };
+      text = toEndcordINI {
+        main = mainConfig;
+        theme = themeConfig;
+      };
     };
   };
 }

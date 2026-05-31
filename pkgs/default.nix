@@ -7,17 +7,14 @@
   mkStandardBun,
   ...
 }:
-let
-
-in
 {
-  awsesh = pkgs.callPackage ./awsesh.nix {};
-  gh-composer-auth = pkgs.callPackage ./gh-composer-auth.nix {};
-  kube-rsync = pkgs.callPackage ./kube-rsync/default.nix {};
+  awsesh = pkgs.callPackage ./awsesh.nix { };
+  gh-composer-auth = pkgs.callPackage ./gh-composer-auth.nix { };
+  kube-rsync = pkgs.callPackage ./kube-rsync/default.nix { };
   # TODO: Fix non-Darwin build issue
   # mac-launcher = pkgs.callPackage ./mac-launcher.nix { inherit pkgs; };
-  zeit = pkgs.callPackage ./zeit.nix {};
-  pug = pkgs.callPackage ./pug.nix {};
+  zeit = pkgs.callPackage ./zeit.nix { };
+  pug = pkgs.callPackage ./pug.nix { };
   gqurl = pkgs.callPackage ./gqurl/default.nix {
     inherit mkStandardBun;
   };
@@ -34,7 +31,7 @@ in
     inherit pkgs uv2nixLib;
     withMedia = true;
   };
-  sri-hash-gh-repo = pkgs.callPackage ./sri-hash-gh-repo.nix {};
-  uri-decode = pkgs.callPackage ./uri-decode.nix {};
-  qq-cli = pkgs.callPackage ./qq-cli.nix {};
+  sri-hash-gh-repo = pkgs.callPackage ./sri-hash-gh-repo.nix { };
+  uri-decode = pkgs.callPackage ./uri-decode.nix { };
+  qq-cli = pkgs.callPackage ./qq-cli.nix { };
 }

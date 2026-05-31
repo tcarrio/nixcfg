@@ -1,20 +1,20 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, ... }:
 
 let
   pkgs' = pkgs.unstable;
 
   # Use upstream llama-cpp from nixpkgs-unstable with CUDA CC 6.1 support
-  package = (pkgs'.llama-cpp
-    .override {
+  package =
+    (pkgs'.llama-cpp.override {
       cudaSupport = true;
       cudaPackages = pkgs'.cudaPackages_12;
-    })
-    .overrideAttrs (old: {
-      cmakeFlags = (old.cmakeFlags or []) ++ [ "-DCMAKE_CUDA_ARCHITECTURES=61" ];
-    });
+    }).overrideAttrs
+      (old: {
+        cmakeFlags = (old.cmakeFlags or [ ]) ++ [ "-DCMAKE_CUDA_ARCHITECTURES=61" ];
+      });
 in
 {
-  environment.systemPackages = [package];
+  environment.systemPackages = [ package ];
 
   services.llama-cpp = {
     enable = false;
@@ -24,9 +24,12 @@ in
     model = "/home/tcarrio/.local/share/llama-cpp/models/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf";
 
     extraFlags = [
-      "--n-gpu-layers" "10"
-      "--ctx-size" "8192"
-      "--threads" "8"
+      "--n-gpu-layers"
+      "10"
+      "--ctx-size"
+      "8192"
+      "--threads"
+      "8"
       "--no-mmap"
     ];
 
