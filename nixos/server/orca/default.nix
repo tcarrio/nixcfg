@@ -38,6 +38,7 @@ in
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     ./disks.nix
     ../../mixins/hardware/grub-legacy-boot.nix
+    "${inputs.nixpkgs-unstable}/nixos/modules/services/home-automation/home-assistant.nix"
   ];
 
   boot.swraid = {
@@ -55,7 +56,14 @@ in
   };
 
   ### START SECTION: HOME ASSISTANT ###
-  # Basic Home Assistant container
+  # Prefer to use nixpkgs-unstable's module definition
+  nixpkgs.overlays = [(self: super: {
+    inherit (pkgs.unstable) home-assistant;
+  })];
+  # additional import from nixpkgs-unstable above replaces the following
+  disabledModules = ["services/home-automation/home-assistant.nix"];
+  
+  # NixOS Home Assistant service
   services.home-assistant = {
     enable = true;
     extraComponents = [
