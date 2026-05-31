@@ -45,20 +45,25 @@ let
 
   ensureHaosVmFileAvailabilityScript = pkgs.writeShellScript "ensure-haos-vm-file-availability.sh" ''
     if [ ! -d "${cfg.imageDir}" ]; then
-      echo 'Missing image directory: ${cfg.imageDir}' > &2
-      exit 1;
+      mkdir -p "${cfg.imageDir}"
+      if [ ! -d "${cfg.imageDir}" ]; then
+        echo "Missing image directory: ${cfg.imageDir}"
+        exit 1;
+      fi
     fi
 
     if [ -f "${cfg.imageDir}/${fileName}"]; then
       exit 0
     fi
 
-    ${pkgs.curl}/bin/curl "${haosVmFileUpstreamUrl}" > "${filePath}.xz";
+    ${pkgs.wget}/bin/wget -O "${filePath}.xz" "${haosVmFileUpstreamUrl}";
     ${pkgs.xz}/bin/unxz "${filePath}.xz"
-    rm "${filePath}.xz"
+    if [ -f "${filePath}.xz" ]; then
+      rm "${filePath}.xz"
+    fi
 
     if [ ! -f "${filePath}" ]; then
-      echo "File ${filePath} is missing after download and extraction!" > &2
+      echo "File ${filePath} is missing after download and extraction!"
       exit 1
     fi
   '';
@@ -126,7 +131,7 @@ in
     };
     imageDir = lib.mkOption {
       type = lib.types.str;
-      default = "/var/lib/libvirt/images/";
+      default = "/var/lib/libvirt/images";
     };
   };
 

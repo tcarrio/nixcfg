@@ -31,9 +31,9 @@ in
     inputs.nixos-hardware.nixosModules.common-pc
     inputs.nixos-hardware.nixosModules.common-pc-ssd
     ./disks.nix
-    # ./hass.nix
-    ./haos.nix
-    ./media-server.nix
+    ./hass.nix
+    # ./haos.nix
+    # ./media-server.nix
     ../../mixins/hardware/grub-legacy-boot.nix
     # "${inputs.nixpkgs-unstable}/nixos/modules/services/home-automation/home-assistant.nix"
   ];
@@ -78,7 +78,7 @@ in
   };
   systemd.network.networks."30-lan" = {
     inherit (inetConfig) dns gateway;
-    matchConfig.Name = "enp3s0";
+    matchConfig.Name = "eno1";
     address = ["192.168.1.250/24"];
   };
 
