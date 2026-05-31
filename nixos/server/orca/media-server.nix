@@ -140,8 +140,7 @@ let
     # http2 can more performant for streaming: https://blog.cloudflare.com/introducing-http2/
     http2 = true;
 
-    inherit jellyfinExtraConfig;
-
+    extraConfig = jellyfinExtraConfig;
     locations."/".extraConfig = jellyfinMainRouteConfig;
     locations."/socket".extraConfig = jellyfinSocketRouteConfig;
   };
