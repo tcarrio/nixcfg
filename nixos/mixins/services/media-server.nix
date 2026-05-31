@@ -142,12 +142,8 @@ let
 
     inherit jellyfinExtraConfig;
 
-    locations."/" = {
-      extraConfig = jellyfinMainRouteConfig;
-    };
-    locations."/socket" = {
-      extraConfig = jellyfinSocketRouteConfig;
-    };
+    locations."/".extraConfig = jellyfinMainRouteConfig;
+    locations."/socket".extraConfig = jellyfinSocketRouteConfig;
   };
 in
 {
