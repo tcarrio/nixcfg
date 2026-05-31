@@ -80,7 +80,7 @@
     use_x_forwarded_for = true;
   };
   services.caddy = {
-    enable = true;
+    enable = false;
     virtualHosts."orca.griffin-cobra.ts.net".extraConfig = ''
       reverse_proxy 127.0.0.1:8123
     '';
