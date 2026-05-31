@@ -70,10 +70,8 @@ in
   };
   services.nginx.virtualHosts."${externalHostnames.auth}" = {
     http2 = true;
-    locations."/".proxyPass = "http://${tailhost}:${config.services.pocket-id.settings.PORT or "1411"}";
+    locations."/".proxyPass = "http://localhost:${config.services.pocket-id.settings.PORT or "1411"}";
     extraConfig = ''
-      resolver ${config.oxc.tailnet.dns} valid=30s;
-
       # Why this is important: https://blog.cloudflare.com/ocsp-stapling-how-cloudflare-just-made-ssl-30/
       ssl_stapling on;
       ssl_stapling_verify on;
