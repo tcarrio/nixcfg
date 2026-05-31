@@ -133,4 +133,22 @@ in
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+
+  services.zfs-auto-snapshot = {
+    enable = true;
+    frequent.enable = false;
+    hourly = {
+      enable = true;
+      time = "20";
+    };
+    daily = {
+      enable = true;
+      time = "06:40";
+    };
+    weekly = {
+      enable = true;
+      time = "06:00";
+      day = "sunday";
+    };
+  };
 }

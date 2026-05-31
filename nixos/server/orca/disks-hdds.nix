@@ -1,51 +1,168 @@
-### HDD DISKS:
+### HDD DISKS - ZFS RAIDZ2 Configuration
 # /dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J7TLCSNX -> /dev/sdb
 # /dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J2TJHS9P -> /dev/sdc
 # /dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XV4KDD -> /dev/sdd
 # /dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XR859D -> /dev/sde
 # /dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J0KV5L3F -> /dev/sdf
-_:
-let
-  mkRaidDisk = name: device: {
-    inherit device;
-    type = "disk";
-    content = {
-      inherit name;
-      type = "mdraid";
-    };
-  };
-
-  mkHddRaidDisk = mkRaidDisk "md127";
-in
-{
+_: {
   disko.devices = {
     disk = {
-      hdd-0 = mkHddRaidDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J7TLCSNX";
-      hdd-1 = mkHddRaidDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J2TJHS9P";
-      hdd-2 = mkHddRaidDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XV4KDD";
-      hdd-3 = mkHddRaidDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XR859D";
-      hdd-4 = mkHddRaidDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J0KV5L3F";
+      hdd-0 = {
+        type = "disk";
+        device = "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J7TLCSNX";
+        content = {
+          type = "gpt";
+          partitions = {
+            zfs = {
+              size = "100%";
+              content = {
+                type = "zfs";
+                pool = "zroot";
+              };
+            };
+          };
+        };
+      };
+      hdd-1 = {
+        type = "disk";
+        device = "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J2TJHS9P";
+        content = {
+          type = "gpt";
+          partitions = {
+            zfs = {
+              size = "100%";
+              content = {
+                type = "zfs";
+                pool = "zroot";
+              };
+            };
+          };
+        };
+      };
+      hdd-2 = {
+        type = "disk";
+        device = "/dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XV4KDD";
+        content = {
+          type = "gpt";
+          partitions = {
+            zfs = {
+              size = "100%";
+              content = {
+                type = "zfs";
+                pool = "zroot";
+              };
+            };
+          };
+        };
+      };
+      hdd-3 = {
+        type = "disk";
+        device = "/dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XR859D";
+        content = {
+          type = "gpt";
+          partitions = {
+            zfs = {
+              size = "100%";
+              content = {
+                type = "zfs";
+                pool = "zroot";
+              };
+            };
+          };
+        };
+      };
+      hdd-4 = {
+        type = "disk";
+        device = "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J0KV5L3F";
+        content = {
+          type = "gpt";
+          partitions = {
+            zfs = {
+              size = "100%";
+              content = {
+                type = "zfs";
+                pool = "zroot";
+              };
+            };
+          };
+        };
+      };
     };
 
-    mdadm.md127 = {
-      type = "mdadm";
-      level = 5;
-      content = {
-        type = "gpt";
-        partitions = {
-          primary = {
-            size = "100%";
-            content = {
-              type = "btrfs";
+    zpool = {
+      zroot = {
+        type = "zpool";
+        mode = "raidz2";
+        devices = [
+          "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J7TLCSNX"
+          "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J2TJHS9P"
+          "/dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XV4KDD"
+          "/dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XR859D"
+          "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J0KV5L3F"
+        ];
 
-              subvolumes = {
-                "@media" = {
-                  mountpoint = "/var/lib/media";
-                  mountOptions = [ "compress=zstd" ];
-                };
-              };
+        # Pool-level options
+        options = {
+          ashift = "12"; # 4K sector alignment for modern drives
+          autotrim = "on";
+          compression = "zstd";
+          acltype = "posixacl";
+          xattr = "sa";
+          dnodesize = "auto";
+        };
 
-              mountpoint = "/md-hdd-array";
+        rootFsOptions = {
+          compression = "zstd";
+          "com.sun:auto-snapshot" = "false";
+          mountpoint = "/";
+        };
+
+        # Initial datasets
+        datasets = {
+          "etc" = {
+            type = "zfs_fs";
+            mountpoint = "/etc";
+            options = {
+              compression = "zstd";
+              "com.sun:auto-snapshot" = "true";
+              "com.sun:auto-snapshot:frequent" = "0";
+              "com.sun:auto-snapshot:hourly" = "0";
+              "com.sun:auto-snapshot:daily" = "91";
+              "com.sun:auto-snapshot:weekly" = "0";
+            };
+          };
+          "home" = {
+            type = "zfs_fs";
+            mountpoint = "/home";
+            options = {
+              compression = "zstd";
+              acltype = "posixacl";
+              xattr = "sa";
+              "com.sun:auto-snapshot" = "true";
+              "com.sun:auto-snapshot:frequent" = "0";
+              "com.sun:auto-snapshot:hourly" = "0";
+              "com.sun:auto-snapshot:daily" = "0";
+              "com.sun:auto-snapshot:weekly" = "13";
+            };
+          };
+          "nix" = {
+            type = "zfs_fs";
+            mountpoint = "/nix";
+            options = {
+              compression = "zstd";
+              "com.sun:auto-snapshot" = "false";
+            };
+          };
+          "var" = {
+            type = "zfs_fs";
+            mountpoint = "/var";
+            options = {
+              compression = "zstd";
+              "com.sun:auto-snapshot" = "true";
+              "com.sun:auto-snapshot:frequent" = "0";
+              "com.sun:auto-snapshot:hourly" = "2184";
+              "com.sun:auto-snapshot:daily" = "0";
+              "com.sun:auto-snapshot:weekly" = "0";
             };
           };
         };
