@@ -150,7 +150,7 @@ in
   imports = [
     # Definition for a common group for media services like Plex and Jellyfin
     # This is in a shared mixin since a number of services could need it
-    ../permissions/groups/media.nix
+    ../../mixins/permissions/groups/media.nix
   ];
 
   # services.plex = {
