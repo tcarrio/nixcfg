@@ -33,7 +33,6 @@ in
     disk = {
       cache-0 = {
         type = "disk";
-        name = "boot-cache-disk";
         device = "/dev/disk/by-id/ata-Corsair_CMFSSD-256D1_131801888FF00002";
         content = {
           inherit type;
