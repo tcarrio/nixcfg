@@ -6,7 +6,7 @@
 }:
 {
   imports = [
-    # ./home-assistant-kvm.nix
+    ./home-assistant-kvm.nix
   ];
 
   options.oxc = {
