@@ -64,7 +64,7 @@ in
   "users/tcarrio/ssh.age" = mkPublicKeys [ ];
   "services/netbird/token.age" = mkPublicKeys autoMeshSystems;
   "services/tailscale/token.age" = mkPublicKeys autoMeshSystems;
-  "services/acme/cloudflare.age" = mkPublicKeys [ ];
+  "services/acme/cloudflare.age" = mkPublicKeys [ systems.orca.host ];
   "services/hoarder/env.age" = mkPublicKeys [ ];
 
   "network-shares/ds418/smb.conf.age" = mkPublicKeys [ ];
