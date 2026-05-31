@@ -223,15 +223,17 @@ function cli::nixos_install() {
     --flake ".#$TARGET_HOST"
 }
 
-cli::validate_user
-cli::try_unmount
-cli::ensure_git_cloned
-cli::enter_config_working_dir
-cli::validate_params
-cli::prepare_disk_encryption_key
-cli::disko_install
-cli::nixos_install
-cli::rsync_data
-cli::copy_disk_encryption_key
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  cli::validate_user
+  cli::try_unmount
+  cli::ensure_git_cloned
+  cli::enter_config_working_dir
+  cli::validate_params
+  cli::prepare_disk_encryption_key
+  cli::disko_install
+  cli::nixos_install
+  cli::rsync_data
+  cli::copy_disk_encryption_key
 
-echo "$SCRIPT_NAME has successfully completed"
+  echo "$SCRIPT_NAME has successfully completed"
+fi
