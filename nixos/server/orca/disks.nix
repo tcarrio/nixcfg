@@ -57,7 +57,8 @@ in
                 mountpoint = "/boot";
               };
             };
-            cache = fillZfsPartition;
+            # With disko the naming MUST be 'zfs' for the lookup to match
+            zfs = fillZfsPartition;
           };
         };
       };
@@ -86,7 +87,7 @@ in
                 ];
               }
             ];
-            cache = [ "boot-cache-disk-cache" ];
+            cache = [ "cache-0" ];
           };
         };
 
