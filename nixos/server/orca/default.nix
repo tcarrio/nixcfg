@@ -56,18 +56,39 @@ in
 
   ### START SECTION: HOME ASSISTANT ###
   # Basic Home Assistant container
-  virtualisation.oci-containers = {
-    backend = "podman";
-    containers.homeassistant = {
-      volumes = [ "home-assistant:/config" ];
-      environment.TZ = "America/Detroit";
-      image = "ghcr.io/home-assistant/home-assistant:stable"; # Warning: if the tag does not change, the image will not be updated
-      extraOptions = [ 
-        "--network=host" 
-        "--device=/dev/ttyACM0:/dev/ttyACM0"  # Example, change this to match your own hardware
-      ];
+  services.home-assistant = {
+    enable = true;
+    extraComponents = [
+      # Components required to complete the onboarding
+      "esphome"
+      "met"
+      "radio_browser"
+    ];
+    config = {
+      # Includes dependencies for a basic setup
+      # https://www.home-assistant.io/integrations/default_config/
+      default_config = {};
+      # Connect to local PostgreSQL service
+      recorder.db_url = "postgresql://@/hass";
     };
+    # Ensure support for PostgreSQL driver
+    package = (pkgs.home-assistant.override {
+      extraPackages = py: with py; [ psycopg2 ];
+    }).overrideAttrs (oldAttrs: {
+      doInstallCheck = false;
+    });
   };
+  # Enable and set up Home Assistant on PostgreSQL
+  services.postgresql = {
+    enable = true;
+    ensureDatabases = [ "hass" ];
+    ensureUsers = [{
+      name = "hass";
+      ensureDBOwnership = true;
+    }];
+  };
+  # Add-ons that depend on SSL 1.x may require the following insecure package be permitted
+  # nixpkgs.config.permittedInsecurePackages = ["openssl-1.1.1w"];
   # Enable Caddy reverse proxy, listening for Tailnet host requests
   services.caddy = {
     enable = true;
