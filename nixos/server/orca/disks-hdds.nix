@@ -4,102 +4,39 @@
 # /dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XV4KDD -> /dev/sdd
 # /dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XR859D -> /dev/sde
 # /dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J0KV5L3F -> /dev/sdf
-_: {
+_:
+let
+  mkZfsDisk = device: {
+    type = "disk";
+    inherit device;
+    content = {
+      type = "gpt";
+      partitions = {
+        zfs = {
+          size = "100%";
+          content = {
+            type = "zfs";
+            pool = "zroot";
+          };
+        };
+      };
+    };
+  };
+in
+{
   disko.devices = {
     disk = {
-      hdd-0 = {
-        type = "disk";
-        device = "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J7TLCSNX";
-        content = {
-          type = "gpt";
-          partitions = {
-            zfs = {
-              size = "100%";
-              content = {
-                type = "zfs";
-                pool = "zroot";
-              };
-            };
-          };
-        };
-      };
-      hdd-1 = {
-        type = "disk";
-        device = "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J2TJHS9P";
-        content = {
-          type = "gpt";
-          partitions = {
-            zfs = {
-              size = "100%";
-              content = {
-                type = "zfs";
-                pool = "zroot";
-              };
-            };
-          };
-        };
-      };
-      hdd-2 = {
-        type = "disk";
-        device = "/dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XV4KDD";
-        content = {
-          type = "gpt";
-          partitions = {
-            zfs = {
-              size = "100%";
-              content = {
-                type = "zfs";
-                pool = "zroot";
-              };
-            };
-          };
-        };
-      };
-      hdd-3 = {
-        type = "disk";
-        device = "/dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XR859D";
-        content = {
-          type = "gpt";
-          partitions = {
-            zfs = {
-              size = "100%";
-              content = {
-                type = "zfs";
-                pool = "zroot";
-              };
-            };
-          };
-        };
-      };
-      hdd-4 = {
-        type = "disk";
-        device = "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J0KV5L3F";
-        content = {
-          type = "gpt";
-          partitions = {
-            zfs = {
-              size = "100%";
-              content = {
-                type = "zfs";
-                pool = "zroot";
-              };
-            };
-          };
-        };
-      };
+      hdd-0 = mkZfsDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J7TLCSNX";
+      hdd-1 = mkZfsDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J2TJHS9P";
+      hdd-2 = mkZfsDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XV4KDD";
+      hdd-3 = mkZfsDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XR859D";
+      hdd-4 = mkZfsDisk "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J0KV5L3F";
     };
 
     zpool = {
       zroot = {
         type = "zpool";
         mode = "raidz2";
-        devices = [
-          "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J7TLCSNX"
-          "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J2TJHS9P"
-          "/dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XV4KDD"
-          "/dev/disk/by-id/ata-WDC_WD10EFRX-68PJCN0_WD-WCC4J4XR859D"
-          "/dev/disk/by-id/ata-WDC_WD10EFRX-68FYTN0_WD-WCC4J0KV5L3F"
-        ];
 
         # Pool-level options
         options = {
