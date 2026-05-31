@@ -102,8 +102,8 @@ in
           xattr = "sa";
           dnodesize = "auto";
           "com.sun:auto-snapshot" = "false";
-          mountpoint = "/";
         };
+        mountpoint = "/";
 
         # Initial datasets
         datasets = {
