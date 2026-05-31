@@ -54,8 +54,35 @@ in
     ssh.enable = true;
   };
 
-  # Hardware config
+  ### START SECTION: HOME ASSISTANT ###
+  # Basic Home Assistant container
+  virtualisation.oci-containers = {
+    backend = "podman";
+    containers.homeassistant = {
+      volumes = [ "home-assistant:/config" ];
+      environment.TZ = "America/Detroit";
+      image = "ghcr.io/home-assistant/home-assistant:stable"; # Warning: if the tag does not change, the image will not be updated
+      extraOptions = [ 
+        "--network=host" 
+        "--device=/dev/ttyACM0:/dev/ttyACM0"  # Example, change this to match your own hardware
+      ];
+    };
+  };
+  # Enable Caddy reverse proxy, listening for Tailnet host requests
+  services.caddy = {
+    enable = true;
+    virtualHosts."orca.griffin-cobra.ts.net".extraConfig = ''
+      reverse_proxy 127.0.0.1:8123
+    '';
+  };
+  networking.firewall.allowedTCPPorts = [ 443 ];
+  # Allow Caddy to generate certificates
+  services.tailscale.permitCertUid = "caddy";
+  # Ensure the Caddy server starts after Tailscale authentication
+  systemd.services.caddy.after = ["tailscaled-autoconnect.service"];
+  ### END SECTION: HOME ASSISTANT ###
 
+  # Hardware config
   boot = {
     initrd.availableKernelModules = [
       "xhci_pci"
