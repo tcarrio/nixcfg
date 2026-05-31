@@ -68,6 +68,8 @@ in
       # Includes dependencies for a basic setup
       # https://www.home-assistant.io/integrations/default_config/
       default_config = {};
+
+      logger.default = "debug";
       # Connect to local PostgreSQL service
       # recorder.db_url = "postgresql://@/hass";
 
