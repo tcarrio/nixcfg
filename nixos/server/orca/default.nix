@@ -61,8 +61,8 @@ in
     extraComponents = [
       # Components required to complete the onboarding
       "esphome"
-      "met"
-      "radio_browser"
+      # "met"
+      # "radio_browser"
     ];
     config = {
       # Includes dependencies for a basic setup
@@ -70,6 +70,26 @@ in
       default_config = {};
       # Connect to local PostgreSQL service
       # recorder.db_url = "postgresql://@/hass";
+
+      # Declarative automations
+      "automation manual" = [
+        ### EXAMPLES
+        # {
+        #   alias = "living room plug off";
+        #   trigger = {
+        #     platform = "time";
+        #     at = "22:00";
+        #   };
+        #   action = {
+        #     type = "turn_off";
+        #     device_id = "someID"; #Inspect yaml of automation created in UI
+        #     entity_id = "switch.living_room_plug";
+        #     domain = "switch";
+        #   };
+        # }
+      ];
+      # Automations configured in the UI
+      "automation ui" = "!include automations.yaml";
     };
     # Ensure support for PostgreSQL driver
     # package = (pkgs.home-assistant.override {
