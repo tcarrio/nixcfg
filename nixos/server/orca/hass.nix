@@ -133,7 +133,7 @@
   };
 
   # Wyoming discoverable services like TTS and STT
-  services.wyoming.faster-whisper.servers.default = {
+  services.wyoming.faster-whisper.servers.hass = {
     enable = true;
     device = "cpu";
     initialPrompt = ''
@@ -143,7 +143,8 @@
     '';
     model = "distil-large-v3";
     uri = "tcp://0.0.0.0:10300";
-    sttLibrary = "faster-whisper";
+    ## TODO: Enable with 26.05
+    # sttLibrary = "faster-whisper";
     language = "en";
   };
   ### END SECTION: HOME ASSISTANT ###
