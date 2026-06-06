@@ -131,5 +131,20 @@
       workstation = true;
     };
   };
+
+  # Wyoming discoverable services like TTS and STT
+  services.wyoming.faster-whisper.servers.default = {
+    enable = true;
+    device = "cpu";
+    initialPrompt = ''
+      You are a home assistant helping with the following request. Be short but polite
+      in your response. When there are many details available, prioritize details related
+      to the initial request and keep to a summary of details.
+    '';
+    model = "distil-large-v3";
+    uri = "tcp://0.0.0.0:10300";
+    sttLibrary = "faster-whisper";
+    language = "en";
+  };
   ### END SECTION: HOME ASSISTANT ###
 }
