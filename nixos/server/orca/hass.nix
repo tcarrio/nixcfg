@@ -147,5 +147,9 @@
     # sttLibrary = "faster-whisper";
     language = "en";
   };
+  services.wyoming.piper.servers.hass = {
+    enable = true;
+    voice = "en-us-ryan-medium";
+  };
   ### END SECTION: HOME ASSISTANT ###
 }
