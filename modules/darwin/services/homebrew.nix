@@ -45,6 +45,7 @@ let
     "rnnoise"
     "signal"
     "sol"
+    "upscayl"
     "vocaster-hub"
   ];
 
