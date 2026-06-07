@@ -47,7 +47,7 @@ in
 
   system.stateVersion = lib.mkForce lib.trivial.release;
   environment.systemPackages = [ install-system ];
-  services.kmscon.autologinUser = "${username}";
+  services.getty.autologinUser = "${username}";
 
   security.sudo.extraRules = [
     {

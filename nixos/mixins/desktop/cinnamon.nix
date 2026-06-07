@@ -13,9 +13,6 @@
   # Use GDM for the display manager (login screen)
   services.displayManager.gdm.enable = true;
 
-  # Disable Wayland (issues with Electron app rendering)
-  services.displayManager.gdm.wayland = false;
-
   # Enable udev rules
   services.udev.packages = with pkgs; [ gnome-settings-daemon ];
 

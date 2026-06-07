@@ -28,7 +28,7 @@
         lutris
       ]
       ++ lib.optionals config.oxc.desktop.lutris.wine.enable [
-        wineWowPackages.stable
+        wineWow64Packages.stable
         winetricks
       ];
   };

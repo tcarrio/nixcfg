@@ -70,7 +70,7 @@
         with pkgs;
         [
           quickemu
-          xorg.xhost # for running X11 apps in distrobox
+          xhost # for running X11 apps in distrobox
         ]
       );
     in

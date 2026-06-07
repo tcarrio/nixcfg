@@ -19,6 +19,6 @@
     ];
 
     # required due to outdated version of Electron used for Logseq
-    nixpkgs.config.permittedInsecurePackages = [ "electron-25.9.0" ];
+    nixpkgs.config.permittedInsecurePackages = [ "electron-39.8.10" ];
   };
 }
