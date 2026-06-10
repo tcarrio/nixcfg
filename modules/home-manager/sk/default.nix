@@ -37,10 +37,9 @@ in
 
   config = lib.mkIf cfg.enable {
     home = {
-      packages = with pkgs; [
-        unstable.cursor-cli
-        qq-cli
-      ];
+      packages = (with pkgs.unstable; [
+        cursor-cli
+      ]) ++ [pkgs.qq-cli];
       # General support for non-fish shell or sessions
       sessionPath = [
         "/opt/homebrew/bin"

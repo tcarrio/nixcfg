@@ -14,6 +14,7 @@ let
 in
 {
   imports = [
+    ../../console/asciinema.nix
     ../../console/charm-freeze.nix
     ../../console/zeit.nix
     ../../desktop/discord.nix
