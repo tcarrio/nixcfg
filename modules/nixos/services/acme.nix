@@ -34,8 +34,7 @@ let
     })
     |> builtins.listToAttrs;
 
-  nginxDefaultHost = (
-    if cfg.nginx.default != null then
+  nginxDefaultHost = if cfg.nginx.default != null then
       {
         # Add support for 404s on unregistered hosts
         "_" = {
@@ -44,8 +43,7 @@ let
         };
       }
     else
-      { }
-  );
+      { };
 in
 {
   options.oxc.services.acme = {

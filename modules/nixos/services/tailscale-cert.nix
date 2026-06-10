@@ -6,7 +6,7 @@
 }:
 let
   cfg = config.services.tailscale;
-  certCfg = cfg.certOutput or [];
+  certCfg = cfg.certOutput or [ ];
 
   # Determine which service to depend on
   useAutoconnect = cfg ? authKeyFile;
@@ -16,11 +16,19 @@ let
   certUser = cfg.certUser or "tailscale";
 
   # ExecStartPre commands
-  preCommands = 
-    (if useAutoconnect then [ ] else [
-      "/usr/bin/sh -c 'until ${pkgs.tailscale}/bin/tailscale status >/dev/null 2>&1; do sleep 1; done'"
-    ]) ++ [
-      "${pkgs.coreutils}/bin/mkdir -p ${lib.concatStringsSep " " (map (c: "${lib.dirname c.path}") certCfg)}"
+  preCommands =
+    (
+      if useAutoconnect then
+        [ ]
+      else
+        [
+          "/usr/bin/sh -c 'until ${pkgs.tailscale}/bin/tailscale status >/dev/null 2>&1; do sleep 1; done'"
+        ]
+    )
+    ++ [
+      "${pkgs.coreutils}/bin/mkdir -p ${
+        lib.concatStringsSep " " (map (c: "${lib.dirname c.path}") certCfg)
+      }"
     ];
 
   allCertsService = {
@@ -37,13 +45,13 @@ let
 
       ExecStartPre = lib.concatStringsSep "\n" preCommands;
 
-      ExecStart = lib.concatStringsSep "\n" (map (
-        c: ''
+      ExecStart = lib.concatStringsSep "\n" (
+        map (c: ''
           ${pkgs.tailscale}/bin/tailscale cert ${c.machineName}.${c.tailnetName} > ${c.path}
           ${pkgs.coreutils}/bin/chmod ${c.permissions.mode} ${c.path}
           ${pkgs.coreutils}/bin/chown ${c.permissions.owner}:${c.permissions.group} ${c.path}
-        ''
-      ) certCfg);
+        '') certCfg
+      );
     };
   };
 
@@ -53,13 +61,13 @@ let
       Type = "oneshot";
       User = certUser;
       Group = certUser;
-      ExecStart = lib.concatStringsSep "\n" (map (
-        c: ''
+      ExecStart = lib.concatStringsSep "\n" (
+        map (c: ''
           ${pkgs.tailscale}/bin/tailscale cert ${c.machineName}.${c.tailnetName} > ${c.path}
           ${pkgs.coreutils}/bin/chmod ${c.permissions.mode} ${c.path}
           ${pkgs.coreutils}/bin/chown ${c.permissions.owner}:${c.permissions.group} ${c.path}
-        ''
-      ) certCfg);
+        '') certCfg
+      );
     };
   };
 
@@ -73,66 +81,75 @@ in
     };
 
     certOutput = lib.mkOption {
-      type = lib.types.listOf (lib.types.submodule {
-        options = {
-          path = lib.mkOption {
-            type = lib.types.path;
-            description = "Path where the certificate will be written";
-          };
-          machineName = lib.mkOption {
-            type = lib.types.str;
-            description = "Machine name in Tailscale";
-          };
-          tailnetName = lib.mkOption {
-            type = lib.types.str;
-            description = "Tailnet name (e.g., ts.net)";
-          };
-          permissions = lib.mkOption {
-            type = lib.types.submodule {
-              options = {
-                mode = lib.mkOption {
-                  type = lib.types.str;
-                  default = "600";
-                  description = "File permissions";
-                };
-                owner = lib.mkOption {
-                  type = lib.types.str;
-                  default = "tailscale";
-                  description = "File owner";
-                };
-                group = lib.mkOption {
-                  type = lib.types.str;
-                  default = "tailscale";
-                  description = "File group";
+      type = lib.types.listOf (
+        lib.types.submodule {
+          options = {
+            path = lib.mkOption {
+              type = lib.types.path;
+              description = "Path where the certificate will be written";
+            };
+            machineName = lib.mkOption {
+              type = lib.types.str;
+              description = "Machine name in Tailscale";
+            };
+            tailnetName = lib.mkOption {
+              type = lib.types.str;
+              description = "Tailnet name (e.g., ts.net)";
+            };
+            permissions = lib.mkOption {
+              type = lib.types.submodule {
+                options = {
+                  mode = lib.mkOption {
+                    type = lib.types.str;
+                    default = "600";
+                    description = "File permissions";
+                  };
+                  owner = lib.mkOption {
+                    type = lib.types.str;
+                    default = "tailscale";
+                    description = "File owner";
+                  };
+                  group = lib.mkOption {
+                    type = lib.types.str;
+                    default = "tailscale";
+                    description = "File group";
+                  };
                 };
               };
+              default = {
+                mode = "600";
+                owner = "tailscale";
+                group = "tailscale";
+              };
+              description = "Permissions for the certificate file";
             };
-            default = { mode = "600"; owner = "tailscale"; group = "tailscale"; };
-            description = "Permissions for the certificate file";
           };
-        };
-      });
-      default = [];
+        }
+      );
+      default = [ ];
       description = "List of Tailscale certificates to generate and their output configurations";
     };
   };
 
-  config = lib.mkIf (cfg ? certOutput) && certCfg != [] {
-    environment.systemPackages = [ pkgs.tailscale ];
-    services.tailscale.enable = true;
-    services.tailscale.permitCertUid = certUser;
+  config =
+    lib.mkIf (cfg ? certOutput)
+    &&
+      certCfg != [ ] {
+        environment.systemPackages = [ pkgs.tailscale ];
+        services.tailscale.enable = true;
+        services.tailscale.permitCertUid = certUser;
 
-    systemd.services.tailscale-certs = allCertsService;
+        systemd.services.tailscale-certs = allCertsService;
 
-    systemd.timers.tailscale-certs-renew = {
-      description = "Renew Tailscale certificates weekly";
-      wantedBy = [ "timers.target" ];
-      timerConfig = {
-        OnCalendar = "weekly";
-        Persistent = true;
+        systemd.timers.tailscale-certs-renew = {
+          description = "Renew Tailscale certificates weekly";
+          wantedBy = [ "timers.target" ];
+          timerConfig = {
+            OnCalendar = "weekly";
+            Persistent = true;
+          };
+        };
+
+        systemd.services.tailscale-certs-renew = renewService;
       };
-    };
-
-    systemd.services.tailscale-certs-renew = renewService;
-  };
 }

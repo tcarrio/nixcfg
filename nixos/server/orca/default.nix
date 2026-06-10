@@ -20,10 +20,9 @@
 }:
 let
   inetConfig = {
-    dns = ["192.168.1.1"];
-    gateway = ["192.168.1.1"];
+    dns = [ "192.168.1.1" ];
+    gateway = [ "192.168.1.1" ];
   };
-  tailhost = config.oxc.tailnet.hosts.${hostname};
 in
 {
   imports = [
@@ -67,19 +66,18 @@ in
 
   # Use passed hostname to configure basic networking
   networking.hostName = hostname;
-  networking.hostId = builtins.hashString "sha512" hostname
-    |> builtins.substring 0 8;
+  networking.hostId = builtins.hashString "sha512" hostname |> builtins.substring 0 8;
 
   systemd.network.enable = true;
   systemd.network.networks."20-lan" = {
     inherit (inetConfig) dns gateway;
     matchConfig.Name = "enp2s0";
-    address = ["192.168.1.251/24"];
+    address = [ "192.168.1.251/24" ];
   };
   systemd.network.networks."30-lan" = {
     inherit (inetConfig) dns gateway;
     matchConfig.Name = "eno1";
-    address = ["192.168.1.250/24"];
+    address = [ "192.168.1.250/24" ];
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

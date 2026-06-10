@@ -120,7 +120,7 @@ let
   };
 in
 {
-  imports = [inputs.NixVirt.nixosModules.default];
+  imports = [ inputs.NixVirt.nixosModules.default ];
 
   options.oxc.vms.haos = {
     enable = lib.mkEnableOption "Enable the KVM-backed Home Assistant OS service";

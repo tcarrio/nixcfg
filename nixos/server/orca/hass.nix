@@ -1,13 +1,12 @@
 { pkgs, config, ... }:
-let
-  tailnet_domain = "orca.griffin-cobra.ts.net";
-in
 {
-### START SECTION: HOME ASSISTANT ###
+  ### START SECTION: HOME ASSISTANT ###
   # Prefer to use nixpkgs-unstable's module definition
-  nixpkgs.overlays = [(self: super: {
-    inherit (pkgs.unstable) home-assistant;
-  })];
+  nixpkgs.overlays = [
+    (_self: _super: {
+      inherit (pkgs.unstable) home-assistant;
+    })
+  ];
   # additional import from nixpkgs-unstable above replaces the following
   # disabledModules = ["services/home-automation/home-assistant.nix"];
 
@@ -35,7 +34,7 @@ in
     config = {
       # Includes dependencies for a basic setup
       # https://www.home-assistant.io/integrations/default_config/
-      default_config = {};
+      default_config = { };
 
       customComponents = with pkgs.home-assistant-custom-components; [
         sensi
@@ -118,7 +117,7 @@ in
   # Allow Caddy to generate certificates
   services.tailscale.permitCertUid = "caddy";
   # Ensure the Caddy server starts after Tailscale authentication
-  systemd.services.caddy.after = ["tailscaled-autoconnect.service"];
+  systemd.services.caddy.after = [ "tailscaled-autoconnect.service" ];
 
   # Support for mDNS, hopefully
   services.avahi = {
