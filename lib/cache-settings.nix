@@ -12,6 +12,24 @@ let
   };
 
   nixSettings = {
+    # Override default setting of 300 second (5 MINUTE) timeout to 5 SECOND timeout
+    connect-timeout = 5;
+    log-lines = 50;
+    min-free = 256000000; # 256MB
+    max-free = 1000000000; # 1GB
+
+    # Allow building from source
+    fallback = true;
+    # Allow dirty VCS tress (Git/Mercurial)
+    warn-dirty = false;
+    # Replace identical files with hard links
+    auto-optimise-store = true;
+
+    # This ensures that packages needed for building other packages are kept
+    # in the store. If you’re going to be building packages locally, this is
+    # very useful to prevent having to redownload things a lot.
+    keep-outputs = true;
+
     # Necessary for using flakes on this system.
     experimental-features = "nix-command flakes pipe-operators";
 
