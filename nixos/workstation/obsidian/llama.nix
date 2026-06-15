@@ -22,6 +22,7 @@ in
     inherit package;
 
     model = "/home/tcarrio/.local/share/llama-cpp/models/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf";
+    # model = "/home/tcarrio/.local/share/llama-cpp/models/Qwen3.5-9B-VLM-Q4_K_M-GGUF.gguf";
 
     extraFlags = [
       "--n-gpu-layers"
