@@ -6,6 +6,7 @@
     open-webui
     tor-browser
     heroic
+    localsend
     dotool # for Wayland-compatible STT
     wtype # for Wayland-compatible STT
   ];
