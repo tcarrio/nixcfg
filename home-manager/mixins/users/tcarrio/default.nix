@@ -136,6 +136,25 @@ Host obsidian
         pdf-compress = ''
           ${pkgs.ghostscript}/bin/gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$argv[2]" "$argv[1]"
         '';
+        wtcd = ''
+          if test (count $argv) -eq 0
+              git worktree list
+              return
+          end
+          set -l path (git worktree list --porcelain | awk -v b="refs/heads/$argv[1]" '
+              /^worktree / { wt = $2 }
+              /^branch / && $2 == b { print wt; exit }
+          ')
+          if test -z "$path"
+              echo "No worktree for branch: $argv[1]" >&2
+              return 1
+          end
+          cd "$path"
+        '';
+        wtfd = ''
+          set -l path (git worktree list --porcelain | awk '/^worktree / {wt=$2} /^branch / {print wt"\t"substr($2,12)}' | fzf | cut -f1)
+          test -n "$path"; and cd "$path"
+        '';
       };
     };
 
