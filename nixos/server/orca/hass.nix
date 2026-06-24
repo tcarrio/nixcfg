@@ -27,9 +27,15 @@
       "cast"
       "hue"
       "tuya"
+      "govee_light_local" # https://app-h5.govee.com/user-manual/wlan-guide
+      # HomeKit support
+      "homekit_controller"
       # Voice assistance
       "piper"
       "whisper"
+      "wyoming"
+      # Cloud integrations
+      "google"
     ];
     config = {
       # Includes dependencies for a basic setup
@@ -150,6 +156,7 @@
   services.wyoming.piper.servers.hass = {
     enable = true;
     voice = "en-us-ryan-medium";
+    uri = "tcp://0.0.0.0:10200";
   };
   ### END SECTION: HOME ASSISTANT ###
 }
