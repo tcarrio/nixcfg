@@ -94,7 +94,7 @@ let
     # On Darwin, the nix.settings MUST NOT be set when nix.enable is false,
     # or nix-darwin will be UNABLE to build 💥
     # You instead set the settings you want for Nix here, in the same structure:
-    determinate-nix.customSettings = nixSettings // {
+    determinateNix.customSettings = nixSettings // {
       # Evaluate across all cores
       eval-cores = 0;
     };
