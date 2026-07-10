@@ -72,4 +72,7 @@ in
 
   # Register an age key location for darwin systems secret access
   age.identityPaths = [ "${config.xdg.configHome}/.age/key.txt" ];
+
+  # Disable Zed editor installation on Darwin
+  oxc.zed-editor.package = pkgs.empty;
 }
