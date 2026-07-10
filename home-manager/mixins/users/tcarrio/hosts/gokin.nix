@@ -45,4 +45,6 @@ in
     pkgs.unstable.nodejs
     pkgs.unstable.claude-code
   ];
+
+  oxc.ai.glm.enable = true;
 }
