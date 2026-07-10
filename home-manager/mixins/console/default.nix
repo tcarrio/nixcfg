@@ -8,6 +8,7 @@
   imports = [
     ./neovim.nix
     ./tmux.nix
+    ./worktree-cli
   ];
 
   home = {
