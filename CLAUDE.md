@@ -82,7 +82,6 @@ Available through `pkgs` in configurations:
 
 ### Caches
 - **nixos.org** - Official Nix binary cache
-- **cache.garnix.io** - Garnix CI cache
 - **nix-community.cachix.org** - Community packages
 - **nix-darwin.cachix.org** - nix-darwin packages
 
