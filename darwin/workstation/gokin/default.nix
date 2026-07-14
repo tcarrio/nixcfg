@@ -8,6 +8,10 @@
   sk.enable = false;
   oxc.homebrew.enable = true;
   oxc.homebrew.defaults = true;
+  oxc.services.colima = {
+    enable = true;
+    automaticBoot = true;
+  };
 
   environment.systemPackages = with pkgs.unstable; [
     openssh

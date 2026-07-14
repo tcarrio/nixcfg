@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  username,
   ...
 }:
 
@@ -37,16 +38,19 @@ in
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       colima
-      docker_27
+      docker_29
       docker-compose
     ];
 
-    launchd.daemons.colima = lib.optional cfg.automaticBoot {
+    launchd.daemons.colima = lib.mkIf cfg.automaticBoot {
       path = [ colima ];
-      serviceConfig.Program = "${colima}/bin/colima";
-      serviceConfig.ProgramArguments = [ "start" ] ++ cfg.arguments;
-      serviceConfig.KeepAlive = false;
-      serviceConfig.RunAtLoad = true;
+      serviceConfig = {
+        Program = "${colima}/bin/colima";
+        ProgramArguments = [ "start" ] ++ cfg.arguments;
+        KeepAlive = false;
+        RunAtLoad = true;
+        UserName = username;
+      };
     };
   };
 }
