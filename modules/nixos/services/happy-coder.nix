@@ -91,6 +91,8 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    environment.systemPackages = [cfg.package];
+
     systemd.services.happy-coder = {
       description = "Happy daemon — remote control for Claude Code";
       documentation = [ "https://github.com/slopus/happy" ];
