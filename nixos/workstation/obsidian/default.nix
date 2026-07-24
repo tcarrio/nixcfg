@@ -12,6 +12,7 @@
   lib,
   pkgs,
   desktop,
+  username,
   ...
 }:
 {
@@ -42,6 +43,10 @@
       wait-online.enable = false;
       tailscale.enable = true;
       tailscale.autoconnect = false;
+      happy-coder = {
+        enable = true;
+        user = username;
+      };
     };
     containerisation = {
       enable = true;
