@@ -12,16 +12,20 @@ let
   userEntry = config.users.users.${cfg.user};
 
   # Happy spawns the `claude` CLI (and re-execs itself) from PATH. The happy
-  # package wrapper already prefixes node/ripgrep/difftastic; this runner
-  # additionally prefixes the chosen claude-code build so exactly that `claude`
-  # is what the daemon invokes, while leaving the service's default PATH intact.
+  # package wrapper already prefixes node/ripgrep/difftastic. This runner:
+  #   * when `claude.enable` is true, additionally prefixes the pinned
+  #     claude-code build so exactly that `claude` is invoked;
+  #   * when `claude.enable` is false, injects nothing and instead surfaces the
+  #     system profile so `claude` resolves from whatever the system provides
+  #     (e.g. a build added to environment.systemPackages). NixOS does not put
+  #     /run/current-system/sw/bin on a service's default PATH, so we add it.
   runner = pkgs.writeShellApplication {
     name = "happy-daemon";
-    runtimeInputs = [
-      cfg.package
-      cfg.claudePackage
-    ];
+    runtimeInputs = [ cfg.package ] ++ lib.optional cfg.claude.enable cfg.claude.package;
     text = ''
+      ${lib.optionalString (!cfg.claude.enable) ''
+        export PATH="/run/current-system/sw/bin:$PATH"
+      ''}
       exec ${lib.getExe cfg.package} daemon start-sync "$@"
     '';
   };
@@ -41,15 +45,30 @@ in
 
     package = lib.mkPackageOption pkgs "happy-coder" { };
 
-    claudePackage = lib.mkOption {
-      type = lib.types.package;
-      default = pkgs.claude-code;
-      defaultText = lib.literalExpression "pkgs.claude-code";
-      description = ''
-        The claude-code package exposed on the Happy daemon's PATH. Happy spawns
-        the `claude` CLI to run sessions, so this package must provide a `claude`
-        executable — this option guarantees that is the build Happy invokes.
-      '';
+    claude = {
+      enable = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = ''
+          Whether to pin a claude-code package onto the daemon's PATH.
+
+          When enabled (the default), Happy resolves `claude` to
+          {option}`claude.package`. When disabled, no claude is injected and the
+          daemon instead discovers `claude` from the system profile — for example
+          a build added to `environment.systemPackages` elsewhere.
+        '';
+      };
+
+      package = lib.mkOption {
+        type = lib.types.package;
+        default = pkgs.claude-code;
+        defaultText = lib.literalExpression "pkgs.claude-code";
+        description = ''
+          The claude-code package to expose on the daemon's PATH. Only used when
+          {option}`claude.enable` is true; the package must provide a `claude`
+          executable.
+        '';
+      };
     };
 
     user = lib.mkOption {
@@ -79,11 +98,9 @@ in
       wants = [ "network-online.target" ];
       wantedBy = [ "multi-user.target" ];
 
-      # systemd already injects a default PATH (coreutils, findutils, ...) for
-      # every service; setting `environment.PATH` here would clash with it, so
-      # the runner wrapper below prepends happy + claude-code instead, leaving
-      # the default intact. HOME must be set explicitly because systemd does not
-      # export it for the unit.
+      # systemd does not export HOME for a unit, so set it explicitly. PATH is
+      # left to the runner wrapper (see `runner` above) to avoid clashing with
+      # the per-service default PATH NixOS injects.
       environment.HOME = userEntry.home;
 
       serviceConfig = {
