@@ -15,7 +15,7 @@
 # Freedesktop SDK                                  org.freedesktop.Sdk                                        freedesktop-sdk-25.08.5               25.08                    system
 
 # TODO: Refactor Flatpak installs to home-manager
-{ lib, config, ... }:
+{ lib, config, pkgs, ... }:
 let
   cfg = config.oxc.desktop.flatpak;
 in
@@ -46,10 +46,23 @@ in
       };
     };
 
-    environment.profileRelativeSessionVariables.XDG_DATA_DIR = [
-      "/usr/share"
-      "/var/lib/flatpak/exports/share"
-      "$HOME/.local/share/flatpak/exports/share"
+    environment.systemPackages = [
+      # provides update-desktop-database, used by the helper below
+      pkgs.desktop-file-utils
+      # GNOME Shell should pick up newly installed Flatpaks automatically via its
+      # applications-directory monitor (no relogin needed). If an app doesn't
+      # appear within ~10s of `flatpak install`, run this to refresh the menus.
+      # On GNOME Wayland the shell is the compositor and cannot be restarted in
+      # place, so this nudge (or a session restart) is the fallback.
+      (pkgs.writeShellScriptBin "flatpak-refresh-menu" ''
+        for d in \
+          /var/lib/flatpak/exports/share/applications \
+          "$HOME/.local/share/flatpak/exports/share/applications" \
+          "$HOME/.local/share/applications"; do
+          [ -d "$d" ] && ${pkgs.desktop-file-utils}/bin/update-desktop-database "$d"
+        done
+        echo "Flatpak application menus refreshed."
+      '')
     ];
 
     xdg.portal.enable = true;

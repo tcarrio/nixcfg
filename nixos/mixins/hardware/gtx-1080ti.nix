@@ -31,12 +31,16 @@
 
       nvidiaSettings = true;
 
-      forceFullCompositionPipeline = true;
+      # Disabled: this is an Xorg-era tearing fix that conflicts with Mutter's
+      # compositor vsync under GNOME Wayland and can reduce OpenGL performance.
+      # modesetting.enable above already gives us the correct Wayland path via
+      # nvidia-drm, so this isn't needed.
+      forceFullCompositionPipeline = false;
     };
 
-    graphics = {
-      enable = true;
-      inherit (config.hardware.nvidia) package;
-    };
+    # package defaults to pkgs.mesa; the NVIDIA module layers the proprietary
+    # userspace on top via hardware.graphics.extraPackages, which is the setup
+    # the module is designed around.
+    graphics.enable = true;
   };
 }
