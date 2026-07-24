@@ -92,10 +92,6 @@
           enable = isPodman;
         };
       };
-
-      hardware = lib.mkIf (lib.elem "nvidia" config.services.xserver.videoDrivers) {
-        nvidia-container-toolkit.enable = true;
-      };
     }
   );
 }

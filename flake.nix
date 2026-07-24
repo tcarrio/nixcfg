@@ -4,7 +4,6 @@
   nixConfig = {
     extra-substituters = [
       "https://cache.nixos.org"
-      "https://install.determinate.systems"
       "https://cache.flakehub.com"
       "https://nix-community.cachix.org"
       "https://nix-darwin.cachix.org"
@@ -195,14 +194,14 @@
           username = "tcarrio";
           hostname = "sktc2";
           stateVersion = 4;
-          determinate = true;
+          determinate = false;
           desktop = "aqua";
         };
         "gokin" = libx.mkDarwin {
           username = "tcarrio";
           hostname = "gokin";
           stateVersion = 4;
-          determinate = true;
+          determinate = false;
           desktop = "aqua";
         };
       };
@@ -523,7 +522,7 @@
 
   inputs = {
     # Primary source from FlakeHub follows the current release cycle, e.g. 26.05.
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
 
     # You can access packages and modules from different nixpkgs revs at the
     # same time. See 'unstable-packages' overlay in 'overlays/default.nix'.
@@ -585,9 +584,6 @@
     # Nixvim for neovim configuration
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs-unstable";
-
-    # Determinate Nix modules
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
 
     # Hyprvibe (Hyprland) setup
     hyprvibe.url = "github:tcarrio/hyprvibe";

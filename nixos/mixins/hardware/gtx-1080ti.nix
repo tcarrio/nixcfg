@@ -15,7 +15,7 @@
 
   hardware = {
     nvidia = {
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      package = config.boot.kernelPackages.nvidiaPackages.legacy_580;
 
       modesetting.enable = true;
 
@@ -39,6 +39,4 @@
       inherit (config.hardware.nvidia) package;
     };
   };
-
-  virtualisation.docker.enableNvidia = config.oxc.virtualisation.enable;
 }

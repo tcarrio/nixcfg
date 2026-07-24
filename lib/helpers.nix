@@ -97,7 +97,6 @@ in
         overlaysModule
         agenixOverlaysModule
       ]
-      ++ (lib.optionals determinate [ inputs.determinate.nixosModules.default ])
       ++ (lib.optionals (installer != null) [ installer ])
       ++ (lib.optionals isWorkstation [ inputs.chaotic.nixosModules.default ])
       ++ (lib.optionals (desktop != null && (isWorkstation || isIso)) [
