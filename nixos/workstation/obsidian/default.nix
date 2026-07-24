@@ -46,6 +46,8 @@
       happy-coder = {
         enable = true;
         user = username;
+        claude.enable = true;
+        glm.enable = true;
       };
     };
     containerisation = {

@@ -6,10 +6,19 @@
 }:
 let
   cfg = config.oxc.services.happy-coder;
+  glmCfg = cfg.glm;
 
   # Happy stores auth credentials and session state per-user underneath the
   # owner's home directory, so run the daemon as that user and point HOME at it.
   userEntry = config.users.users.${cfg.user};
+
+  glmExports = ''
+    export ANTHROPIC_BASE_URL="https://api.z.ai/api/anthropic"
+    export API_TIMEOUT_MS="3000000"
+    export ANTHROPIC_DEFAULT_HAIKU_MODEL="${glmCfg.haiku}"
+    export ANTHROPIC_DEFAULT_SONNET_MODEL="${glmCfg.sonnet}"
+    export ANTHROPIC_DEFAULT_OPUS_MODEL="${glmCfg.opus}"
+  '';
 
   # Happy spawns the `claude` CLI (and re-execs itself) from PATH. The happy
   # package wrapper already prefixes node/ripgrep/difftastic. This runner:
@@ -21,12 +30,22 @@ let
   #     /run/current-system/sw/bin on a service's default PATH, so we add it.
   runner = pkgs.writeShellApplication {
     name = "happy-daemon";
-    runtimeInputs = [ cfg.package ] ++ lib.optional cfg.claude.enable cfg.claude.package;
+    runtimeInputs = [ cfg.package ] ++ lib.optional cfg.claude.enable claudeRunner;
     text = ''
       ${lib.optionalString (!cfg.claude.enable) ''
         export PATH="/run/current-system/sw/bin:$PATH"
       ''}
+      ${lib.optionalString cfg.glm.enable glmExports}
       exec ${lib.getExe cfg.package} daemon start-sync "$@"
+    '';
+  };
+
+  claudeRunner = pkgs.writeShellApplication {
+    name = "claude";
+    runtimeInputs = [ cfg.claude.package ];
+    text = ''
+      ${lib.optionalString cfg.glm.enable glmExports}
+      exec ${lib.getExe cfg.claude.package} "$@"
     '';
   };
 in
@@ -48,7 +67,7 @@ in
     claude = {
       enable = lib.mkOption {
         type = lib.types.bool;
-        default = true;
+        default = false;
         description = ''
           Whether to pin a claude-code package onto the daemon's PATH.
 
@@ -67,6 +86,46 @@ in
           The claude-code package to expose on the daemon's PATH. Only used when
           {option}`claude.enable` is true; the package must provide a `claude`
           executable.
+        '';
+      };
+    };
+
+    glm = {
+      enable = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = ''
+          Whether to enable the GLM Coding Plan access from Z.AI
+        '';
+      };
+
+      haiku = lib.mkOption rec {
+        type = lib.types.str;
+        default = "GLM-4.5-air";
+        description = ''
+          The Z.AI model Claude will use when Haiku is selected.
+
+          Defaults to ${default}
+        '';
+      };
+
+      sonnet = lib.mkOption rec {
+        type = lib.types.str;
+        default = "GLM-4.7";
+        description = ''
+          The Z.AI model Claude will use when Sonnet is selected.
+
+          Defaults to ${default}
+        '';
+      };
+
+      opus = lib.mkOption rec {
+        type = lib.types.str;
+        default = "GLM-5.2";
+        description = ''
+          The Z.AI model Claude will use when Opus is selected.
+
+          Defaults to ${default}
         '';
       };
     };
@@ -91,7 +150,8 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [cfg.package];
+    environment.systemPackages = [cfg.package]
+      ++ (lib.optional cfg.claude.enable claudeRunner);
 
     systemd.services.happy-coder = {
       description = "Happy daemon — remote control for Claude Code";

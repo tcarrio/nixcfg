@@ -33,7 +33,7 @@
   oxc.github.dash.presets = [ "personal" ];
 
   home.packages = [
-    happy-coder
+    pkgs.happy-coder
     pkgs.unstable.nodejs
     pkgs.unstable.claude-code
   ];
