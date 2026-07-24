@@ -1,15 +1,7 @@
 {
   pkgs,
-  inputs,
   ...
 }:
-let
-  happyNixpkgs = import inputs.happy-nixpkgs {
-    inherit (pkgs.stdenv.hostPlatform) system;
-    config.allowUnfree = true;
-  };
-  inherit (happyNixpkgs) happy-coder;
-in
 {
   # home.sessionPath = ["${homeDir}/.bun/bin"];
   programs.fish.shellAliases = {
