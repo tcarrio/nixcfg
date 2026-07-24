@@ -603,9 +603,6 @@
     # Handy: Speech-to-text assistant
     handy.url = "github:cjpais/Handy/v0.7.12";
 
-    # Happy-coder pending PR for latest monorepo build
-    happy-nixpkgs.url = "github:nixos/nixpkgs/08ffd53feb3b628c471e2f6009ed007589dca8e1";
-
     # Zen browser for NixOS
     zen-browser.url = "github:youwen5/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
