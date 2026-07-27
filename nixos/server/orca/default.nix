@@ -90,4 +90,6 @@ in
     daily = 60;
     weekly = 0;
   };
+  # Disable force import to avoid data loss scenarios
+  boot.zfs.forceImportRoot = false;
 }
