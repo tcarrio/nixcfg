@@ -3,6 +3,7 @@ let
   cfg = config.oxc.services.yubikey;
 
   defaultKeys = [
+    # Generated using `${pkgs.pam_u2f}/bin/pamu2fcfg > $temp_dir/u2f_keys`
     "tcarrio:TvZ3U7bAPWeRtL3t5qbKawJKe69jJqMk4YayOklrXaSA8QePISDg2W1ZT03pvrBbG97YK1Dy/vzpoKmntuuWmw==,ii8jem3VuN7Z4Vw86uA5EAe6PzrKIiclS9cAzeMnP1Agj2+CzTC39EXaoYQ2m2d3KGuVUnWWvKQRRmiDoRTS8w==,es256,+presence";
   ];
 
