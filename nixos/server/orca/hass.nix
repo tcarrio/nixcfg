@@ -45,6 +45,16 @@ in
       # (and does not get) the `dialout` group.
     ];
     config = {
+      homeassistant = {
+        # https://www.home-assistant.io/docs/configuration/basic/
+        name = "Home";
+        latitude = 42.016035;
+        longitude = -83.9236092;
+        unit_system = "us_customary";
+        temperature_units = "F";
+        time_zone = "America/Detroit";
+      };
+
       # Includes dependencies for a basic setup
       # https://www.home-assistant.io/integrations/default_config/
       default_config = { };
