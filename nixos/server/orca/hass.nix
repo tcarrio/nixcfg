@@ -200,14 +200,15 @@
       in your response. When there are many details available, prioritize details related
       to the initial request and keep to a summary of details.
     '';
-    model = "distil-large-v3";
+    model = "turbo";
     uri = "tcp://0.0.0.0:10300";
-    # sttLibrary = "faster-whisper";
+    sttLibrary = "faster-whisper";
     language = "en";
   };
   services.wyoming.piper.servers.hass = {
     enable = true;
-    voice = "en-us-ryan-medium";
+    # https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_US/hfc_female/medium/en_US-hfc_female-medium.onnx?download=true
+    voice = "en-us-hfc-female-medium";
     uri = "tcp://0.0.0.0:10200";
   };
   ### END SECTION: HOME ASSISTANT ###
