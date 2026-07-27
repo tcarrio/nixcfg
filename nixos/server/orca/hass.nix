@@ -36,11 +36,22 @@
       "wyoming"
       # Cloud integrations
       "google"
+      # The ZBT-2 Zigbee radio is driven by Zigbee2MQTT (see below), not ZHA;
+      # HA consumes it over MQTT via the `mqtt` config below. No serial-using
+      # component is listed here, so the home-assistant service does not need
+      # (and does not get) the `dialout` group.
     ];
     config = {
       # Includes dependencies for a basic setup
       # https://www.home-assistant.io/integrations/default_config/
       default_config = { };
+
+      # Connect Home Assistant to the local Mosquitto broker so it can consume
+      # Zigbee2MQTT's MQTT discovery (paired Zigbee devices show up on their own).
+      mqtt = {
+        broker = "127.0.0.1";
+        port = 1883;
+      };
 
       customComponents = with pkgs.home-assistant-custom-components; [
         sensi
@@ -81,6 +92,48 @@
   systemd.tmpfiles.rules = [
     "f ${config.services.home-assistant.configDir}/automations.yaml 0755 hass hass"
   ];
+
+  # Home Assistant Connect ZBT-2 (USB 303a:4001): expose the Zigbee/Thread radio
+  # as a stable, dialout-owned device node. The radio is driven by Zigbee2MQTT
+  # below; the zigbee2mqtt NixOS module adds that service to the `dialout` group,
+  # so it can open /dev/serial/by-id/usb-Nabu_Casa_ZBT-2_A4CB8FD163BC-if00
+  # (also reachable as the /dev/zbt2 symlink this rule creates).
+  services.udev.extraRules = ''
+    SUBSYSTEM=="tty", ATTRS{idVendor}=="303a", ATTRS{idProduct}=="4001", GROUP="dialout", MODE="0660", SYMLINK+="zbt2"
+  '';
+
+  # --- Zigbee via Zigbee2MQTT (owns the ZBT-2 radio) ---
+  # Mosquitto broker: anonymous and localhost-only. Both Home Assistant and
+  # Zigbee2MQTT run on this host, so nothing needs to reach the broker remotely.
+  services.mosquitto = {
+    enable = true;
+    listeners = [{
+      address = "127.0.0.1";
+      acl = [ "pattern readwrite #" ];
+      settings.allow_anonymous = true;
+    }];
+  };
+  services.zigbee2mqtt = {
+    enable = true;
+    settings = {
+      # The module already defaults `homeassistant = services.home-assistant.enable`,
+      # so MQTT discovery is on and paired Zigbee devices appear automatically.
+      # Keep joining off by default; toggle "Permit join" from the Z2M frontend.
+      permit_join = false;
+      mqtt.server = "mqtt://127.0.0.1:1883";
+      serial = {
+        port = "/dev/serial/by-id/usb-Nabu_Casa_ZBT-2_A4CB8FD163BC-if00";
+        adapter = "ember"; # EmberZNet EZSP adapter for the Silicon Labs EFR32MG24
+        baudrate = 460800; # the ZBT-2 runs 4x the ZBT-1/SkyConnect rate
+        rtscts = true; # hardware flow control
+      };
+      # Web UI on localhost; reach it via `ssh -L 8080:127.0.0.1:8080 orca`.
+      frontend = {
+        host = "127.0.0.1";
+        port = 8080;
+      };
+    };
+  };
   # Enable and set up Home Assistant on PostgreSQL
   # services.postgresql = {
   #   enable = true;
@@ -149,8 +202,7 @@
     '';
     model = "distil-large-v3";
     uri = "tcp://0.0.0.0:10300";
-    ## TODO: Enable with 26.05
-    # sttLibrary = "faster-whisper";
+    sttLibrary = "faster-whisper";
     language = "en";
   };
   services.wyoming.piper.servers.hass = {
