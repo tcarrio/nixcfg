@@ -1,4 +1,7 @@
 { pkgs, config, ... }:
+let
+  localhost = "127.0.0.1";
+in
 {
   ### START SECTION: HOME ASSISTANT ###
   # Prefer to use nixpkgs-unstable's module definition
@@ -49,7 +52,7 @@
       # Connect Home Assistant to the local Mosquitto broker so it can consume
       # Zigbee2MQTT's MQTT discovery (paired Zigbee devices show up on their own).
       mqtt = {
-        broker = "127.0.0.1";
+        broker = localhost;
         port = 1883;
       };
 
@@ -108,7 +111,7 @@
   services.mosquitto = {
     enable = true;
     listeners = [{
-      address = "127.0.0.1";
+      address = localhost;
       acl = [ "pattern readwrite #" ];
       settings.allow_anonymous = true;
     }];
@@ -120,7 +123,7 @@
       # so MQTT discovery is on and paired Zigbee devices appear automatically.
       # Keep joining off by default; toggle "Permit join" from the Z2M frontend.
       permit_join = false;
-      mqtt.server = "mqtt://127.0.0.1:1883";
+      mqtt.server = "mqtt://${localhost}:1883";
       serial = {
         port = "/dev/serial/by-id/usb-Nabu_Casa_ZBT-2_A4CB8FD163BC-if00";
         adapter = "ember"; # EmberZNet EZSP adapter for the Silicon Labs EFR32MG24
@@ -129,7 +132,7 @@
       };
       # Web UI on localhost; reach it via `ssh -L 8080:127.0.0.1:8080 orca`.
       frontend = {
-        host = "127.0.0.1";
+        host = localhost;
         port = 8080;
       };
     };
@@ -147,14 +150,14 @@
   # nixpkgs.config.permittedInsecurePackages = ["openssl-1.1.1w"];
   # Enable Caddy reverse proxy, listening for Tailnet host requests
   services.home-assistant.config.http = {
-    server_host = "127.0.0.1";
-    trusted_proxies = [ "127.0.0.1" ];
+    server_host = localhost;
+    trusted_proxies = [ localhost ];
     use_x_forwarded_for = true;
   };
   services.caddy = {
     enable = true;
     virtualHosts."orca.griffin-cobra.ts.net".extraConfig = ''
-      reverse_proxy 127.0.0.1:8123
+      reverse_proxy ${localhost}:8123
     '';
   };
   # services.nginx = {
@@ -201,7 +204,7 @@
       to the initial request and keep to a summary of details.
     '';
     model = "turbo";
-    uri = "tcp://0.0.0.0:10300";
+    uri = "tcp://${localhost}:10300";
     sttLibrary = "faster-whisper";
     language = "en";
   };
@@ -209,7 +212,7 @@
     enable = true;
     # https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_US/hfc_female/medium/en_US-hfc_female-medium.onnx?download=true
     voice = "en_US-hfc_female-medium";
-    uri = "tcp://0.0.0.0:10200";
+    uri = "tcp://${localhost}:10200";
   };
   ### END SECTION: HOME ASSISTANT ###
 
