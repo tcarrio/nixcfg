@@ -49,12 +49,10 @@ in
       # https://www.home-assistant.io/integrations/default_config/
       default_config = { };
 
-      # Connect Home Assistant to the local Mosquitto broker so it can consume
-      # Zigbee2MQTT's MQTT discovery (paired Zigbee devices show up on their own).
-      mqtt = {
-        broker = localhost;
-        port = 1883;
-      };
+      # Zigbee2MQTT's MQTT discovery (paired Zigbee devices show up on their own)
+      # occurs automatically, but the MQTT integration does need to be manually
+      # configured via the UI to work. Managing the MQTT broker through the
+      # configuration.yaml is no longer supported.
 
       customComponents = with pkgs.home-assistant-custom-components; [
         sensi
