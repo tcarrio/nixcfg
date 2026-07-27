@@ -51,7 +51,7 @@ in
         latitude = 42.016035;
         longitude = -83.9236092;
         unit_system = "us_customary";
-        temperature_units = "F";
+        temperature_unit = "F";
         time_zone = "America/Detroit";
       };
 
