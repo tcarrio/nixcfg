@@ -212,4 +212,7 @@
     uri = "tcp://0.0.0.0:10200";
   };
   ### END SECTION: HOME ASSISTANT ###
+
+  # Common issue with systemd-networkd wait-online target
+  oxc.services.wait-online.enable = true;
 }
