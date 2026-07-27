@@ -138,6 +138,9 @@ in
         baudrate = 460800; # the ZBT-2 runs 4x the ZBT-1/SkyConnect rate
         rtscts = true; # hardware flow control
       };
+      advanced = {
+        channel = 25;
+      };
       # Web UI on localhost; reach it via `ssh -L 8080:127.0.0.1:8080 orca`.
       frontend = {
         host = localhost;
