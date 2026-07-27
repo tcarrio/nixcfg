@@ -202,7 +202,7 @@
     '';
     model = "distil-large-v3";
     uri = "tcp://0.0.0.0:10300";
-    sttLibrary = "faster-whisper";
+    # sttLibrary = "faster-whisper";
     language = "en";
   };
   services.wyoming.piper.servers.hass = {
