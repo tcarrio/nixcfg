@@ -49,8 +49,6 @@ in
         };
       };
 
-      
-
       config.systemd.tmpfiles.rules = [
         "d /home/${username}/.config 0755 ${username} ${username}"
         "d /home/${username}/.config/Yubico 0755 ${username} ${username}"
