@@ -26,16 +26,16 @@ in
 
   home = {
     file."0xc/devshells".source = inputs.devshells;
-    file.".ssh/config".text =
-      "
-Host github.com
-  HostName github.com
-  User git
+    file.".ssh/config".text = ''
+      SetEnv TERM=xterm-256color
+      Host github.com
+        HostName github.com
+        User git
 
-Host obsidian
-  Hostname obsidian
-  User tcarrio
-    ";
+      Host obsidian
+        Hostname obsidian
+        User tcarrio
+    '';
     sessionVariables = {
       NIXPKGS_ALLOW_UNFREE = "1";
 
