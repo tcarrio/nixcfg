@@ -208,7 +208,7 @@
   services.wyoming.piper.servers.hass = {
     enable = true;
     # https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_US/hfc_female/medium/en_US-hfc_female-medium.onnx?download=true
-    voice = "en-us-hfc_female-medium";
+    voice = "en_US-hfc_female-medium";
     uri = "tcp://0.0.0.0:10200";
   };
   ### END SECTION: HOME ASSISTANT ###
