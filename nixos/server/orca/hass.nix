@@ -217,5 +217,5 @@ in
   ### END SECTION: HOME ASSISTANT ###
 
   # Common issue with systemd-networkd wait-online target
-  oxc.services.wait-online.enable = true;
+  oxc.services.wait-online.enable = false;
 }
