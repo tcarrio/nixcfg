@@ -9,6 +9,7 @@
     localsend
     dotool # for Wayland-compatible STT
     wtype # for Wayland-compatible STT
+    zoom-us
   ];
 
   # OpenRGB configurations
