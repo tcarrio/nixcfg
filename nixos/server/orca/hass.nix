@@ -23,26 +23,34 @@ in
       "met"
       "radio_browser"
       "shopping_list"
+
       # Recommended for fast zlib compression
       # https://www.home-assistant.io/integrations/isal
       "isal"
+
       # Preferred components
       "cast"
       "hue"
       "tuya"
       "govee_light_local" # https://app-h5.govee.com/user-manual/wlan-guide
+
       # HomeKit support
       "homekit_controller"
+
       # Voice assistance
       "piper"
       "whisper"
       "wyoming"
+
       # Cloud integrations
       "google"
+
       # The ZBT-2 Zigbee radio is driven by Zigbee2MQTT (see below), not ZHA;
       # HA consumes it over MQTT via the `mqtt` config below. No serial-using
       # component is listed here, so the home-assistant service does not need
       # (and does not get) the `dialout` group.
+
+
     ];
     config = {
       homeassistant = {
