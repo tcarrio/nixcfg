@@ -33,6 +33,7 @@ in
       "hue"
       "tuya"
       "govee_light_local" # https://app-h5.govee.com/user-manual/wlan-guide
+      "shelly"
 
       # HomeKit support
       "homekit_controller"
@@ -100,6 +101,7 @@ in
       # Automations configured in the UI
       "automation ui" = "!include automations.yaml";
     };
+
     # Ensure support for PostgreSQL driver
     # package = (pkgs.home-assistant.override {
     #   extraPackages = py: with py; [ psycopg2 ];
@@ -107,10 +109,15 @@ in
     #   doInstallCheck = false;
     # });
   };
+
   # Ensure existence of automations.yaml file
   systemd.tmpfiles.rules = [
     "f ${config.services.home-assistant.configDir}/automations.yaml 0755 hass hass"
   ];
+
+
+  # Matter support
+  services.home-assistant-matter-hub.enable = true;
 
   # Home Assistant Connect ZBT-2 (USB 303a:4001): expose the Zigbee/Thread radio
   # as a stable, dialout-owned device node. The radio is driven by Zigbee2MQTT
