@@ -117,7 +117,10 @@ in
 
 
   # Matter support
-  services.home-assistant-matter-hub.enable = true;
+  services.home-assistant-matter-hub = {
+    enable = true;
+    settings.homeAssistantUrl = config.services.home-assistant.config.homeassistant.internal_url;
+  };
 
   # Home Assistant Connect ZBT-2 (USB 303a:4001): expose the Zigbee/Thread radio
   # as a stable, dialout-owned device node. The radio is driven by Zigbee2MQTT
