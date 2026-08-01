@@ -34,6 +34,7 @@ in
       "tuya"
       "govee_light_local" # https://app-h5.govee.com/user-manual/wlan-guide
       "shelly"
+      "litterrobot"
 
       # HomeKit support
       "homekit_controller"
