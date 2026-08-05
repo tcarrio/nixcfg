@@ -62,13 +62,11 @@ in
         slumber
         trash-cli
         typescript-go
-        qq
       ])
       ++ (with pkgs; [
         gh-composer-auth
         urlencode
-        # TODO: Fix package
-        # gqurl
+        qq-cli
       ]);
   };
 
