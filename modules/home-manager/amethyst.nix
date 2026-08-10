@@ -280,6 +280,8 @@ let
     disable-padding-on-builtin-display = false;
 
     # Boolean flag for whether or not to add margins between windows (default false).
+    # Left off globally so margins are a property of the ring-light layout rather
+    # than something every layout pays for.
     window-margins = false;
 
     # Boolean flag for whether or not to set window margins if there is only one window on the screen, assuming window margins are enabled (default false).
@@ -374,7 +376,127 @@ let
 
   baseSettings = if cfg.defaults then default else { };
 
+  settings = baseSettings // cfg.settings;
+
   cfg = config.oxc.amethyst;
+
+  # Amethyst custom layouts are picked up from this directory and keyed by file
+  # name, so `ring-light.js` becomes the layout key `ring-light` (usable in the
+  # `layouts` list and as the `select-ring-light-layout` command).
+  layoutsDir = "Library/Application Support/Amethyst/Layouts";
+
+  # Whatever frames a layout hands back, Amethyst insets by
+  # `floor(window-margin-size / 2)` on every side before applying them
+  # (`FrameAssignment.finalFrame`). Subtracting that here is what makes the
+  # configured padding the number that actually lands on screen.
+  appliedMargin =
+    if (settings.window-margins or false) then
+      builtins.floor ((settings.window-margin-size or 0) / 2.0)
+    else
+      0;
+
+  # A tall layout that keeps a wide, even border of desktop visible around the
+  # tiled windows, so a bright wallpaper acts as a fill light on video calls.
+  ringLightLayout = with cfg.ringLight; ''
+    // Generated from modules/home-manager/amethyst.nix — edit the Nix module.
+    function layout() {
+        // Border left between the outermost windows and each screen edge, in px.
+        const PADDING = {
+            top: ${toString padding.top},
+            bottom: ${toString padding.bottom},
+            left: ${toString padding.left},
+            right: ${toString padding.right}
+        };
+        // Space left between two adjacent windows, in px.
+        const GAP = ${toString gap};
+        // Inset Amethyst applies to our frames on its own, in px.
+        const APPLIED = ${toString appliedMargin};
+
+        // Half the gap comes off each side of a window; the padding left over
+        // once that is accounted for shrinks the region we tile into.
+        const inset = Math.max(0, GAP / 2 - APPLIED);
+        const edge = {
+            top: Math.max(0, PADDING.top - GAP / 2),
+            bottom: Math.max(0, PADDING.bottom - GAP / 2),
+            left: Math.max(0, PADDING.left - GAP / 2),
+            right: Math.max(0, PADDING.right - GAP / 2)
+        };
+
+        const step = ${toString ((settings.window-resize-step or 5) / 100.0)};
+
+        return {
+            name: "${name}",
+            initialState: {
+                mainPaneCount: 1,
+                mainPaneRatio: 0.5
+            },
+            commands: {
+                increaseMain: {
+                    description: "Increase main pane count",
+                    updateState: (state) => ({ ...state, mainPaneCount: state.mainPaneCount + 1 })
+                },
+                decreaseMain: {
+                    description: "Decrease main pane count",
+                    updateState: (state) => ({ ...state, mainPaneCount: Math.max(1, state.mainPaneCount - 1) })
+                },
+                shrinkMain: {
+                    description: "Shrink the main pane",
+                    updateState: (state) => ({ ...state, mainPaneRatio: Math.max(step, state.mainPaneRatio - step) })
+                },
+                expandMain: {
+                    description: "Expand the main pane",
+                    updateState: (state) => ({ ...state, mainPaneRatio: Math.min(1 - step, state.mainPaneRatio + step) })
+                }
+            },
+            recommendMainPaneRatio: (ratio, state) => ({ ...state, mainPaneRatio: ratio }),
+            getFrameAssignments: (windows, screenFrame, state) => {
+                const area = {
+                    x: screenFrame.x + edge.left,
+                    y: screenFrame.y + edge.top,
+                    width: Math.max(1, screenFrame.width - edge.left - edge.right),
+                    height: Math.max(1, screenFrame.height - edge.top - edge.bottom)
+                };
+
+                const mainCount = Math.min(state.mainPaneCount, windows.length);
+                const secondaryCount = windows.length - mainCount;
+                const hasSecondary = secondaryCount > 0;
+
+                const mainWidth = hasSecondary ? area.width * state.mainPaneRatio : area.width;
+                const mainHeight = area.height / mainCount;
+                const secondaryHeight = hasSecondary ? area.height / secondaryCount : 0;
+
+                return windows.reduce((frames, window, index) => {
+                    const isMain = index < mainCount;
+                    const frame = isMain
+                        ? {
+                            x: area.x,
+                            y: area.y + mainHeight * index,
+                            width: mainWidth,
+                            height: mainHeight
+                        }
+                        : {
+                            x: area.x + mainWidth,
+                            y: area.y + secondaryHeight * (index - mainCount),
+                            width: area.width - mainWidth,
+                            height: secondaryHeight
+                        };
+
+                    return {
+                        ...frames,
+                        [window.id]: {
+                            x: frame.x + inset,
+                            y: frame.y + inset,
+                            width: Math.max(1, frame.width - 2 * inset),
+                            height: Math.max(1, frame.height - 2 * inset),
+                            isMain: isMain,
+                            unconstrainedDimension: "horizontal"
+                        }
+                    };
+                }, {});
+            }
+        };
+    }
+  '';
 in
 {
   options.oxc.amethyst = {
@@ -384,10 +506,94 @@ in
       type = types.attrs;
     };
     defaults = mkEnableOption "Extend default settings";
+
+    layouts = mkOption {
+      type = types.attrsOf types.lines;
+      default = { };
+      example = lib.literalExpression ''
+        {
+          "uniform-columns" = builtins.readFile ./uniform-columns.js;
+        }
+      '';
+      description = ''
+        Custom Amethyst layouts, keyed by layout key. Each value is the
+        JavaScript source of a layout, written to
+        `~/${layoutsDir}/<key>.js`.
+
+        The key is also what you list in `settings.layouts` and what the
+        `select-<key>-layout` command is named after.
+      '';
+    };
+
+    ringLight = {
+      enable = mkEnableOption ''
+        the "ring light" layout, a tall layout that leaves a wide border of
+        desktop visible around the tiled windows so a bright wallpaper can act
+        as a fill light on video calls
+      '';
+
+      key = mkOption {
+        type = types.str;
+        default = "ring-light";
+        description = ''
+          Layout key. Add this to `settings.layouts` to put the layout in the
+          cycle, and bind `select-<key>-layout` to jump straight to it.
+        '';
+      };
+
+      name = mkOption {
+        type = types.str;
+        default = "Ring Light";
+        description = "Display name shown in the layout HUD.";
+      };
+
+      padding = mkOption {
+        type = types.submodule {
+          options =
+            lib.genAttrs [ "top" "bottom" ] (
+              side:
+              mkOption {
+                type = types.ints.unsigned;
+                default = 96;
+                description = "Width in px of the ring along the ${side} edge of the screen.";
+              }
+            )
+            // lib.genAttrs [ "left" "right" ] (
+              side:
+              mkOption {
+                type = types.ints.unsigned;
+                # Widescreen displays have room to spare horizontally, and the
+                # sides are what a camera actually sees light from.
+                default = 192;
+                description = "Width in px of the ring along the ${side} edge of the screen.";
+              }
+            );
+        };
+        default = { };
+        description = ''
+          Width in px of the border left between the tiled windows and each
+          screen edge — the ring itself.
+        '';
+      };
+
+      gap = mkOption {
+        type = types.ints.unsigned;
+        default = 48;
+        description = "Space in px left between two adjacent windows.";
+      };
+    };
   };
+
   config = mkIf cfg.enable {
-    home.file."${config.xdg.configHome}/amethyst/amethyst.yml".text = lib.generators.toYAML { } (
-      baseSettings // cfg.settings
-    );
+    home.file = {
+      "${config.xdg.configHome}/amethyst/amethyst.yml".text = lib.generators.toYAML { } settings;
+    }
+    // lib.mapAttrs' (
+      key: text: lib.nameValuePair "${layoutsDir}/${key}.js" { inherit text; }
+    ) cfg.layouts;
+
+    oxc.amethyst.layouts = mkIf cfg.ringLight.enable {
+      ${cfg.ringLight.key} = ringLightLayout;
+    };
   };
 }

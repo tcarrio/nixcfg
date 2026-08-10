@@ -74,4 +74,33 @@ in
 
   # Disable Zed editor installation on Darwin
   oxc.zed-editor.package = pkgs.empty;
+
+  oxc.amethyst = {
+    # A thick band of desktop left visible around the tiled windows, so a bright
+    # wallpaper doubles as a fill light on video calls. This is the only layout
+    # with margins — the rest tile edge to edge.
+    ringLight = {
+      enable = true;
+      padding = {
+        top = 72;
+        bottom = 72;
+        left = 612;
+        right = 612;
+      };
+    };
+    settings = {
+      layouts = [
+        "tall"
+        "fullscreen"
+        "wide"
+        "column"
+        "ring-light"
+      ];
+
+      select-ring-light-layout = {
+        mod = "mod1";
+        key = "g";
+      };
+    };
+  };
 }
