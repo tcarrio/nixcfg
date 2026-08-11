@@ -35,6 +35,7 @@ in
       "govee_light_local" # https://app-h5.govee.com/user-manual/wlan-guide
       "shelly"
       "litterrobot"
+      "generic" # camera support
 
       # HomeKit support
       "homekit_controller"
