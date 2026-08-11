@@ -32,6 +32,9 @@
     withMedia = true;
   };
   happy-coder = pkgs.callPackage ./happy-coder/package.nix { };
+  marker-pdf = pkgs.callPackage ./marker-pdf/default.nix {
+    inherit uv2nixLib;
+  };
   sri-hash-gh-repo = pkgs.callPackage ./sri-hash-gh-repo.nix { };
   uri-decode = pkgs.callPackage ./uri-decode.nix { };
   qq-cli = pkgs.callPackage ./qq-cli.nix { };
