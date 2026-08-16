@@ -274,7 +274,6 @@
         "*.log"
         "*.out"
         ".DS_Store"
-        "bin/"
         "dist/"
         "result"
       ];
