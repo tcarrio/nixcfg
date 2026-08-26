@@ -49,6 +49,8 @@ in
     enable = true;
     autoconnect = true;
     ssh.enable = true;
+    services = [
+    ];
   };
 
   # Hardware config

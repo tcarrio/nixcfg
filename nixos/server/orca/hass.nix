@@ -1,6 +1,11 @@
 { pkgs, config, ... }:
 let
   localhost = "127.0.0.1";
+
+  Z2M_PORT = config.services.zigbee2mqtt.settings.frontend.port;
+  Z2M_PORT_STR = toString Z2M_PORT;
+  HASS_PORT = config.services.home-assistant.port;
+  HASS_PORT_STR = toString HASS_PORT;
 in
 {
   ### START SECTION: HOME ASSISTANT ###
@@ -37,6 +42,7 @@ in
       "litterrobot"
       "generic" # camera support
 
+
       # HomeKit support
       "homekit_controller"
 
@@ -44,6 +50,7 @@ in
       "piper"
       "whisper"
       "wyoming"
+      # "llama_cpp" # NOT FOUND?
 
       # Cloud integrations
       "google"
@@ -76,6 +83,7 @@ in
       # configuration.yaml is no longer supported.
 
       customComponents = with pkgs.home-assistant-custom-components; [
+        nest_protect
         sensi
       ];
 
@@ -161,10 +169,10 @@ in
       advanced = {
         channel = 25;
       };
-      # Web UI on localhost; reach it via `ssh -L 8080:127.0.0.1:8080 orca`.
+      # Web UI on localhost; reach it via `ssh -L ${localPort}:127.0.0.1:8080 orca`.
       frontend = {
         host = localhost;
-        port = 8080;
+        port = 9807;
       };
     };
   };
@@ -188,7 +196,13 @@ in
   services.caddy = {
     enable = true;
     virtualHosts."orca.griffin-cobra.ts.net".extraConfig = ''
-      reverse_proxy ${localhost}:8123
+      reverse_proxy ${localhost}:${HASS_PORT_STR}
+    '';
+    virtualHosts."hass.griffin-cobra.ts.net".extraConfig = ''
+      reverse_proxy ${localhost}:${HASS_PORT_STR}
+    '';
+    virtualHosts."z2m.griffin-cobra.ts.net".extraConfig = ''
+      reverse_proxy ${localhost}:${Z2M_PORT_STR}
     '';
   };
   # services.nginx = {
@@ -207,8 +221,26 @@ in
   #   };
   # };
   networking.firewall.allowedTCPPorts = [ 443 ];
-  # Allow Caddy to generate certificates
-  services.tailscale.permitCertUid = "caddy";
+  services.tailscale = {
+    # Allow Caddy to generate certificates
+    permitCertUid = "caddy";
+
+    serve.enable = true;
+    serve.services = {
+      z2m = {
+        endpoints = {
+          "tcp:443" = "http://localhost:${Z2M_PORT_STR}";
+        };
+        advertised = true;
+      };
+      hass = {
+        endpoints = {
+          "tcp:443" = "http://localhost:${HASS_PORT_STR}";
+        };
+        advertised = true;
+      };
+    };
+  };
   # Ensure the Caddy server starts after Tailscale authentication
   systemd.services.caddy.after = [ "tailscaled-autoconnect.service" ];
 
