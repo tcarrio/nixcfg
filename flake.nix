@@ -201,7 +201,7 @@
           username = "tcarrio";
           hostname = "gokin";
           stateVersion = 4;
-          determinate = false;
+          determinate = true;
           desktop = "aqua";
         };
       };
@@ -584,6 +584,9 @@
     # Nixvim for neovim configuration
     nixvim.url = "github:nix-community/nixvim";
     nixvim.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+    # Determinate Nix modules
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
 
     # Hyprvibe (Hyprland) setup
     hyprvibe.url = "github:tcarrio/hyprvibe";

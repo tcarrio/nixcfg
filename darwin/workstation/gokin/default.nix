@@ -5,6 +5,9 @@
 
 { pkgs, ... }:
 {
+  # Bluebox has an unfree license
+  nixpkgs.config.allowUnfree = true;
+
   sk.enable = false;
   oxc.homebrew.enable = true;
   oxc.homebrew.defaults = true;
@@ -13,10 +16,14 @@
     automaticBoot = true;
   };
 
-  environment.systemPackages = with pkgs.unstable; [
-    openssh
-    freetube
-  ];
+  environment.systemPackages =
+    (with pkgs.unstable; [
+      openssh
+      freetube
+    ])
+    ++ [
+      pkgs.bluebox
+    ];
 
   homebrew.casks = [
     "opencode-desktop"

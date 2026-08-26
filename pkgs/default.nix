@@ -9,6 +9,7 @@
 }:
 {
   awsesh = pkgs.callPackage ./awsesh.nix { };
+  bluebox = pkgs.callPackage ./bluebox { };
   gh-composer-auth = pkgs.callPackage ./gh-composer-auth.nix { };
   kube-rsync = pkgs.callPackage ./kube-rsync/default.nix { };
   # TODO: Fix non-Darwin build issue
