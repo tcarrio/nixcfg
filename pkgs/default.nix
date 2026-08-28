@@ -16,6 +16,7 @@
   # mac-launcher = pkgs.callPackage ./mac-launcher.nix { inherit pkgs; };
   zeit = pkgs.callPackage ./zeit.nix { };
   pug = pkgs.callPackage ./pug.nix { };
+  robovac = pkgs.callPackage ./robovac.nix { };
   gqurl = pkgs.callPackage ./gqurl/default.nix {
     inherit mkStandardBun;
   };

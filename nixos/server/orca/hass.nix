@@ -62,6 +62,16 @@ in
 
 
     ];
+
+    # Custom components must be set at this level (installed into the HA
+    # package), NOT inside `config` below — `config` becomes configuration.yaml
+    # and a `customComponents:` key there is silently ignored by HA.
+    customComponents = with pkgs.home-assistant-custom-components; [
+      nest_protect
+      sensi
+    ]
+    ++ [ pkgs.robovac ];
+
     config = {
       homeassistant = {
         # https://www.home-assistant.io/docs/configuration/basic/
@@ -81,11 +91,6 @@ in
       # occurs automatically, but the MQTT integration does need to be manually
       # configured via the UI to work. Managing the MQTT broker through the
       # configuration.yaml is no longer supported.
-
-      customComponents = with pkgs.home-assistant-custom-components; [
-        nest_protect
-        sensi
-      ];
 
       logger.default = "debug";
       # Connect to local PostgreSQL service
