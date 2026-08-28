@@ -41,6 +41,7 @@ in
       "shelly"
       "litterrobot"
       "generic" # camera support
+      "androidtv_remote" # Android TV remote service
 
 
       # HomeKit support
