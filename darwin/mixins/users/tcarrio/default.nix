@@ -26,6 +26,9 @@
       slumber
       tokei
       tree
+
+      # nixos management
+      nixos-rebuild-ng
     ])
     ++ (with pkgs; [
       # Neovim overlays onto base pkgs
