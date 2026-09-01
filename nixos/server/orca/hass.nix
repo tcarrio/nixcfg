@@ -43,6 +43,9 @@ in
       "generic" # camera support
       "androidtv_remote" # Android TV remote service
 
+      # Weather tracking
+      "nws"
+      "open_meteo"
 
       # HomeKit support
       "homekit_controller"
@@ -69,6 +72,7 @@ in
     # and a `customComponents:` key there is silently ignored by HA.
     customComponents = with pkgs.home-assistant-custom-components; [
       nest_protect
+      pirate-weather
       sensi
     ]
     ++ [ pkgs.robovac ];
