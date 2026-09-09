@@ -30,6 +30,7 @@ in
     mkDarwin
     mkGeneratorImage
     mkSdImage
+    mkOverlays
     forAllSystems
     forAllLinux
     forAllDarwin

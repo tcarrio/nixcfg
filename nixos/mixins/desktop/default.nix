@@ -1,5 +1,6 @@
 {
   desktop,
+  inputs,
   lib,
   pkgs,
   ...
@@ -38,6 +39,27 @@ let
 
     # We support Flatpak as a default on desktop-enabled systems
     oxc.desktop.flatpak.enable = true;
+
+    # Internal bridge: supply the locked zen-browser input to the (input-
+    # agnostic) library module. Hosts enabling oxc.desktop.zen-browser get
+    # this package by default.
+    oxc.desktop.zen-browser.package =
+      inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.zen-browser-unwrapped;
+
+    # Internal bridge: transmission flavor was historically derived from the
+    # desktop environment; keep that mapping for internal hosts.
+    oxc.desktop.transmission.flavor =
+      {
+        cinnamon = "gtk";
+        cosmic = "gtk";
+        gnome = "gtk";
+        pantheon = "gtk";
+        hyprland = "qt";
+        i3 = "qt";
+        kde = "qt";
+        kde6 = "qt";
+      }
+      .${desktop} or "qt";
   };
   desktopDisabledConfig = {
     hardware.graphics.enable = false;

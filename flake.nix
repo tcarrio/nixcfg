@@ -47,7 +47,7 @@
           stateVersion
           ;
       };
-      overlays = import ./overlays { inherit inputs; };
+      overlays = libx.mkOverlays { };
 
       mkPkgsForSystemFromInput =
         system: input:
@@ -97,15 +97,43 @@
         };
     in
     {
+      # Library surface: every module individually addressable for external
+      # consumers (nixcfg.homeManagerModules.git, ...), with `default` as the
+      # full aggregate for backwards compatibility with internal hosts.
       nixosModules = {
         default = import ./modules/nixos/default.nix;
+        console = import ./modules/nixos/console/default.nix;
+        desktop = import ./modules/nixos/desktop/default.nix;
+        hardware = import ./modules/nixos/hardware/default.nix;
+        services = import ./modules/nixos/services/default.nix;
+        virt = import ./modules/nixos/virt/default.nix;
       };
       homeManagerModules = {
         default = import ./modules/home-manager/default.nix;
+        ai = import ./modules/home-manager/ai/default.nix;
+        gh-dash = import ./modules/home-manager/gh-dash/default.nix;
+        amethyst = import ./modules/home-manager/amethyst.nix;
+        atuin = import ./modules/home-manager/atuin.nix;
+        aws = import ./modules/home-manager/aws.nix;
+        copy-files = import ./modules/home-manager/copy-files.nix;
+        deb = import ./modules/home-manager/deb.nix;
+        endcord = import ./modules/home-manager/endcord.nix;
+        github = import ./modules/home-manager/github.nix;
+        harlequin = import ./modules/home-manager/harlequin.nix;
+        palette = import ./modules/home-manager/palette.nix;
+        serena = import ./modules/home-manager/serena.nix;
+        sqlit = import ./modules/home-manager/sqlit.nix;
+        zed = import ./modules/home-manager/zed.nix;
       };
       darwinModules = {
         default = import ./modules/darwin/default.nix;
+        desktop = import ./modules/darwin/desktop/default.nix;
+        services = import ./modules/darwin/services/default.nix;
       };
+
+      # Library helpers (mkHome/mkHost/mkDarwin/mkOverlays/forAll*) for
+      # external consumers; internally these are used via libx.
+      lib = libx;
     }
     // {
       apps = libx.forAllSystems (

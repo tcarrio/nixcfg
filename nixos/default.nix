@@ -26,6 +26,16 @@ in
     # Or modules exported from other flakes (such as nix-colors):
     inputs.disko.nixosModules.disko
 
+    # Upstream vscode-server module; oxc.desktop.vscode.server drives it
+    inputs.vscode-server.nixosModules.default
+
+    # NixVirt module + lib for the (currently disabled) haos KVM module;
+    # supplying the module ensures virtualisation.libvirt options exist.
+    inputs.NixVirt.nixosModules.default
+    {
+      _module.args.nixvirtLib = inputs.NixVirt.lib;
+    }
+
     # Or reuse nixpkgs modules via `modulesPath`
     (modulesPath + "/installer/scan/not-detected.nix")
 

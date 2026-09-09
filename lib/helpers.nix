@@ -16,13 +16,44 @@ let
   };
 in
 {
-  # Helper function for generating home-manager configs
+  # Build the flake's overlays with caller-supplied parameters. Internal
+  # hosts use `self.overlays` (nixcfg's locked inputs); external consumers
+  # can call this to substitute their own nixvim/bun2nix inputs or python.
+  mkOverlays =
+    {
+      nixvim ? inputs.nixvim,
+      bun2nix ? inputs.bun2nix,
+      python ? null,
+      ...
+    }@args:
+    # NOTE: @args captures only caller-supplied arguments, not defaults —
+    # re-bind them explicitly so internal calls get nixcfg's locked inputs.
+    import ../overlays (
+      args
+      // {
+        inherit inputs;
+        nixvim = args.nixvim or inputs.nixvim;
+        bun2nix = args.bun2nix or inputs.bun2nix;
+      }
+    );
+
+  # Helper function for generating home-manager configs.
+  #
+  # Optional-module toggles (withAgenix etc.) default to the historical
+  # behavior for internal hosts; external consumers disable what they
+  # don't want. extraModules/extraSpecialArgs append to the internal set.
   mkHome =
     {
       hostname,
       username,
       desktop ? null,
       platform ? "x86_64-linux",
+      extraModules ? [ ],
+      extraSpecialArgs ? { },
+      withAgenix ? true,
+      withHandy ? true,
+      withCursorVoice ? true,
+      withOverlays ? true,
     }:
     let
       pkgs = inputs.nixpkgs.legacyPackages.${platform};
@@ -41,14 +72,16 @@ in
           sshMatrix
           tailnetMatrix
           ;
-      };
-      modules = [
-        ../home-manager
-        inputs.agenix.homeManagerModules.default
-        inputs.handy.homeManagerModules.default
-        inputs.cursor-voice-plugin.homeManagerModules.default
-        overlaysModule
-      ];
+      } // extraSpecialArgs;
+      modules =
+        [
+          ../home-manager
+        ]
+        ++ (lib.optionals withAgenix [ inputs.agenix.homeManagerModules.default ])
+        ++ (lib.optionals withHandy [ inputs.handy.homeManagerModules.default ])
+        ++ (lib.optionals withCursorVoice [ inputs.cursor-voice-plugin.homeManagerModules.default ])
+        ++ (lib.optionals withOverlays [ overlaysModule ])
+        ++ extraModules;
     };
 
   # Helper function for generating host configs
@@ -64,6 +97,11 @@ in
       installer ? null,
       determinate ? true,
       includeDisks ? (systemType != "iso"),
+      extraModules ? [ ],
+      extraSpecialArgs ? { },
+      withAgenix ? true,
+      withHandy ? true,
+      withOverlays ? true,
     }:
     let
       isIso = builtins.substring 0 4 hostname == "iso-";
@@ -88,22 +126,26 @@ in
           includeDisks
           ;
         adminGroup = "@wheel";
-      };
-      modules = [
-        ../nixos
-        (import ./cache-settings.nix (specialArgs // { isDeterminateNix = determinate; }))
-        inputs.agenix.nixosModules.default
-        inputs.handy.nixosModules.default
-        overlaysModule
-        agenixOverlaysModule
-      ]
-      ++ (lib.optionals (installer != null) [ installer ])
-      ++ (lib.optionals isWorkstation [ inputs.chaotic.nixosModules.default ])
-      ++ (lib.optionals (desktop != null && (isWorkstation || isIso)) [
-        inputs.flatpaks.nixosModules.default
-      ])
-      ++ (lib.optionals (desktop == "hyprvibe") [ inputs.hyprvibe.nixosModules.default ])
-      ++ (lib.optional includeDisks ../nixos/${systemType}/${hostname}/disks.nix);
+      } // extraSpecialArgs;
+      modules =
+        [
+          ../nixos
+          (import ./cache-settings.nix (specialArgs // { isDeterminateNix = determinate; }))
+        ]
+        ++ (lib.optionals withAgenix [
+          inputs.agenix.nixosModules.default
+          agenixOverlaysModule
+        ])
+        ++ (lib.optionals withHandy [ inputs.handy.nixosModules.default ])
+        ++ (lib.optionals withOverlays [ overlaysModule ])
+        ++ (lib.optionals (installer != null) [ installer ])
+        ++ (lib.optionals isWorkstation [ inputs.chaotic.nixosModules.default ])
+        ++ (lib.optionals (desktop != null && (isWorkstation || isIso)) [
+          inputs.flatpaks.nixosModules.default
+        ])
+        ++ (lib.optionals (desktop == "hyprvibe") [ inputs.hyprvibe.nixosModules.default ])
+        ++ (lib.optional includeDisks ../nixos/${systemType}/${hostname}/disks.nix)
+        ++ extraModules;
     };
 
   mkDarwin =
@@ -114,6 +156,10 @@ in
       stateVersion ? 4,
       platform ? "aarch64-darwin",
       determinate ? true,
+      extraModules ? [ ],
+      extraSpecialArgs ? { },
+      withHomeManager ? true,
+      withOverlays ? true,
     }:
     inputs.nix-darwin.lib.darwinSystem rec {
       specialArgs = {
@@ -131,32 +177,29 @@ in
           ;
         adminGroup = "@admin";
         isDeterminateNix = determinate;
-      };
-      modules = [
-        ../darwin
-        (import ./cache-settings.nix (
-          specialArgs
-          // {
-            isDeterminateNix = determinate;
-            isDarwin = true;
+      } // extraSpecialArgs;
+      modules =
+        [
+          ../darwin
+          (import ./cache-settings.nix (
+            specialArgs
+            // {
+              isDeterminateNix = determinate;
+              isDarwin = true;
+            }
+          ))
+        ]
+        ++ (lib.optionals withHomeManager [
+          inputs.home-manager.darwinModules.home-manager
+          outputs.darwinModules.default
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
           }
-        ))
-        inputs.home-manager.darwinModules.home-manager
-        outputs.darwinModules.default
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-        }
-        overlaysModule
-      ]
-      ++ (
-        if determinate then
-          [
-            inputs.determinate.darwinModules.default
-          ]
-        else
-          [ ]
-      );
+        ])
+        ++ (lib.optionals withOverlays [ overlaysModule ])
+        ++ (lib.optionals determinate [ inputs.determinate.darwinModules.default ])
+        ++ extraModules;
     };
 
   mkSdImage =
@@ -246,7 +289,7 @@ in
     ## So long and thanks for all the fish
     # "armv7l-linux" # 32-bit ARM Linux
     # "i686-linux" # 32-bit x86 Linux
-    # "aarch64-linux" # 64-bit ARM Linux
+    "aarch64-linux" # 64-bit ARM Linux
     "x86_64-linux" # 64-bit x86 Linux
   ];
 
@@ -259,7 +302,7 @@ in
     ## So long and thanks for all the fish
     # "armv7l-linux" # 32-bit ARM Linux
     # "i686-linux" # 32-bit x86 Linux
-    # "aarch64-linux" # 64-bit ARM Linux
+    "aarch64-linux" # 64-bit ARM Linux
     "x86_64-linux" # 64-bit x86 Linux
     "aarch64-darwin" # 64-bit ARM Darwin
     # "x86_64-darwin" # 64-bit x86 Darwin
