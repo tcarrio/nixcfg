@@ -29,15 +29,19 @@
 
 {
   config,
-  inputs,
   lib,
   pkgs,
+  nixvirtLib ? null,
   ...
 }:
 let
-  inherit (inputs.NixVirt.lib) domain network;
-
   cfg = config.oxc.vms.haos;
+
+  # NixVirt XML builders, supplied by the caller as a module argument when
+  # this module is actually used; guarded so the module stays import-safe
+  # (and inert) without them.
+  domain = nixvirtLib.domain or { };
+  network = nixvirtLib.network or { };
 
   fileName = "haos_ova-${cfg.version}.qcow2";
   filePath = "${cfg.imageDir}/${fileName}";
@@ -52,7 +56,7 @@ let
       fi
     fi
 
-    if [ -f "${cfg.imageDir}/${fileName}"]; then
+    if [ -f "${cfg.imageDir}/${fileName}"];then
       exit 0
     fi
 
@@ -120,8 +124,6 @@ let
   };
 in
 {
-  imports = [ inputs.NixVirt.nixosModules.default ];
-
   options.oxc.vms.haos = {
     enable = lib.mkEnableOption "Enable the KVM-backed Home Assistant OS service";
     version = lib.mkOption {
@@ -135,5 +137,9 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable haosConfig;
+  # NOTE: requires the NixVirt nixos module to be imported by the caller
+  # (internal wiring: inputs.NixVirt.nixosModules.default) and the
+  # nixvirtLib module argument for the domain/network builders; without
+  # them enabling this option is a no-op.
+  config = lib.mkIf (cfg.enable && nixvirtLib != null) haosConfig;
 }
