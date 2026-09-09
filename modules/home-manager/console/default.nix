@@ -7,6 +7,8 @@
     ./direnv.nix
     ./fish.nix
     ./git.nix
+    ./linux.nix
+    ./lsp
     ./modern-unix.nix
     ./neovim.nix
     ./tmux.nix

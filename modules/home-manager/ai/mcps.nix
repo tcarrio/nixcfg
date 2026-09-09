@@ -89,19 +89,15 @@ in
   options.oxc.ai.mcps = {
     enable = mkEnableOption "Whether to enable MCP server module";
     targets = {
+      # Inert by default: enabling the module no longer writes ~/.mcp.json
+      # unasked. Hosts opt into the output targets they use.
       default = mkOption {
         type = types.bool;
-        default = true;
+        default = false;
         description = "Enables the ~/.mcp.json output config file";
       };
       cursor = {
         enable = mkEnableOption "Enables the ~/.cursor/mcp.json output config file for Cursor";
-      };
-      codex = {
-        enable = mkEnableOption "Enables the ~/.codex/mcp.json output config file for Codex";
-      };
-      claude = {
-        enable = mkEnableOption "Enables the ~/.codex/mcp.json output config file for Claude";
       };
     };
     servers = {
@@ -124,7 +120,7 @@ in
       serena = {
         enable = mkOption {
           type = types.bool;
-          default = false; # lib.mkDefault config.ai.serena.enable;
+          default = false; # lib.mkDefault config.oxc.ai.serena.enable;
           description = "Enables the serena MCP server integration";
         };
         pkg = mkOption {

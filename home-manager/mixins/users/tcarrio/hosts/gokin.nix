@@ -9,8 +9,8 @@
     happy-opencode = "bunx happy acp -- opencode acp";
   };
 
-  ai.serena.enable = true;
-  ai.serena.languages = {
+  oxc.ai.serena.enable = true;
+  oxc.ai.serena.languages = {
     bash.enable = true;
     elm.enable = true;
     go.enable = true;

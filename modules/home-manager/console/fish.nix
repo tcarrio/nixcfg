@@ -12,7 +12,8 @@ in
     enable = lib.mkEnableOption "fish as the primary shell with oxc base configuration";
 
     aliases = lib.mkOption {
-      type = lib.types.attrsOf lib.types.str;
+      # lazy so per-value priorities (mkDefault/mkForce) survive the merge
+      type = lib.types.lazyAttrsOf lib.types.str;
       default = { };
       description = "shellAliases merged into programs.fish.shellAliases";
     };

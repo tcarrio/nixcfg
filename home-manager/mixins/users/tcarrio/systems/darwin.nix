@@ -38,8 +38,8 @@ in
       ServerAliveCountMax 10
   '';
 
-  programs.fish = {
-    interactiveShellInit = ''
+  oxc.console.fish = {
+    interactiveInit = ''
       function default_set --no-scope-shadowing
         set -q $argv[1] || set $argv[1] $argv[2..-1]
       end
@@ -57,7 +57,7 @@ in
       end
     '';
 
-    shellAliases = {
+    aliases = {
       ip = "ifconfig";
       show_open_ports = "lsof -nP -iTCP -sTCP:LISTEN";
       rebuild-host = "sudo darwin-rebuild switch --flake ${homeDir}/0xc/nixcfg";

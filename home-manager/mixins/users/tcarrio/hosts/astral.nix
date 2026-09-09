@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
-  ai.serena.enable = true;
-  ai.serena.languages = {
+  oxc.ai.serena.enable = true;
+  oxc.ai.serena.languages = {
     bash.enable = true;
     elm.enable = false;
     go.enable = false;

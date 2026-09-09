@@ -1,10 +1,22 @@
 # Generated via dconf2nix: https://github.com/gvolpe/dconf2nix
-{ lib, ... }:
+{
+  lib,
+  config,
+  ...
+}:
+let
+  cfg = config.oxc.desktop.tilix;
+in
 
 with lib.hm.gvariant;
 
 {
-  dconf.settings = {
+  options.oxc.desktop.tilix = {
+    enable = lib.mkEnableOption "Tilix terminal dconf settings and keybindings";
+  };
+
+  config = lib.mkIf cfg.enable {
+    dconf.settings = {
     "com/gexperts/Tilix" = {
       app-title = "\${appName}: \${directory}";
       paste-strip-trailing-whitespace = true;
@@ -100,6 +112,7 @@ with lib.hm.gvariant;
       binding = "<Primary><Alt>t";
       command = "tilix";
       name = "tilix";
+    };
     };
   };
 }

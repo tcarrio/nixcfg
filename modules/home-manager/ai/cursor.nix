@@ -11,7 +11,7 @@ let
 
   generateSerenaConfigCommand =
     let
-      serenaCfg = config.ai.serena;
+      serenaCfg = config.oxc.ai.serena;
       generateSerenaConfigPath = pkgs.buildEnv {
         name = "generate-serena-config-path";
         paths = [ serenaCfg.package ];

@@ -1,6 +1,15 @@
-{ pkgs, ... }:
 {
-  home.packages = with pkgs.unstable; [
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+let
+  cfg = config.oxc.console.lsp;
+
+  # Full language-server set from the historical console mixin. All from
+  # nixpkgs-unstable (requires the unstable overlay) except where noted.
+  serverSet = with pkgs.unstable; [
     nixd # Nix
     nil # Nix
     vscode-json-languageserver # JSON
@@ -39,4 +48,20 @@
     package-version-server # package.json
     mpls # Markdown preview
   ];
+in
+{
+  options.oxc.console.lsp = {
+    enable = lib.mkEnableOption "the oxc language-server toolset (global installs)";
+
+    servers = lib.mkOption {
+      type = lib.types.listOf lib.types.package;
+      default = serverSet;
+      defaultText = lib.literalExpression "oxc server set (37 servers, unstable)";
+      description = "Language server packages to install globally";
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
+    home.packages = cfg.servers;
+  };
 }

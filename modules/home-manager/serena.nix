@@ -53,10 +53,10 @@ let
     fi
   '';
 
-  cfg = config.ai.serena;
+  cfg = config.oxc.ai.serena;
 in
 {
-  options.ai.serena = {
+  options.oxc.ai.serena = {
     enable = lib.mkEnableOption "Enable the Serena MCP server";
     package = lib.mkOption {
       type = lib.types.package;
@@ -221,7 +221,7 @@ in
         $DRY_RUN_CMD ${mergeSerenaConfigScript}
       '';
 
-      ai.serena.config = managedSerenaConfigFile;
+      oxc.ai.serena.config = managedSerenaConfigFile;
     })
     // (lib.mkIf (!cfg.enable && cfg.cleanupWhenDisabled) {
       home.activation.deleteSerenaConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
