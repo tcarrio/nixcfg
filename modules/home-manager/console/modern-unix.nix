@@ -21,29 +21,31 @@ let
     wget # downloader
   ];
 
+  # Common development extras. Niche Rust-rewrites/TUI novelties are
+  # commented out for a leaner default footprint — re-enable as needed.
   extraTools = with pkgs; [
-    asciinema # terminal recorder
-    breezy # terminal bzr client
-    chafa # terminal image viewer
-    dconf2nix # Nix code from dconf files
-    diffr # modern `diff`
-    difftastic # modern `diff`
+    # asciinema # terminal recorder (also via oxc.console.asciinema)
+    # breezy # terminal bzr client
+    # chafa # terminal image viewer
+    # dconf2nix # Nix code from dconf files
+    # diffr # modern `diff`
+    difftastic # structural `diff`
     fastfetch # terminal system info
     ffmpeg-headless # terminal video encoder
     glow # terminal Markdown renderer
-    gping # modern `ping`
-    hexyl # modern `hexedit`
+    # gping # modern `ping`
+    # hexyl # modern `hexedit`
     hyperfine # benchmarking
-    jpegoptim # JPEG optimizer
-    jiq # modern `jq`
+    # jpegoptim # JPEG optimizer
+    # jiq # modern `jq`
     lazygit # terminal git client
     nixpkgs-review # Nix code review
     nurl # Nix URL fetcher
-    nyancat # rainbow feline
-    optipng # PNG optimizer
-    page # pager
-    procs # modern `ps`
-    quilt # patch manager
+    # nyancat # rainbow feline
+    # optipng # PNG optimizer
+    # page # pager
+    # procs # modern `ps`
+    # quilt # patch manager
     tldr # modern `man`
     tokei # SLOC counter
     yq-go # `jq` for YAML

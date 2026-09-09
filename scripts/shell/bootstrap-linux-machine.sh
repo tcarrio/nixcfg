@@ -65,6 +65,59 @@ if ! which nix >/dev/null; then
   fi
 fi
 
+# The flake requires these experimental features in the daemon-side nix.conf
+# (home-manager invokes nix without per-command flags). Merge them into
+# /etc/nix/nix.conf idempotently and non-destructively: any existing
+# experimental-features entry (and every other line) is preserved, with the
+# feature set unioned in place.
+ensure_nix_experimental_features() {
+  local required="nix-command flakes pipe-operators"
+  local conf="/etc/nix/nix.conf"
+  local use_sudo=1
+
+  # Prefer the daemon-side config; fall back to the user config only when
+  # the system path is unwritable even via sudo (or sudo is unavailable).
+  if ! sudo mkdir -p /etc/nix 2>/dev/null || ! sudo touch "$conf" 2>/dev/null; then
+    conf="$HOME/.config/nix/nix.conf"
+    use_sudo=0
+    mkdir -p "$(dirname "$conf")"
+    touch "$conf"
+  fi
+
+  local tmp
+  tmp="$(mktemp)"
+
+  # Union of existing features (across any experimental-features lines) and
+  # the required set, order-preserving for pre-existing entries.
+  local existing
+  existing="$(grep -E '^[[:space:]]*experimental-features[[:space:]]*=' "$conf" 2>/dev/null \
+    | sed -E 's/^[[:space:]]*experimental-features[[:space:]]*=[[:space:]]*//' | tr ' ,' '\n' \
+    | sed '/^[[:space:]]*$/d' | awk '!seen[$0]++' || true)"
+
+  local merged
+  merged="$( (
+    printf '%s\n' "$existing" | sed '/^[[:space:]]*$/d'
+    for f in $required; do
+      printf '%s\n' "$existing" | grep -qx "$f" || printf '%s\n' "$f"
+    done
+  ) | awk '!seen[$0]++' | tr '\n' ' ' | sed 's/ $//')"
+
+  # Rewrite: drop old experimental-features lines, append the merged one.
+  # All other configuration is byte-for-byte untouched.
+  grep -vE '^[[:space:]]*experimental-features[[:space:]]*=' "$conf" > "$tmp" || true
+  printf 'experimental-features = %s\n' "$merged" >> "$tmp"
+
+  if [ "$use_sudo" -eq 1 ]; then
+    sudo cp "$tmp" "$conf"
+  else
+    cp "$tmp" "$conf"
+  fi
+  rm -f "$tmp"
+  echo "nix.conf experimental-features: $(grep 'experimental-features' "$conf")"
+}
+
+ensure_nix_experimental_features
+
 if [ ! -d "$NIXCFG_PATH" ]; then
   mkdir -p "$NIXCFG_PATH"
   # https for a brand-new machine with no SSH keys yet; switch the remote
