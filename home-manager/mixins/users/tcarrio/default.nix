@@ -165,7 +165,7 @@ in
   oxc.github.cli.enable = true;
   oxc.github.dash.enable = true;
 
-  oxc.zed-editor.enable = true;
+  oxc.zed-editor.enable = lib.mkDefault true;
   oxc.zed-editor.extensions = [
     "html"
     "nix"
