@@ -144,6 +144,17 @@ tasks:
         fi
   ### END SECTION: Home Manager
 
+  ### BEGIN SECTION: Deb
+  deb:sync:
+    desc: Install any missing deb packages from the oxc.deb.packages list (non-NixOS Linux hosts).
+    cmds:
+      - deb-sync {{.CLI_ARGS}}
+  deb:list:
+    desc: Print the deb packages managed via oxc.deb.packages.
+    cmds:
+      - deb-list
+  ### END SECTION: Deb
+
   ### BEGIN SECTION: Utility
   lock:update:
     desc: Recreate the flake lock file. Pass a path to override the default flake directory.
