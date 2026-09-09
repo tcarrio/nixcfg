@@ -112,8 +112,10 @@
         default = import ./modules/home-manager/default.nix;
         ai = import ./modules/home-manager/ai/default.nix;
         gh-dash = import ./modules/home-manager/gh-dash/default.nix;
+        console = import ./modules/home-manager/console/default.nix;
+        desktop = import ./modules/home-manager/desktop/default.nix;
         amethyst = import ./modules/home-manager/amethyst.nix;
-        atuin = import ./modules/home-manager/atuin.nix;
+        atuin = import ./modules/home-manager/console/atuin.nix;
         aws = import ./modules/home-manager/aws.nix;
         copy-files = import ./modules/home-manager/copy-files.nix;
         deb = import ./modules/home-manager/deb.nix;

@@ -1,298 +1,95 @@
+# Console profile: composes the oxc.console library modules with personal
+# values. All programs.* configuration flows through the library modules;
+# this file only sets enables, options, and personal data.
 {
   config,
-  pkgs,
   lib,
+  pkgs,
   ...
 }:
 {
   imports = [
-    ./neovim.nix
-    ./tmux.nix
-    ./worktree-cli
+    # neovim/tmux/worktree-cli are imported via the library module set
   ];
 
-  home = {
-    file = {
-      "${config.xdg.configHome}/neofetch/config.conf".text = builtins.readFile ./neofetch.conf;
+  oxc.console = {
+    git.enable = lib.mkDefault true;
+    fish.enable = lib.mkDefault true;
+    direnv.enable = lib.mkDefault true;
+    modern-unix = {
+      enable = lib.mkDefault true;
+      extras = lib.mkDefault true;
     };
-
-    # A Modern Unix experience
-    # https://jvns.ca/blog/2022/04/12/a-list-of-new-ish--command-line-tools/
-    packages = with pkgs; [
-      asciinema # Terminal recorder
-      breezy # Terminal bzr client
-      bottom # Modern Unix `top`
-      chafa # Terminal image viewer
-      dconf2nix # Nix code from Dconf files
-      diffr # Modern Unix `diff`
-      difftastic # Modern Unix `diff`
-      dua # Modern Unix `du`
-      duf # Modern Unix `df`
-      dust # Modern Unix `du`
-      entr # Modern Unix `watch`
-      fastfetch # Terminal system info
-      fd # Modern Unix `find`
-      ffmpeg-headless # Terminal video encoder
-      fzf # Command-line fuzzy finder
-      glow # Terminal Markdown renderer
-      gping # Modern Unix `ping`
-      hexyl # Modern Unix `hexedit`
-      htop # Terminal process viewer
-      hyperfine # Terminal benchmarking
-      jpegoptim # Terminal JPEG optimizer
-      jiq # Modern Unix `jq`
-      lazygit # Terminal Git client
-      nixpkgs-review # Nix code review
-      nurl # Nix URL fetcher
-      nyancat # Terminal rainbow spewing feline
-      optipng # Terminal PNG optimizer
-      page # Modern pager
-      procs # Modern Unix `ps`
-      quilt # Terminal patch manager
-      ripgrep # Modern Unix `grep`
-      tldr # Modern Unix `man`
-      tokei # Modern Unix SLOC counter
-      wget # Terminal downloader
-      yq-go # Terminal `jq` for YAML
-    ];
-
-    sessionVariables = {
-      EDITOR = "nvim";
-      PAGER = "less";
-      SYSTEMD_EDITOR = "nvim";
-      VISUAL = "nvim";
-    };
+    tools.enable = lib.mkDefault true;
+    neovim.enable = lib.mkDefault true;
+    tmux.enable = lib.mkDefault true;
+    worktree-cli.enable = lib.mkDefault true;
+    asciinema.enable = true;
+    charm-freeze.enable = true;
+    zeit.enable = true;
   };
 
+  # Personal options layered on the library modules
+  oxc.console.fish = {
+    aliases = {
+      diff = "diffr";
+      ip = lib.mkDefault "ip --color --brief";
+      top = "htop";
+      tree = "eza --tree";
+      # Ensures that gh auth uses config that will not conflict
+      # with settings in the programs.gh.settings block
+      gh-auth = "gh auth login -p ssh -h github.com -w --skip-ssh-key";
+
+      tailscale-ipv4 = "tailscale status --json 2>/dev/null | jq -r '.TailscaleIPs[] | select(. | startswith(\"100.\"))'";
+      tailscale-ipv6 = "tailscale status --json 2>/dev/null | jq -r '.TailscaleIPs[] | select(. | startswith(\"100.\") | not)'";
+      tailscale-ip = "tailscale-ipv4"; # 🤷
+    };
+
+    functions =
+      let
+        doCurl = type: url: "$(curl -L \"${url}\" 2>/dev/null | ${type}sum | awk '{print $1}')";
+        makeSriHasher = type: content: "nix-hash --type ${type} --to-sri ${content}";
+        makeSriUrlHasher = url: type: makeSriHasher type (doCurl type url);
+        makeSriUrlHasherFishFunction = makeSriUrlHasher "$argv[1]";
+      in
+      {
+        dev = ''
+          if [ -d $HOME/0xc/nixcfg ]
+            nix develop $HOME/0xc/nixcfg#$argv[1]
+          else
+            nix develop github:( \\
+              git remote -v \\
+              | grep '(push)' \\
+              | awk '{print $2}' \\
+              | cut -d ':' -f 2 \\
+              | rev \\
+              | ${pkgs.gnused}/bin/sed 's/tig.//' \\
+              | rev \\
+              )#$argv[1];
+          end
+        '';
+        is-number = ''
+          string match --quiet --regex "^\\d+\\$" $argv[1]
+        '';
+        deploy-nuc = "is-number $argv[1] && nixos-rebuild --fast --flake $HOME/0xc/nixcfg#nuc$argv[1] --target-host root@192.168.40.20$argv[1] $argv[2..]";
+
+        sriMd5Url = makeSriUrlHasherFishFunction "md5";
+        sriSha1Url = makeSriUrlHasherFishFunction "sha1";
+        sriSha256Url = makeSriUrlHasherFishFunction "sha256";
+        sriSha512Url = makeSriUrlHasherFishFunction "sha512";
+      };
+  };
+
+  # Neofetch config (fastfetch replaced neofetch; config remains compatible)
+  home.file."${config.xdg.configHome}/neofetch/config.conf".text = builtins.readFile ./neofetch.conf;
+
+  home.sessionVariables = {
+    PAGER = "less";
+  };
+
+  # Historical defaults preserved for internal hosts
   oxc.console.atuin.enable = lib.mkDefault true;
   oxc.github.enable = lib.mkDefault true;
   oxc.github.cli.enable = lib.mkDefault true;
   oxc.github.dash.enable = lib.mkDefault true;
-
-  programs = {
-    bottom = {
-      enable = true;
-      settings = {
-        colors = {
-          high_battery_color = "green";
-          medium_battery_color = "yellow";
-          low_battery_color = "red";
-        };
-        disk_filter = {
-          is_list_ignored = true;
-          list = [ "/dev/loop" ];
-          regex = true;
-          case_sensitive = false;
-          whole_word = false;
-        };
-        flags = {
-          dot_marker = false;
-          enable_gpu_memory = true;
-          group_processes = true;
-          hide_table_gap = true;
-          mem_as_value = true;
-          tree = true;
-        };
-      };
-    };
-    dircolors = {
-      enable = true;
-      enableFishIntegration = true;
-    };
-    direnv = {
-      enable = true;
-      # enableFishIntegration = true;
-      nix-direnv = {
-        enable = true;
-      };
-    };
-    eza = {
-      enable = true;
-      enableFishIntegration = true;
-      icons = "auto";
-    };
-    fish = {
-      enable = true;
-      shellAliases = rec {
-        diff = "diffr";
-        ip = lib.mkDefault "ip --color --brief";
-        top = "htop";
-        tree = "eza --tree";
-        # Ensures that gh auth uses config that will not conflict
-        # with settings in the programs.gh.settings block
-        gh-auth = "gh auth login -p ssh -h github.com -w --skip-ssh-key";
-
-        tailscale-ipv4 = "tailscale status --json 2>/dev/null | jq -r '.TailscaleIPs[] | select(. | startswith(\"100.\"))'";
-        tailscale-ipv6 = "tailscale status --json 2>/dev/null | jq -r '.TailscaleIPs[] | select(. | startswith(\"100.\") | not)'";
-        tailscale-ip = tailscale-ipv4; # 🤷
-      };
-      functions =
-        let
-          doCurl = type: url: "$(curl -L \"${url}\" 2>/dev/null | ${type}sum | awk '{print $1}')";
-          makeSriHasher = type: content: "nix-hash --type ${type} --to-sri ${content}";
-          makeSriUrlHasher = url: type: makeSriHasher type (doCurl type url);
-          makeSriUrlHasherFishFunction = makeSriUrlHasher "$argv[1]";
-        in
-        {
-          dev = ''
-            if [ -d $HOME/0xc/nixcfg ]
-              nix develop $HOME/0xc/nixcfg#$argv[1]
-            else
-              nix develop github:( \\
-                git remote -v \\
-                | grep '(push)' \\
-                | awk '{print $2}' \\
-                | cut -d ':' -f 2 \\
-                | rev \\
-                | ${pkgs.gnused}/bin/sed 's/tig.//' \\
-                | rev \\
-              )#$argv[1];
-            end
-          '';
-          is-number = ''
-            string match --quiet --regex "^\\d+\\$" $argv[1]
-          '';
-          deploy-nuc = "is-number $argv[1] && nixos-rebuild --fast --flake $HOME/0xc/nixcfg#nuc$argv[1] --target-host root@192.168.40.20$argv[1] $argv[2..]";
-
-          sriMd5Url = makeSriUrlHasherFishFunction "md5";
-          sriSha1Url = makeSriUrlHasherFishFunction "sha1";
-          sriSha256Url = makeSriUrlHasherFishFunction "sha256";
-          sriSha512Url = makeSriUrlHasherFishFunction "sha512";
-        };
-      plugins = with pkgs.fishPlugins; [
-        {
-          name = "foreign-env";
-          inherit (foreign-env) src;
-        }
-        {
-          name = "fzf";
-          inherit (fzf-fish) src;
-        }
-      ];
-    };
-    fzf = {
-      enable = true;
-      enableFishIntegration = true;
-    };
-    delta = {
-      # options = {
-      #   features = "decorations";
-      #   navigate = true;
-      #   line-numbers = true;
-      #   side-by-side = true;
-      #   syntax-theme = "GitHub";
-      # };
-    };
-    git = {
-      enable = true;
-      settings = {
-        alias = {
-          a = "add";
-          f = "fetch";
-          p = "push";
-          co = "checkout";
-          cm = "commit";
-          st = "status";
-          br = "branch";
-          rs = "reset";
-          rb = "rebase";
-          rbc = "rebase --continue";
-          d = "diff";
-          ds = "d --staged";
-          # branch name
-          bn = "br --show-current";
-          # gets root directory
-          rd = "rev-parse --show-toplevel";
-          # gets latest "shared root" commit
-          sr = "merge-base HEAD";
-          aa = "!git a $(git rd)";
-          rsa = "!git rs $(git rd)";
-          fa = "f --all";
-          cob = "co -b";
-          rh = "rs --hard";
-          rho = "!git rh $(git bdr)/$(git bn)";
-          # shows commit history
-          lg = "log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short";
-          lgc = "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit";
-          # amend
-          am = "!git cm --amend --no-edit --date=\"$(date +'%Y %D')\"";
-          # push to origin HEAD
-          poh = "!git p $(git bdr) HEAD";
-          # push remote branch
-          prb = "!gitprb() { local remote=\"$1\"; shift; test -z \"$remote\" && remote=\"$(git bdr)\"; test -z \"$remote\" && remote=\"origin\"; test -n \"$remote\" && git p $remote $(git bn) $@; }; gitprb";
-          # short-hand for "push head"
-          ph = "prb";
-          # force with lease, please, if you would
-          pf = "!git prb $(git bdr) --force-with-lease";
-          # FORCEEEE
-          pff = "!git prb $(git bdr) --force";
-          # push and open pr
-          ppr = "!git poh; !git pr";
-          # open pr
-          pr = "!gh pr create";
-          # squash it
-          sq = "!gitsq() { git rb -i $(git sr $1) $2; }; gitsq";
-          # generate patch
-          gp = "!gitgenpatch() { target=$1; git format-patch $target --stdout | ${pkgs.gnused}/bin/sed -rn '/^diff --git/,$p' | head -n -3; }; gitgenpatch";
-
-          # default remote configurations
-          sdr = "config checkout.defaultRemote";
-          cdr = "!gitcdr() { git config --get checkout.defaultRemote || printf 'origin' ; }; gitcdr";
-          bdr = "!gitbdr() { git config branch.$(git bn).remote || git cdr; }; gitbdr";
-
-          # default trunk branch configurations
-          tb = "!gittb() { git ls-remote --symref origin HEAD | grep 'refs/heads/' | ${pkgs.gnused}/bin/sed -rn 's#.*refs/heads/([a-zA-Z0-9]+).*#\\1#p'; }; gittb";
-
-          # checkout utility to checkout the local trunk branch of the repo
-          cot = "!git co $(git tb)";
-          rbot = "!git rebase $(git bdr)/$(git tb)";
-
-          # short-hands for ignoring and unignoring files without .gitignore
-          ignore = "update-index --assume-unchanged";
-          ig = "ignore";
-          unignore = "update-index --no-assume-unchanged";
-          unig = "unignore";
-          ignored = "!gitignored() { git ls-files -v | grep \"^[[:lower:]]\"; }; gitignored";
-          ls-ig = "ignored";
-
-          # git-absord shorthands
-          ab = "absorb";
-          abr = "git absorb --and-rebase";
-        };
-        push = {
-          default = "matching";
-        };
-        pull = {
-          rebase = true;
-          ff = "only";
-        };
-        init = {
-          defaultBranch = "main";
-        };
-      };
-      ignores = [
-        "*.log"
-        "*.out"
-        ".DS_Store"
-        "dist/"
-        "result"
-      ];
-    };
-    gpg.enable = true;
-    home-manager.enable = true;
-    info.enable = true;
-    jq.enable = true;
-    powerline-go = {
-      enable = true;
-      settings = {
-        cwd-max-depth = 5;
-        cwd-max-dir-size = 12;
-        max-width = 60;
-      };
-    };
-    zoxide = {
-      enable = true;
-      enableFishIntegration = true;
-    };
-  };
 }

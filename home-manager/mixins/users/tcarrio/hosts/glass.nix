@@ -1,9 +1,8 @@
 { lib, config, ... }:
 with lib.hm.gvariant;
 {
-  imports = [
-    ../../../services/mpris-proxy.nix
-  ];
+  oxc.services.mpris-proxy.enable = true;
+
   dconf.settings = {
     "org/gnome/desktop/background" = {
       picture-options = "zoom";

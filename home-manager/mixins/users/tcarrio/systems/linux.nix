@@ -1,11 +1,13 @@
 { username, ... }:
 {
-  imports = [
-    ../../../desktop/celluloid.nix
-    ../../../desktop/dconf-editor.nix
-    ../../../desktop/gnome-sound-recorder.nix
-    ../../../desktop/emote.nix
-  ];
+  # Linux desktop app settings via the gnome-apps bundle (celluloid,
+  # dconf-editor, sound recorder; emote comes from the desktop mixin)
+  oxc.desktop.gnome-apps = {
+    enable = true;
+    celluloid = true;
+    dconf-editor = true;
+    gnome-sound-recorder = true;
+  };
 
   home = {
     file."Quickemu/nixos-console.conf".text = ''

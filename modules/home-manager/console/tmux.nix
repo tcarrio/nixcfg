@@ -1,5 +1,12 @@
-{ pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
+  cfg = config.oxc.console.tmux;
+
   theme = {
     colors = {
       black = "#282c34";
@@ -18,5 +25,12 @@ let
   };
 in
 {
-  home.file.".tmux.conf".source = "${tmuxConfig}";
+  options.oxc.console.tmux = {
+    enable = lib.mkEnableOption "tmux with the oxc onedark theme configuration";
+  };
+
+  config = lib.mkIf cfg.enable {
+    home.packages = [ pkgs.tmux ];
+    home.file.".tmux.conf".source = "${tmuxConfig}";
+  };
 }

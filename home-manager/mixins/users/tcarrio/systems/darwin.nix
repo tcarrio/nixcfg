@@ -11,10 +11,9 @@ let
   secretiveAgentSocket = "${homeDir}/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
 in
 {
-  imports = [
-    ../../../desktop/amethyst.nix
-    ../../../desktop/ghostty
-  ];
+  # Amethyst via the gnome-apps bundle's amethyst toggle (ghostty comes
+  # from the desktop mixin)
+  oxc.desktop.gnome-apps.amethyst = true;
 
   home.packages = [
     agenix

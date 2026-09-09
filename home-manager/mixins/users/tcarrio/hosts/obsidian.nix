@@ -11,11 +11,18 @@ let
 in
 with lib.hm.gvariant;
 {
-  imports = [
-    ../../../services/mpris-proxy.nix
-    ../../../desktop/le-code
-    ../../../desktop/ghostty
-  ];
+  imports = [ ];
+
+  oxc.services.mpris-proxy.enable = true;
+
+  # Le Code: Mistral Le Chat code-session web app launcher
+  oxc.desktop.web-app = {
+    enable = true;
+    name = "le-code";
+    comment = "Launch Le Chat directly to Code Sessions";
+    url = "https://chat.mistral.ai/code_session";
+    icon = ./lechat.png;
+  };
 
   # Cross-platform speech-to-text assistant
   services.handy.enable = true;
@@ -37,19 +44,12 @@ with lib.hm.gvariant;
     ];
   };
 
+  # direnv whitelist via the console module (single owner of direnv.toml)
+  oxc.console.direnv.whitelistPrefixes = [ "${homeDir}/Code" ];
+
   home = {
     sessionPath = [ ];
     sessionVariables = { };
-    file = {
-      "${config.xdg.configHome}/direnv/direnv.toml".text = lib.mkDefault ''
-        [global]
-        load_dotenv = true
-        strict_env = true
-
-        [whitelist]
-        prefix = [ "${homeDir}/Code" ]
-      '';
-    };
     packages = with pkgs.unstable; [
       gotop
       opencode

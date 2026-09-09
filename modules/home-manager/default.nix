@@ -3,15 +3,18 @@
   imports = [
     ./ai
     ./amethyst.nix
-    ./atuin.nix
     ./aws.nix
+    ./console
     ./copy-files.nix
+    ./desktop
     ./deb.nix
     ./endcord.nix
     ./gh-dash
     ./github.nix
+    ./harlequin.nix
     ./palette.nix
     ./serena.nix
+    ./services
     ./zed.nix
     ../shared
   ];

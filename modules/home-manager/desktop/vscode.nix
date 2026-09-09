@@ -1,5 +1,11 @@
-{ config, ... }:
+{
+  lib,
+  config,
+  ...
+}:
 let
+  cfg = config.oxc.desktop.vscode;
+
   userSettings = {
     "workbench.iconTheme" = "vscode-icons";
     "[jsonc]" = {
@@ -25,9 +31,18 @@ let
   };
 in
 {
-  home = {
-    file = {
-      "${config.xdg.configHome}/Code/User/settings.json".text = builtins.toJSON userSettings;
+  options.oxc.desktop.vscode = {
+    enable = lib.mkEnableOption "VS Code user settings management (works for any VS Code install, incl. deb)";
+
+    settings = lib.mkOption {
+      type = lib.types.attrs;
+      default = userSettings;
+      defaultText = lib.literalExpression "oxc user settings preset";
+      description = "User settings written to Code/User/settings.json";
     };
+  };
+
+  config = lib.mkIf cfg.enable {
+    home.file."${config.xdg.configHome}/Code/User/settings.json".text = builtins.toJSON cfg.settings;
   };
 }

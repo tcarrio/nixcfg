@@ -8,10 +8,10 @@
   ...
 }:
 {
-  imports = [
-    # VS Code settings.json — the deb-installed `code` reads the same path
-    ../../../desktop/vscode.nix
-  ];
+  imports = [ ];
+
+  # VS Code settings.json — the deb-installed `code` reads the same path
+  oxc.desktop.vscode.enable = true;
 
   # Deb-managed packages, applied via `deb-sync` / `task deb:sync`.
   # The Microsoft apt repo for `code` is a one-time setup step in the docs.

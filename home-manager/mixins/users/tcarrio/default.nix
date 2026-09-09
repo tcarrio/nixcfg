@@ -13,16 +13,13 @@ let
   optionalPathExists = path: lib.optional (builtins.pathExists path) path;
 in
 {
-  imports = [
-    ../../console/asciinema.nix
-    ../../console/charm-freeze.nix
-    ../../console/zeit.nix
-    ../../desktop/discord.nix
-  ]
-  ++ lib.optional (desktop != null) ./desktop.nix
-  ++ optionalPathExists ./hosts/${hostname}.nix
-  ++ optionalPathExists ./hosts/${hostname}/default.nix
-  ++ optionalPathExists ./systems/${systemType}.nix;
+  imports =
+    lib.optional (desktop != null) ./desktop.nix
+    ++ optionalPathExists ./hosts/${hostname}.nix
+    ++ optionalPathExists ./hosts/${hostname}/default.nix
+    ++ optionalPathExists ./systems/${systemType}.nix;
+
+  oxc.desktop.discord.enable = true;
 
   home = {
     file."0xc/devshells".source = inputs.devshells;
