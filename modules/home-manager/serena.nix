@@ -7,14 +7,9 @@
 let
   mkSerenaEnableOption = desc: lib.mkEnableOption "Enable ${desc} support for Serena";
 
-  mkSkProjectPath = name: "${config.sk.srcDir}/${name}";
-
   managedSerenaConfigFile = pkgs.writeText "serena_config.yml" (
     lib.generators.toYAML { } {
-      projects = [
-        (mkSkProjectPath "skillshare")
-        (mkSkProjectPath "skillshare-web")
-      ];
+      projects = cfg.projects;
       ls_specific_settings =
         (lib.attrsToList cfg.languages)
         |> (builtins.filter (kv: kv.value.enable))
@@ -75,8 +70,13 @@ in
     };
     cleanupWhenDisabled = lib.mkOption {
       type = lib.types.bool;
-      default = true;
+      default = false;
       description = "Whether to cleanup the artifacts of Serena when it is disabled";
+    };
+    projects = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+      description = "Project directory paths for Serena to manage";
     };
     languages = {
       bash.enable = mkSerenaEnableOption "Bash language";

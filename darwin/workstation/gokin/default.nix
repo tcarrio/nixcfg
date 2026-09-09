@@ -18,12 +18,12 @@
   #     rejects copied-back outputs as unsigned
   # Verified working end-to-end manually (build + copy back) on 2026-08-28.
 
-  sk.enable = false;
   oxc.homebrew.enable = true;
   oxc.homebrew.defaults = true;
   oxc.services.colima = {
     enable = true;
     automaticBoot = true;
+    user = "tcarrio";
   };
 
   environment.systemPackages =

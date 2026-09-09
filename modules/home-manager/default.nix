@@ -12,7 +12,6 @@
     ./github.nix
     ./palette.nix
     ./serena.nix
-    ./sk
     ./zed.nix
     ../shared
   ];

@@ -59,16 +59,11 @@ in
     riper-5.enable = lib.mkEnableOption "Enable Riper-5 AI";
     serena.enable = lib.mkEnableOption "Enable Serena MCP integration";
     typescript.enable = lib.mkEnableOption "Enable TypeScript Cursor rules";
-    sk.enable = lib.mkEnableOption "Enable Skillshare Cursor rules";
   };
 
   config = lib.mkIf cfg.enable {
     home.copy-files =
-      # Setup RIPER-5 Cursor files
-      (optionalSet cfg.sk.enable {
-        ".cursor/skills/jira-ticket-planning/SKILL.md".source = ./skills/jira-ticket-planning.md;
-      })
-      // (optionalSet cfg.riper-5.enable {
+      (optionalSet cfg.riper-5.enable {
         ".cursor/rules/riper-5.mdc".source = ./rules/riper-5.mdc;
 
         # Utility commands for changing RIPER-5 modes

@@ -26,8 +26,6 @@
     yaml.enable = true;
   };
 
-  sk.enable = false;
-
   oxc.console.atuin.enable = true;
 
   oxc.github.dash.presets = [ "personal" ];

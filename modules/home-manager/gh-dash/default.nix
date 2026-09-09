@@ -7,7 +7,6 @@ let
     eearomatics = import ./presets/eearomatics.nix;
     open-feature = import ./presets/open-feature.nix;
     personal = import ./presets/personal.nix;
-    skillshare = import ./presets/skillshare.nix;
   };
 
   loadedPresets = map (name: presetFiles.${name}) cfg.presets;
