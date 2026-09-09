@@ -188,8 +188,8 @@
           platform = "x86_64-linux";
           desktop = "gnome";
         };
-        "tcarrio@sktc2" = libx.mkHome {
-          hostname = "sktc2";
+        "tcarrio@astral" = libx.mkHome {
+          hostname = "astral";
           username = "tcarrio";
           platform = "aarch64-darwin";
           desktop = "aqua";
@@ -224,9 +224,9 @@
       # Support for nix-darwin workstations
       # - darwin-rebuild build --flake .#gokin
       darwinConfigurations = {
-        "sktc2" = libx.mkDarwin {
+        "astral" = libx.mkDarwin {
           username = "tcarrio";
-          hostname = "sktc2";
+          hostname = "astral";
           stateVersion = 4;
           determinate = false;
           desktop = "aqua";
