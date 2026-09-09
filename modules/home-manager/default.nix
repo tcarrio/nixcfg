@@ -6,6 +6,7 @@
     ./atuin.nix
     ./aws.nix
     ./copy-files.nix
+    ./deb.nix
     ./endcord.nix
     ./gh-dash
     ./github.nix
