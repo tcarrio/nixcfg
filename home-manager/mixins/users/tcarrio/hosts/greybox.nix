@@ -14,8 +14,12 @@
   oxc.desktop.vscode.enable = true;
 
   # Deb-managed packages, applied via `deb-sync` / `task deb:sync`.
-  # The Microsoft apt repo for `code` is a one-time setup step in the docs.
-  oxc.deb.packages = [ "code" ];
+  # VS Code is not in Ubuntu's stock repositories — the stable-redirect
+  # download URLs (arch-mapped) install it without the Microsoft apt repo.
+  oxc.deb.sources.code.url = {
+    x86_64-linux = "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64";
+    aarch64-linux = "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-arm64";
+  };
 
   programs = {
     gpg = {

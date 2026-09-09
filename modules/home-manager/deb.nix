@@ -7,31 +7,89 @@
 let
   cfg = config.oxc.deb;
 
+  # Managed set: plain names resolved from the host's configured apt
+  # repositories, plus any name with an explicit source mapping.
+  managedPackages = cfg.packages ++ (lib.attrNames cfg.sources);
+
+  # uname -m value per nix system for the runtime arch dispatch
+  archMatch = {
+    x86_64-linux = "x86_64";
+    aarch64-linux = "aarch64";
+  };
+
+  # dpkg-query -f format is single-quoted in the rendered script so bash
+  # never expands it — dpkg performs the ${Status} substitution itself.
+  # Assembled from plain strings to avoid Nix ''-quote escape ambiguity:
+  # dollar + brace as separate literals cannot be parsed as interpolation.
+  dpkgFormat = "$" + "{Status}";
+  dpkgCheck = ''
+    if /usr/bin/dpkg-query -W -f='${dpkgFormat}' "$pkg" 2>/dev/null | /usr/bin/grep -q "install ok installed"; then
+  '';
+
+  # Render the sources attrset as a shell case statement resolving a
+  # package name to its download URL for the running architecture. The
+  # inner case dispatches on uname -m; an empty result means no mapping
+  # for this package/architecture.
+  # Resolution preference is encoded by deb-sync: repository (unimplemented)
+  # > url > upstream apt name.
+  urlResolver =
+    lib.concatStringsSep "\n" (
+      lib.mapAttrsToList (
+        name: src:
+        let
+          archCases = lib.concatStringsSep "\n" (
+            lib.mapAttrsToList (
+              system: url: ''            ${archMatch.${system}}) echo "${url}" ;;''
+            ) src.url
+          );
+        in
+        ''
+          ${lib.escapeShellArg name})
+            case "$(uname -m)" in
+          ${archCases}
+            esac
+        ''
+      ) cfg.sources
+    );
+
   # Homebrew-like semantics for deb packages: a declarative list of package
   # names that `deb-sync` converges towards with apt. Applying the list is
   # non-deterministic (repo state, apt version) and — like brew — removing an
   # entry does NOT uninstall the package; cleanup stays a manual `apt remove`.
+  #
+  # Name resolution order: (1) custom apt repository mapping [unimplemented],
+  # (2) .deb download URL mapping, (3) plain `apt-get install <name>` against
+  # the host's configured repositories.
   #
   # System binaries are referenced by absolute path because
   # writeShellApplication constrains PATH to its runtimeInputs, and dpkg/apt
   # only exist on the Debian-family host, not in the Nix closure.
   debSync = pkgs.writeShellApplication {
     name = "deb-sync";
+    runtimeInputs = [ pkgs.curl ];
     text = ''
       set -euo pipefail
 
-      PACKAGES=(
-      ${lib.concatMapStringsSep "\n" (p: "  ${lib.escapeShellArg p}") cfg.packages}
+      resolve_url() {
+        case "$1" in
+      ${urlResolver}
+        esac
+        # no mapping (or no URL for this architecture)
+        echo ""
+      }
+
+      managed=(
+      ${lib.concatMapStringsSep "\n" (p: "  ${lib.escapeShellArg p}") managedPackages}
       )
 
-      if [ ''${#PACKAGES[@]} -eq 0 ]; then
-        echo "oxc.deb.packages is empty; nothing to sync."
+      if [ ''${#managed[@]} -eq 0 ]; then
+        echo "oxc.deb manages no packages; nothing to sync."
         exit 0
       fi
 
       missing=()
-      for pkg in "''${PACKAGES[@]}"; do
-        if /usr/bin/dpkg-query -W -f="''${Status}" "$pkg" 2>/dev/null | /usr/bin/grep -q "install ok installed"; then
+      for pkg in "''${managed[@]}"; do
+      ${dpkgCheck}
           echo "ok      $pkg"
         else
           missing+=("$pkg")
@@ -44,7 +102,25 @@ let
       fi
 
       echo "Installing: ''${missing[*]}"
-      exec /usr/bin/sudo /usr/bin/apt-get install -y "''${missing[@]}"
+      for pkg in "''${missing[@]}"; do
+        url="$(resolve_url "$pkg")"
+        if [ -n "$url" ]; then
+          echo ">> $pkg: downloading $url"
+          deb="$(mktemp --suffix=.deb)"
+          curl -fL "$url" -o "$deb"
+          # path-qualified install: apt resolves the local .deb's dependencies
+          # from the configured repositories
+          /usr/bin/sudo /usr/bin/apt-get install -y "$deb"
+          rm -f "$deb"
+        elif /usr/bin/apt-cache policy "$pkg" 2>/dev/null | /usr/bin/grep -q "Candidate:"; then
+          echo ">> $pkg: installing from configured apt repositories"
+          /usr/bin/sudo /usr/bin/apt-get install -y "$pkg"
+        else
+          echo "!! $pkg: no URL mapping and no apt candidate — its repository is not configured." >&2
+          echo "   Add an oxc.deb.sources.<name>.url mapping, or configure the apt repository." >&2
+          exit 1
+        fi
+      done
     '';
   };
 
@@ -52,24 +128,69 @@ let
     name = "deb-list";
     text = ''
       cat <<'EOF'
-      ${lib.concatMapStringsSep "\n" (p: p) cfg.packages}
+      ${lib.concatMapStringsSep "\n" (p: p) managedPackages}
       EOF
     '';
   };
 in
 {
-  options.oxc.deb.packages = lib.mkOption {
-    type = lib.types.listOf lib.types.str;
-    default = [ ];
-    description = ''
-      Deb package names managed on non-NixOS Linux hosts. Applied manually
-      via `deb-sync` (see the deb:* tasks in Taskfile.yml). Entries are
-      installed if missing; removal from this list does not uninstall.
-    '';
+  options.oxc.deb = {
+    packages = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+      description = ''
+        Deb package names managed on non-NixOS Linux hosts, resolved against
+        the host's configured apt repositories (upstream Ubuntu/Debian by
+        default). Names needing a custom source go in `oxc.deb.sources`
+        instead. Applied manually via `deb-sync` (see the deb:* tasks in
+        Taskfile.yml). Entries are installed if missing; removal from this
+        list does not uninstall.
+      '';
+    };
+
+    sources = lib.mkOption {
+      type = lib.types.attrsOf (
+        lib.types.submodule {
+          options = {
+            url = lib.mkOption {
+              type = lib.types.attrsOf lib.types.str;
+              default = { };
+              description = ''
+                Per-system .deb download URLs (keys are nix systems:
+                x86_64-linux, aarch64-linux). Preferred when a package is
+                not available from the configured repositories. Should be a
+                "latest" style URL so the mapping survives upstream releases;
+                keys are not verified — treat the transport (https) as the
+                trust boundary, as apt repository signing is not yet wired up.
+              '';
+            };
+            repository = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              default = null;
+              description = "Custom apt repository (NOT YET IMPLEMENTED; must stay null).";
+            };
+          };
+        }
+      );
+      default = { };
+      description = ''
+        Source mappings for managed deb packages that are not installable
+        from the host's configured apt repositories. Keys implicitly join
+        the managed set (no need to also list them in `packages`).
+        Resolution preference: repository (unimplemented) > url > plain name.
+      '';
+    };
   };
 
-  config = lib.mkIf (cfg.packages != [ ]) {
-    home.packages = [
+  config = {
+    assertions = [
+      {
+        assertion = lib.all (src: src.repository == null) (builtins.attrValues cfg.sources);
+        message = "oxc.deb.sources.<name>.repository is not implemented yet (sudo/interactive keyring setup unresolved); use url mappings.";
+      }
+    ];
+
+    home.packages = lib.mkIf (managedPackages != [ ]) [
       debSync
       debList
     ];

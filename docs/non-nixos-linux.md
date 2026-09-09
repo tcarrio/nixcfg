@@ -83,7 +83,7 @@ follow the vendor's current instructions):
 
 | Repo | Provides | Notes |
 |---|---|---|
-| Microsoft (packages.microsoft.com) | `code` (VS Code) | Managed declaratively afterwards via `deb-sync` |
+| Microsoft (packages.microsoft.com) | `code` (VS Code) | Optional — `deb-sync` installs `code` via the stable-redirect `.deb` URL mapping without the repo |
 | Google Chrome | `google-chrome-stable` | Optional |
 | Docker / Podman upstream | container daemons | Or use the distro's `docker.io` / `podman` |
 
@@ -105,9 +105,23 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 ## 5. Deb package management (`deb-sync`)
 
 Deb packages on these hosts are managed homebrew-style: a declarative list
-(`oxc.deb.packages` in the host's home-manager file) applied
-non-deterministically, with no cleanup on removal — uninstalling is a
-manual `sudo apt remove <pkg>`.
+applied non-deterministically, with no cleanup on removal — uninstalling is
+a manual `sudo apt remove <pkg>`.
+
+Two option surfaces in the host's home-manager file:
+
+- `oxc.deb.packages` — plain names resolved from the host's configured apt
+  repositories (works for anything in Ubuntu's stock repos)
+- `oxc.deb.sources.<name>.url` — per-architecture `.deb` download URLs for
+  packages not in any configured repository (e.g. VS Code via the
+  `code.visualstudio.com/sha/download` stable redirect, which always serves
+  the current release and is Ubuntu-version-agnostic). Prefer a custom apt
+  repository when one exists; that mapping (`sources.<name>.repository`) is
+  defined but not yet implemented (interactive-sudo keyring setup).
+
+Resolution order per package: repository mapping (unimplemented) > URL
+mapping > plain `apt install <name>`. A package with no resolvable source
+fails with a pointer to the missing prerequisite.
 
 ```fish
 task deb:sync   # or: deb-sync
