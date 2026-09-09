@@ -154,6 +154,12 @@
           platform = "aarch64-darwin";
           desktop = "aqua";
         };
+        "thomascarrio@greybox" = libx.mkHome {
+          hostname = "greybox";
+          username = "thomascarrio";
+          platform = "x86_64-linux";
+          desktop = "gnome";
+        };
         "tcarrio@sktc2" = libx.mkHome {
           hostname = "sktc2";
           username = "tcarrio";
