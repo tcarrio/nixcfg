@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  username,
   ...
 }:
 
@@ -32,6 +31,11 @@ in
         default = false;
         description = "Whether to start the Colima service at boot time.";
       };
+      user = mkOption {
+        type = types.str;
+        default = "root";
+        description = "User account the boot-time Colima daemon runs as.";
+      };
     };
   };
 
@@ -49,7 +53,7 @@ in
         ProgramArguments = [ "start" ] ++ cfg.arguments;
         KeepAlive = false;
         RunAtLoad = true;
-        UserName = username;
+        UserName = cfg.user;
       };
     };
   };

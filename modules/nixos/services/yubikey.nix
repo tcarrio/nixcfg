@@ -1,13 +1,13 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.oxc.services.yubikey;
 
-  defaultKeys = [
-    # Generated using `${pkgs.pam_u2f}/bin/pamu2fcfg > $temp_dir/u2f_keys`
-    "tcarrio:TvZ3U7bAPWeRtL3t5qbKawJKe69jJqMk4YayOklrXaSA8QePISDg2W1ZT03pvrBbG97YK1Dy/vzpoKmntuuWmw==,ii8jem3VuN7Z4Vw86uA5EAe6PzrKIiclS9cAzeMnP1Agj2+CzTC39EXaoYQ2m2d3KGuVUnWWvKQRRmiDoRTS8w==,es256,+presence";
-  ];
-
-  u2fConfig = pkgs.writeFile (lib.concatStringsSep "\n" cfg.keys);
+  u2fConfig = pkgs.writeText "u2f_keys" (lib.concatStringsSep "\n" cfg.keys);
 in
 {
   options.oxc.services.yubikey = {
@@ -19,8 +19,17 @@ in
 
     keys = lib.mkOption {
       type = lib.types.listOf lib.types.str;
-      default = defaultKeys;
-      description = "Keys to include for system trust.";
+      default = [ ];
+      description = ''
+        PAM U2F keys to include for system trust. Generate with
+        `pamu2fcfg > u2f_keys`; empty by default — hosts supply their own.
+      '';
+    };
+
+    user = lib.mkOption {
+      type = lib.types.str;
+      default = "root";
+      description = "User whose ~/.config/Yubico receives the u2f_keys link.";
     };
 
     exclusiveKeyLogin = lib.mkOption {
@@ -49,10 +58,10 @@ in
         };
       };
 
-      config.systemd.tmpfiles.rules = [
-        "d /home/${username}/.config 0755 ${username} ${username}"
-        "d /home/${username}/.config/Yubico 0755 ${username} ${username}"
-        "L+ /home/${username}/.config/Yubico/u2f_keys - - - - ${u2fConfig}"
+      systemd.tmpfiles.rules = [
+        "d /home/${cfg.user}/.config 0755 ${cfg.user} ${cfg.user}"
+        "d /home/${cfg.user}/.config/Yubico 0755 ${cfg.user} ${cfg.user}"
+        "L+ /home/${cfg.user}/.config/Yubico/u2f_keys - - - - ${u2fConfig}"
       ];
     })
     (lib.mkIf (cfg.enable && cfg.removedKeyLogout) {

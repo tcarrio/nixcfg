@@ -1,11 +1,11 @@
-{ lib, desktop, ... }:
+{ lib, ... }:
 {
   imports = [
     ./console
+    ./desktop
     ./hardware
     ./services
     ./virt
     ../shared
-  ]
-  ++ lib.optionals (desktop != null) [ ./desktop ];
+  ];
 }

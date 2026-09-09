@@ -1,7 +1,6 @@
 {
   lib,
   config,
-  inputs,
   ...
 }:
 {
@@ -13,10 +12,9 @@
     };
   };
 
-  imports = [
-    inputs.vscode-server.nixosModules.default
-  ];
-
+  # NOTE: the upstream nixos-vscode-server module must be imported by the
+  # caller (internal hosts: mkHost wires inputs.vscode-server via the
+  # workstation host files). This module only drives its options.
   config = lib.mkIf config.oxc.desktop.vscode.server.enable {
     services.vscode-server.enable = true;
   };

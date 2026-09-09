@@ -2,25 +2,9 @@
   lib,
   config,
   pkgs,
-  desktop,
   ...
 }:
 let
-  qtPackage = pkgs.transmission_4-qt;
-  gtkPackage = pkgs.transmission_4-gtk;
-  defaultPackage =
-    {
-      "cinnamon" = gtkPackage;
-      "cosmic" = gtkPackage;
-      "gnome" = gtkPackage;
-      "hyprland" = qtPackage;
-      "i3" = qtPackage;
-      "kde" = qtPackage;
-      "kde6" = qtPackage;
-      "pantheon" = gtkPackage;
-    }
-    .${desktop} or qtPackage;
-
   cfg = config.oxc.desktop.transmission;
 in
 {
@@ -28,12 +12,22 @@ in
     enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
-      description = "Whether to enable the Bitwarden password manager";
+      description = "Whether to enable the Transmission BitTorrent client";
+    };
+
+    flavor = lib.mkOption {
+      type = lib.types.enum [
+        "gtk"
+        "qt"
+      ];
+      default = "qt";
+      description = "Widget toolkit flavor of the transmission package";
     };
 
     package = lib.mkOption {
       type = lib.types.package;
-      default = defaultPackage;
+      default = if cfg.flavor == "gtk" then pkgs.transmission_4-gtk else pkgs.transmission_4-qt;
+      defaultText = lib.literalExpression "transmission_4-qt (per flavor)";
       description = "The package to use for transmission";
     };
 

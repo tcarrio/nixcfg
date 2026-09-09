@@ -15,9 +15,19 @@
 # Freedesktop SDK                                  org.freedesktop.Sdk                                        freedesktop-sdk-25.08.5               25.08                    system
 
 # TODO: Refactor Flatpak installs to home-manager
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  options,
+  pkgs,
+  ...
+}:
 let
   cfg = config.oxc.desktop.flatpak;
+
+  # remotes/overrides come from the declarative-flatpak module (flatpaks
+  # flake input on internal hosts); upstream NixOS only provides enable.
+  hasDeclarativeFlatpak = options.services.flatpak ? remotes;
 in
 {
   options.oxc.desktop.flatpak.enable = lib.mkEnableOption "Enable Flatpak support";
@@ -25,7 +35,8 @@ in
   config = lib.mkIf cfg.enable {
     services.flatpak = {
       enable = true;
-
+    }
+    // (lib.optionalAttrs hasDeclarativeFlatpak {
       # The remaining configurations are possible due to declarative-flatpak
       # @see https://github.com/in-a-dil-emma/declarative-flatpak
       remotes = {
@@ -44,7 +55,7 @@ in
           ];
         };
       };
-    };
+    });
 
     environment.systemPackages = [
       # provides update-desktop-database, used by the helper below

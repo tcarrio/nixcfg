@@ -1,4 +1,9 @@
-{ lib, config, pkgs, inputs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   cfg = config.oxc.desktop.zen-browser;
 
@@ -35,7 +40,7 @@ let
     ) prefs
   );
 
-  zenPkg = inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.zen-browser-unwrapped;
+  zenPkg = cfg.package;
   wrappedZen = zenPkg.overrideAttrs {
     # NVidia improvements
     LIBVA_DRIVER_NAME = "nvidia";   # tell libva to use the nvidia backend
@@ -91,6 +96,13 @@ in
       type = lib.types.bool;
       default = false;
       description = "Whether to enable the Zen browser";
+    };
+
+    # Library-friendly: callers supply the zen-browser package instead of a
+    # flake-input specialArg; internal hosts wire their locked input here.
+    package = lib.mkOption {
+      type = lib.types.package;
+      description = "Unwrapped zen-browser package to wrap with policies";
     };
   };
 
