@@ -143,7 +143,7 @@ let
 
     # Container tooling
     dockerls.enable = true;
-    dockerls.package = pkgs.dockerfile-language-server-nodejs;
+    dockerls.package = pkgs.dockerfile-language-server;
 
     docker_compose_language_service.enable = true;
 
@@ -423,7 +423,9 @@ rec {
       enable = true;
       autoClose = false;
       openOnSetup = false;
-      hijackNetrw = true;
+      settings = {
+        hijack_netrw = true;
+      };
     };
 
     # Terminal

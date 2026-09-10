@@ -169,6 +169,10 @@ in
     };
 
     gtk4 = {
+      # Explicit theme adoption: HM's default changed from inheriting
+      # gtk.theme to null in 26.05; this silences the warning and keeps
+      # gtk4 apps themed consistently with gtk2/3.
+      theme = config.gtk.theme;
       extraConfig = {
         gtk-application-prefer-dark-theme = 1;
       };
