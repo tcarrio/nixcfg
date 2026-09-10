@@ -4,6 +4,7 @@
 # udev) is documented in docs/non-nixos-linux.md.
 
 {
+  lib,
   pkgs,
   ...
 }:
@@ -12,6 +13,12 @@
 
   # VS Code settings.json — the deb-installed `code` reads the same path
   oxc.desktop.vscode.enable = true;
+
+  # Lean footprint: no niche extras, no recording/tracking utilities
+  oxc.console.modern-unix.extras = false;
+  oxc.console.tools.eza = false;
+  oxc.console.asciinema.enable = false;
+  oxc.console.zeit.enable = false;
 
   # Deb-managed packages, applied via `deb-sync` / `task deb:sync`.
   # VS Code is not in Ubuntu's stock repositories — the stable-redirect
@@ -54,7 +61,6 @@
     packages =
       (with pkgs; [
         # Container CLIs (daemons themselves are apt-managed, see docs)
-        dive
         lazydocker
 
         # Nix-managed fonts for the GNOME session

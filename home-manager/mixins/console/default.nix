@@ -24,9 +24,9 @@
     neovim.enable = lib.mkDefault true;
     tmux.enable = lib.mkDefault true;
     worktree-cli.enable = lib.mkDefault true;
-    asciinema.enable = true;
-    charm-freeze.enable = true;
-    zeit.enable = true;
+    asciinema.enable = lib.mkDefault true;
+    charm-freeze.enable = lib.mkDefault true;
+    zeit.enable = lib.mkDefault true;
   };
 
   # Personal options layered on the library modules
