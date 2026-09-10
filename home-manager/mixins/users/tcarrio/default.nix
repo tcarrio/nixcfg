@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   hostname,
   inputs,
@@ -17,7 +18,8 @@ in
     lib.optional (desktop != null) ./desktop.nix
     ++ optionalPathExists ./hosts/${hostname}.nix
     ++ optionalPathExists ./hosts/${hostname}/default.nix
-    ++ optionalPathExists ./systems/${systemType}.nix;
+    ++ optionalPathExists ./systems/${systemType}.nix
+    ++ [ ./personal-tools.nix ];
 
   oxc.desktop.discord.enable = true;
 
@@ -61,11 +63,6 @@ in
         # slumber # REST client TUI
         # trash-cli # trash CLI
         typescript-go
-      ])
-      ++ (with pkgs; [
-        gh-composer-auth
-        urlencode
-        qq-cli
       ]);
   };
 

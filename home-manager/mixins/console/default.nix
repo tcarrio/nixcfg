@@ -25,7 +25,7 @@
     tmux.enable = lib.mkDefault true;
     worktree-cli.enable = lib.mkDefault true;
     asciinema.enable = lib.mkDefault true;
-    charm-freeze.enable = lib.mkDefault true;
+    charm-freeze.enable = lib.mkDefault false;
     zeit.enable = lib.mkDefault true;
   };
 
