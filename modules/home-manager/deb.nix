@@ -37,9 +37,11 @@ let
       lib.mapAttrsToList (
         name: src:
         let
+          # Single-quoted so runtime placeholders (''${ubuntu_version}) reach
+          # deb-sync literally instead of expanding at case-evaluation.
           archCases = lib.concatStringsSep "\n" (
             lib.mapAttrsToList (
-              system: url: ''            ${archMatch.${system}}) echo "${url}" ;;''
+              system: url: ''            ${archMatch.${system}}) echo ${lib.escapeShellArg url} ;;''
             ) src.url
           );
         in
@@ -48,6 +50,7 @@ let
             case "$(uname -m)" in
           ${archCases}
             esac
+            ;;
         ''
       ) cfg.sources
     );
@@ -102,8 +105,17 @@ let
       fi
 
       echo "Installing: ''${missing[*]}"
+      # Ubuntu release (e.g. 24.04) for the ''${ubuntu_version} URL placeholder
+      ubuntu_version=""
+      if [ -r /etc/os-release ]; then
+        # shellcheck disable=SC1091
+        . /etc/os-release 2>/dev/null || true
+        ubuntu_version="''${VERSION_ID:-}"
+      fi
       for pkg in "''${missing[@]}"; do
         url="$(resolve_url "$pkg")"
+        # runtime substitution of the ubuntu_version placeholder
+        url="''${url//\$\{ubuntu_version\}/$ubuntu_version}"
         if [ -n "$url" ]; then
           echo ">> $pkg: downloading $url"
           deb="$(mktemp --suffix=.deb)"
@@ -160,7 +172,10 @@ in
                 x86_64-linux, aarch64-linux). Preferred when a package is
                 not available from the configured repositories. Should be a
                 "latest" style URL so the mapping survives upstream releases;
-                keys are not verified — treat the transport (https) as the
+                when the URL embeds the Ubuntu release (e.g.
+                ..._amd64_24.04.deb), use the ''${ubuntu_version} placeholder
+                — deb-sync substitutes the running host's release at runtime.
+                Keys are not verified — treat the transport (https) as the
                 trust boundary, as apt repository signing is not yet wired up.
               '';
             };

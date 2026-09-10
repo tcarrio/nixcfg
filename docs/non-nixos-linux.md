@@ -84,6 +84,7 @@ follow the vendor's current instructions):
 | Repo | Provides | Notes |
 |---|---|---|
 | Microsoft (packages.microsoft.com) | `code` (VS Code) | Optional — `deb-sync` installs `code` via the stable-redirect `.deb` URL mapping without the repo |
+| `ppa:mkasberg/ghostty-ubuntu` | `ghostty` | Optional — `deb-sync` installs ghostty via the community `.deb` URL mapping (version + `${ubuntu_version}` runtime placeholder) without the repo; official Ubuntu repos carry ghostty only from 26.04. Graphical nix packages need nixGL on non-NixOS, so the binary is deb-managed while home-manager still renders its config and themes |
 | Google Chrome | `google-chrome-stable` | Optional |
 | Docker / Podman upstream | container daemons | Or use the distro's `docker.io` / `podman` |
 

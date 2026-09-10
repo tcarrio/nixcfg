@@ -28,6 +28,20 @@
     aarch64-linux = "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-arm64";
   };
 
+  # Ghostty: graphical nix packages need nixGL wrapping on non-NixOS —
+  # deferred; the binary comes from the community .deb instead (official
+  # Ubuntu repos carry ghostty only from 26.04). The module stays enabled
+  # with an empty package so HM still writes the ghostty config + theme;
+  # only the binary install is deb-managed. Pinned release; refresh the
+  # tag/asset version here when updating. The apt-repo alternative
+  # (ppa:mkasberg/ghostty-ubuntu) becomes preferred once oxc.deb gains
+  # repository mappings.
+  oxc.desktop.ghostty.linuxPackage = pkgs.empty;
+  oxc.deb.sources.ghostty.url = {
+    x86_64-linux = "https://github.com/mkasberg/ghostty-ubuntu/releases/download/1.3.1-0-ppa2/ghostty_1.3.1-0.ppa2_amd64_\${ubuntu_version}.deb";
+    aarch64-linux = "https://github.com/mkasberg/ghostty-ubuntu/releases/download/1.3.1-0-ppa2/ghostty_1.3.1-0.ppa2_arm64_\${ubuntu_version}.deb";
+  };
+
   programs = {
     gpg = {
       enable = true;
