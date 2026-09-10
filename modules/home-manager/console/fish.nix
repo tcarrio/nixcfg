@@ -55,5 +55,18 @@ in
       interactiveShellInit = cfg.interactiveInit;
       inherit (cfg) plugins;
     };
+
+    # Standalone-HM hosts cannot rely on the session environment carrying
+    # the nix profile PATH (environment.d is only read at user-manager
+    # start, which survives logout on Ubuntu/GNOME). Fish bootstraps its
+    # own PATH so profile binaries (atuin, zoxide, ...) resolve in every
+    # fish regardless of how the session was launched. No-op when PATH is
+    # already correct (contains-guard prevents duplication).
+    xdg.configFile."fish/conf.d/00-nix-profile-path.fish".text =
+      lib.mkIf pkgs.stdenv.hostPlatform.isLinux ''
+        if test -d "$HOME/.nix-profile/bin"; and not contains -- "$HOME/.nix-profile/bin" $PATH
+            set -gx PATH "$HOME/.nix-profile/bin" $PATH
+        end
+      '';
   };
 }

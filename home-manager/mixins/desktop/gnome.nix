@@ -195,14 +195,18 @@ in
     x11.enable = true;
   };
 
-  # Theme discovery for non-HM-launched apps (GNOME Shell children, D-Bus
-  # activated services, apps inheriting the system theme): GTK resolves
-  # theme names through XDG_DATA_DIRS, and the nix profile's share/ —
-  # where HM's gtk module installs the theme package — is not on the
-  # session path by default on a standalone-HM host. environment.d covers
-  # every systemd user session consumer (graphical, D-Bus, portals);
-  # home.sessionVariables covers HM-launched shells.
-  xdg.configFile."environment.d/10-nix-profile-share.conf".text = ''
+  # Nix profile visibility for the whole session (GNOME Shell children,
+  # GUI-launched terminals, D-Bus activated services, apps inheriting the
+  # system theme). On a standalone-HM host nothing else places the user
+  # profile on the session environment: /etc/profile.d/nix.sh only reaches
+  # login bash shells, and hm-session-vars only carries explicit
+  # sessionPath entries (~/.local/bin). Without PATH here, GUI terminals
+  # lack atuin/zoxide/etc; without XDG_DATA_DIRS, GTK apps cannot discover
+  # the profile's installed themes. environment.d feeds every systemd
+  # user session consumer; the systemd user manager always carries a
+  # default PATH for ''${PATH} to expand against.
+  xdg.configFile."environment.d/10-nix-profile.conf".text = ''
+    PATH=${config.home.homeDirectory}/.nix-profile/bin:''${PATH}
     XDG_DATA_DIRS=${config.home.homeDirectory}/.nix-profile/share:/usr/local/share:/usr/share
   '';
 
