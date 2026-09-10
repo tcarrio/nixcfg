@@ -194,4 +194,17 @@ in
     gtk.enable = true;
     x11.enable = true;
   };
+
+  # Theme discovery for non-HM-launched apps (GNOME Shell children, D-Bus
+  # activated services, apps inheriting the system theme): GTK resolves
+  # theme names through XDG_DATA_DIRS, and the nix profile's share/ —
+  # where HM's gtk module installs the theme package — is not on the
+  # session path by default on a standalone-HM host. environment.d covers
+  # every systemd user session consumer (graphical, D-Bus, portals);
+  # home.sessionVariables covers HM-launched shells.
+  xdg.configFile."environment.d/10-nix-profile-share.conf".text = ''
+    XDG_DATA_DIRS=${config.home.homeDirectory}/.nix-profile/share:/usr/local/share:/usr/share
+  '';
+
+  home.sessionVariables.XDG_DATA_DIRS = "${config.home.homeDirectory}/.nix-profile/share:\${XDG_DATA_DIRS:-/usr/local/share:/usr/share}";
 }
