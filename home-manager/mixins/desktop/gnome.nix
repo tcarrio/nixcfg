@@ -206,7 +206,7 @@ in
   # user session consumer; the systemd user manager always carries a
   # default PATH for ''${PATH} to expand against.
   xdg.configFile."environment.d/10-nix-profile.conf".text = ''
-    PATH=${config.home.homeDirectory}/.nix-profile/bin:''${PATH}
+    PATH=${config.home.homeDirectory}/.nix-profile/bin:/nix/var/nix/profiles/default/bin:''${PATH}
     XDG_DATA_DIRS=${config.home.homeDirectory}/.nix-profile/share:/usr/local/share:/usr/share
   '';
 

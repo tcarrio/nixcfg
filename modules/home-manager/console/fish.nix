@@ -60,12 +60,18 @@ in
     # the nix profile PATH (environment.d is only read at user-manager
     # start, which survives logout on Ubuntu/GNOME). Fish bootstraps its
     # own PATH so profile binaries (atuin, zoxide, ...) resolve in every
-    # fish regardless of how the session was launched. No-op when PATH is
-    # already correct (contains-guard prevents duplication).
+    # fish regardless of how the session was launched. Covers both install
+    # modes: the multi-user daemon profile (where the nix CLI itself
+    # lives — /etc/profile.d/nix.sh only ever reaches login bash) and the
+    # per-user profile (HM content). No-op when PATH is already correct
+    # (contains-guard prevents duplication).
     xdg.configFile."fish/conf.d/00-nix-profile-path.fish".text =
       lib.mkIf pkgs.stdenv.hostPlatform.isLinux ''
         if test -d "$HOME/.nix-profile/bin"; and not contains -- "$HOME/.nix-profile/bin" $PATH
             set -gx PATH "$HOME/.nix-profile/bin" $PATH
+        end
+        if test -d /nix/var/nix/profiles/default/bin; and not contains -- /nix/var/nix/profiles/default/bin $PATH
+            set -gx PATH /nix/var/nix/profiles/default/bin $PATH
         end
       '';
   };

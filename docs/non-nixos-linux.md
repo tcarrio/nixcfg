@@ -174,9 +174,18 @@ manual steps (this is the trade of no system-level Nix):
 
 ## 10. Troubleshooting
 
-- **GUI apps don't see nix-installed binaries**: the multi-user installer
-  writes `/etc/profile.d/nix.sh`; confirm a full re-login (not just a
-  terminal reload) after install.
+- **GUI apps don't see nix-installed binaries**: the multi-user installer's
+  `/etc/profile.d/nix.sh` only reaches login bash shells. home-manager
+  covers two layers: fish bootstraps both profile bins onto PATH itself
+  (`fish/conf.d/00-nix-profile-path.fish` — effective immediately), and
+  `environment.d/10-nix-profile.conf` exports them session-wide. The
+  environment.d layer is only read at user-manager start; if it hasn't
+  taken effect after logout/login (the user manager survives logout on
+  Ubuntu/GNOME), either reboot or run `loginctl terminate-user $USER`
+  from a TTY outside the graphical session.
+- **`nix` command not found in a GUI terminal**: the nix CLI lives in the
+  daemon profile (`/nix/var/nix/profiles/default/bin`), not the user
+  profile — both are covered by the mechanisms above.
 - **`deb-sync: command not found`**: it's only rendered when
   `oxc.deb.packages` is non-empty; check the host file sets it.
 - **gpg-agent SSH socket missing**: `systemctl --user status gpg-agent` and
