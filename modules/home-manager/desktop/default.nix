@@ -5,6 +5,7 @@
     ./emote.nix
     ./ghostty
     ./gnome-apps.nix
+    ./gnome.nix
     ./meld.nix
     ./neovide.nix
     ./tilix.nix

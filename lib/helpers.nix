@@ -42,6 +42,10 @@ in
   # Optional-module toggles (withAgenix etc.) default to the historical
   # behavior for internal hosts; external consumers disable what they
   # don't want. extraModules/extraSpecialArgs append to the internal set.
+  #
+  # withProfileRoot toggles the internal personal profile tree
+  # (../home-manager — git identity, ssh hosts, per-host files); external
+  # consumers set it false and compose oxc.profiles.* modules instead.
   mkHome =
     {
       hostname,
@@ -54,6 +58,7 @@ in
       withHandy ? true,
       withCursorVoice ? true,
       withOverlays ? true,
+      withProfileRoot ? true,
     }:
     let
       pkgs = inputs.nixpkgs.legacyPackages.${platform};
@@ -74,9 +79,7 @@ in
           ;
       } // extraSpecialArgs;
       modules =
-        [
-          ../home-manager
-        ]
+        (lib.optionals withProfileRoot [ ../home-manager ])
         ++ (lib.optionals withAgenix [ inputs.agenix.homeManagerModules.default ])
         ++ (lib.optionals withHandy [ inputs.handy.homeManagerModules.default ])
         ++ (lib.optionals withCursorVoice [ inputs.cursor-voice-plugin.homeManagerModules.default ])

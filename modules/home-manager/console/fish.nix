@@ -64,9 +64,10 @@ in
     # modes: the multi-user daemon profile (where the nix CLI itself
     # lives — /etc/profile.d/nix.sh only ever reaches login bash) and the
     # per-user profile (HM content). No-op when PATH is already correct
-    # (contains-guard prevents duplication).
-    xdg.configFile."fish/conf.d/00-nix-profile-path.fish".text =
-      lib.mkIf pkgs.stdenv.hostPlatform.isLinux ''
+    # (contains-guard prevents duplication). Gated on the whole entry —
+    # mkIf on the value alone leaves a definition-less option behind.
+    xdg.configFile = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
+      "fish/conf.d/00-nix-profile-path.fish".text = ''
         if test -d "$HOME/.nix-profile/bin"; and not contains -- "$HOME/.nix-profile/bin" $PATH
             set -gx PATH "$HOME/.nix-profile/bin" $PATH
         end
@@ -74,5 +75,6 @@ in
             set -gx PATH /nix/var/nix/profiles/default/bin $PATH
         end
       '';
+    };
   };
 }

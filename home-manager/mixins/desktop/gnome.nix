@@ -1,25 +1,18 @@
+# GNOME personal layer: composes the oxc.desktop.gnome library module
+# (GTK/fonts/cursor/interface theming — option-driven) with personal dconf
+# preferences. Desktop structure lives in the module; this file carries
+# taste: workspace layout, input sources, location, power behavior.
 {
-  config,
   lib,
-  pkgs,
   ...
 }:
-let
-  mkTheme = name: package: { inherit name package; };
-
-  # Reusable references for icon, cursor, and GTK theme configs.
-  # GTK theme is Catppuccin Mocha (unstable — catppuccin-gtk there; the
-  # old numix-solarized-gtk-theme was removed from nixpkgs 2026-07-22
-  # with gtk-engine-murrine). Directory name follows the upstream build
-  # scheme {theme}-{flavor}-{accent}-{size}[+tweaks]; nixpkgs patches out
-  # the "+default" tweaks suffix. Matches the ghostty terminal theme.
-  gtkTheme = mkTheme "Catppuccin-Mocha-Blue-Standard" (
-    pkgs.unstable.catppuccin-gtk.override { variant = "mocha"; }
-  );
-  iconTheme = mkTheme "Numix-Square" pkgs.numix-icon-theme-square;
-  cursorTheme = mkTheme "Numix-Cursor" pkgs.numix-cursor-theme;
-in
 {
+  oxc.desktop.gnome.enable = true;
+
+  # Session-wide nix profile visibility (PATH + XDG_DATA_DIRS via
+  # environment.d) — standalone-HM requirement, module-owned.
+  oxc.session.nix-profile.enable = true;
+
   dconf.settings = {
     "com/github/stsdc/monitor/settings" = {
       background-state = true;
@@ -42,15 +35,6 @@ in
       font = "JoyPixels 16";
     };
 
-    # "net/launchpad/plank/docks/dock1" = {
-    #   alignment = "center";
-    #   hide-mode = "window-dodge";
-    #   icon-size = 48;
-    #   pinned-only = false;
-    #   position = "left";
-    #   theme = "Transparent";
-    # };
-
     "org/gnome/desktop/datetime" = {
       automatic-timezone = true;
     };
@@ -62,27 +46,9 @@ in
       ];
     };
 
-    "org/gnome/desktop/interface" = {
-      clock-format = "24h";
-      color-scheme = "prefer-dark";
-      cursor-size = 24;
-      cursor-theme = cursorTheme.name;
-      document-font-name = "Work Sans 12";
-      font-name = lib.mkDefault "Work Sans 12";
-      gtk-theme = gtkTheme.name;
-      gtk-enable-primary-paste = true;
-      icon-theme = iconTheme.name;
-      monospace-font-name = "FiraCode Nerd Font Medium 13";
-      text-scaling-factor = 1.0;
-    };
-
     "org/gnome/desktop/session" = {
       idle-delay = lib.hm.gvariant.mkUint32 7200;
     };
-
-    # "org/gnome/desktop/sound" = {
-    #   theme-name = "elementary";
-    # };
 
     "org/gnome/desktop/wm/keybindings" = {
       switch-to-workspace-left = [ "<Primary><Alt>Left" ];
@@ -122,93 +88,10 @@ in
       toggle-tiled-right = [ "<Super>Right" ];
     };
 
-    # "org/gnome/settings-daemon/plugins/media-keys" = {
-    #   custom-keybindings = [ "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/" ];
-    # };
-
-    # "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
-    #   binding = "<Super>e";
-    #   command = "io.elementary.files -n ~/";
-    #   name = "io.elementary.files -n ~/";
-    # };
-
     "org/gnome/settings-daemon/plugins/power" = {
       power-button-action = "interactive";
       sleep-inactive-ac-timeout = 0;
       sleep-inactive-ac-type = "nothing";
     };
-
-    #"org/gnome/settings-daemon/plugins/xsettings" = {
-    #  overrides = "{\'Gtk/DialogsUseHeader\': <0>, \'Gtk/ShellShowsAppMenu\': <0>, \'Gtk/EnablePrimaryPaste\': <1>, \'Gtk/DecorationLayout\': <\':minimize,maximize,close,menu\'>, \'Gtk/ShowUnicodeMenu\': <0>}";
-    #};
-
-    "org/gtk/gtk4/Settings/FileChooser" = {
-      clock-format = "24h";
-    };
-
-    "org/gtk/Settings/FileChooser" = {
-      clock-format = "24h";
-    };
   };
-
-  gtk = {
-    enable = true;
-    cursorTheme = cursorTheme // {
-      size = 24;
-    };
-
-    font = {
-      # Family only — HM appends the size itself. The previous value
-      # "Work Sans 12" rendered as the malformed "Work Sans 12 11".
-      name = "Work Sans";
-      package = pkgs.work-sans;
-    };
-
-    # The supported dark-mode switch on GNOME 46 (Ubuntu 24.04): drives
-    # gtk-application-prefer-dark-theme in settings.ini AND the
-    # org/gnome/desktop/interface color-scheme dconf key through HM's
-    # gtk3/gtk4 modules — one owner instead of three redundant legacy
-    # flags racing the desktop at activation.
-    colorScheme = "dark";
-
-    gtk2 = {
-      configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
-    };
-
-    gtk4 = {
-      # Explicit theme adoption: HM's default changed from inheriting
-      # gtk.theme to null in 26.05; this silences the warning and keeps
-      # gtk4 apps themed consistently with gtk2/3.
-      theme = config.gtk.theme;
-    };
-
-    inherit iconTheme;
-
-    theme = {
-      inherit (gtkTheme) name package;
-    };
-  };
-
-  home.pointerCursor = cursorTheme // {
-    size = 24;
-    gtk.enable = true;
-    x11.enable = true;
-  };
-
-  # Nix profile visibility for the whole session (GNOME Shell children,
-  # GUI-launched terminals, D-Bus activated services, apps inheriting the
-  # system theme). On a standalone-HM host nothing else places the user
-  # profile on the session environment: /etc/profile.d/nix.sh only reaches
-  # login bash shells, and hm-session-vars only carries explicit
-  # sessionPath entries (~/.local/bin). Without PATH here, GUI terminals
-  # lack atuin/zoxide/etc; without XDG_DATA_DIRS, GTK apps cannot discover
-  # the profile's installed themes. environment.d feeds every systemd
-  # user session consumer; the systemd user manager always carries a
-  # default PATH for ''${PATH} to expand against.
-  xdg.configFile."environment.d/10-nix-profile.conf".text = ''
-    PATH=${config.home.homeDirectory}/.nix-profile/bin:/nix/var/nix/profiles/default/bin:''${PATH}
-    XDG_DATA_DIRS=${config.home.homeDirectory}/.nix-profile/share:/usr/local/share:/usr/share
-  '';
-
-  home.sessionVariables.XDG_DATA_DIRS = "${config.home.homeDirectory}/.nix-profile/share:\${XDG_DATA_DIRS:-/usr/local/share:/usr/share}";
 }

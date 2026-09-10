@@ -123,6 +123,8 @@
         github = import ./modules/home-manager/github.nix;
         harlequin = import ./modules/home-manager/harlequin.nix;
         palette = import ./modules/home-manager/palette.nix;
+        profiles = import ./modules/home-manager/profiles/default.nix;
+        session = import ./modules/home-manager/session.nix;
         serena = import ./modules/home-manager/serena.nix;
         sqlit = import ./modules/home-manager/sqlit.nix;
         zed = import ./modules/home-manager/zed.nix;

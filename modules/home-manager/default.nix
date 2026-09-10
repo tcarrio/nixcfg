@@ -13,8 +13,10 @@
     ./github.nix
     ./harlequin.nix
     ./palette.nix
+    ./profiles
     ./serena.nix
     ./services
+    ./session.nix
     ./zed.nix
     ../shared
   ];

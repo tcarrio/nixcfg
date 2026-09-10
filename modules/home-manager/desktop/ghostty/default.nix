@@ -25,10 +25,18 @@ in
   options.oxc.desktop.ghostty = {
     enable = lib.mkEnableOption "the Ghostty terminal with Catppuccin theming";
 
-    # Catppuccin theme store (github:catppuccin/ghostty); internal hosts
-    # pass their locked input via themesSource.
+    # Catppuccin theme store (github:catppuccin/ghostty). Deterministic
+    # pinned default so the module works standalone; internal hosts (and
+    # consumers wanting their own pin) override with a locked input.
     themesSource = lib.mkOption {
       type = lib.types.path;
+      default = pkgs.fetchFromGitHub {
+        owner = "catppuccin";
+        repo = "ghostty";
+        rev = "5a58926563ddacbde4a12b4a347464c2c6945393";
+        hash = "sha256-Y6RFften1/6+1xdhIzEh/E7FBJTwY5a8NH4301HbgOM=";
+      };
+      defaultText = lib.literalExpression "catppuccin/ghostty pinned to rev 5a58926";
       description = "Path to a ghostty themes store";
     };
 
