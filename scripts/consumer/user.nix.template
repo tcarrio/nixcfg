@@ -1,0 +1,403 @@
+# Functional equivalent of nixcfg's thomascarrio@greybox, expressed as an
+# external consumer of the nixcfg library. Everything the internal host
+# draws from mixins (user profile, systems layer, host file, GNOME personal
+# dconf) is inlined here — the library provides all structure via
+# oxc.profiles.gnome-workstation and the oxc.* module set.
+#
+# Override points for a different user: git identity, ssh config, apt
+# repositories/keys, and anything personal below.
+{
+  config,
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
+let
+  # Anthropic release signing key, shared by the claude-code and
+  # claude-desktop apt repositories. Defined inline — deterministic
+  # definition, dearmored at build time.
+  # Verified fingerprint (https://code.claude.com/docs/en/setup):
+  #   31DD DE24 DDFA B679 F42D 7BD2 BAA9 29FF 1A7E CACE
+  anthropicKeyInfo = {
+    text = ''
+      -----BEGIN PGP PUBLIC KEY BLOCK-----
+
+      mQINBGnK73ABEACnbytJXkjweYrwIr0aLEFRlH+C0nF44KxFc7gQmJ6PjSPMGZAD
+      dxZcaixU7zZl8WxEpVO0wLmIH8cf2zGOdyuZg1Yaugk1vHb2b8WBhAGCQJdPgB8W
+      bphXt/S+Eb/T5M5jpKPdwn4j8AShNF/1Zmz1fWTq3RiRGqN9OHGgxRJQ2OpFrApQ
+      ro4o/hk+sqGgEqUh+Bjvjwvz6+uK3O+y08cUgVmAUpJam6/z9oYI7uO15gD1jEer
+      s7v2vDFWK5t1a8+ytpM+NC6p+YNlBm5YmFbW2YU7jKKu+2KNpvobtZjmg/Ld+l99
+      tMRAN7Em8lGEGbto972FdMxHYfDQCxC7/af6lYPn2RIw4HldGnlc7WzHUavWOQpt
+      agzlabe/VVFkzJ0Scq5q3PihB2IBwoCKnkYk7a7KT77EWv0kq+HmOtqX3a2hhX+b
+      a6ve9rzJlZYGj+obv/C3Sx1LTAfVyRJDv2AoP5t2g8u/TkSpUxhMVEZjBkxYZhMy
+      zQM8IgUfnSrIPTHixDWAR2T4beMOBxyVm1nP7OOrNR3TkKJtwLMQAabURCDnIzE3
+      wSI0i2E4jTumM+1XSULyWuoTvMljrp1o1a8DyOt0OLqaKA2Mc6WtdPd9u4yEI2MO
+      t7mrCYj4J49Q8HWlN/6WE+RTQwARAQABtD5BbnRocm9waWMgQ2xhdWRlIENvZGUg
+      UmVsZWFzZSBTaWduaW5nIDxzZWN1cml0eUBhbnRocm9waWMuY29tPokCUQQTAQoA
+      OxYhBDHd3iTd+rZ59C170rqpKf8afsrOBQJpyu9wAhsPBQsJCAcCAiICBhUKCQgL
+      AgQWAgMBAh4HAheAAAoJELqpKf8afsrOl5IP/2I8X1FyYczWB/coIxGjuzS/V6By
+      fGZZEJsbr04pmuHiFUykJaPGWGQ6U0YF5iEwvEkaagS5m7DzhSEf3FM3Cgafax/6
+      d70tarW9rV1D+w6oPfxetu7u/WJpaolIsdh5fTr9zSM3Njl8FMG8w8ZQjS33aO7d
+      8cwRkgdUWbt6LXgz+cTQNuNnBgY6Ks7oZFI25dfU0ojDR+aDFElJg4wZoyDLPjPzV
+      SI1jWFGs67zsSfS3zZnfXKmBe+f0Uy+gJ2nFZrXFf99+c0dPEHYO8DCeAHZizjkF
+      rdn+tUHdDU0YDYEGkLJaE+pgcpkHf5EvsZzHsyDbl95W/eh7pcXMbwN+W4CBYUEH
+      XE4qHhqzWa6yA5CVRWUA1BJV4LjZfHPLEtJtI3TxzXiEg9/BVeaTYqRjaxIFo9Nf
+      k158Hq6SA5jslBlxp3fNo8u+xVcze2UJyGVfEIUfm92U0AIkny+5cuVV0ICzJ1lX
+      j0CnLM9Lt50wEp3suVwuBEviCbZ08eAH1Ht8gbBdSsiOkIU8CX3v/scwHHx5q0+N
+      BL6xLrQObg13atRXBlKObfElkPN3lTUbUnJOW4U8uSjH8VRP+AujKWMDFe7x0zCs
+      +iYY1mTOvbrTS9n3CmZUmbynZ+E/QWNENpW/pDNZdWFy43PASmML5FHu4m9Sn
+      =oqMI
+      -----END PGP PUBLIC KEY BLOCK-----
+    '';
+    fingerprint = "31DD DE24 DDFA B679 F42D 7BD2 BAA9 29FF 1A7E CACE";
+  };
+
+  claudeAptRepositoryInfo = {
+    suites = [ "stable" ];
+    components = [ "main" ];
+    key = anthropicKeyInfo;
+  };
+
+  # devshell launcher alias source directory
+  dev = target: "nix develop $(readlink -f ~/0xc/devshells)#${target} --command \$SHELL";
+in
+{
+  # nixcfg library modules (oxc.* options)
+  imports = [ inputs.nixcfg.homeManagerModules.default ];
+
+  home = {
+    username = "__USERNAME__";
+    homeDirectory = "/home/__USERNAME__";
+    stateVersion = "24.05";
+    sessionPath = [ "$HOME/.local/bin" ];
+    sessionVariables = {
+      EDITOR = "nvim";
+      NIXPKGS_ALLOW_UNFREE = "1";
+      SSH_AUTH_SOCK = "\${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh";
+      # Prefer pinned flake inputs for Nix package resolution
+      NIX_PATH = lib.mkOverride 999 "nixpkgs=${inputs.nixpkgs-unstable.outPath}";
+    };
+  };
+
+  nixpkgs.overlays = [
+    inputs.nixcfg.overlays.additions
+    inputs.nixcfg.overlays.unstable-packages
+  ];
+  nixpkgs.config = {
+    allowUnfree = true;
+    allowUnfreePredicate = _: true;
+  };
+
+  fonts.fontconfig.enable = true;
+
+  nix = {
+    package = lib.mkDefault pkgs.nix;
+    settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+        "pipe-operators"
+      ];
+      warn-dirty = false;
+    };
+  };
+
+  # The oxc GNOME workstation profile: console preset, desktop set, GNOME
+  # theming, session visibility, and rebuild aliases (via flakeTarget).
+  oxc.profiles.gnome-workstation = {
+    enable = true;
+    flakeTarget = "__USERNAME__@__HOSTNAME__";
+  };
+
+  # Greybox's lean-footprint trims
+  oxc.console.modern-unix.extras = false;
+  oxc.console.tools.eza = false;
+  oxc.console.asciinema.enable = false;
+  oxc.console.zeit.enable = false;
+
+  # ---- user profile (tcarrio equivalent) ----
+
+  oxc.desktop.discord.enable = true;
+
+  home.file."0xc/devshells".source = inputs.devshells;
+  home.file.".ssh/config".text = ''
+    SetEnv TERM=xterm-256color
+    Host github.com
+      HostName github.com
+      User git
+
+    Host obsidian
+      Hostname obsidian
+      User tcarrio
+  '';
+  home.file.".config/nixpkgs/config.nix".text = ''
+    {
+      allowUnfree = true;
+    }
+  '';
+
+  home.packages =
+    (with pkgs.unstable; [
+      git-absorb
+      git-filter-repo
+      gitleaks
+      gum
+      nixd
+      typescript-go
+    ])
+    ++ (with pkgs; [
+      lazydocker
+      nerd-fonts.fira-code
+      nerd-fonts.jetbrains-mono
+      nixos-rebuild-ng
+    ]);
+
+  programs.fish.interactiveShellInit = ''
+      set -U fish_greeting ""
+      set fish_cursor_default block blink
+      set fish_cursor_insert line blink
+      set fish_cursor_replace_one underscore blink
+      set fish_cursor_visual block
+      set -U fish_color_autosuggestion brblack
+      set -U fish_color_cancel -r
+      set -U fish_color_command green
+      set -U fish_color_comment brblack
+      set -U fish_color_cwd brgreen
+      set -U fish_color_cwd_root brred
+      set -U fish_color_end brmagenta
+      set -U fish_color_error red
+      set -U fish_color_escape brcyan
+      set -U fish_color_history_current --bold
+      set -U fish_color_host normal
+      set -U fish_color_match --background=brblue
+      set -U fish_color_normal normal
+      set -U fish_color_operator cyan
+      set -U fish_color_param brblue
+      set -U fish_color_quote yellow
+      set -U fish_color_redirection magenta
+      set -U fish_color_search_match bryellow '--background=brblack'
+      set -U fish_color_selection white --bold '--background=brblack'
+      set -U fish_color_status red
+      set -U fish_color_user brwhite
+      set -U fish_color_valid_path --underline
+      set -U fish_pager_color_completion normal
+      set -U fish_pager_color_description yellow
+      set -U fish_pager_color_prefix white --bold --underline
+      set -U fish_pager_color_progress brwhite '--background=cyan'
+    '';
+
+  oxc.console.fish = {
+    aliases = {
+      g = "${pkgs.git}/bin/git";
+      gti = "${pkgs.git}/bin/git";
+      lg = "lazygit";
+
+      "dev:php80" = dev "php80";
+      "dev:php81" = dev "php81";
+      "dev:php82" = dev "php82";
+      "dev:node" = dev "node";
+      "dev:node16" = dev "node16";
+      "dev:node18" = dev "node18";
+      "dev:node20" = dev "node20";
+      "dev:python" = dev "python";
+    };
+
+    functions = {
+      pdf-compress = ''
+        ${pkgs.ghostscript}/bin/gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/prepress -dNOPAUSE -dQUIET -dBATCH -sOutputFile="$argv[2]" "$argv[1]"
+      '';
+      wtcd = ''
+        if test (count $argv) -eq 0
+            git worktree list
+            return
+        end
+        set -l path (git worktree list --porcelain | awk -v b="refs/heads/$argv[1]" '
+            /^worktree / { wt = $2 }
+            /^branch / && $2 == b { print wt; exit }
+        ')
+        if test -z "$path"
+            echo "No worktree for branch: $argv[1]" >&2
+            return 1
+        end
+        cd "$path"
+      '';
+      wtfd = ''
+        set -l path (git worktree list --porcelain | awk '/^worktree / {wt=$2} /^branch / {print wt"\t"substr($2,12)}' | fzf | cut -f1)
+        test -n "$path"; and cd "$path"
+      '';
+    };
+  };
+
+  programs.git.settings = {
+    user.email = lib.mkDefault "tom@carrio.dev";
+    user.name = lib.mkDefault "Tom Carrio";
+    absorb = {
+      maxStack = 50;
+    };
+  };
+
+  # ---- systems/linux equivalent ----
+
+  oxc.desktop.gnome-apps = {
+    enable = true;
+    celluloid = true;
+    dconf-editor = true;
+    gnome-sound-recorder = true;
+  };
+
+  home.file."Quickemu/nixos-console.conf".text = ''
+    #!/run/current-system/sw/bin/quickemu --vm
+    guest_os="linux"
+    disk_img="nixos-console/disk.qcow2"
+    disk_size="96G"
+    iso="nixos-console/nixos.iso"
+  '';
+  home.file."Quickemu/nixos-desktop.conf".text = ''
+    #!/run/current-system/sw/bin/quickemu --vm
+    guest_os="linux"
+    disk_img="nixos-desktop/disk.qcow2"
+    disk_size="96G"
+    iso="nixos-desktop/nixos.iso"
+  '';
+  home.file."Quickemu/nixos-nuc.conf".text = ''
+    #!/run/current-system/sw/bin/quickemu --vm
+    guest_os="linux"
+    disk_img="nixos-nuc/disk.qcow2"
+    disk_size="96G"
+    iso="nixos-nuc/nixos.iso"
+  '';
+
+  systemd.user.tmpfiles.rules = [
+    "d /home/__USERNAME__/0xc                           0755 __USERNAME__ users - -"
+    "d /home/__USERNAME__/Code                          0755 __USERNAME__ users - -"
+    "d /home/__USERNAME__/Developer                     0750 __USERNAME__ users - -"
+  ];
+
+  # ---- greybox host file equivalent ----
+
+  # VS Code settings.json — the deb-installed `code` reads the same path
+  oxc.desktop.vscode.enable = true;
+
+  # Apt-managed state: converged on every activation, sudo prompt only
+  # when something's missing or a repository changed.
+  oxc.apt.onActivation.enable = true;
+  oxc.apt.repositories = {
+    claude-code = claudeAptRepositoryInfo // {
+      url = "https://downloads.claude.ai/claude-code/apt/stable";
+    };
+    claude-desktop = claudeAptRepositoryInfo // {
+      url = "https://downloads.claude.ai/claude-desktop/apt/stable";
+    };
+  };
+  oxc.apt.packages = [ "claude-code" "claude-desktop" ];
+  oxc.apt.sources.code.url = {
+    x86_64-linux = "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64";
+    aarch64-linux = "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-arm64";
+  };
+
+  # Ghostty binary via community .deb (graphical nix packages need nixGL
+  # on non-NixOS); the module still renders config + themes.
+  oxc.desktop.ghostty.linuxPackage = pkgs.empty;
+  oxc.apt.sources.ghostty.url = {
+    x86_64-linux = "https://github.com/mkasberg/ghostty-ubuntu/releases/download/1.3.1-0-ppa2/ghostty_1.3.1-0.ppa2_amd64_\${ubuntu_version}.deb";
+    aarch64-linux = "https://github.com/mkasberg/ghostty-ubuntu/releases/download/1.3.1-0-ppa2/ghostty_1.3.1-0.ppa2_arm64_\${ubuntu_version}.deb";
+  };
+
+  programs.gpg.enable = true;
+  programs.ssh.matchBlocks = { };
+
+  services.gpg-agent = {
+    enable = true;
+    enableSshSupport = true;
+    pinentry.package = pkgs.pinentry-gnome3;
+    defaultCacheTtl = 3600;
+    defaultCacheTtlSsh = 3600;
+    maxCacheTtl = 86400;
+    maxCacheTtlSsh = 86400;
+  };
+
+  # ---- GNOME personal dconf (taste: workspaces, input, location, power) ----
+
+  dconf.settings = {
+    "com/github/stsdc/monitor/settings" = {
+      background-state = true;
+      indicator-state = true;
+      indicator-cpu-state = false;
+      indicator-gpu-state = false;
+      indicator-memory-state = false;
+      indicator-network-download-state = true;
+      indicator-network-upload-state = true;
+      indicator-temperature-state = true;
+    };
+
+    "desktop/ibus/panel" = {
+      show-icon-on-systray = false;
+      use-custom-font = true;
+      custom-font = "Work Sans 10";
+    };
+
+    "desktop/ibus/panel/emoji" = {
+      font = "JoyPixels 16";
+    };
+
+    "org/gnome/desktop/datetime" = {
+      automatic-timezone = true;
+    };
+
+    "org/gnome/desktop/input-sources" = {
+      xkb-options = [
+        "grp:alt_shift_toggle"
+        "caps:none"
+      ];
+    };
+
+    "org/gnome/desktop/session" = {
+      idle-delay = lib.hm.gvariant.mkUint32 7200;
+    };
+
+    "org/gnome/desktop/wm/keybindings" = {
+      switch-to-workspace-left = [ "<Primary><Alt>Left" ];
+      switch-to-workspace-right = [ "<Primary><Alt>Right" ];
+      switch-windows = [ "<Alt> Tab" ];
+      switch-windows-backward = [ "<Shift><Alt> Tab" ];
+    };
+
+    "org/gnome/desktop/wm/preferences" = {
+      audible-bell = false;
+      button-layout = ":minimize,maximize,close";
+      num-workspaces = 8;
+      titlebar-font = "Work Sans Semi-Bold 12";
+      workspace-names = [
+        "Web"
+        "Work"
+        "Chat"
+        "Code"
+        "Virt"
+        "Cast"
+        "Fun"
+        "Stuff"
+      ];
+    };
+
+    "org/gnome/GWeather" = {
+      locations = "[<(uint32 2, <('Detroit', 'KDET', true, [(0.74017959717812587, -1.448797812080493)], [(0.73882277821762554, -1.4494218371012511)])>)>]";
+    };
+
+    "org/gnome/mutter" = {
+      workspaces-only-on-primary = false;
+      dynamic-workspaces = false;
+    };
+
+    "org/gnome/mutter/keybindings" = {
+      toggle-tiled-left = [ "<Super>Left" ];
+      toggle-tiled-right = [ "<Super>Right" ];
+    };
+
+    "org/gnome/settings-daemon/plugins/power" = {
+      power-button-action = "interactive";
+      sleep-inactive-ac-timeout = 0;
+      sleep-inactive-ac-type = "nothing";
+    };
+  };
+}

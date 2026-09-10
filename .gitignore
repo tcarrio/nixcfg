@@ -13,4 +13,6 @@
 # ai
 /.claude
 .aider*
-consumer/
+
+# generated consumer flake output (lives outside the repo by default)
+/consumer/

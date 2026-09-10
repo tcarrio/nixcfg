@@ -54,7 +54,7 @@ in
       rebuild-home = "home-manager switch -b backup --flake ${cfg.flakePath}#${cfg.flakeTarget}";
       rebuild-all = "nix-gc && rebuild-home";
       nix-gc = "nix-collect-garbage --delete-older-than 28d";
-      rebuild-host = "echo 'No system layer on this host' && return 1";
+      rebuild-host = "echo 'No system layer on this host — see docs/non-nixos-linux.md' && return 1";
     };
   };
 }
