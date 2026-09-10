@@ -83,8 +83,8 @@ follow the vendor's current instructions):
 
 | Repo | Provides | Notes |
 |---|---|---|
-| Microsoft (packages.microsoft.com) | `code` (VS Code) | Optional — `deb-sync` installs `code` via the stable-redirect `.deb` URL mapping without the repo |
-| `ppa:mkasberg/ghostty-ubuntu` | `ghostty` | Optional — `deb-sync` installs ghostty via the community `.deb` URL mapping (version + `${ubuntu_version}` runtime placeholder) without the repo; official Ubuntu repos carry ghostty only from 26.04. Graphical nix packages need nixGL on non-NixOS, so the binary is deb-managed while home-manager still renders its config and themes |
+| Microsoft (packages.microsoft.com) | `code` (VS Code) | Optional — `apt-sync` installs `code` via the stable-redirect `.deb` URL mapping without the repo |
+| `ppa:mkasberg/ghostty-ubuntu` | `ghostty` | Optional — `apt-sync` installs ghostty via the community `.deb` URL mapping (version + `${ubuntu_version}` runtime placeholder) without the repo; official Ubuntu repos carry ghostty only from 26.04. Graphical nix packages need nixGL on non-NixOS, so the binary is deb-managed while home-manager still renders its config and themes |
 | Google Chrome | `google-chrome-stable` | Optional |
 | Docker / Podman upstream | container daemons | Or use the distro's `docker.io` / `podman` |
 
@@ -103,36 +103,43 @@ sudo apt-get install -y flatpak
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 ```
 
-## 5. Deb package management (`deb-sync`)
+## 5. Apt management (`apt-sync`)
 
-Deb packages on these hosts are managed homebrew-style: a declarative list
-applied non-deterministically, with no cleanup on removal — uninstalling is
-a manual `sudo apt remove <pkg>`.
+Apt state on these hosts is managed homebrew-style: a declarative set of
+repositories and packages applied non-deterministically, with no cleanup on
+removal — uninstalling is a manual `sudo apt remove <pkg>` (and removing a
+repository definition leaves its keyring/sources files in place).
 
-Two option surfaces in the host's home-manager file:
+Three option surfaces in the host's home-manager file:
 
-- `oxc.deb.packages` — plain names resolved from the host's configured apt
-  repositories (works for anything in Ubuntu's stock repos)
-- `oxc.deb.sources.<name>.url` — per-architecture `.deb` download URLs for
-  packages not in any configured repository (e.g. VS Code via the
-  `code.visualstudio.com/sha/download` stable redirect, which always serves
-  the current release and is Ubuntu-version-agnostic). Prefer a custom apt
-  repository when one exists; that mapping (`sources.<name>.repository`) is
-  defined but not yet implemented (interactive-sudo keyring setup).
+- `oxc.apt.repositories.<name>` — custom apt repositories: the GPG public
+  key is defined inline in the configuration (deterministic, like any flake
+  derivation input), dearmored at build time, and installed to
+  `/etc/apt/keyrings/<name>.gpg`; the sources entry lands in
+  `/etc/apt/sources.list.d/<name>.list`; then `apt update`. Registration is
+  cmp-guarded — converged repositories cost zero sudo
+- `oxc.apt.packages` — plain names resolved against the host's configured
+  apt repositories (stock Ubuntu/Debian plus any managed repositories)
+- `oxc.apt.sources.<name>.url` — per-architecture `.deb` download URLs for
+  packages with no available repository (e.g. VS Code via the
+  `code.visualstudio.com/sha/download` stable redirect; `${ubuntu_version}`
+  placeholder supported for URLs embedding the Ubuntu release). Prefer a
+  repository when the vendor ships one
 
-Resolution order per package: repository mapping (unimplemented) > URL
-mapping > plain `apt install <name>`. A package with no resolvable source
-fails with a pointer to the missing prerequisite.
+Resolution order per package: managed repository (plain name after repo
+setup + update) > URL mapping > plain `apt install <name>`. A package with
+no resolvable source fails with a pointer to the missing prerequisite.
 
-Hosts can converge the managed set automatically — `oxc.deb.onActivation.enable`
-runs deb-sync as part of every `home-manager switch` (nix-darwin
-homebrew-style: after the profile installs; idempotent, so a converged
-system installs nothing and never prompts for sudo; a missing package
-prompts interactively — run switches from a terminal). Manual use:
+Hosts can converge automatically — `oxc.apt.onActivation.enable` runs
+apt-sync as part of every `home-manager switch` (nix-darwin homebrew-style:
+after the profile installs; idempotent, so a converged system installs
+nothing, runs no apt update, and never prompts for sudo; a missing package
+or changed repository prompts interactively — run switches from a
+terminal). Manual use:
 
 ```fish
-task deb:sync   # or: deb-sync
-deb-list        # show the managed set
+task apt:sync   # or: apt-sync
+apt-list        # show the managed set
 ```
 
 ## 6. gpg-agent as the SSH agent
@@ -193,8 +200,8 @@ manual steps (this is the trade of no system-level Nix):
 - **`nix` command not found in a GUI terminal**: the nix CLI lives in the
   daemon profile (`/nix/var/nix/profiles/default/bin`), not the user
   profile — both are covered by the mechanisms above.
-- **`deb-sync: command not found`**: it's only rendered when
-  `oxc.deb.packages` is non-empty; check the host file sets it.
+- **`apt-sync: command not found`**: it's only rendered when `oxc.apt`
+  manages something; check the host file sets repositories/packages/sources.
 - **gpg-agent SSH socket missing**: `systemctl --user status gpg-agent` and
   `gpgconf --launch gpg-agent` (the socket directory lives under
   `$XDG_RUNTIME_DIR`, which requires a proper login session).
