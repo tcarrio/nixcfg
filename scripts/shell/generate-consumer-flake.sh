@@ -31,6 +31,15 @@ NIXPKGS_REV="$(lockrev nixpkgs)"
 UNSTABLE_REV="$(lockrev nixpkgs-unstable)"
 HM_REV="$(lockrev home-manager)"
 
+# Never clobber an initialized consumer repo — regenerate into a git
+# checkout is the user's call (stash/merge), not the generator's.
+if [ -e "$OUT_DIR/.git" ] && [ "''${FORCE:-0}" != "1" ]; then
+  echo "REFUSING: $OUT_DIR is a git repository (history would be at risk)." >&2
+  echo "Re-run with FORCE=1 to overwrite generated files anyway (git-tracked" >&2
+  echo "changes will surface as diffs to review; untracked files are replaced)." >&2
+  exit 1
+fi
+
 mkdir -p "$OUT_DIR/hosts/$HOSTNAME_ARG/users"
 
 subst() {
