@@ -158,21 +158,21 @@ in
     };
 
     font = {
-      name = "Work Sans 12";
+      # Family only — HM appends the size itself. The previous value
+      # "Work Sans 12" rendered as the malformed "Work Sans 12 11".
+      name = "Work Sans";
       package = pkgs.work-sans;
     };
 
+    # The supported dark-mode switch on GNOME 46 (Ubuntu 24.04): drives
+    # gtk-application-prefer-dark-theme in settings.ini AND the
+    # org/gnome/desktop/interface color-scheme dconf key through HM's
+    # gtk3/gtk4 modules — one owner instead of three redundant legacy
+    # flags racing the desktop at activation.
+    colorScheme = "dark";
+
     gtk2 = {
       configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
-      extraConfig = ''
-        gtk-application-prefer-dark-theme=1
-      '';
-    };
-
-    gtk3 = {
-      extraConfig = {
-        gtk-application-prefer-dark-theme = 1;
-      };
     };
 
     gtk4 = {
@@ -180,9 +180,6 @@ in
       # gtk.theme to null in 26.05; this silences the warning and keeps
       # gtk4 apps themed consistently with gtk2/3.
       theme = config.gtk.theme;
-      extraConfig = {
-        gtk-application-prefer-dark-theme = 1;
-      };
     };
 
     inherit iconTheme;
