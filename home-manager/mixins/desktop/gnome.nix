@@ -7,10 +7,17 @@
 let
   mkTheme = name: package: { inherit name package; };
 
-  # Reusable references for icon, cursor, and GTK theme configs
+  # Reusable references for icon, cursor, and GTK theme configs.
+  # GTK theme is Catppuccin Mocha (unstable — catppuccin-gtk there; the
+  # old numix-solarized-gtk-theme was removed from nixpkgs 2026-07-22
+  # with gtk-engine-murrine). Directory name follows the upstream build
+  # scheme {theme}-{flavor}-{accent}-{size}[+tweaks]; nixpkgs patches out
+  # the "+default" tweaks suffix. Matches the ghostty terminal theme.
+  gtkTheme = mkTheme "Catppuccin-Mocha-Blue-Standard" (
+    pkgs.unstable.catppuccin-gtk.override { variant = "mocha"; }
+  );
   iconTheme = mkTheme "Numix-Square" pkgs.numix-icon-theme-square;
   cursorTheme = mkTheme "Numix-Cursor" pkgs.numix-cursor-theme;
-  gtkTheme = mkTheme "NumixStandard" pkgs.numix-solarized-gtk-theme;
 in
 {
   dconf.settings = {
@@ -62,7 +69,7 @@ in
       cursor-theme = cursorTheme.name;
       document-font-name = "Work Sans 12";
       font-name = lib.mkDefault "Work Sans 12";
-      gtk-theme = "org.gnome.theme";
+      gtk-theme = gtkTheme.name;
       gtk-enable-primary-paste = true;
       icon-theme = iconTheme.name;
       monospace-font-name = "FiraCode Nerd Font Medium 13";
@@ -181,8 +188,7 @@ in
     inherit iconTheme;
 
     theme = {
-      name = "org.gnome.theme";
-      inherit (gtkTheme) package;
+      inherit (gtkTheme) name package;
     };
   };
 
