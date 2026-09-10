@@ -124,6 +124,12 @@ Resolution order per package: repository mapping (unimplemented) > URL
 mapping > plain `apt install <name>`. A package with no resolvable source
 fails with a pointer to the missing prerequisite.
 
+Hosts can converge the managed set automatically — `oxc.deb.onActivation.enable`
+runs deb-sync as part of every `home-manager switch` (nix-darwin
+homebrew-style: after the profile installs; idempotent, so a converged
+system installs nothing and never prompts for sudo; a missing package
+prompts interactively — run switches from a terminal). Manual use:
+
 ```fish
 task deb:sync   # or: deb-sync
 deb-list        # show the managed set

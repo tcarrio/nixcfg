@@ -121,12 +121,13 @@ let
           deb="$(mktemp --suffix=.deb)"
           curl -fL "$url" -o "$deb"
           # path-qualified install: apt resolves the local .deb's dependencies
-          # from the configured repositories
-          /usr/bin/sudo /usr/bin/apt-get install -y "$deb"
+          # from the configured repositories; the lock timeout rides out
+          # unattended-upgrades holding the apt dpkg lock
+          /usr/bin/sudo /usr/bin/apt-get -o DPkg::Lock::Timeout=120 install -y "$deb"
           rm -f "$deb"
         elif /usr/bin/apt-cache policy "$pkg" 2>/dev/null | /usr/bin/grep -q "Candidate:"; then
           echo ">> $pkg: installing from configured apt repositories"
-          /usr/bin/sudo /usr/bin/apt-get install -y "$pkg"
+          /usr/bin/sudo /usr/bin/apt-get -o DPkg::Lock::Timeout=120 install -y "$pkg"
         else
           echo "!! $pkg: no URL mapping and no apt candidate — its repository is not configured." >&2
           echo "   Add an oxc.deb.sources.<name>.url mapping, or configure the apt repository." >&2
@@ -195,6 +196,10 @@ in
         Resolution preference: repository (unimplemented) > url > plain name.
       '';
     };
+
+    onActivation = {
+      enable = lib.mkEnableOption "converging managed deb packages during home-manager activation (nix-darwin homebrew-style)";
+    };
   };
 
   config = {
@@ -209,5 +214,18 @@ in
       debSync
       debList
     ];
+
+    # nix-darwin converges its Brewfile via `brew bundle` at activation;
+    # the deb equivalent runs deb-sync after the profile is installed.
+    # Idempotent — converged state installs nothing and never prompts for
+    # sudo; missing packages install interactively (sudo password prompt
+    # requires a terminal-run switch); a failed sync fails the switch,
+    # matching darwin-rebuild's homebrew semantics.
+    home.activation.debSync = lib.mkIf (cfg.onActivation.enable && managedPackages != [ ]) (
+      lib.hm.dag.entryAfter [ "installPackages" ] ''
+        $DRY_RUN_CMD echo ">> deb: converging managed packages"
+        ${debSync}/bin/deb-sync
+      ''
+    );
   };
 }

@@ -20,9 +20,12 @@
   oxc.console.asciinema.enable = false;
   oxc.console.zeit.enable = false;
 
-  # Deb-managed packages, applied via `deb-sync` / `task deb:sync`.
+  # Deb-managed packages: converged on every `home-manager switch`
+  # (after profile install; sudo prompt only when something's missing)
+  # and also available manually via `deb-sync` / `task deb:sync`.
   # VS Code is not in Ubuntu's stock repositories — the stable-redirect
   # download URLs (arch-mapped) install it without the Microsoft apt repo.
+  oxc.deb.onActivation.enable = true;
   oxc.deb.sources.code.url = {
     x86_64-linux = "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64";
     aarch64-linux = "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-arm64";
