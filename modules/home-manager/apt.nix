@@ -5,7 +5,7 @@
   ...
 }:
 let
-  cfg = config.oxc.deb;
+  cfg = config.oxc.apt;
 
   # Managed set: plain names resolved from the host's configured apt
   # repositories, plus any name with an explicit source mapping.
@@ -30,7 +30,7 @@ let
   # package name to its download URL for the running architecture. The
   # inner case dispatches on uname -m; an empty result means no mapping
   # for this package/architecture.
-  # Resolution preference is encoded by deb-sync: repository (unimplemented)
+  # Resolution preference is encoded by apt-sync: repository (unimplemented)
   # > url > upstream apt name.
   urlResolver =
     lib.concatStringsSep "\n" (
@@ -38,7 +38,7 @@ let
         name: src:
         let
           # Single-quoted so runtime placeholders (''${ubuntu_version}) reach
-          # deb-sync literally instead of expanding at case-evaluation.
+          # apt-sync literally instead of expanding at case-evaluation.
           archCases = lib.concatStringsSep "\n" (
             lib.mapAttrsToList (
               system: url: ''            ${archMatch.${system}}) echo ${lib.escapeShellArg url} ;;''
@@ -56,7 +56,7 @@ let
     );
 
   # Homebrew-like semantics for deb packages: a declarative list of package
-  # names that `deb-sync` converges towards with apt. Applying the list is
+  # names that `apt-sync` converges towards with apt. Applying the list is
   # non-deterministic (repo state, apt version) and — like brew — removing an
   # entry does NOT uninstall the package; cleanup stays a manual `apt remove`.
   #
@@ -67,8 +67,8 @@ let
   # System binaries are referenced by absolute path because
   # writeShellApplication constrains PATH to its runtimeInputs, and dpkg/apt
   # only exist on the Debian-family host, not in the Nix closure.
-  debSync = pkgs.writeShellApplication {
-    name = "deb-sync";
+  aptSync = pkgs.writeShellApplication {
+    name = "apt-sync";
     runtimeInputs = [ pkgs.curl ];
     text = ''
       set -euo pipefail
@@ -86,7 +86,7 @@ let
       )
 
       if [ ''${#managed[@]} -eq 0 ]; then
-        echo "oxc.deb manages no packages; nothing to sync."
+        echo "oxc.apt manages no packages; nothing to sync."
         exit 0
       fi
 
@@ -130,15 +130,15 @@ let
           /usr/bin/sudo /usr/bin/apt-get -o DPkg::Lock::Timeout=120 install -y "$pkg"
         else
           echo "!! $pkg: no URL mapping and no apt candidate — its repository is not configured." >&2
-          echo "   Add an oxc.deb.sources.<name>.url mapping, or configure the apt repository." >&2
+          echo "   Add an oxc.apt.sources.<name>.url mapping, or configure the apt repository." >&2
           exit 1
         fi
       done
     '';
   };
 
-  debList = pkgs.writeShellApplication {
-    name = "deb-list";
+  aptList = pkgs.writeShellApplication {
+    name = "apt-list";
     text = ''
       cat <<'EOF'
       ${lib.concatMapStringsSep "\n" (p: p) managedPackages}
@@ -147,15 +147,15 @@ let
   };
 in
 {
-  options.oxc.deb = {
+  options.oxc.apt = {
     packages = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [ ];
       description = ''
         Deb package names managed on non-NixOS Linux hosts, resolved against
         the host's configured apt repositories (upstream Ubuntu/Debian by
-        default). Names needing a custom source go in `oxc.deb.sources`
-        instead. Applied manually via `deb-sync` (see the deb:* tasks in
+        default). Names needing a custom source go in `oxc.apt.sources`
+        instead. Applied manually via `apt-sync` (see the deb:* tasks in
         Taskfile.yml). Entries are installed if missing; removal from this
         list does not uninstall.
       '';
@@ -175,7 +175,7 @@ in
                 "latest" style URL so the mapping survives upstream releases;
                 when the URL embeds the Ubuntu release (e.g.
                 ..._amd64_24.04.deb), use the ''${ubuntu_version} placeholder
-                — deb-sync substitutes the running host's release at runtime.
+                — apt-sync substitutes the running host's release at runtime.
                 Keys are not verified — treat the transport (https) as the
                 trust boundary, as apt repository signing is not yet wired up.
               '';
@@ -206,25 +206,25 @@ in
     assertions = [
       {
         assertion = lib.all (src: src.repository == null) (builtins.attrValues cfg.sources);
-        message = "oxc.deb.sources.<name>.repository is not implemented yet (sudo/interactive keyring setup unresolved); use url mappings.";
+        message = "oxc.apt.sources.<name>.repository is not implemented yet (sudo/interactive keyring setup unresolved); use url mappings.";
       }
     ];
 
     home.packages = lib.mkIf (managedPackages != [ ]) [
-      debSync
-      debList
+      aptSync
+      aptList
     ];
 
     # nix-darwin converges its Brewfile via `brew bundle` at activation;
-    # the deb equivalent runs deb-sync after the profile is installed.
+    # the deb equivalent runs apt-sync after the profile is installed.
     # Idempotent — converged state installs nothing and never prompts for
     # sudo; missing packages install interactively (sudo password prompt
     # requires a terminal-run switch); a failed sync fails the switch,
     # matching darwin-rebuild's homebrew semantics.
-    home.activation.debSync = lib.mkIf (cfg.onActivation.enable && managedPackages != [ ]) (
+    home.activation.aptSync = lib.mkIf (cfg.onActivation.enable && managedPackages != [ ]) (
       lib.hm.dag.entryAfter [ "installPackages" ] ''
         $DRY_RUN_CMD echo ">> deb: converging managed packages"
-        ${debSync}/bin/deb-sync
+        ${aptSync}/bin/apt-sync
       ''
     );
   };

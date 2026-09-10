@@ -144,16 +144,16 @@ tasks:
         fi
   ### END SECTION: Home Manager
 
-  ### BEGIN SECTION: Deb
-  deb:sync:
-    desc: Install any missing deb packages from the oxc.deb.packages list (non-NixOS Linux hosts).
+  ### BEGIN SECTION: Apt
+  apt:sync:
+    desc: Install any missing apt packages and managed repositories (non-NixOS Linux hosts).
     cmds:
-      - deb-sync {{.CLI_ARGS}}
-  deb:list:
-    desc: Print the deb packages managed via oxc.deb.packages.
+      - apt-sync {{.CLI_ARGS}}
+  apt:list:
+    desc: Print the apt packages managed via oxc.apt.packages.
     cmds:
-      - deb-list
-  ### END SECTION: Deb
+      - apt-list
+  ### END SECTION: Apt
 
   ### BEGIN SECTION: Utility
   lock:update:

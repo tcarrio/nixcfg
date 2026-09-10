@@ -25,8 +25,8 @@
   # and also available manually via `deb-sync` / `task deb:sync`.
   # VS Code is not in Ubuntu's stock repositories — the stable-redirect
   # download URLs (arch-mapped) install it without the Microsoft apt repo.
-  oxc.deb.onActivation.enable = true;
-  oxc.deb.sources.code.url = {
+  oxc.apt.onActivation.enable = true;
+  oxc.apt.sources.code.url = {
     x86_64-linux = "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64";
     aarch64-linux = "https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-arm64";
   };
@@ -37,10 +37,10 @@
   # with an empty package so HM still writes the ghostty config + theme;
   # only the binary install is deb-managed. Pinned release; refresh the
   # tag/asset version here when updating. The apt-repo alternative
-  # (ppa:mkasberg/ghostty-ubuntu) becomes preferred once oxc.deb gains
+  # (ppa:mkasberg/ghostty-ubuntu) becomes preferred once oxc.apt gains
   # repository mappings.
   oxc.desktop.ghostty.linuxPackage = pkgs.empty;
-  oxc.deb.sources.ghostty.url = {
+  oxc.apt.sources.ghostty.url = {
     x86_64-linux = "https://github.com/mkasberg/ghostty-ubuntu/releases/download/1.3.1-0-ppa2/ghostty_1.3.1-0.ppa2_amd64_\${ubuntu_version}.deb";
     aarch64-linux = "https://github.com/mkasberg/ghostty-ubuntu/releases/download/1.3.1-0-ppa2/ghostty_1.3.1-0.ppa2_arm64_\${ubuntu_version}.deb";
   };

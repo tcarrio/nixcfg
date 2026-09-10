@@ -118,7 +118,7 @@
         atuin = import ./modules/home-manager/console/atuin.nix;
         aws = import ./modules/home-manager/aws.nix;
         copy-files = import ./modules/home-manager/copy-files.nix;
-        deb = import ./modules/home-manager/deb.nix;
+        apt = import ./modules/home-manager/apt.nix;
         endcord = import ./modules/home-manager/endcord.nix;
         github = import ./modules/home-manager/github.nix;
         harlequin = import ./modules/home-manager/harlequin.nix;

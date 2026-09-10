@@ -7,7 +7,7 @@
     ./console
     ./copy-files.nix
     ./desktop
-    ./deb.nix
+    ./apt.nix
     ./endcord.nix
     ./gh-dash
     ./github.nix
