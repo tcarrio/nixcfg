@@ -98,7 +98,9 @@ in
   };
 
   config = {
-    xdg.enable = lib.mkForce true;
+    xdg.enable = true;
+    xdg.mime.enable = true;
+
     xdg.desktopEntries = lib.mapAttrs (
       id: app:
       {
