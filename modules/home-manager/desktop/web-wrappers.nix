@@ -60,8 +60,9 @@ in
         lib.types.submodule {
           options = {
             name = lib.mkOption {
-              type = lib.types.str;
-              description = "Friendly application name; what desktop search (e.g. GNOME) matches on.";
+              type = lib.types.nullOr lib.types.str;
+              description = "Friendly application name; what desktop search (e.g. GNOME) matches on. Defaults to attribute set key value when not provided.";
+              default = null;
             };
             url = lib.mkOption {
               type = lib.types.str;
@@ -99,9 +100,9 @@ in
   config = {
     xdg.enable = lib.mkForce true;
     xdg.desktopEntries = lib.mapAttrs (
-      _id: app:
+      id: app:
       {
-        inherit (app) name;
+        name = app.name or id;
         exec = commandFor app;
         categories = [
           "Network"
