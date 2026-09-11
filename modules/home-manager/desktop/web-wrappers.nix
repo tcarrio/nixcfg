@@ -102,7 +102,7 @@ in
     xdg.desktopEntries = lib.mapAttrs (
       id: app:
       {
-        name = app.name or id;
+        name = if app.name != null then app.name else id;
         exec = commandFor app;
         categories = [
           "Network"
