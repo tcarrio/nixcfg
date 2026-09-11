@@ -11,6 +11,7 @@
     ./tilix.nix
     ./vscode.nix
     ./web-app.nix
+    ./web-wrappers.nix
     ./xresources.nix
   ];
 }
