@@ -17,6 +17,8 @@
     yaml.enable = true;
   };
 
+  oxc.ai.glm.enable = true;
+
   oxc.ai.mcps = {
     enable = true;
     targets.cursor.enable = true;
