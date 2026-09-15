@@ -1,13 +1,12 @@
-# Device:      Apple M1 Pro
-# CPU:         Apple M1 Pro
-# RAM:         16GB DDR4
-# SATA:        500GB SSD
+# Device:      Apple M4 Pro
+# CPU:         Apple M4 Pro
+# RAM:         64GB DDR4
+# SATA:        1TB SSD
 
 { pkgs, ... }: {
   oxc.homebrew.enable = true;
-  oxc.sol.enable = true;
-  homebrew.casks = [ "discord" ];
-  environment.systemPackages = with pkgs.unstable; [
-    freetube
-  ];
+  oxc.homebrew.defaults = false;
+  oxc.sol.enable = false;
+  homebrew.casks = [];
+  environment.systemPackages = [];
 }
