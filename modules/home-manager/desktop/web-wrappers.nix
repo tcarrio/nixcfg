@@ -97,22 +97,27 @@ in
     };
   };
 
-  config = {
-    xdg.enable = true;
-    xdg.mime.enable = true;
+  config = lib.mkMerge [
+    (lib.mkIf pkgs.stdenv.isLinux {
+      xdg.enable = true;
+      xdg.mime.enable = true;
 
-    xdg.desktopEntries = lib.mapAttrs (
-      id: app:
-      {
-        name = if app.name != null then app.name else id;
-        exec = commandFor app;
-        categories = [
-          "Network"
-          "WebBrowser"
-        ];
-        terminal = false;
-      }
-      // lib.optionalAttrs (app.icon != null) { inherit (app) icon; }
-    ) cfg.apps;
-  };
+      xdg.desktopEntries = lib.mapAttrs (
+        id: app:
+        {
+          name = if app.name != null then app.name else id;
+          exec = commandFor app;
+          categories = [
+            "Network"
+            "WebBrowser"
+          ];
+          terminal = false;
+        }
+        // lib.optionalAttrs (app.icon != null) { inherit (app) icon; }
+      ) cfg.apps;
+    })
+    (lib.mkIf pkgs.stdenv.isDarwin {
+      # TODO: Implement similar solution for Darwin systems
+    })
+  ];
 }
