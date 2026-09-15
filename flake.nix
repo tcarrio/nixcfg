@@ -232,7 +232,7 @@
           username = "tcarrio";
           hostname = "astral";
           stateVersion = 4;
-          determinate = false;
+          determinate = true;
           desktop = "aqua";
         };
         "gokin" = libx.mkDarwin {
