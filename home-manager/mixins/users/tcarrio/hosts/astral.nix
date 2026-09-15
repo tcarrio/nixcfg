@@ -17,15 +17,6 @@
     yaml.enable = true;
   };
 
-  cursor.voicePlugin.enable = false;
-  cursor.voicePlugin.ffmpeg.enable = false;
-  cursor.voicePlugin.ffmpeg.package = pkgs.ffmpeg-headless;
-  cursor.voicePlugin.pocketTts.package = pkgs.unstable.pocket-tts;
-
-  oxc.ai.cursor.enable = true;
-  oxc.ai.cursor.riper-5.enable = false;
-  oxc.ai.cursor.serena.enable = false;
-
   oxc.ai.mcps = {
     enable = true;
     targets.cursor.enable = true;
