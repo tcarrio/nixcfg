@@ -44,7 +44,7 @@ in
     gtkTheme = {
       name = lib.mkOption {
         type = lib.types.str;
-        default = "Catppuccin-Mocha-Blue-Standard";
+        default = "catppuccin-mocha-blue-standard";
         description = ''
           GTK theme directory name. The default follows the catppuccin-gtk
           build scheme {theme}-{flavor}-{accent}-{size} (nixpkgs patches out
