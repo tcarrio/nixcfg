@@ -1,6 +1,3 @@
-> [!NOTE]
-> **This project is no longer hosted on GitHub**. This project may be outdated from latest Nixpkgs.
-
 # Tom's [Nix] Configurations
 
 [NixOS]: https://nixos.org/
