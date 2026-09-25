@@ -14,7 +14,7 @@ let
     package = cfg.linuxPackage;
   };
   darwinOptions = lib.mkIf isDarwin {
-    package = pkgs.empty;
+    package = pkgs.emptyDirectory;
     settings = {
       # Use the latest nightly builds (brew-managed on darwin)
       auto-update-channel = "tip";
@@ -37,7 +37,7 @@ in
         hash = "sha256-Y6RFften1/6+1xdhIzEh/E7FBJTwY5a8NH4301HbgOM=";
       };
       defaultText = lib.literalExpression "catppuccin/ghostty pinned to rev 5a58926";
-      description = "Path to a ghostty themes store";
+      description = "Path to a ghostty themes store. Must contains a themes/ directory";
     };
 
     font-family = lib.mkOption {

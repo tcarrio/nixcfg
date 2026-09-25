@@ -3,6 +3,8 @@
   allowUnfree ? true,
 }:
 let
+  inherit (pkgs) lib;
+
   pager = "${pkgs.bat}/bin/bat --style=plain --paging=always";
   batTheme = "base16";
 
@@ -159,7 +161,7 @@ let
     starlark_rust.enable = true;
   };
 in
-rec {
+{
   # Leader keys
   globals = {
     mapleader = " ";
@@ -350,7 +352,7 @@ rec {
 
   # Colorscheme
   colorschemes.tokyonight = {
-    enable = true;
+    enable = lib.mkDefault true;
     settings = {
       style = "night"; # Available: storm, moon, night, day
       transparent = false;
@@ -392,7 +394,6 @@ rec {
     ${setup.tabby}
     ${setup.mini-move}
     ${setup.navigator}
-    ${setup.colorscheme}
     ${setup.term-env}
   '';
 
