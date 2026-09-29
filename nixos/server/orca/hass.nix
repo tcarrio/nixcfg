@@ -59,6 +59,9 @@ in
       # Cloud integrations
       "google"
 
+      # Voice assistant integration through Google Home devices
+      "google_assistant"
+
       # The ZBT-2 Zigbee radio is driven by Zigbee2MQTT (see below), not ZHA;
       # HA consumes it over MQTT via the `mqtt` config below. No serial-using
       # component is listed here, so the home-assistant service does not need
