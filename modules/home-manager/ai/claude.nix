@@ -23,18 +23,15 @@ let
   enabledPlugins = lib.filterAttrs (_: p: p.enable) cfg.plugins;
 
   resolvableAgents = lib.filterAttrs (_: a: a.source != null || a.text != null) enabledAgents;
-  resolvablePlugins = lib.filterAttrs (_: p: p.source != null) enabledPlugins;
 
-  hasDeprecatedPlugins = lib.any (_: true) enabledPlugins;
+  hasDeprecatedPlugins = enabledPlugins != { };
 
   claudeExe = "${config.programs.claude-code.package}/bin/claude";
   claudeConfigDir = config.programs.claude-code.configDir;
 
-  pluginInstallScript = lib.optionalString (cfg.pluginsToInstall != [ ]) (
-    lib.concatMapStringsSep "\n" (pluginRef: ''
-      ${claudeExe} --config-dir "${claudeConfigDir}" plugin add install "${pluginRef}"
-    '') cfg.pluginsToInstall
-  );
+  pluginInstallScript = lib.concatMapStringsSep "\n" (pluginRef: ''
+    ${claudeExe} --config-dir "${claudeConfigDir}" plugin add install "${pluginRef}"
+  '') cfg.pluginsToInstall;
 in
 {
   options.oxc.ai.claude = {
@@ -82,8 +79,11 @@ in
       type = types.listOf types.str;
       default = [ ];
       description = ''
-        List of plugins to install via `claude plugin add install <marketplace>@<plugin-name>`.
-        Example: [ "superpowers@superpowers" "claude-plugins-official@caveman" ]
+        Plugins to install via `claude plugin add install` during HM activation.
+        Marketplaces must be declared in oxc.ai.claude.marketplaces (fetched by Nix,
+        symlinked to ~/.claude/marketplaces/known_marketplaces/ — no SSH at activation).
+        Format: "<marketplace>@<plugin-name>"
+        Example: [ "superpowers@superpowers" "anthropics@caveman" ]
       '';
     };
 
@@ -161,13 +161,8 @@ in
 
     programs.claude-code.marketplaces = cfg.marketplaces;
 
-    home.activation.claudePluginInstall = lib.hm.dag.entryAfter ["writeBoundary"] (
-      if cfg.pluginsToInstall != [ ] then
-        ''
-          run ${pluginInstallScript}
-        ''
-      else
-        ""
+    home.activation.claudePluginInstall = lib.hm.dag.entryAfter [ "writeBoundary" ] (
+      lib.optionalString (cfg.pluginsToInstall != [ ]) pluginInstallScript
     );
 
     home.file = lib.mapAttrs' (
