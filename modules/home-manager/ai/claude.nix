@@ -158,6 +158,8 @@ in
         if [ -L "$_settingsFile" ]; then
           cp --remove-destination "$(readlink -f "$_settingsFile")" "$_settingsFile"
         fi
+        # Ensure writable regardless — cp from the Nix store preserves 444 permissions
+        chmod u+w "$_settingsFile" 2>/dev/null || true
         ${pluginInstallScript}
       ''
     );
