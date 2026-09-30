@@ -98,7 +98,7 @@ in
       );
       default = { };
       description = ''
-        DEPRECATED: Use pluginsToInstall + marketplaces instead.
+        DEPRECATED: Use pluginsToInstall + programs.claude-code.marketplaces instead.
         Plugin directories installed to ~/.claude/plugins/<name>/.
         Each source must be a directory with a valid Claude Code plugin manifest.
       '';
