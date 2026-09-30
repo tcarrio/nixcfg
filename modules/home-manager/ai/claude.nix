@@ -26,11 +26,6 @@ let
 
   hasDeprecatedPlugins = enabledPlugins != { };
 
-  claudeExe = "${config.programs.claude-code.package}/bin/claude";
-
-  pluginInstallScript = lib.concatMapStringsSep "\n" (pluginRef: ''
-    ${claudeExe} plugin install "${pluginRef}"
-  '') cfg.pluginsToInstall;
 in
 {
   options.oxc.ai.claude = {
@@ -151,12 +146,6 @@ in
 
     programs.claude-code.settings.enabledPlugins = lib.mkIf (cfg.pluginsToInstall != [ ]) (
       lib.listToAttrs (map (ref: lib.nameValuePair ref true) cfg.pluginsToInstall)
-    );
-
-    home.activation.claudePluginInstall = lib.hm.dag.entryAfter [ "writeBoundary" ] (
-      lib.optionalString (cfg.pluginsToInstall != [ ]) ''
-        ${pluginInstallScript}
-      ''
     );
 
     home.file = lib.mapAttrs' (
