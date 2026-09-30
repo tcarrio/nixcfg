@@ -24,6 +24,17 @@ let
 
   resolvableAgents = lib.filterAttrs (_: a: a.source != null || a.text != null) enabledAgents;
   resolvablePlugins = lib.filterAttrs (_: p: p.source != null) enabledPlugins;
+
+  hasDeprecatedPlugins = resolvablePlugins != { };
+
+  claudeExe = "${config.programs.claude-code.package}/bin/claude";
+  claudeConfigDir = config.programs.claude-code.configDir;
+
+  pluginInstallScript = lib.optionalString (cfg.pluginsToInstall != [ ]) (
+    lib.concatMapStringsSep "\n" (pluginRef: ''
+      ${claudeExe} --config-dir "${claudeConfigDir}" plugin add install "${pluginRef}"
+    '') cfg.pluginsToInstall
+  );
 in
 {
   options.oxc.ai.claude = {
@@ -58,6 +69,24 @@ in
       '';
     };
 
+    marketplaces = mkOption {
+      type = types.attrsOf types.str;
+      default = { };
+      description = ''
+        Claude Code plugin marketplaces. Map marketplace name to git URL.
+        Example: { superpowers = "https://github.com/obra/superpowers-marketplace"; }
+      '';
+    };
+
+    pluginsToInstall = mkOption {
+      type = types.listOf types.str;
+      default = [ ];
+      description = ''
+        List of plugins to install via `claude plugin add install <marketplace>@<plugin-name>`.
+        Example: [ "superpowers@superpowers" "claude-plugins-official@caveman" ]
+      '';
+    };
+
     plugins = mkOption {
       type = types.attrsOf (
         types.submodule (
@@ -68,7 +97,10 @@ in
               source = mkOption {
                 type = types.nullOr types.path;
                 default = null;
-                description = "Path to the plugin directory.";
+                description = ''
+                  DEPRECATED: Use pluginsToInstall with marketplaces instead.
+                  Path to the plugin directory for direct installation.
+                '';
               };
             };
           }
@@ -76,6 +108,7 @@ in
       );
       default = { };
       description = ''
+        DEPRECATED: Use pluginsToInstall + marketplaces instead.
         Plugin directories installed to ~/.claude/plugins/<name>/.
         Each source must be a directory with a valid Claude Code plugin manifest.
       '';
@@ -102,6 +135,17 @@ in
       }
     ) bundledAgents;
 
+    warnings = lib.optionals hasDeprecatedPlugins [
+      ''
+        oxc.ai.claude.plugins is DEPRECATED and won't work with Claude Desktop.
+        Use pluginsToInstall + marketplaces instead.
+
+        Migration: Replace source-based plugin configs with:
+          oxc.ai.claude.marketplaces.<name> = "https://...";
+          oxc.ai.claude.pluginsToInstall = [ "<marketplace>@<name>" ];
+      ''
+    ];
+
     assertions = lib.concatLists (
       lib.mapAttrsToList (name: agent: [
         {
@@ -113,6 +157,17 @@ in
           message = "oxc.ai.claude.agents.${name}: source and text are mutually exclusive; set one or the other.";
         }
       ]) enabledAgents
+    );
+
+    programs.claude-code.marketplaces = cfg.marketplaces;
+
+    home.activation.claudePluginInstall = lib.hm.dag.entryAfter ["writeBoundary"] (
+      if cfg.pluginsToInstall != [ ] then
+        ''
+          run ${pluginInstallScript}
+        ''
+      else
+        ""
     );
 
     home.file =
