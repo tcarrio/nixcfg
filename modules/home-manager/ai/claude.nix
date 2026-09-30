@@ -27,10 +27,9 @@ let
   hasDeprecatedPlugins = enabledPlugins != { };
 
   claudeExe = "${config.programs.claude-code.package}/bin/claude";
-  claudeConfigDir = config.programs.claude-code.configDir;
 
   pluginInstallScript = lib.concatMapStringsSep "\n" (pluginRef: ''
-    ${claudeExe} --config-dir "${claudeConfigDir}" plugin add install "${pluginRef}"
+    ${claudeExe} plugin add install "${pluginRef}"
   '') cfg.pluginsToInstall;
 in
 {
