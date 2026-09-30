@@ -29,7 +29,7 @@ let
   claudeExe = "${config.programs.claude-code.package}/bin/claude";
 
   pluginInstallScript = lib.concatMapStringsSep "\n" (pluginRef: ''
-    ${claudeExe} plugin add install "${pluginRef}"
+    ${claudeExe} plugin install "${pluginRef}"
   '') cfg.pluginsToInstall;
 in
 {
