@@ -155,15 +155,6 @@ in
 
     home.activation.claudePluginInstall = lib.hm.dag.entryAfter [ "writeBoundary" ] (
       lib.optionalString (cfg.pluginsToInstall != [ ]) ''
-        # HM symlinks settings.json into the read-only Nix store; claude plugin install
-        # writes atomically via a temp file adjacent to settings.json, which fails in
-        # the store. Replace the symlink with a writable copy first.
-        _settingsFile="$HOME/.claude/settings.json"
-        if [ -L "$_settingsFile" ]; then
-          cp --remove-destination "$(readlink -f "$_settingsFile")" "$_settingsFile"
-        fi
-        # Ensure writable regardless — cp from the Nix store preserves 444 permissions
-        chmod u+w "$_settingsFile" 2>/dev/null || true
         ${pluginInstallScript}
       ''
     );
