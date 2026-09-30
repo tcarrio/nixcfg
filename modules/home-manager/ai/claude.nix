@@ -65,15 +65,6 @@ in
       '';
     };
 
-    marketplaces = mkOption {
-      type = types.attrsOf types.str;
-      default = { };
-      description = ''
-        Claude Code plugin marketplaces. Map marketplace name to git URL.
-        Example: { superpowers = "https://github.com/obra/superpowers-marketplace"; }
-      '';
-    };
-
     pluginsToInstall = mkOption {
       type = types.listOf types.str;
       default = [ ];
@@ -157,8 +148,6 @@ in
         }
       ]) enabledAgents
     );
-
-    programs.claude-code.marketplaces = cfg.marketplaces;
 
     home.activation.claudePluginInstall = lib.hm.dag.entryAfter [ "writeBoundary" ] (
       lib.optionalString (cfg.pluginsToInstall != [ ]) pluginInstallScript
