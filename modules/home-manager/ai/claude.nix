@@ -149,6 +149,10 @@ in
       ]) enabledAgents
     );
 
+    programs.claude-code.settings.enabledPlugins = lib.mkIf (cfg.pluginsToInstall != [ ]) (
+      lib.listToAttrs (map (ref: lib.nameValuePair ref true) cfg.pluginsToInstall)
+    );
+
     home.activation.claudePluginInstall = lib.hm.dag.entryAfter [ "writeBoundary" ] (
       lib.optionalString (cfg.pluginsToInstall != [ ]) ''
         # HM symlinks settings.json into the read-only Nix store; claude plugin install
