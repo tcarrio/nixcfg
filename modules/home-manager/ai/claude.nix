@@ -25,7 +25,7 @@ let
   resolvableAgents = lib.filterAttrs (_: a: a.source != null || a.text != null) enabledAgents;
   resolvablePlugins = lib.filterAttrs (_: p: p.source != null) enabledPlugins;
 
-  hasDeprecatedPlugins = resolvablePlugins != { };
+  hasDeprecatedPlugins = lib.any (_: true) enabledPlugins;
 
   claudeExe = "${config.programs.claude-code.package}/bin/claude";
   claudeConfigDir = config.programs.claude-code.configDir;
@@ -170,16 +170,11 @@ in
         ""
     );
 
-    home.file =
-      lib.mapAttrs' (
-        name: agent:
-        lib.nameValuePair ".claude/agents/${name}.md" (
-          if agent.source != null then { inherit (agent) source; } else { inherit (agent) text; }
-        )
-      ) resolvableAgents
-      // lib.mapAttrs' (
-        name: plugin:
-        lib.nameValuePair ".claude/plugins/${name}" { inherit (plugin) source; }
-      ) resolvablePlugins;
+    home.file = lib.mapAttrs' (
+      name: agent:
+      lib.nameValuePair ".claude/agents/${name}.md" (
+        if agent.source != null then { inherit (agent) source; } else { inherit (agent) text; }
+      )
+    ) resolvableAgents;
   };
 }
