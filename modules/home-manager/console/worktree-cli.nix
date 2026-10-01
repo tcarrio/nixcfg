@@ -14,10 +14,7 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = [
-      (pkgs.writeShellApplication {
-        name = "wt";
-        text = lib.readFile ./worktree-cli/wt.sh;
-      })
+      pkgs.worktree-cli
     ];
   };
 }
