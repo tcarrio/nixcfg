@@ -147,7 +147,10 @@ drvPath="$(nix eval ".#nixosConfigurations.$hostname.config.system.build.topleve
 nix-copy-closure --to $remoteUser@$remoteHost "$drvPath"
 
 ## OR, if you have a live system, nixos-rebuild encapsulates this logic and more
-nixos-rebuild switch --flake .#$hostname --target-host $remoteUser@$remoteHost
+nixos-rebuild switch --flake .#$hostname --target-host $remoteUser@$remoteHost --sudo --ask-elevant-password
+
+## OR, build on one system and deploy to another (useful on macOS devices)
+nixos-rebuild switch --flake .#$hostname --target-host $remoteUser@$remoteHost --build-host $buildUser@$buildHost --sudo --ask-elevate-password
 ```
 
 ## Applying Changes ✨
