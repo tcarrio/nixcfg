@@ -25,6 +25,7 @@ let
   securityCasks = [
     "secretive"
     "tailscale-app"
+    "yubico-authenticator"
   ];
 
   devCasks = [
