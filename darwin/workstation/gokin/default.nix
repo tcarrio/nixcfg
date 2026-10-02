@@ -20,6 +20,7 @@
 
   oxc.homebrew.enable = true;
   oxc.homebrew.defaults = true;
+  oxc.spotlight.enable = false;
   oxc.services.colima = {
     enable = true;
     automaticBoot = true;
