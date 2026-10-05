@@ -25,6 +25,8 @@ let
   securityCasks = [
     "secretive"
     "tailscale-app"
+    "tor-browser"
+    "transmission"
     "yubico-authenticator"
   ];
 
@@ -42,6 +44,8 @@ let
     "amethyst"
     "gimp"
     "handy"
+    "inkscape"
+    "libreoffice"
     "logitune"
     "notunes"
     "rnnoise"
