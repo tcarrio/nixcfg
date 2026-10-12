@@ -15,6 +15,7 @@ let
   ##################################################
   toolingBrews = [
     "ca-certificates"
+    "mistral-vibe"
   ];
 
   brews = toolingBrews;
