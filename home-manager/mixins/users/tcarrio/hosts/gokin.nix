@@ -30,10 +30,10 @@
 
   oxc.github.dash.presets = [ "personal" ];
 
-  home.packages = [
-    pkgs.happy-coder
-    pkgs.unstable.nodejs
-    pkgs.unstable.claude-code
+  home.packages = with pkgs; [
+    happy-coder
+    unstable.nodejs
+    unstable.claude-code
   ];
 
   oxc.ai.glm.enable = true;
