@@ -99,7 +99,6 @@ in
 
   config = {
     xdg.enable = true;
-    xdg.mime.enable = true;
 
     xdg.desktopEntries = lib.mapAttrs (
       id: app:
@@ -114,5 +113,7 @@ in
       }
       // lib.optionalAttrs (app.icon != null) { inherit (app) icon; }
     ) cfg.apps;
-  };
+  } // (lib.mkIf pkgs.stdenv.isLinux {
+    xdg.mime.enable = true;
+  });
 }
