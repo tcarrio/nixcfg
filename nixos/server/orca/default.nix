@@ -32,7 +32,7 @@ in
     ./disks.nix
     ./hass.nix
     # ./haos.nix
-    # ./media-server.nix
+    ./media-server.nix
     ../../mixins/hardware/grub-legacy-boot.nix
     # "${inputs.nixpkgs-unstable}/nixos/modules/services/home-automation/home-assistant.nix"
   ];
