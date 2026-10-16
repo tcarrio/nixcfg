@@ -1,21 +1,20 @@
-# auto-generated from:
-# tailscale status --json | jq '
-#   [.Peer[], .Self] |
-#   map({(.HostName): (.TailscaleIPs | map(select(test("^100\\\\."))) | first)}) |
-#   add
-# '
+# Tailnet IP matrix for nixcfg-managed hosts only (plus nas-ds418-00,
+# which is not flake-managed). No TVs, phones, or unmanaged devices.
+#
+# Regenerate candidates from:
+# tailscale status --json | jq -r '[.Peer[], .Self][] | select(.TailscaleIPs[0] != null) | "\(.HostName) \(.TailscaleIPs[0])"'
+# then keep only managed hostnames. Devices missing from the tailnet
+# (offline-expired) drop out until they rejoin.
+#
+# Known renames: astral now reports as sktc2.
 # DO NOT EDIT THE FOLLOWING MANUALLY
 {
-  "alum" = "100.122.112.4";
-  "chasm" = "100.124.8.114";
-  "DESKTOP-PM2L758" = "100.119.246.9";
+  "astral" = "100.89.92.124";
   "gokin" = "100.127.161.36";
-  "localhost" = "100.103.54.123";
-  "motorola razr plus 2024" = "100.127.130.27";
   "nas-ds418-00" = "100.85.25.62";
   "obsidian" = "100.126.103.29";
-  "orca" = "100.71.92.47";
-  "astral" = "100.89.92.124";
+  "orca" = "100.67.237.124";
+  "phoenix" = "100.97.26.114";
+  "sktc2" = "100.89.92.124";
   "void" = "100.93.120.101";
-  "vpn-arn" = "100.111.125.110";
 }
