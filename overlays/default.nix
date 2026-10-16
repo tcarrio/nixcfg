@@ -5,7 +5,13 @@
 # applies this file with nixcfg's own locked inputs; external consumers who
 # want different revisions can build the same overlays via
 # `nixcfg.lib.mkOverlays { ... }` with their own inputs.
-{ inputs ? { }, nixvim ? null, bun2nix ? null, python ? null, ... }:
+{
+  inputs ? { },
+  nixvim ? null,
+  bun2nix ? null,
+  python ? null,
+  ...
+}:
 {
   # This one brings our custom packages from the 'pkgs' directory
   additions =
@@ -34,8 +40,8 @@
       customPkgs = import ../pkgs {
         pkgs = final;
         inherit nixvim;
-        mkStandardBun = mkStandardBun;
-        uv2nixLib = uv2nixLib;
+        inherit mkStandardBun;
+        inherit uv2nixLib;
       };
     in
     customPkgs
@@ -103,7 +109,6 @@
   # (overrideAttrs on an attrset) and unreferenced; add maintainers directly
   # in package derivations instead.
   modifications = _final: _prev: { };
-
 
   # When applied, the stable nixpkgs set (declared in the flake inputs) will
   # be accessible through 'pkgs.unstable'

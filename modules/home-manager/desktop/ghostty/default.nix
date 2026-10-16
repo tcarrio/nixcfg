@@ -78,11 +78,10 @@ in
     programs.ghostty = lib.mkMerge [
       {
         enable = true;
-        settings =
-          {
-            inherit (cfg) font-family font-size theme;
-          }
-          // cfg.extraSettings;
+        settings = {
+          inherit (cfg) font-family font-size theme;
+        }
+        // cfg.extraSettings;
       }
       linuxOptions
       darwinOptions

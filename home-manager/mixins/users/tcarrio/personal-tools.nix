@@ -11,11 +11,10 @@
   };
 
   config = lib.mkIf config.oxc.profile.personal-tools.enable {
-    home.packages =
-      (with pkgs; [
-        gh-composer-auth
-        urlencode
-        qq-cli
-      ]);
+    home.packages = with pkgs; [
+      gh-composer-auth
+      urlencode
+      qq-cli
+    ];
   };
 }

@@ -9,7 +9,7 @@ let
 
   managedSerenaConfigFile = pkgs.writeText "serena_config.yml" (
     lib.generators.toYAML { } {
-      projects = cfg.projects;
+      inherit (cfg) projects;
       ls_specific_settings =
         (lib.attrsToList cfg.languages)
         |> (builtins.filter (kv: kv.value.enable))

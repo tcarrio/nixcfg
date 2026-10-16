@@ -51,7 +51,7 @@ in
     programs.fish = {
       enable = true;
       shellAliases = cfg.aliases;
-      functions = cfg.functions;
+      inherit (cfg) functions;
       interactiveShellInit = cfg.interactiveInit;
       inherit (cfg) plugins;
     };

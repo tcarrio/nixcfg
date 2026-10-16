@@ -67,18 +67,19 @@ in
       # component is listed here, so the home-assistant service does not need
       # (and does not get) the `dialout` group.
 
-
     ];
 
     # Custom components must be set at this level (installed into the HA
     # package), NOT inside `config` below — `config` becomes configuration.yaml
     # and a `customComponents:` key there is silently ignored by HA.
-    customComponents = with pkgs.home-assistant-custom-components; [
-      nest_protect
-      pirate-weather
-      sensi
-    ]
-    ++ [ pkgs.robovac ];
+    customComponents =
+      with pkgs.home-assistant-custom-components;
+      [
+        nest_protect
+        pirate-weather
+        sensi
+      ]
+      ++ [ pkgs.robovac ];
 
     config = {
       homeassistant = {
@@ -138,7 +139,6 @@ in
     "f ${config.services.home-assistant.configDir}/automations.yaml 0755 hass hass"
   ];
 
-
   # Matter support
   # services.home-assistant-matter-hub = {
   #   enable = true;
@@ -159,11 +159,13 @@ in
   # Zigbee2MQTT run on this host, so nothing needs to reach the broker remotely.
   services.mosquitto = {
     enable = true;
-    listeners = [{
-      address = localhost;
-      acl = [ "pattern readwrite #" ];
-      settings.allow_anonymous = true;
-    }];
+    listeners = [
+      {
+        address = localhost;
+        acl = [ "pattern readwrite #" ];
+        settings.allow_anonymous = true;
+      }
+    ];
   };
   services.zigbee2mqtt = {
     enable = true;

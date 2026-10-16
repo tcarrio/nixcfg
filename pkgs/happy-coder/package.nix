@@ -3,7 +3,6 @@
   buildNpmPackage,
   fetchurl,
   nodejs,
-  makeWrapper,
   ripgrep,
   difftastic,
 }:

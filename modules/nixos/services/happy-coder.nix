@@ -150,8 +150,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = [cfg.package]
-      ++ (lib.optional cfg.claude.enable claudeRunner);
+    environment.systemPackages = [ cfg.package ] ++ (lib.optional cfg.claude.enable claudeRunner);
 
     systemd.services.happy-coder = {
       description = "Happy daemon — remote control for Claude Code";

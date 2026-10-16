@@ -129,20 +129,19 @@ in
   config = lib.mkIf cfg.enable {
     programs.git = {
       enable = true;
-      settings =
-        {
-          alias = cfg.aliases;
-          push.default = "matching";
-          pull = {
-            rebase = true;
-            ff = "only";
-          };
-          init.defaultBranch = "main";
-        }
-        // cfg.settings
-        // (lib.optionalAttrs (cfg.userName != null) { user.name = cfg.userName; })
-        // (lib.optionalAttrs (cfg.userEmail != null) { user.email = cfg.userEmail; });
-      ignores = cfg.ignores;
+      settings = {
+        alias = cfg.aliases;
+        push.default = "matching";
+        pull = {
+          rebase = true;
+          ff = "only";
+        };
+        init.defaultBranch = "main";
+      }
+      // cfg.settings
+      // (lib.optionalAttrs (cfg.userName != null) { user.name = cfg.userName; })
+      // (lib.optionalAttrs (cfg.userEmail != null) { user.email = cfg.userEmail; });
+      inherit (cfg) ignores;
     };
   };
 }

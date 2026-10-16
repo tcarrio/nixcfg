@@ -4,7 +4,6 @@
 # udev) is documented in docs/non-nixos-linux.md.
 
 {
-  lib,
   pkgs,
   ...
 }:
@@ -46,7 +45,7 @@ let
       9n3CmZUmbynZ+E/QWNENpW/pDNZdWFy43PASmML5FHu4m9Sn
       =oqMI
       -----END PGP PUBLIC KEY BLOCK-----
-      '';
+    '';
     fingerprint = "31DD DE24 DDFA B679 F42D 7BD2 BAA9 29FF 1A7E CACE";
   };
 
@@ -84,7 +83,10 @@ in
       url = "https://downloads.claude.ai/claude-desktop/apt/stable";
     };
   };
-  oxc.apt.packages = [ "claude-code" "claude-desktop" ];
+  oxc.apt.packages = [
+    "claude-code"
+    "claude-desktop"
+  ];
 
   # VS Code is not in Ubuntu's stock repositories — the stable-redirect
   # download URLs (arch-mapped) install it without the Microsoft apt repo.

@@ -33,11 +33,13 @@ let
   # receives a normal gpg keyring and apt's signed-by check is exact.
   repoKeyring =
     name: repo:
-    pkgs.runCommand "${name}-archive-keyring.gpg" {
-      nativeBuildInputs = [ pkgs.gnupg ];
-    } ''
-      gpg --dearmor --output "$out" "${pkgs.writeText "${name}-archive-keyring.asc" repo.key.text}"
-    '';
+    pkgs.runCommand "${name}-archive-keyring.gpg"
+      {
+        nativeBuildInputs = [ pkgs.gnupg ];
+      }
+      ''
+        gpg --dearmor --output "$out" "${pkgs.writeText "${name}-archive-keyring.asc" repo.key.text}"
+      '';
 
   # Classic one-line sources entry (matches vendor documentation format):
   # deb [signed-by=/etc/apt/keyrings/<name>.gpg] <url> <suites...> <components...>
@@ -47,15 +49,12 @@ let
       lib.concatStringsSep " " (repo.suites ++ repo.components)
     }";
 
-  repoSetup =
-    lib.concatStringsSep "\n" (
-      lib.mapAttrsToList (
-        name: repo:
-        "ensure_repo ${lib.escapeShellArg name} ${lib.escapeShellArg "${repoKeyring name repo}"} ${
-          lib.escapeShellArg (repoSourcesLine name repo)
-        }"
-      ) cfg.repositories
-    );
+  repoSetup = lib.concatStringsSep "\n" (
+    lib.mapAttrsToList (
+      name: repo:
+      "ensure_repo ${lib.escapeShellArg name} ${lib.escapeShellArg "${repoKeyring name repo}"} ${lib.escapeShellArg (repoSourcesLine name repo)}"
+    ) cfg.repositories
+  );
 
   # Render the sources attrset as a shell case statement resolving a
   # package name to its download URL for the running architecture. The
@@ -63,28 +62,27 @@ let
   # for this package/architecture.
   # Resolution preference is encoded by apt-sync: repository (top-level
   # oxc.apt.repositories) > url > upstream apt name.
-  urlResolver =
-    lib.concatStringsSep "\n" (
-      lib.mapAttrsToList (
-        name: src:
-        let
-          # Single-quoted so runtime placeholders (''${ubuntu_version}) reach
-          # apt-sync literally instead of expanding at case-evaluation.
-          archCases = lib.concatStringsSep "\n" (
-            lib.mapAttrsToList (
-              system: url: ''            ${archMatch.${system}}) echo ${lib.escapeShellArg url} ;;''
-            ) src.url
-          );
-        in
-        ''
-          ${lib.escapeShellArg name})
-            case "$(uname -m)" in
-          ${archCases}
-            esac
-            ;;
-        ''
-      ) cfg.sources
-    );
+  urlResolver = lib.concatStringsSep "\n" (
+    lib.mapAttrsToList (
+      name: src:
+      let
+        # Single-quoted so runtime placeholders (''${ubuntu_version}) reach
+        # apt-sync literally instead of expanding at case-evaluation.
+        archCases = lib.concatStringsSep "\n" (
+          lib.mapAttrsToList (
+            system: url: "${archMatch.${system}}) echo ${lib.escapeShellArg url} ;;"
+          ) src.url
+        );
+      in
+      ''
+        ${lib.escapeShellArg name})
+          case "$(uname -m)" in
+        ${archCases}
+          esac
+          ;;
+      ''
+    ) cfg.sources
+  );
 
   # Homebrew-like semantics for apt packages: a declarative list of package
   # names and repositories that `apt-sync` converges towards with apt.
@@ -323,11 +321,13 @@ in
     # interactively (sudo password prompt requires a terminal-run switch);
     # a failed sync fails the switch, matching darwin-rebuild's homebrew
     # semantics.
-    home.activation.aptSync = lib.mkIf (cfg.onActivation.enable && (managedPackages != [ ] || hasRepositories)) (
-      lib.hm.dag.entryAfter [ "installPackages" ] ''
-        $DRY_RUN_CMD echo ">> apt: converging managed state"
-        ${aptSync}/bin/apt-sync
-      ''
-    );
+    home.activation.aptSync =
+      lib.mkIf (cfg.onActivation.enable && (managedPackages != [ ] || hasRepositories))
+        (
+          lib.hm.dag.entryAfter [ "installPackages" ] ''
+            $DRY_RUN_CMD echo ">> apt: converging managed state"
+            ${aptSync}/bin/apt-sync
+          ''
+        );
   };
 }

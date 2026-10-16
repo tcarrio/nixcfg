@@ -36,59 +36,56 @@ let
 
   extraPrefs = lib.concatLines (
     lib.mapAttrsToList (
-      name: value: ''lockPref(${lib.strings.toJSON name}, ${lib.strings.toJSON value});''
+      name: value: "lockPref(${lib.strings.toJSON name}, ${lib.strings.toJSON value});"
     ) prefs
   );
 
   zenPkg = cfg.package;
   wrappedZen = zenPkg.overrideAttrs {
     # NVidia improvements
-    LIBVA_DRIVER_NAME = "nvidia";   # tell libva to use the nvidia backend
-    NVD_BACKEND = "direct";         # required by recent nvidia-vaapi-driver on X11
-    MOZ_DISABLE_RDD_SANDBOX = "1";  # the decoder sandbox otherwise blocks GPU access
+    LIBVA_DRIVER_NAME = "nvidia"; # tell libva to use the nvidia backend
+    NVD_BACKEND = "direct"; # required by recent nvidia-vaapi-driver on X11
+    MOZ_DISABLE_RDD_SANDBOX = "1"; # the decoder sandbox otherwise blocks GPU access
   };
 
-  pkg = (pkgs.wrapFirefox
-    wrappedZen
-    {
-      inherit extraPrefs;
+  pkg = pkgs.wrapFirefox wrappedZen {
+    inherit extraPrefs;
 
-      extraPolicies = {
-        DisableTelemetry = false;
-        ExtensionSettings = builtins.listToAttrs extensions;
+    extraPolicies = {
+      DisableTelemetry = false;
+      ExtensionSettings = builtins.listToAttrs extensions;
 
-        SearchEngines = {
-          Default = "ddg";
-          Add = [
-            {
-              Name = "nixpkgs packages";
-              URLTemplate = "https://search.nixos.org/packages?query={searchTerms}";
-              IconURL = "https://wiki.nixos.org/favicon.ico";
-              Alias = "@np";
-            }
-            {
-              Name = "NixOS options";
-              URLTemplate = "https://search.nixos.org/options?query={searchTerms}";
-              IconURL = "https://wiki.nixos.org/favicon.ico";
-              Alias = "@no";
-            }
-            {
-              Name = "NixOS Wiki";
-              URLTemplate = "https://wiki.nixos.org/w/index.php?search={searchTerms}";
-              IconURL = "https://wiki.nixos.org/favicon.ico";
-              Alias = "@nw";
-            }
-            {
-              Name = "noogle";
-              URLTemplate = "https://noogle.dev/q?term={searchTerms}";
-              IconURL = "https://noogle.dev/favicon.ico";
-              Alias = "@ng";
-            }
-          ];
-        };
+      SearchEngines = {
+        Default = "ddg";
+        Add = [
+          {
+            Name = "nixpkgs packages";
+            URLTemplate = "https://search.nixos.org/packages?query={searchTerms}";
+            IconURL = "https://wiki.nixos.org/favicon.ico";
+            Alias = "@np";
+          }
+          {
+            Name = "NixOS options";
+            URLTemplate = "https://search.nixos.org/options?query={searchTerms}";
+            IconURL = "https://wiki.nixos.org/favicon.ico";
+            Alias = "@no";
+          }
+          {
+            Name = "NixOS Wiki";
+            URLTemplate = "https://wiki.nixos.org/w/index.php?search={searchTerms}";
+            IconURL = "https://wiki.nixos.org/favicon.ico";
+            Alias = "@nw";
+          }
+          {
+            Name = "noogle";
+            URLTemplate = "https://noogle.dev/q?term={searchTerms}";
+            IconURL = "https://noogle.dev/favicon.ico";
+            Alias = "@ng";
+          }
+        ];
       };
-    }
-  );
+    };
+  };
 in
 {
   options.oxc.desktop.zen-browser = {

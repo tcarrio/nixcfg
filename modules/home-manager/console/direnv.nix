@@ -50,6 +50,7 @@ in
         [global]
         load_dotenv = ${lib.boolToString cfg.loadDotenv}
         strict_env = ${lib.boolToString cfg.strictEnv}
-      '' + whitelist;
+      ''
+      + whitelist;
   };
 }

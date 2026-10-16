@@ -27,28 +27,43 @@
   qq-cli = pkgs.callPackage ./qq-cli.nix { };
   worktree-cli = pkgs.callPackage ./worktree-cli/default.nix { };
 }
-// (if mkStandardBun != null then {
-  gqurl = pkgs.callPackage ./gqurl/default.nix {
-    inherit mkStandardBun;
-  };
-} else { })
-// (if nixvim != null then {
-  nixvim = pkgs.unstable.callPackage ./nixvim/default.nix {
-    inherit nixvim;
-  };
-} else { })
-// (if uv2nixLib != null then {
-  serena = pkgs.callPackage ./serena/default.nix {
-    inherit uv2nixLib;
-  };
-  endcord = pkgs.callPackage ./endcord {
-    inherit pkgs uv2nixLib;
-  };
-  endcord-media = pkgs.callPackage ./endcord {
-    inherit pkgs uv2nixLib;
-    withMedia = true;
-  };
-  marker-pdf = pkgs.callPackage ./marker-pdf/default.nix {
-    inherit uv2nixLib;
-  };
-} else { })
+// (
+  if mkStandardBun != null then
+    {
+      gqurl = pkgs.callPackage ./gqurl/default.nix {
+        inherit mkStandardBun;
+      };
+    }
+  else
+    { }
+)
+// (
+  if nixvim != null then
+    {
+      nixvim = pkgs.unstable.callPackage ./nixvim/default.nix {
+        inherit nixvim;
+      };
+    }
+  else
+    { }
+)
+// (
+  if uv2nixLib != null then
+    {
+      serena = pkgs.callPackage ./serena/default.nix {
+        inherit uv2nixLib;
+      };
+      endcord = pkgs.callPackage ./endcord {
+        inherit pkgs uv2nixLib;
+      };
+      endcord-media = pkgs.callPackage ./endcord {
+        inherit pkgs uv2nixLib;
+        withMedia = true;
+      };
+      marker-pdf = pkgs.callPackage ./marker-pdf/default.nix {
+        inherit uv2nixLib;
+      };
+    }
+  else
+    { }
+)

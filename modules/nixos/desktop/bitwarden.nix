@@ -17,7 +17,7 @@
   config = lib.mkIf config.oxc.desktop.bitwarden.enable {
     environment.systemPackages = with pkgs; [
       # DISABLED: We will look into a flatpak based approach
-      # bitwarden-desktop 
+      # bitwarden-desktop
     ];
   };
 }

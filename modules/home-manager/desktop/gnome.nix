@@ -138,7 +138,7 @@ in
       # org/gnome/desktop/interface color-scheme dconf key through HM's
       # gtk3/gtk4 modules — one owner instead of legacy flags racing the
       # desktop at activation.
-      colorScheme = cfg.colorScheme;
+      inherit (cfg) colorScheme;
 
       gtk2 = {
         configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";

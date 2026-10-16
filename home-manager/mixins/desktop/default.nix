@@ -13,6 +13,5 @@
   oxc.desktop.ghostty.themesSource = inputs.ghostty-catppuccin;
   oxc.desktop.xresources.enable = lib.mkDefault true;
 
-  imports =
-    lib.optional (builtins.pathExists (./. + "/${desktop}.nix")) ./${desktop}.nix;
+  imports = lib.optional (builtins.pathExists (./. + "/${desktop}.nix")) ./${desktop}.nix;
 }

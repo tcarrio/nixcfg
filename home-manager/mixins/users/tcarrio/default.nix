@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   hostname,
   inputs,
@@ -46,24 +45,23 @@ in
       }
     '';
 
-    packages =
-      (with pkgs.unstable; [
-        # Lean dev-tooling set; niche utilities commented out for a
-        # smaller default footprint — re-enable as needed.
-        # act # run GitHub Actions locally
-        # cmatrix # screensaver
-        git-absorb
-        git-filter-repo
-        gitleaks
-        gum
-        # jd-diff-patch # JSON diff/patch
-        # opencode # AI coding agent
-        # ncdu # disk usage
-        nixd
-        # slumber # REST client TUI
-        # trash-cli # trash CLI
-        typescript-go
-      ]);
+    packages = with pkgs.unstable; [
+      # Lean dev-tooling set; niche utilities commented out for a
+      # smaller default footprint — re-enable as needed.
+      # act # run GitHub Actions locally
+      # cmatrix # screensaver
+      git-absorb
+      git-filter-repo
+      gitleaks
+      gum
+      # jd-diff-patch # JSON diff/patch
+      # opencode # AI coding agent
+      # ncdu # disk usage
+      nixd
+      # slumber # REST client TUI
+      # trash-cli # trash CLI
+      typescript-go
+    ];
   };
 
   programs = {

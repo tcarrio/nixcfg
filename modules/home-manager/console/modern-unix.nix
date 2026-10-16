@@ -69,9 +69,6 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages =
-      coreTools
-      ++ (lib.optionals cfg.extras extraTools)
-      ++ cfg.packages;
+    home.packages = coreTools ++ (lib.optionals cfg.extras extraTools) ++ cfg.packages;
   };
 }

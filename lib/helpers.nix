@@ -20,12 +20,7 @@ in
   # hosts use `self.overlays` (nixcfg's locked inputs); external consumers
   # can call this to substitute their own nixvim/bun2nix inputs or python.
   mkOverlays =
-    {
-      nixvim ? inputs.nixvim,
-      bun2nix ? inputs.bun2nix,
-      python ? null,
-      ...
-    }@args:
+    args:
     # NOTE: @args captures only caller-supplied arguments, not defaults —
     # re-bind them explicitly so internal calls get nixcfg's locked inputs.
     import ../overlays (
@@ -77,7 +72,8 @@ in
           sshMatrix
           tailnetMatrix
           ;
-      } // extraSpecialArgs;
+      }
+      // extraSpecialArgs;
       modules =
         (lib.optionals withProfileRoot [ ../home-manager ])
         ++ (lib.optionals withAgenix [ inputs.agenix.homeManagerModules.default ])
@@ -129,26 +125,26 @@ in
           includeDisks
           ;
         adminGroup = "@wheel";
-      } // extraSpecialArgs;
-      modules =
-        [
-          ../nixos
-          (import ./cache-settings.nix (specialArgs // { isDeterminateNix = determinate; }))
-        ]
-        ++ (lib.optionals withAgenix [
-          inputs.agenix.nixosModules.default
-          agenixOverlaysModule
-        ])
-        ++ (lib.optionals withHandy [ inputs.handy.nixosModules.default ])
-        ++ (lib.optionals withOverlays [ overlaysModule ])
-        ++ (lib.optionals (installer != null) [ installer ])
-        ++ (lib.optionals isWorkstation [ inputs.chaotic.nixosModules.default ])
-        ++ (lib.optionals (desktop != null && (isWorkstation || isIso)) [
-          inputs.flatpaks.nixosModules.default
-        ])
-        ++ (lib.optionals (desktop == "hyprvibe") [ inputs.hyprvibe.nixosModules.default ])
-        ++ (lib.optional includeDisks ../nixos/${systemType}/${hostname}/disks.nix)
-        ++ extraModules;
+      }
+      // extraSpecialArgs;
+      modules = [
+        ../nixos
+        (import ./cache-settings.nix (specialArgs // { isDeterminateNix = determinate; }))
+      ]
+      ++ (lib.optionals withAgenix [
+        inputs.agenix.nixosModules.default
+        agenixOverlaysModule
+      ])
+      ++ (lib.optionals withHandy [ inputs.handy.nixosModules.default ])
+      ++ (lib.optionals withOverlays [ overlaysModule ])
+      ++ (lib.optionals (installer != null) [ installer ])
+      ++ (lib.optionals isWorkstation [ inputs.chaotic.nixosModules.default ])
+      ++ (lib.optionals (desktop != null && (isWorkstation || isIso)) [
+        inputs.flatpaks.nixosModules.default
+      ])
+      ++ (lib.optionals (desktop == "hyprvibe") [ inputs.hyprvibe.nixosModules.default ])
+      ++ (lib.optional includeDisks ../nixos/${systemType}/${hostname}/disks.nix)
+      ++ extraModules;
     };
 
   mkDarwin =
@@ -180,29 +176,29 @@ in
           ;
         adminGroup = "@admin";
         isDeterminateNix = determinate;
-      } // extraSpecialArgs;
-      modules =
-        [
-          ../darwin
-          (import ./cache-settings.nix (
-            specialArgs
-            // {
-              isDeterminateNix = determinate;
-              isDarwin = true;
-            }
-          ))
-        ]
-        ++ (lib.optionals withHomeManager [
-          inputs.home-manager.darwinModules.home-manager
-          outputs.darwinModules.default
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
+      }
+      // extraSpecialArgs;
+      modules = [
+        ../darwin
+        (import ./cache-settings.nix (
+          specialArgs
+          // {
+            isDeterminateNix = determinate;
+            isDarwin = true;
           }
-        ])
-        ++ (lib.optionals withOverlays [ overlaysModule ])
-        ++ (lib.optionals determinate [ inputs.determinate.darwinModules.default ])
-        ++ extraModules;
+        ))
+      ]
+      ++ (lib.optionals withHomeManager [
+        inputs.home-manager.darwinModules.home-manager
+        outputs.darwinModules.default
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+        }
+      ])
+      ++ (lib.optionals withOverlays [ overlaysModule ])
+      ++ (lib.optionals determinate [ inputs.determinate.darwinModules.default ])
+      ++ extraModules;
     };
 
   mkSdImage =
