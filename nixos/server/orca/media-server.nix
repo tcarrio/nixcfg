@@ -39,8 +39,8 @@ in
   services.caddy = {
     enable = true;
     package = pkgs.caddy.withPlugins {
-      plugins = [ "github.com/caddy-dns/cloudflare@v0.2.1" ];
-      hash = "sha256-F7d4HwM4oCkQrFMr4SFSC0r52ONxY+PW6z5BJawW8Ok=";
+      plugins = [ "github.com/caddy-dns/cloudflare@v0.2.4" ];
+      hash = "sha256-7GoH8YLCoPmPExQxoga2FHB58zQDoZVf1BBwkVi0SsQ=";
     };
     virtualHosts."${external_domain}".extraConfig = ''
       tls {
@@ -52,8 +52,9 @@ in
 
   systemd.services.caddy = {
     serviceConfig.EnvironmentFile = config.age.secrets.cloudflare-dns-verification.path;
-    after = [ "agenix-cloudflare-dns-verification.service" ];
-    wants = [ "agenix-cloudflare-dns-verification.service" ];
+    # No ordering deps on agenix units: current agenix installs secrets via
+    # activation scripts (agenixInstall) or agenix-install-secrets.service,
+    # both of which complete before regular services start.
   };
 
   networking.firewall = {
