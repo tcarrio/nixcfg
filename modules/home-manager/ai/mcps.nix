@@ -62,10 +62,6 @@ let
     }
   );
 
-  ### MCP Server configuration file ###
-  mcpJsonText = builtins.toJSON {
-    inherit mcpServers;
-  };
   mcpServers =
     { }
     // (optionalAttrs cfg.servers.llms-docs.enable llmWrappers)
@@ -78,7 +74,17 @@ let
       serena = {
         command = "${cfg.serena.pkg}/bin/serena start-mcp-server";
       };
+    })
+    // (optionalAttrs cfg.servers.nixos.enable {
+      nixos = {
+        command = "${cfg.servers.nixos.pkg}/bin/mcp-nixos";
+      };
     });
+
+  ### MCP Server configuration file ###
+  mcpJsonText = builtins.toJSON {
+    inherit mcpServers;
+  };
 
   packages = [ ]
   # // (optional cfg.serena.enable cfg.serena.pkg)
@@ -127,6 +133,14 @@ in
           type = types.package;
           default = pkgs.unstable.serena;
           description = "The package to use for the Serena MCP server. Will invoke $pkg/bin/serena";
+        };
+      };
+      nixos = {
+        enable = mkEnableOption "Enables the mcp-nixos MCP server integration";
+        pkg = mkOption {
+          type = types.package;
+          default = pkgs.mcp-nixos;
+          description = "The package to use for the mcp-nixos MCP server. Will invoke $pkg/bin/mcp-nixos";
         };
       };
     };
