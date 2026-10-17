@@ -18,10 +18,9 @@ in
     enable = true;
     inherit dataDir;
     group = "media-server";
-    # Plain HTTP port for tailnet and LAN clients. Transport is encrypted by
-    # WireGuard on tailnet; application-layer TLS terminates at Caddy for
-    # ${external_domain} via Cloudflare DNS-01 certificates.
-    openFirewall = true;
+    # Port 8096 stays closed. All clients reach Jellyfin through Caddy at
+    # ${external_domain} (HTTPS via Cloudflare DNS-01) on LAN and tailnet.
+    openFirewall = false;
   };
 
   # Securely mount Age secret for Cloudflare DNS verification config.

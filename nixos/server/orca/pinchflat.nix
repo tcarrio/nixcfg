@@ -14,9 +14,9 @@ in
     # ZFS dataset zroot/media-youtube, created out of band (see repo docs on
     # ZFS management follow-up). Jellyfin reads it via the media-server group.
     mediaDir = "/media/youtube";
-    # Direct tailnet/LAN access on orca:8945; ${external_domain} arrives via
-    # Caddy below.
-    openFirewall = true;
+    # Port 8945 stays closed. All clients reach Pinchflat through Caddy at
+    # ${external_domain} (HTTPS via Cloudflare DNS-01) on LAN and tailnet.
+    openFirewall = false;
     # Shared group with Jellyfin (gid 1300) so its library scans can read
     # the downloaded media.
     group = "media-server";

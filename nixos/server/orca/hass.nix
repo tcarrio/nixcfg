@@ -2,6 +2,9 @@
 let
   localhost = "127.0.0.1";
 
+  hass_domain = "hass.carrio.me";
+  z2m_domain = "z2m.carrio.me";
+
   Z2M_PORT = config.services.zigbee2mqtt.settings.frontend.port;
   Z2M_PORT_STR = toString Z2M_PORT;
   HASS_PORT = config.services.home-assistant.port;
@@ -191,6 +194,11 @@ in
       };
     };
   };
+  # Tailnet-named vhosts and Tailscale serve endpoints are gone: every
+  # service is exposed exclusively as ${hass_domain} / ${z2m_domain} through
+  # Caddy, with Cloudflare DNS-01 certificates (token wired in
+  # media-server.nix). Service ports (8123, 9807) stay closed in the firewall;
+  # both daemons bind localhost only.
   # Enable and set up Home Assistant on PostgreSQL
   # services.postgresql = {
   #   enable = true;
@@ -210,13 +218,16 @@ in
   };
   services.caddy = {
     enable = true;
-    virtualHosts."orca.griffin-cobra.ts.net".extraConfig = ''
+    virtualHosts."${hass_domain}".extraConfig = ''
+      tls {
+        dns cloudflare {env.CLOUDFLARE_DNS_API_TOKEN}
+      }
       reverse_proxy ${localhost}:${HASS_PORT_STR}
     '';
-    virtualHosts."hass.griffin-cobra.ts.net".extraConfig = ''
-      reverse_proxy ${localhost}:${HASS_PORT_STR}
-    '';
-    virtualHosts."z2m.griffin-cobra.ts.net".extraConfig = ''
+    virtualHosts."${z2m_domain}".extraConfig = ''
+      tls {
+        dns cloudflare {env.CLOUDFLARE_DNS_API_TOKEN}
+      }
       reverse_proxy ${localhost}:${Z2M_PORT_STR}
     '';
   };
@@ -236,26 +247,6 @@ in
   #   };
   # };
   networking.firewall.allowedTCPPorts = [ 443 ];
-  services.tailscale = {
-    # Allow Caddy to generate certificates
-    permitCertUid = "caddy";
-
-    serve.enable = true;
-    serve.services = {
-      z2m = {
-        endpoints = {
-          "tcp:443" = "http://localhost:${Z2M_PORT_STR}";
-        };
-        advertised = true;
-      };
-      hass = {
-        endpoints = {
-          "tcp:443" = "http://localhost:${HASS_PORT_STR}";
-        };
-        advertised = true;
-      };
-    };
-  };
   # Ensure the Caddy server starts after Tailscale authentication
   systemd.services.caddy.after = [ "tailscaled-autoconnect.service" ];
 
