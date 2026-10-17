@@ -86,6 +86,44 @@ let
     inherit mcpServers;
   };
 
+  ### Claude Code MCP configuration ###
+  # Claude Code stores user-scope MCP servers inside ~/.claude.json, a file
+  # it rewrites at runtime. Declarative home.file management would conflict,
+  # so an activation script merges the managed servers in with jq and only
+  # ever touches keys this module manages. A manifest of previously managed
+  # server names lets later activations remove servers that were disabled.
+  mergeClaudeMcpScript = pkgs.writeShellScript "merge-claude-mcp" ''
+    set -eou pipefail
+    CLAUDE_CONFIG="$HOME/.claude.json"
+    CLAUDE_HOME="$HOME/.claude"
+    MANIFEST="$CLAUDE_HOME/mcp-managed-servers.json"
+    MANAGED='${builtins.toJSON mcpServers}'
+    CURRENT_NAMES='${builtins.toJSON (builtins.attrNames mcpServers)}'
+
+    mkdir -p "$CLAUDE_HOME"
+
+    PREVIOUS_NAMES="[]"
+    if [ -f "$MANIFEST" ]; then
+      PREVIOUS_NAMES="$(cat "$MANIFEST")"
+    fi
+
+    if [ ! -f "$CLAUDE_CONFIG" ]; then
+      printf '{"mcpServers":%s}' "$MANAGED" > "$CLAUDE_CONFIG"
+    else
+      TMP_CONFIG="$(mktemp)"
+      ${pkgs.jq}/bin/jq \
+        --argjson managed "$MANAGED" \
+        --argjson previous "$PREVIOUS_NAMES" \
+        '(.mcpServers // {}) as $existing
+         | ($existing | with_entries(select(.key as $k | ($previous | index($k)) == null))) as $pruned
+         | .mcpServers = ($pruned * $managed)' \
+        "$CLAUDE_CONFIG" > "$TMP_CONFIG"
+      mv "$TMP_CONFIG" "$CLAUDE_CONFIG"
+    fi
+
+    printf '%s' "$CURRENT_NAMES" > "$MANIFEST"
+  '';
+
   packages = [ ]
   # // (optional cfg.serena.enable cfg.serena.pkg)
   # // (optional cfg.github.enable githubMcpServer);
@@ -104,6 +142,9 @@ in
       };
       cursor = {
         enable = mkEnableOption "Enables the ~/.cursor/mcp.json output config file for Cursor";
+      };
+      claude = {
+        enable = mkEnableOption "Enables the user-scope mcpServers merge into ~/.claude.json for Claude Code";
       };
     };
     servers = {
@@ -155,6 +196,11 @@ in
     })
     // (lib.mkIf cfg.targets.cursor.enable {
       home.file.".cursor/mcp.json".text = mcpJsonText;
+    })
+    // (lib.mkIf cfg.targets.claude.enable {
+      home.activation.mergeClaudeMcpConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+        $DRY_RUN_CMD ${mergeClaudeMcpScript}
+      '';
     })
   );
 }
