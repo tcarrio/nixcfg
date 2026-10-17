@@ -118,6 +118,11 @@ Available through `pkgs` in configurations:
 - All systems use systemd-boot or GRUB for booting
 - Cross-compilation supported for building across architectures
 
+### Service Exposure Pattern
+- Services exposed as `<service>.carrio.me` through Caddy (HTTPS only, Cloudflare DNS-01 certs, agenix token), daemons on localhost, service ports closed
+- DNS tiers (tailnet/localnet/internet) defined in `docs/network/caddy-dns-tiers.md`
+- Default: NOT internet-accessible — no public DNS record unless explicitly decided
+
 ## Testing and Validation
 
 - No formal test framework - validation through successful rebuilds
