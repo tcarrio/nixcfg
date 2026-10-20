@@ -35,6 +35,7 @@ in
     ./media-server.nix
     ./pinchflat.nix
     ./stirling-pdf.nix
+    ./trek.nix
     ../../mixins/hardware/grub-legacy-boot.nix
     # "${inputs.nixpkgs-unstable}/nixos/modules/services/home-automation/home-assistant.nix"
   ];
