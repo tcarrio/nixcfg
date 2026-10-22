@@ -1,6 +1,6 @@
 { pkgs, lib, ... }:
 pkgs.writeShellApplication {
-  name = "worktree-cli";
+  name = "wt";
   text = lib.readFile ./wt.sh;
   runtimeInputs = with pkgs; [
     git
