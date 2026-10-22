@@ -181,6 +181,9 @@ let
         url="$(resolve_url "$pkg")"
         # runtime substitution of the ubuntu_version placeholder
         url="''${url//\$\{ubuntu_version\}/$ubuntu_version}"
+        # awk reads the whole stream; `grep -q` closing the pipe early would SIGPIPE
+        # apt-cache and fail the pipeline under pipefail on longer version tables
+        candidate="$(/usr/bin/apt-cache policy "$pkg" 2>/dev/null | /usr/bin/awk '/Candidate:/ { print $2 }')"
         if [ -n "$url" ]; then
           echo ">> $pkg: downloading $url"
           deb="$(mktemp --suffix=.deb)"
@@ -189,7 +192,7 @@ let
           # from the configured repositories
           /usr/bin/sudo /usr/bin/apt-get -o DPkg::Lock::Timeout=120 install -y "$deb"
           rm -f "$deb"
-        elif /usr/bin/apt-cache policy "$pkg" 2>/dev/null | /usr/bin/grep -q "Candidate:"; then
+        elif [ -n "$candidate" ] && [ "$candidate" != "(none)" ]; then
           echo ">> $pkg: installing from configured apt repositories"
           /usr/bin/sudo /usr/bin/apt-get -o DPkg::Lock::Timeout=120 install -y "$pkg"
         else
