@@ -27,12 +27,18 @@ let
     "terminal.integrated.fontSize" = 12;
     "terminal.integrated.fontFamily" =
       "'Ubuntu Mono derivative Powerline', 'CaskaydiaMono Nerd Font Propo', 'Droid Sans Mono', 'monospace', monospace";
-    "workbench.colorTheme" = "Terafox";
+    "workbench.colorTheme" = cfg.colorTheme;
   };
 in
 {
   options.oxc.desktop.vscode = {
     enable = lib.mkEnableOption "VS Code user settings management (works for any VS Code install, incl. deb)";
+
+    colorTheme = lib.mkOption {
+      type = lib.types.str;
+      default = "Terafox";
+      description = "Value of workbench.colorTheme in the default settings preset (the theme label as VS Code lists it)";
+    };
 
     settings = lib.mkOption {
       type = lib.types.attrs;
