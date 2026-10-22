@@ -49,10 +49,20 @@ let
       lib.concatStringsSep " " (repo.suites ++ repo.components)
     }";
 
+  # apt preferences entry pinning every package from the repository's host,
+  # e.g. so a vendor build outranks a distro transitional package.
+  repoHost = repo: builtins.head (builtins.match "[a-z]+://([^/:]+).*" repo.url);
+  repoPinContent = repo: ''
+    Package: *
+    Pin: origin ${repoHost repo}
+    Pin-Priority: ${toString repo.pinPriority}
+  '';
+
   repoSetup = lib.concatStringsSep "\n" (
     lib.mapAttrsToList (
       name: repo:
       "ensure_repo ${lib.escapeShellArg name} ${lib.escapeShellArg "${repoKeyring name repo}"} ${lib.escapeShellArg (repoSourcesLine name repo)}"
+      + lib.optionalString (repo.pinPriority != null) "\nensure_pin ${lib.escapeShellArg name} ${lib.escapeShellArg (repoPinContent repo)}"
     ) cfg.repositories
   );
 
@@ -130,6 +140,16 @@ let
         if [ ! -f "$sources_dst" ] || ! printf '%s\n' "$sources_line" | /usr/bin/cmp -s - "$sources_dst"; then
           echo ">> repo $name: writing $sources_dst"
           printf '%s\n' "$sources_line" | /usr/bin/sudo /usr/bin/tee "$sources_dst" >/dev/null
+          REPO_CHANGED=1
+        fi
+      }
+      # Same cmp-guarded pattern for /etc/apt/preferences.d/<name>.pref
+      ensure_pin() {
+        local name="$1" content="$2"
+        local pref_dst="/etc/apt/preferences.d/''${name}.pref"
+        if [ ! -f "$pref_dst" ] || ! printf '%s\n' "$content" | /usr/bin/cmp -s - "$pref_dst"; then
+          echo ">> repo $name: writing $pref_dst"
+          printf '%s\n' "$content" | /usr/bin/sudo /usr/bin/tee "$pref_dst" >/dev/null
           REPO_CHANGED=1
         fi
       }
@@ -244,6 +264,17 @@ in
               type = lib.types.listOf lib.types.str;
               default = [ "main" ];
               description = "Components (e.g. [ \"main\" ])";
+            };
+            pinPriority = lib.mkOption {
+              type = lib.types.nullOr lib.types.int;
+              default = null;
+              example = 1000;
+              description = ''
+                When set, writes /etc/apt/preferences.d/<name>.pref pinning all
+                packages from this repository's host at the given priority.
+                Use 1000 so a vendor package wins over a same-named distro
+                package (apt then also installs it when its version is lower).
+              '';
             };
             key = {
               text = lib.mkOption {
