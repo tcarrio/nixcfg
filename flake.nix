@@ -516,6 +516,7 @@
                 nixvim
                 uv2nixLib
                 ;
+              nixcfgSource = self;
             };
           in
           (lib.optionalAttrs (system == "x86_64-linux") {
@@ -566,6 +567,9 @@
     # same time. See 'unstable-packages' overlay in 'overlays/default.nix'.
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-trunk.url = "github:nixos/nixpkgs/master";
+    # TEMPORARY: security-patch requirement (nodejs_24 24.22.1 is on staging, not
+    # yet on master). Remove once it reaches master via staging-next.
+    nixpkgs-staging.url = "github:nixos/nixpkgs/staging";
 
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";

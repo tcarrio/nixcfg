@@ -29,6 +29,7 @@ in
         inherit inputs;
         nixvim = args.nixvim or inputs.nixvim;
         bun2nix = args.bun2nix or inputs.bun2nix;
+        nixcfgSource = args.nixcfgSource or self;
       }
     );
 

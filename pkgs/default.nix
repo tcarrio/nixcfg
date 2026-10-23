@@ -10,6 +10,7 @@
   nixvim ? null,
   uv2nixLib ? null,
   mkStandardBun ? null,
+  nixcfgSource ? null,
   ...
 }:
 {
@@ -27,6 +28,14 @@
   qq-cli = pkgs.callPackage ./qq-cli.nix { };
   worktree-cli = pkgs.callPackage ./worktree-cli/default.nix { };
 }
+// (
+  if nixcfgSource != null then
+    {
+      devshell-for = pkgs.callPackage ./devshell-for.nix { inherit nixcfgSource; };
+    }
+  else
+    { }
+)
 // (
   if mkStandardBun != null then
     {

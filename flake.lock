@@ -1173,6 +1173,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-staging": {
+      "locked": {
+        "lastModified": 1792767213,
+        "narHash": "sha256-d1F+Czhg2pm3V6DZtJXc5zuokzYb8UHb62lLCaaAyn8=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "00c30e69273f1242704d2da56dea6b77eda45d69",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "staging",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-trunk": {
       "locked": {
         "lastModified": 1792767753,
@@ -1539,6 +1555,7 @@
         "nixos-generators": "nixos-generators",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_8",
+        "nixpkgs-staging": "nixpkgs-staging",
         "nixpkgs-trunk": "nixpkgs-trunk",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nixvim": "nixvim",

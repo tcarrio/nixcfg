@@ -10,6 +10,7 @@
   nixvim ? null,
   bun2nix ? null,
   python ? null,
+  nixcfgSource ? null,
   ...
 }:
 {
@@ -39,7 +40,7 @@
 
       customPkgs = import ../pkgs {
         pkgs = final;
-        inherit nixvim;
+        inherit nixvim nixcfgSource;
         inherit mkStandardBun;
         inherit uv2nixLib;
       };
