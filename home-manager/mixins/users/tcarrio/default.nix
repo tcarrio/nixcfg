@@ -60,7 +60,7 @@ in
       nixd
       # slumber # REST client TUI
       # trash-cli # trash CLI
-      typescript-go
+      typescript
     ];
   };
 

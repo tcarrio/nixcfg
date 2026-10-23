@@ -151,7 +151,7 @@ in
         # Rebuild NixOS servers remotely from this host
         nixos-rebuild-ng
       ])
-      ++ (with pkgs.unstable; [ typescript-go ]);
+      ++ (with pkgs.unstable; [ typescript ]);
   };
 
   programs.fish = {

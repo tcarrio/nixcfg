@@ -144,7 +144,7 @@ in
       gitleaks
       gum
       nixd
-      typescript-go
+      typescript
     ])
     ++ (with pkgs; [
       lazydocker
