@@ -120,9 +120,11 @@ Two upstream behaviors to know:
 WOPI split: OxiCloud is the WOPI **host** (file storage); Collabora Online
 (`collabora.nix`) is the WOPI **client** (editor). Chosen because
 `services.collabora-online` is a maintained native NixOS module and it is
-the editor OxiCloud's own `docker-compose.wopi.yml` targets. OnlyOffice is
-the upstream alternative (`WOPI_ENABLED=true`) but has no comparable
-NixOS module.
+the editor OxiCloud's own `docker-compose.wopi.yml` targets. OnlyOffice
+DocumentServer is the main alternative — also a native NixOS module
+(`services.onlyoffice.*`, incl. `wopi = true`), with better MS Office
+fidelity but a heavier stack (own postgres database, RabbitMQ, bundled
+nginx, JWT secret).
 
 | Piece | Value |
 | --- | --- |
