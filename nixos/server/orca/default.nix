@@ -37,6 +37,7 @@ in
     ./media-server.nix
     ./pinchflat.nix
     ./oxicloud.nix
+    ./paperless.nix
     ./ports.nix
     ./stirling-pdf.nix
     ./trek.nix

@@ -21,6 +21,9 @@ _: {
     oxicloud = 8086; # oxicloud.nix
     jellyfin = 8096; # media-server.nix — module hardcodes 8096, no port option
     pinchflat = 8945; # pinchflat.nix
+    paperless = 8300; # paperless.nix — web
+    gotenberg = 8301; # paperless.nix — module default 3000 collides with trek
+    tika = 9998; # paperless.nix
     home-assistant = 8123; # hass.nix
     mosquitto = 1883; # hass.nix
     zigbee2mqtt = 9807; # hass.nix
