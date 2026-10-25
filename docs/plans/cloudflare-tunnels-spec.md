@@ -14,7 +14,7 @@ design (§4, with corrections noted in the refactor plan §7.4) carry
 over. See `docs/plans/eru-nixcfg-refactor.md`.
 
 Related: `docs/network/caddy-dns-tiers.md` (DNS tier model),
-`docs/CADDY.md` (current HTTPS entry point), `docs/plans/orca-backup-dr-plan.md`.
+`docs/CADDY.md` (current HTTPS entry point), eru `docs/plans/orca-backup-dr-plan.md` (moved with the orca host).
 
 ---
 

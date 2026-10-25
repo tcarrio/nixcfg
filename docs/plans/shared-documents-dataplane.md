@@ -1,7 +1,7 @@
 # Shared Documents Data Plane — Design Plan
 
 Status: **planned — not started** (2026-10-25)
-Companion plan: `orca-backup-dr-plan.md` (datasets/snapshots/offsite). This
+Companion plan: eru `docs/plans/orca-backup-dr-plan.md` (moved with the orca host) (datasets/snapshots/offsite). This
 plan builds on that plan's `oxc.zfs.datasets` module; implementing this
 first requires at least its Phase 1 (dataset management) to exist.
 This file is a complete handoff: a fresh agent with empty context can
