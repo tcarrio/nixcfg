@@ -1,9 +1,17 @@
 # Cloudflare Tunnels + Access on Orca — Spec & Implementation Plan
 
-Status: **planned — not started** (2026-10-25)
+Status: **planned — partially superseded** (2026-10-25)
 Scope: high-level goal for internet-tier exposure of orca services via
 Cloudflare Tunnel, plus the concrete NixOS integration plan. Complete
 handoff document for a fresh, empty-context agent.
+
+**Supersession note (2026-10-25):** orca is moving to the eru repo and
+all Cloudflare-side resources (tunnel, DNS, Access) will be Terranix in
+eru — the §6 "dashboard vs OpenTofU" question and the §8
+dashboard/TF decision are resolved as Terranix-in-eru. IdP: Google.
+First service: dawarich. Architecture (§1, §3) and the NixOS module
+design (§4, with corrections noted in the refactor plan §7.4) carry
+over. See `docs/plans/eru-nixcfg-refactor.md`.
 
 Related: `docs/network/caddy-dns-tiers.md` (DNS tier model),
 `docs/CADDY.md` (current HTTPS entry point), `docs/plans/orca-backup-dr-plan.md`.
