@@ -22,7 +22,13 @@
   # mac-launcher = pkgs.callPackage ./mac-launcher.nix { inherit pkgs; };
   zeit = pkgs.callPackage ./zeit.nix { };
   pug = pkgs.callPackage ./pug.nix { };
-  robovac = pkgs.callPackage ./robovac.nix { };
+  # Built against pkgs.unstable, not pkgs: orca overlays home-assistant from
+  # unstable (hass.nix), and buildHomeAssistantComponent binds the overlaid
+  # HA's python harness. Mixing the 26.05 builder wrapper with unstable's
+  # buildPythonPackage drops `domain` from the derivation attrs, failing
+  # manifestCheckPhase ("Derivation attribute domain (None)"). Unstable's
+  # harness is self-consistent and matches the HA version actually deployed.
+  robovac = pkgs.unstable.callPackage ./robovac.nix { };
   happy-coder = pkgs.callPackage ./happy-coder/package.nix { };
   sri-hash-gh-repo = pkgs.callPackage ./sri-hash-gh-repo.nix { };
   qq-cli = pkgs.callPackage ./qq-cli.nix { };
