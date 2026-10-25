@@ -1,10 +1,13 @@
 {
+  config,
   lib,
   ...
 }:
 let
   external_domain = "oxicloud.carrio.me";
-  port = 8086;
+  # Claimed centrally in ports.nix; the oxc.ports assertion blocks
+  # collisions with other services at eval time.
+  port = config.oxc.ports.oxicloud;
 
   # The image runs the app as uid 1001 ("oxicloud" inside the container).
   # Declaring a matching host user lets the container authenticate to the

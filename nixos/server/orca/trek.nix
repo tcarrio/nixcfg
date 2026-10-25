@@ -4,7 +4,9 @@
 }:
 let
   external_domain = "trek.carrio.me";
-  port = 3000;
+  # Claimed centrally in ports.nix; the oxc.ports assertion blocks
+  # collisions with other services at eval time.
+  port = config.oxc.ports.trek;
 in
 {
   # OCI container (docker.io/mauriceboe/trek). No native NixOS module exists

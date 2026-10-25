@@ -6,6 +6,9 @@
 let
   external_domain = "media.carrio.me";
   dataDir = "/data/media";
+  # Claimed centrally in ports.nix; the oxc.ports assertion blocks
+  # collisions with other services at eval time.
+  port = config.oxc.ports.jellyfin;
 in
 {
   imports = [
@@ -18,8 +21,10 @@ in
     enable = true;
     inherit dataDir;
     group = "media-server";
-    # Port 8096 stays closed. All clients reach Jellyfin through Caddy at
-    # ${external_domain} (HTTPS via Cloudflare DNS-01) on LAN and tailnet.
+    # Port ${toString port} stays closed. All clients reach Jellyfin through
+    # Caddy at ${external_domain} (HTTPS via Cloudflare DNS-01) on LAN and
+    # tailnet. (The jellyfin module has no port option — 8096 is hardcoded
+    # upstream; the claim documents it and feeds the Caddy target below.)
     openFirewall = false;
   };
 
@@ -46,7 +51,7 @@ in
       tls {
         dns cloudflare {env.CLOUDFLARE_DNS_API_TOKEN}
       }
-      reverse_proxy 127.0.0.1:8096
+      reverse_proxy 127.0.0.1:${toString port}
     '';
   };
 

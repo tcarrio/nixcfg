@@ -4,6 +4,9 @@
 }:
 let
   external_domain = "pinchflat.carrio.me";
+  # Claimed centrally in ports.nix; the oxc.ports assertion blocks
+  # collisions with other services at eval time.
+  port = config.oxc.ports.pinchflat;
 in
 {
   # Native NixOS module (nixpkgs 26.05). State lives in /var/lib/pinchflat.
@@ -14,8 +17,10 @@ in
     # ZFS dataset zroot/media-youtube, created out of band (see repo docs on
     # ZFS management follow-up). Jellyfin reads it via the media-server group.
     mediaDir = "/media/youtube";
-    # Port 8945 stays closed. All clients reach Pinchflat through Caddy at
-    # ${external_domain} (HTTPS via Cloudflare DNS-01) on LAN and tailnet.
+    inherit port;
+    # The service port stays closed. All clients reach Pinchflat through
+    # Caddy at ${external_domain} (HTTPS via Cloudflare DNS-01) on LAN and
+    # tailnet.
     openFirewall = false;
     # Shared group with Jellyfin (gid 1300) so its library scans can read
     # the downloaded media.
@@ -43,6 +48,6 @@ in
     tls {
       dns cloudflare {env.CLOUDFLARE_DNS_API_TOKEN}
     }
-    reverse_proxy 127.0.0.1:8945
+    reverse_proxy 127.0.0.1:${toString port}
   '';
 }

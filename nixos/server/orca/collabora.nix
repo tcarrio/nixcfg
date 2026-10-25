@@ -1,9 +1,15 @@
-_:
+{
+  config,
+  ...
+}:
 let
   external_domain = "office.carrio.me";
   oxicloud_domain = "oxicloud.carrio.me";
+  # Claimed centrally in ports.nix; the oxc.ports assertion blocks
+  # collisions with other services at eval time.
+  port = config.oxc.ports.collabora;
   # Loopback publish of the OxiCloud container (see oxicloud.nix).
-  oxicloud_internal = "http://127.0.0.1:8086";
+  oxicloud_internal = "http://127.0.0.1:${toString config.oxc.ports.oxicloud}";
 in
 {
   # Native NixOS Collabora Online (CODE) — the WOPI editor OxiCloud's own
@@ -12,7 +18,7 @@ in
   # web app, so frame_ancestors must allow its origin.
   services.collabora-online = {
     enable = true;
-    port = 9980;
+    inherit port;
 
     # WOPI-host allowlist. OxiCloud hands coolwsd WOPI endpoint URLs on the
     # internal loopback address (OXICLOUD_WOPI_BASE_URL in oxicloud.nix);
@@ -41,6 +47,6 @@ in
     tls {
       dns cloudflare {env.CLOUDFLARE_DNS_API_TOKEN}
     }
-    reverse_proxy 127.0.0.1:9980
+    reverse_proxy 127.0.0.1:${toString port}
   '';
 }

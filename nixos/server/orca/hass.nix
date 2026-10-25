@@ -24,6 +24,9 @@ in
   # NixOS Home Assistant service
   services.home-assistant = {
     enable = true;
+    # Claimed centrally in ports.nix; the oxc.ports assertion blocks
+    # collisions with other services at eval time.
+    port = config.oxc.ports.home-assistant;
     extraComponents = [
       # Components required to complete the onboarding
       "analytics"
@@ -165,6 +168,7 @@ in
     listeners = [
       {
         address = localhost;
+        port = config.oxc.ports.mosquitto;
         acl = [ "pattern readwrite #" ];
         settings.allow_anonymous = true;
       }
@@ -190,7 +194,7 @@ in
       # Web UI on localhost; reach it via `ssh -L ${localPort}:127.0.0.1:8080 orca`.
       frontend = {
         host = localhost;
-        port = 9807;
+        port = config.oxc.ports.zigbee2mqtt;
       };
     };
   };

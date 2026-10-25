@@ -1,7 +1,12 @@
-_:
+{
+  config,
+  ...
+}:
 let
   external_domain = "pdfs.carrio.me";
-  port = 8080;
+  # Claimed centrally in ports.nix; the oxc.ports assertion blocks
+  # collisions with other services at eval time.
+  port = config.oxc.ports.stirling-pdf;
 in
 {
   # Native NixOS module (nixpkgs 26.05). State lives in /var/lib/stirling-pdf.
