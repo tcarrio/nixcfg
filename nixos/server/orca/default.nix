@@ -34,6 +34,7 @@ in
     # ./haos.nix
     ./media-server.nix
     ./pinchflat.nix
+    ./oxicloud.nix
     ./stirling-pdf.nix
     ./trek.nix
     ../../mixins/hardware/grub-legacy-boot.nix
