@@ -1,6 +1,6 @@
 # nixcfg → eru Refactor: Shared Core + carrio.me Cloudflare Migration
 
-Status: **planned — not started** (2026-10-25)
+Status: **phases A+B implemented — cutover pending** (2026-10-25)
 Scope: restructure nixcfg into a shared core consumed by `~/Code/eru`
 (henceforth "eru"), move orca into eru, migrate the `carrio.me` zone
 from the old Cloudflare account to the account eru manages, and land
@@ -91,55 +91,61 @@ nixcfg (shared core)                     eru (org + infra + servers)
 - Tunnel + Access per `cloudflare-tunnels-spec.md` §3 matrix, first
   service dawarich, Google IdP.
 
-## 4. Phase A — nixcfg core extraction
+## 4. Phase A — nixcfg core extraction — IMPLEMENTED (2026-10-25)
 
-1. **Audit orca's imports**: everything `nixos/server/orca/*` pulls
-   from outside its directory (mixins/hardware/grub-legacy-boot, oxc
-   services mixins, `modules/shared` options, overlays, pkgs). This
-   list is the minimum surface eru must be able to import.
-2. **Expose consumable outputs** from nixcfg's flake:
-   `nixosModules` (the mixin trees as importable module lists or a
-   flakeModule), `lib` (the host factory helpers), `overlays`,
-   `packages`. Host construction in `flake.nix` moves to calls
-   against the exposed lib — no behavior change for remaining hosts.
-3. **Keep host metadata in `oxc.*` options** (`modules/shared`), not
-   specialArgs — already the convention; it is what makes cross-flake
-   host building clean (no `inputs`/`hostname` specialArgs leaking
-   into eru).
-4. **Tag a release** (e.g. `core-v0.1`) for eru to pin.
+Implemented shape (differs from the original sketch below in that the
+mkHost helpers were left intact for the remaining hosts rather than
+extracted — orca alone was converted to the consumer pattern):
 
-Exit criteria: eru could `import nixcfg.nixosModules.<x>` and build a
-trivial VM host from them; all existing nixcfg hosts still evaluate.
+- `modules/shared/host.nix` — `oxc.host` options (hostname, username,
+  systemType, desktop, stateVersion); `modules/shared/ssh.nix` —
+  `oxc.ssh.matrix` option defaulting to the repo matrix.
+- `modules/nixos/host-base/` — specialArgs-free base system module
+  (counterpart to `nixos/default.nix`); flake composes input-dependent
+  modules into `nixosModules.host-base` (modules aggregate + disko +
+  vscode-server + NixVirt + handy + nix registry).
+- `nixosModules.hardware-intel-pc`, `grub-legacy-boot`, `media-group`,
+  `users-archon` — composed mixins for consumer host trees.
+- `hosts/orca/` — consumer-shaped host tree; `nixosConfigurations.orca`
+  is a plain `nixosSystem` over the exposed surface, no mkHost.
+- Converted mixins: smartmon/archon/root read `oxc.*` options instead
+  of specialArgs. Parity verified: systemd services, system packages,
+  `oxc.ports`, Caddy vhosts identical to the mkHost build; toplevel
+  evaluates clean on both paths.
+- Original sketch:
+  1. **Audit orca's imports**: everything the host pulls from outside
+     its directory (mixins/hardware/grub-legacy-boot, oxc services
+     mixins, `modules/shared` options, overlays, pkgs).
+  2. **Expose consumable outputs** from nixcfg's flake.
+  3. **Keep host metadata in `oxc.*` options** (`modules/shared`), not
+     specialArgs.
+  4. **Tag a release** (e.g. `core-v0.1`) for eru to pin — STILL
+     PENDING (push + tag after review).
 
-## 5. Phase B — orca moves into eru
+## 5. Phase B — orca moves into eru — IMPLEMENTED (2026-10-25), cutover pending
 
-1. **eru flake inputs**: `nixcfg` (git, pinned to the tag; dev
-   override to local path), nixpkgs following nixcfg's pin,
-   home-manager only if orca's config needs it (currently it does
-   not — server mixin only).
-2. **Host tree**: copy `nixos/server/orca/*` → `hosts/orca/`;
-   rewrite relative imports of mixins/shared modules to nixcfg-input
-   paths. Add `nixosConfigurations.orca` output (flake-parts top-level
-   module; `nixpkgs.lib.nixosSystem` with nixcfg modules + orca tree).
-3. **agenix in eru**: move orca's secret files
-   (`services/acme/cloudflare.age`, `services/pinchflat/env.age`,
-   `services/trek/env.age`, `services/paperless/password.age`, any
-   tunnel credential added in Phase D). Same recipients — orca host
-   key unchanged, files re-encrypted only if the recipient set
-   changes. Add an `agenix` config at eru root; document agenix (NixOS
-   hosts) vs sops (TF/Infisical) split in eru's README.
-4. **Port map**: `oxc.ports` module stays in nixcfg core; orca's
-   `ports.nix` moves with the host.
-5. **Rebuild path**: Taskfile targets (`orca:build`,
-   `orca:switch`) or update `rebuild-host` alias on orca to point at
-   `~/Code/eru#orca`.
-6. **Cutover**: build + switch orca from eru; verify generation
-   parity (services up, Caddy certs renew path intact); then remove
-   orca from nixcfg flake + `secrets/secrets.nix` entries in the same
-   window so there is one source of truth.
-
-Exit criteria: `nixos-rebuild switch --flake ~/Code/eru#orca` works;
-orca absent from nixcfg outputs.
+- eru `flake.nix`: `nixcfg` input (**path** for development — TODO:
+  switch to `github:tcarrio/nixcfg` pinned once pushed) + `agenix`
+  input (follows nixcfg's nixpkgs; darwin/home-manager follows nulled).
+- `modules/hosts.nix` (flake-parts): `nixosConfigurations.orca` =
+  nixosSystem over nixcfg's nixpkgs pin + `nixosModules.host-base` /
+  `hardware-intel-pc` / `grub-legacy-boot` / `media-group` /
+  `users-archon` + agenix + nixcfg overlays + `hosts/orca`.
+- `hosts/orca/` — host tree copied from nixcfg, nixcfg-relative mixin
+  imports removed (composed in `modules/hosts.nix`), rebuild aliases
+  retargeted to `$HOME/Code/eru#orca`.
+- `secrets/` — orca `.age` files copied as-is (same recipient set: no
+  re-encryption needed); `secrets/secrets.nix` agenix rules with the
+  recipient keys inlined (source of truth: nixcfg ssh/age matrices —
+  keep in sync on rotation). agenix CLI added to the devshell.
+- Taskfile: `orca:build`, `orca:switch`, `orca:eval`.
+- Parity verified: systemd services + system packages identical to the
+  nixcfg consumer build; toplevel evaluates clean.
+- **Cutover (pending, on-host)**: clone eru on orca, run
+  `nixos-rebuild switch --flake ~/Code/eru#orca` (or `task orca:switch`),
+  verify services + Caddy cert renewal path, then remove orca from
+  nixcfg (`hosts/orca/`, flake entry, `secrets/secrets.nix` orca
+  entries) so there is one source of truth.
 
 ## 6. Phase C — carrio.me zone migration (old account → new account)
 

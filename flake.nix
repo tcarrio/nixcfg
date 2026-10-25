@@ -147,6 +147,12 @@
             common-pc-ssd
           ];
         };
+
+        # Individual mixins external host trees compose into their builds
+        # (host trees cannot reach nixcfg's mixin directory by path).
+        grub-legacy-boot = import ./nixos/mixins/hardware/grub-legacy-boot.nix;
+        media-group = import ./nixos/mixins/permissions/groups/media.nix;
+        users-archon = import ./nixos/mixins/users/archon;
       };
       homeManagerModules = {
         default = import ./modules/home-manager/default.nix;

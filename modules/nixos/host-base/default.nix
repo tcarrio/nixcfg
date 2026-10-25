@@ -189,7 +189,9 @@ in
         set -U fish_pager_color_progress brwhite '--background=cyan'
       '';
       shellAbbrs = {
-        modify-secret = "pushd $HOME/0xc/nixcfg && agenix -i ~/.ssh/id_rsa -e && popd"; # the path relative to /secrets must be passed without `./`
+        # mkDefault: consumers owning their own agenix secrets override
+        # with their repo path.
+        modify-secret = lib.mkDefault "pushd $HOME/0xc/nixcfg && agenix -i ~/.ssh/id_rsa -e && popd"; # the path relative to /secrets must be passed without `./`
       };
       shellAliases = {
         nix-gc = "sudo nix-collect-garbage --delete-older-than 28d";
