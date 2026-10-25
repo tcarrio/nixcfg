@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  sshMatrix,
   ...
 }:
 let
@@ -28,7 +27,7 @@ in
     hashedPassword = "$6$LDl7IafzpHZXcpKL$ZSQA9vHW/V50TxV9ugzukuJ0HWnQzGiD/3qMf9d1JRtJwfUa2LqYiMUrKqA8Qx6aorbOHW6peYoKYdFF0ue6D.";
     homeMode = "0755";
     isNormalUser = true;
-    openssh.authorizedKeys.keys = sshMatrix.groups.privileged_users;
+    openssh.authorizedKeys.keys = config.oxc.ssh.matrix.groups.privileged_users;
     packages = [ pkgs.home-manager ];
     shell = pkgs.fish;
   };

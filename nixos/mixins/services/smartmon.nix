@@ -1,6 +1,6 @@
 {
-  desktop,
   lib,
+  config,
   pkgs,
   ...
 }:
@@ -11,7 +11,7 @@
       nvme-cli
       smartmontools
     ]
-    ++ lib.optionals (desktop != null) [
+    ++ lib.optionals (config.oxc.host.desktop != null) [
       gsmartcontrol
     ];
 

@@ -107,6 +107,46 @@
         hardware = import ./modules/nixos/hardware/default.nix;
         services = import ./modules/nixos/services/default.nix;
         virt = import ./modules/nixos/virt/default.nix;
+
+        # Fully-composed base for host trees consuming nixcfg as a module
+        # library: the aggregate module tree plus the flake-input modules
+        # every host historically got from mkHost (disko, vscode-server,
+        # NixVirt, handy). Consumers provide their own agenix module and
+        # host tree, then set oxc.host.* metadata. Host metadata arrives
+        # via options, not specialArgs.
+        host-base = {
+          imports = [
+            ./modules/nixos/host-base
+            ./modules/nixos
+            inputs.disko.nixosModules.disko
+            inputs.vscode-server.nixosModules.default
+            inputs.NixVirt.nixosModules.default
+            {
+              _module.args.nixvirtLib = inputs.NixVirt.lib;
+            }
+            inputs.handy.nixosModules.default
+            (
+              { config, lib, ... }:
+              {
+                # Registry of nixcfg's locked inputs so nix3/nix-path commands
+                # on the host stay consistent with the core's pins. Consumers
+                # with their own additional inputs merge theirs on top.
+                nix.registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
+                nix.nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
+              }
+            )
+          ];
+        };
+
+        # Orca's nixos-hardware profile, composed so the host tree needs
+        # no nixos-hardware input of its own.
+        hardware-intel-pc = {
+          imports = with inputs.nixos-hardware.nixosModules; [
+            common-cpu-intel
+            common-pc
+            common-pc-ssd
+          ];
+        };
       };
       homeManagerModules = {
         default = import ./modules/home-manager/default.nix;
@@ -385,10 +425,23 @@
           username = "archon";
         };
 
-        orca = libx.mkHost {
-          systemType = "server";
-          hostname = "orca";
-          username = "archon";
+        # Consumer-shaped orca: plain nixosSystem over the exposed module
+        # surface (nixosModules.host-base + hardware-intel-pc), no mkHost,
+        # no specialArgs. Identical composition to what an external flake
+        # (eru) uses to build this host — the pattern hosts/orca proves.
+        orca = nixpkgs.lib.nixosSystem {
+          modules = [
+            outputs.nixosModules.host-base
+            outputs.nixosModules.hardware-intel-pc
+            inputs.agenix.nixosModules.default
+            {
+              nixpkgs.overlays = [ inputs.agenix.overlays.default ];
+            }
+            {
+              nixpkgs.overlays = builtins.attrValues outputs.overlays;
+            }
+            ./hosts/orca
+          ];
         };
 
         phoenix = libx.mkHost {

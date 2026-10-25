@@ -62,7 +62,9 @@ let
     lib.mapAttrsToList (
       name: repo:
       "ensure_repo ${lib.escapeShellArg name} ${lib.escapeShellArg "${repoKeyring name repo}"} ${lib.escapeShellArg (repoSourcesLine name repo)}"
-      + lib.optionalString (repo.pinPriority != null) "\nensure_pin ${lib.escapeShellArg name} ${lib.escapeShellArg (repoPinContent repo)}"
+      + lib.optionalString (
+        repo.pinPriority != null
+      ) "\nensure_pin ${lib.escapeShellArg name} ${lib.escapeShellArg (repoPinContent repo)}"
     ) cfg.repositories
   );
 
