@@ -115,6 +115,44 @@ Two upstream behaviors to know:
   worse than no start). Test the whole chain via the `notify_selftest`
   job in the admin panel.
 
+## WOPI office editing (Collabora)
+
+WOPI split: OxiCloud is the WOPI **host** (file storage); Collabora Online
+(`collabora.nix`) is the WOPI **client** (editor). Chosen because
+`services.collabora-online` is a maintained native NixOS module and it is
+the editor OxiCloud's own `docker-compose.wopi.yml` targets. OnlyOffice is
+the upstream alternative (`WOPI_ENABLED=true`) but has no comparable
+NixOS module.
+
+| Piece | Value |
+| --- | --- |
+| Editor | native `services.collabora-online`, coolwsd on `127.0.0.1:9980` |
+| Public URL | `https://office.carrio.me` via Caddy (Cloudflare DNS-01) |
+| TLS | terminated at Caddy (`ssl.enable=false`, `ssl.termination=true`) |
+| Host allowlist | alias group: `http://127.0.0.1:8086` aliased to `https://oxicloud.carrio.me` |
+| Iframe embed | `net.frame_ancestors = https://oxicloud.carrio.me` |
+
+Three URL flows, each avoiding public-DNS hairpin NAT:
+
+1. **Browser → editor iframe**: `office.carrio.me` through normal DNS tiers.
+2. **OxiCloud container → discovery fetch**: `--add-host=office.carrio.me:172.17.0.1`
+   pins the vhost to the docker bridge gateway, so the container fetches
+   `https://office.carrio.me/hosting/discovery` through host Caddy — valid
+   cert, and the preserved Host header makes discovery advertise
+   browser-reachable `office.carrio.me` action URLs.
+3. **Collabora → OXiCloud WOPI callbacks**: `OXICLOUD_WOPI_BASE_URL=http://127.0.0.1:8086`
+   (coolwsd runs on the host; the container's loopback publish is directly
+   reachable). Always set it together with `OXICLOUD_WOPI_PUBLIC_BASE_URL`
+   (upstream contract: the browser host page falls back to BASE_URL alone).
+
+Env vars set in the module: `OXICLOUD_WOPI_ENABLED=true`,
+`OXICLOUD_WOPI_DISCOVERY_URL`, `OXICLOUD_WOPI_PUBLIC_BASE_URL`,
+`OXICLOUD_WOPI_BASE_URL`. `OXICLOUD_WOPI_SECRET` deliberately unset — falls
+back to the auto-generated JWT secret persisted in the storage volume.
+
+DNS: `office.carrio.me` needs a Cloudflare record at the same tier as
+`oxicloud.carrio.me` (out of band).
+
 ## Operations
 
 ```bash

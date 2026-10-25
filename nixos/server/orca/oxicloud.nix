@@ -64,6 +64,19 @@ in
       # host = unix socket directory (libpq/SQLx convention). Set via `-e`
       # so it overrides the image's built-in ENV default.
       OXICLOUD_DB_CONNECTION_STRING = "postgres://oxicloud@%2Frun%2Fpostgresql/oxicloud";
+
+      # WOPI editing via Collabora (collabora.nix). Discovery is fetched
+      # server-side: --add-host below pins office.carrio.me to the host
+      # gateway so the container reaches Caddy without depending on
+      # public-DNS hairpin NAT. BASE_URL is the address coolwsd (on the
+      # host) uses to call back into /wopi/* — the container's loopback
+      # publish, per the OXICLOUD_WOPI_BASE_URL contract (set both it and
+      # the public URL). The WOPI token secret falls back to the
+      # auto-generated persisted JWT secret.
+      OXICLOUD_WOPI_ENABLED = "true";
+      OXICLOUD_WOPI_DISCOVERY_URL = "https://office.carrio.me/hosting/discovery";
+      OXICLOUD_WOPI_PUBLIC_BASE_URL = "https://${external_domain}";
+      OXICLOUD_WOPI_BASE_URL = "http://127.0.0.1:${toString port}";
     };
 
     volumes = [
@@ -84,6 +97,10 @@ in
       "--cap-add=CHOWN"
       "--cap-add=SETUID"
       "--cap-add=SETGID"
+      # Resolve the Collabora vhost to the docker bridge gateway: the
+      # container fetches WOPI discovery through host Caddy (valid cert,
+      # correct Host header) instead of relying on public DNS hairpin.
+      "--add-host=office.carrio.me:172.17.0.1"
     ];
   };
 
