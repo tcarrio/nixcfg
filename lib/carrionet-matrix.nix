@@ -7,15 +7,15 @@
 #   eufy-homebase-2:  8C:85:80:A3:39:8A  (Eufy-T8010)
 #   glass/obsidian:   70:85:C2:FE:75:7D  (same device, both names)
 #   hpea4c0f:         F4:30:B9:EA:4C:0F
-#   nuc0-nuc9:        f4:4d:30:61:9b:19 .. see nixos/server/NUC.md
+#   nuc0-nuc9:        f4:4d:30:61:9b:19 .. see the NUC profile header in
+#                     the eru repo (hosts/profiles/nuc.nix)
 #
 # Not managed by this flake:
 #   nas-ds418-00: Synology DS418, two reserved IPv4 addresses
 #   eufy-homebase-2, glass/obsidian, hpea4c0f: appliances/other systems
 #
-# NOTE: NUC configs (nixos/server/nuc*/default.nix, NUC.md) still pin the
-# old 192.168.40.0/24 subnet; MACs match the new 192.168.1.2xx reservations
-# below. Update those configs when the NUCs are reprovisioned.
+# NOTE: NUC host configs now live in the eru repo and consume these
+# 192.168.1.2xx reservations directly via oxc.carrionet.hosts.
 {
   "eufy-homebase-2" = [ "192.168.1.23" ];
   "glass" = [ "192.168.1.120" ];

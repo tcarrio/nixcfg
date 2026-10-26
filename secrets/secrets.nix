@@ -64,25 +64,14 @@ in
   "users/tcarrio/ssh.age" = mkPublicKeys [ ];
   "services/netbird/token.age" = mkPublicKeys autoMeshSystems;
   "services/tailscale/token.age" = mkPublicKeys autoMeshSystems;
-  "services/acme/cloudflare.age" = mkPublicKeys [ systems.orca.host ];
-  "services/pinchflat/env.age" = mkPublicKeys [ systems.orca.host ];
-  "services/trek/env.age" = mkPublicKeys [ systems.orca.host ];
-  "services/paperless/password.age" = mkPublicKeys [ systems.orca.host ];
+  # orca's service secrets now live in the eru repo (eru/secrets);
+  # hosts migrating to eru carry their secrets there.
   "services/hoarder/env.age" = mkPublicKeys [ ];
 
   "network-shares/ds418/smb.conf.age" = mkPublicKeys [ ];
 
-  # primarily maintained via agenix for convenience of scripting automations
-  "hosts/nuc0/ssh_host_ed25519_key.age" = mkPublicKeys [ ];
-  "hosts/nuc1/ssh_host_ed25519_key.age" = mkPublicKeys [ ];
-  "hosts/nuc2/ssh_host_ed25519_key.age" = mkPublicKeys [ ];
-  "hosts/nuc3/ssh_host_ed25519_key.age" = mkPublicKeys [ ];
-  "hosts/nuc4/ssh_host_ed25519_key.age" = mkPublicKeys [ ];
-  "hosts/nuc5/ssh_host_ed25519_key.age" = mkPublicKeys [ ];
-  "hosts/nuc6/ssh_host_ed25519_key.age" = mkPublicKeys [ ];
-  "hosts/nuc7/ssh_host_ed25519_key.age" = mkPublicKeys [ ];
-  "hosts/nuc8/ssh_host_ed25519_key.age" = mkPublicKeys [ ];
-  "hosts/nuc9/ssh_host_ed25519_key.age" = mkPublicKeys [ ];
+  # NUC host-key placeholders (empty recipient sets) dropped with the
+  # nuc0-9 migration to eru; re-add there when the fleet reprovisions.
 
   # spotify + mopidy
   "services/spotify/client.age" = mkPublicKeys groups.users;

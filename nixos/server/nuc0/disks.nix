@@ -1,1 +1,0 @@
-../../mixins/disks/nuc-sata-ext4.nix
