@@ -217,6 +217,13 @@ in
   systemd.tmpfiles.rules = lib.optionals (username != null) [
     "d /nix/var/nix/profiles/per-user/${username} 0755 ${username} root"
     "d /mnt/snapshot/${username} 0755 ${username} users"
+  ]
+  # pam_lastlog2 (util-linux >= 2.42, in the PAM stack for login(1))
+  # opens /var/lib/lastlog/lastlog2.db and FAILS the login session when
+  # the directory is missing — this bit Tailscale SSH pty logins on orca
+  # (2026-10-26). Long-lived systems never had the dir; create it.
+  ++ [
+    "d /var/lib/lastlog 0755 root root -"
   ];
 
   system.stateVersion = config.oxc.host.stateVersion;
