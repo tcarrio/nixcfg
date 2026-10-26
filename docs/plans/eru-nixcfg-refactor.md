@@ -240,13 +240,42 @@ revised to Terranix-in-eru.
    posts to `/api/v1/*` without Access prompt; LAN dig still answers
    the local IP (no Cloudflare hop).
 
-## 8. Sequencing
+## 8. Phase E — all server hosts move to eru — IMPLEMENTED (2026-10-26)
+
+The orca strategy applied to every remaining server definition;
+nothing server-host-related remains in nixcfg (v2 branch). Repos now
+split as: **eru = infrastructure + servers**, **nixcfg = common module
+surface + workstations + ISO/netboot images**.
+
+- nixcfg exposes `nixosModules.hardware-intel-nuc` (hardware-intel-pc
+  + common-gpu-intel) so eru host trees need no nixos-hardware input.
+- eru hosts: phoenix (NUC5PPYB, ollama Vulkan), nix-proxy-droplet
+  (DO nginx proxy + ACME — acme/cloudflare.age still encrypted to
+  orca's recipients only; add the droplet host key before deploy),
+  nuc0-9 (shared `hosts/profiles/nuc.nix`, refreshed onto carrionet
+  192.168.1.200-209 via `oxc.carrionet.hosts`; grub-legacy-boot now
+  composed, which mkHost never did).
+- Removed from nixcfg: hosts/orca + orca service secrets (live in
+  eru), nuc trees + system-image generators + empty-recipient host-key
+  placeholders, phoenix, nix-proxy-droplet, pxe-server and nuc-init
+  (unwired/bit-rotted — netboot provider will be rebuilt in eru in a
+  later refactor), mixins/servers/nuc-base.nix, mixins/users/pxe.
+- Kept in nixcfg: generic-base-image generator, ISO/netboot images,
+  mixins/servers/{netboot-api,pixiecore-pxe}.nix (obsidian imports
+  pixiecore; the netboot-host refactor follows).
+
+Cutover note: phoenix/nuc fleet/droplet still run their old
+generations until each is rebuilt from eru (`nixos-rebuild switch
+--flake ~/Code/eru#<host>` or the remote pattern in
+eru docs/DEPLOYMENTS.md — confirm per-host build capacity first).
+
+## 9. Sequencing
 
 A (core extraction) → B (orca → eru) → C (zone migration; token
 deploy needs B's rebuild path) → D (tunnel; needs C — zone on new
 account). C steps 1–5 can run in parallel with A/B.
 
-## 9. Risks
+## 10. Risks
 
 - **NS propagation window**: mitigated by keeping the old zone
   answering identically; delete nothing early.
@@ -264,7 +293,7 @@ account). C steps 1–5 can run in parallel with A/B.
   — document the boundary (agenix = NixOS host secrets, sops/Infisical
   = TF secrets).
 
-## 10. Open decisions (non-blocking)
+## 11. Open decisions (non-blocking)
 
 - Git flake input mechanics: GitHub private repo + deploy key vs
   public repo (nixcfg currently public-ish? verify before pinning).
