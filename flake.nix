@@ -148,6 +148,17 @@
           ];
         };
 
+        # NUC-fleet profile (see eru hosts/profiles/nuc.nix): adds the
+        # integrated Intel GPU on top of the plain Intel PC set.
+        hardware-intel-nuc = {
+          imports = with inputs.nixos-hardware.nixosModules; [
+            common-cpu-intel
+            common-gpu-intel
+            common-pc
+            common-pc-ssd
+          ];
+        };
+
         # Individual mixins external host trees compose into their builds
         # (host trees cannot reach nixcfg's mixin directory by path).
         grub-legacy-boot = import ./nixos/mixins/hardware/grub-legacy-boot.nix;
