@@ -152,6 +152,19 @@ extracted — orca alone was converted to the consumer pattern):
 Cloudflare cannot move a zone between accounts; this is
 create-replicate-switch.
 
+**Status — steps 1–5 done (2026-10-25)**: zone `8de3c8a67387c334177650f428dca4e6`
+created in "Tom@carrio.dev's Account" (`pending` until flip). Records
+hand-authored in `infrastructure/carrio-org/cloudflare/carrio-me/` —
+`orca.nix` (10 service A records → 192.168.1.83, DNS-only),
+`mail.nix` (Google Workspace), `legacy-web.nix` (audio/photos/sshd/tom),
+`redirects.nix` (ruleset scaffold: rules merge via the
+`"carrio-me".redirect-rules` list option, resource materializes only
+when non-empty), `access.nix` (Phase D stub). Stale
+`imported-carrio-me.nix` deleted. Applied via `task co:tf:plan/apply`
+(24 records, includes carrio.dev `gpgnet` drift-recreate); verified
+against `lila.ns.cloudflare.com`. Old zone untouched and still
+authoritative.
+
 1. **New zone**: add `carrio.me` to the new account (plan level with
    rules/features parity for the rewrite rules). Uncomment
    `zone-carrio-me` local + zone data source in
@@ -179,7 +192,10 @@ create-replicate-switch.
    flip: tokens are account-scoped, and pre-flip renewal would write
    DNS-01 TXT to the non-authoritative new zone and fail.
 7. **Flip**: change nameservers at the registrar to the new
-   assignment. Immediately after propagation begins, deploy the new
+   assignment — old zone NS are `buck.ns.cloudflare.com` /
+   `cheryl.ns.cloudflare.com`; new zone NS are `lila.ns.cloudflare.com` /
+   `rustam.ns.cloudflare.com`. Immediately after propagation begins,
+   deploy the new
    ACME token to orca (Phase B path). The unsafe window (old-zone
    answers + new-account token, or new-zone answers + old token) is
    minutes; schedule between Caddy renewal cycles so no renewal is
