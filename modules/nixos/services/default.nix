@@ -15,5 +15,6 @@ _: {
     # ./tailscale-cert.nix
     ./unfree.nix
     ./vscode-server.nix
+    ./zfs-backup.nix
   ];
 }
