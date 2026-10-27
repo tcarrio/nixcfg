@@ -3,7 +3,6 @@ _: {
     ./acme.nix
     ./flatpak.nix
     ./happy-coder.nix
-    ./homer.nix
     ./mopidy.nix
     ./nbd-server.nix
     ./networkmanager.nix
