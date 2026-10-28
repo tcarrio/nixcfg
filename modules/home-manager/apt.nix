@@ -94,6 +94,28 @@ let
     ) cfg.sources
   );
 
+  # Same dispatch as urlResolver, emitting the expected hex sha256 of the
+  # .deb for the running architecture. Empty result = no verification.
+  shaResolver = lib.concatStringsSep "\n" (
+    lib.mapAttrsToList (
+      name: src:
+      let
+        archCases = lib.concatStringsSep "\n" (
+          lib.mapAttrsToList (
+            system: sha: "${archMatch.${system}}) echo ${lib.escapeShellArg sha} ;;"
+          ) src.sha256
+        );
+      in
+      ''
+        ${lib.escapeShellArg name})
+          case "$(uname -m)" in
+        ${archCases}
+          esac
+          ;;
+      ''
+    ) cfg.sources
+  );
+
   # Homebrew-like semantics for apt packages: a declarative list of package
   # names and repositories that `apt-sync` converges towards with apt.
   # Applying is non-deterministic (repo state, apt version) and — like brew
@@ -110,7 +132,10 @@ let
   # dpkg/apt only exist on the Debian-family host, not in the Nix closure.
   aptSync = pkgs.writeShellApplication {
     name = "apt-sync";
-    runtimeInputs = [ pkgs.curl ];
+    runtimeInputs = [
+      pkgs.curl
+      pkgs.coreutils
+    ];
     text = ''
       set -euo pipefail
 
@@ -119,6 +144,13 @@ let
       ${urlResolver}
         esac
         # no mapping (or no URL for this architecture)
+        echo ""
+      }
+
+      resolve_sha256() {
+        case "$1" in
+      ${shaResolver}
+        esac
         echo ""
       }
 
@@ -208,6 +240,15 @@ let
           echo ">> $pkg: downloading $url"
           deb="$(mktemp --suffix=.deb)"
           curl -fL "$url" -o "$deb"
+          sha="$(resolve_sha256 "$pkg")"
+          if [ -n "$sha" ]; then
+            if ! echo "$sha  $deb" | sha256sum -c --quiet -; then
+              echo "!! $pkg: sha256 mismatch for $url (expected $sha)" >&2
+              rm -f "$deb"
+              exit 1
+            fi
+            echo ">> $pkg: sha256 verified"
+          fi
           # path-qualified install: apt resolves the local .deb's dependencies
           # from the configured repositories
           /usr/bin/sudo /usr/bin/apt-get -o DPkg::Lock::Timeout=120 install -y "$deb"
@@ -323,6 +364,17 @@ in
                 Prefer oxc.apt.repositories when the vendor provides a signed
                 repository; keys are not verified for raw URL downloads —
                 treat the transport (https) as the trust boundary.
+              '';
+            };
+            sha256 = lib.mkOption {
+              type = lib.types.attrsOf lib.types.str;
+              default = { };
+              description = ''
+                Per-system expected hex sha256 of the downloaded .deb (same
+                keys as `url`). When set for the running architecture,
+                apt-sync verifies the download and aborts before install on
+                mismatch. Use with version-pinned URLs; a "latest" URL
+                breaks verification on each upstream release.
               '';
             };
           };
