@@ -33,6 +33,7 @@
   sri-hash-gh-repo = pkgs.callPackage ./sri-hash-gh-repo.nix { };
   qq-cli = pkgs.callPackage ./qq-cli.nix { };
   sprigo = pkgs.callPackage ./sprigo { };
+  vid2gif = pkgs.callPackage ./vid2gif/default.nix { };
   worktree-cli = pkgs.callPackage ./worktree-cli/default.nix { };
 }
 // (
