@@ -13,6 +13,10 @@ let
 
   hasRepositories = cfg.repositories != { };
 
+  # autoupdate is either a mode string or { since = "<n>[d|h|m]"; }
+  autoupdateMode = if builtins.isString cfg.autoupdate then cfg.autoupdate else "since";
+  autoupdateSince = if builtins.isString cfg.autoupdate then "" else cfg.autoupdate.since;
+
   # uname -m value per nix system for the runtime arch dispatch
   archMatch = {
     x86_64-linux = "x86_64";
@@ -24,6 +28,7 @@ let
   # Assembled from plain strings to avoid Nix ''-quote escape ambiguity:
   # dollar + brace as separate literals cannot be parsed as interpolation.
   dpkgFormat = "$" + "{Status}";
+  dpkgVersionFormat = "$" + "{Version}";
   dpkgCheck = ''
     if /usr/bin/dpkg-query -W -f='${dpkgFormat}' "$pkg" 2>/dev/null | /usr/bin/grep -q "install ok installed"; then
   '';
@@ -187,6 +192,95 @@ let
       }
       ${lib.optionalString hasRepositories repoSetup}
 
+      AUTOUPDATE_MODE=${lib.escapeShellArg autoupdateMode}
+      AUTOUPDATE_SINCE=${lib.escapeShellArg autoupdateSince}
+      STATE_DIR="''${XDG_STATE_HOME:-$HOME/.local/state}/oxc-apt"
+      APT_STAMP=/var/lib/apt/periodic/update-success-stamp
+      INDEX_UPDATED=0
+
+      # 7d | 12h | 30m | bare number = days -> seconds
+      to_seconds() {
+        local v="$1" n unit
+        n="''${v%%[!0-9]*}"
+        unit="''${v#"$n"}"
+        [ -n "$n" ] || return 1
+        case "$unit" in
+          ""|d) echo $((n * 86400)) ;;
+          h) echo $((n * 3600)) ;;
+          m) echo $((n * 60)) ;;
+          *) return 1 ;;
+        esac
+      }
+
+      apt_periodic() {
+        /usr/bin/apt-config dump | /usr/bin/awk -F'"' -v k="APT::Periodic::$1" '$1 ~ "^" k " $" { print $2 }'
+      }
+
+      # Upgrade managed packages whose apt candidate is newer than the
+      # installed version, when the autoupdate mode says a check is due.
+      # Stamp: $STATE_DIR/last-upgrade-check (mtime = last completed check).
+      autoupdate_phase() {
+        local threshold=0 index_max=0 stamp="$STATE_DIR/last-upgrade-check"
+        local now age inst cand upgrades=()
+        case "$AUTOUPDATE_MODE" in
+          never) return 0 ;;
+          always) threshold=0 ;;
+          since)
+            threshold="$(to_seconds "$AUTOUPDATE_SINCE")" || {
+              echo "!! autoupdate: invalid since value '$AUTOUPDATE_SINCE'" >&2
+              return 1
+            }
+            ;;
+          inherit)
+            threshold="$(to_seconds "$(apt_periodic Unattended-Upgrade)")" || threshold=0
+            if [ "$threshold" -eq 0 ]; then
+              echo "autoupdate: system unattended-upgrade is disabled; skipping"
+              return 0
+            fi
+            # the system timer keeps the index fresh; reuse its interval
+            index_max="$(to_seconds "$(apt_periodic Update-Package-Lists)")" || index_max=0
+            if [ "$index_max" -eq 0 ]; then index_max=86400; fi
+            ;;
+        esac
+
+        now="$(date +%s)"
+        if [ "$threshold" -gt 0 ] && [ -f "$stamp" ]; then
+          age=$((now - $(stat -c %Y "$stamp")))
+          if [ "$age" -lt "$threshold" ]; then
+            echo "autoupdate: last checked $((age / 3600))h ago; not due"
+            return 0
+          fi
+        fi
+
+        if [ "$INDEX_UPDATED" -eq 0 ]; then
+          if [ "$index_max" -gt 0 ] && [ -f "$APT_STAMP" ] && [ $((now - $(stat -c %Y "$APT_STAMP"))) -lt "$index_max" ]; then
+            echo "autoupdate: apt index is fresh"
+          else
+            echo ">> apt: updating package index"
+            /usr/bin/sudo /usr/bin/apt-get -o DPkg::Lock::Timeout=120 update
+            INDEX_UPDATED=1
+          fi
+        fi
+
+        for pkg in "''${managed[@]}"; do
+          inst="$(/usr/bin/dpkg-query -W -f='${dpkgVersionFormat}' "$pkg" 2>/dev/null || true)"
+          [ -n "$inst" ] || continue
+          cand="$(/usr/bin/apt-cache policy "$pkg" 2>/dev/null | /usr/bin/awk '/Candidate:/ { print $2 }')"
+          if [ -n "$cand" ] && [ "$cand" != "(none)" ] && /usr/bin/dpkg --compare-versions "$cand" gt "$inst"; then
+            echo "update  $pkg $inst -> $cand"
+            upgrades+=("$pkg")
+          fi
+        done
+
+        if [ ''${#upgrades[@]} -gt 0 ]; then
+          /usr/bin/sudo /usr/bin/apt-get -o DPkg::Lock::Timeout=120 install -y --only-upgrade "''${upgrades[@]}"
+        else
+          echo "autoupdate: managed packages are up to date"
+        fi
+        mkdir -p "$STATE_DIR"
+        touch "$stamp"
+      }
+
       managed=(
       ${lib.concatMapStringsSep "\n" (p: "  ${lib.escapeShellArg p}") managedPackages}
       )
@@ -207,6 +301,7 @@ let
 
       if [ ''${#missing[@]} -eq 0 ] && [ "$REPO_CHANGED" -eq 0 ]; then
         echo "All managed apt state converged."
+        autoupdate_phase
         exit 0
       fi
 
@@ -215,9 +310,11 @@ let
       # unattended-upgrades holding the dpkg lock
       echo ">> apt: updating package index"
       /usr/bin/sudo /usr/bin/apt-get -o DPkg::Lock::Timeout=120 update
+      INDEX_UPDATED=1
 
       if [ ''${#missing[@]} -eq 0 ]; then
         echo "Repositories configured; no packages missing."
+        autoupdate_phase
         exit 0
       fi
 
@@ -262,6 +359,8 @@ let
           exit 1
         fi
       done
+
+      autoupdate_phase
     '';
   };
 
@@ -386,6 +485,39 @@ in
         configured apt repository. Keys implicitly join the managed set
         (no need to also list them in `packages`). Resolution preference:
         repository > url > plain name.
+      '';
+    };
+
+    autoupdate = lib.mkOption {
+      type = lib.types.either (lib.types.enum [
+        "never"
+        "inherit"
+        "always"
+      ]) (lib.types.submodule { options.since = lib.mkOption {
+        type = lib.types.str;
+        example = "7d";
+        description = "Minimum time between upgrade checks: <n>d, <n>h or <n>m (bare number = days).";
+      }; });
+      default = "never";
+      example = {
+        since = "7d";
+      };
+      description = ''
+        Whether apt-sync also upgrades managed packages whose apt candidate
+        is newer than the installed version (via apt-get install
+        --only-upgrade). Covers packages from repositories, including
+        third-party ones that unattended-upgrades skips; .deb URL sources
+        have no apt candidate and are unaffected.
+
+        - "never": only install missing packages (default).
+        - "inherit": follow the host's apt configuration —
+          APT::Periodic::Unattended-Upgrade as the check interval (disabled
+          when 0) and APT::Periodic::Update-Package-Lists for index
+          freshness, so the system's own apt update timer is reused.
+        - "always": check and upgrade on every run (refreshes the index
+          with sudo each time).
+        - { since = "7d"; }: check at most once per interval; the last check
+          is tracked in $XDG_STATE_HOME/oxc-apt/last-upgrade-check.
       '';
     };
 
