@@ -117,6 +117,17 @@ in
     }
     (lib.mkIf pkgs.stdenv.isLinux {
       xdg.mime.enable = true;
+
+      # xdg.desktopEntries installs into the profile (home.path), whose store
+      # path changes every generation. GNOME Shell watches the old path and
+      # misses new entries until re-login. Link each entry into
+      # ~/.local/share/applications, a stable directory that is watched live.
+      xdg.dataFile = lib.mapAttrs' (
+        id: _:
+        lib.nameValuePair "applications/${id}.desktop" {
+          source = "${config.home.path}/share/applications/${id}.desktop";
+        }
+      ) cfg.apps;
     })
   ];
 }

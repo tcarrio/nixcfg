@@ -75,5 +75,19 @@ pkgs.runCommand "web-wrappers-test-${system}" { } ''
   check Named 'Icon=web-browser'
   check Custom 'Exec=/opt/test/browser --profile-directory=Alt --app="https://custom.example"'
 
+  # Entries must also be linked into ~/.local/share/applications (watched live
+  # by GNOME Shell) and resolve to the rendered profile entries.
+  for id in Plain Named Custom; do
+    link="${hm.config.home-files}/.local/share/applications/$id.desktop"
+    if ! test -L "$link" || ! test -f "$link"; then
+      echo "FAIL: $link is not a resolving symlink" >&2
+      exit 1
+    fi
+    if ! cmp -s "$link" "$apps/$id.desktop"; then
+      echo "FAIL: $link differs from $apps/$id.desktop" >&2
+      exit 1
+    fi
+  done
+
   touch $out
 ''
