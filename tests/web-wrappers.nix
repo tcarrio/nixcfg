@@ -25,7 +25,7 @@ let
 
         oxc.desktop.web-wrappers = {
           browser = "/opt/test/browser";
-          command = opts: "${opts.browserPath} --profile-directory=Default --app=\"${opts.url}\"";
+          wmClassPrefix = "msedge";
           apps = {
             Plain = {
               url = "https://plain.example";
@@ -38,6 +38,15 @@ let
             Custom = {
               url = "https://custom.example";
               command = opts: "${opts.browserPath} --profile-directory=Alt --app=\"${opts.url}\"";
+              wmClass = "explicit-class";
+            };
+            # Profile, root path, port and query handling in the derived class.
+            Music = {
+              url = "https://music.carrio.me";
+              profile = "Music";
+            };
+            Deep = {
+              url = "https://deep.example:8443/a/b/?x=1#frag";
             };
           };
         };
@@ -70,14 +79,19 @@ pkgs.runCommand "web-wrappers-test-${system}" { } ''
   }
 
   check Plain 'Name=Plain'
-  check Plain 'Exec=/opt/test/browser --profile-directory=Default --app="https://plain.example"'
+  check Plain 'Exec=/opt/test/browser --profile-directory=Default --app="https://plain.example" --kiosk'
+  check Plain 'StartupWMClass=msedge-plain.example__-Default'
+  check Music 'Exec=/opt/test/browser --profile-directory=Music --app="https://music.carrio.me" --kiosk'
+  check Music 'StartupWMClass=msedge-music.carrio.me__-Music'
+  check Deep 'StartupWMClass=msedge-deep.example__a_b_-Default'
+  check Custom 'StartupWMClass=explicit-class'
   check Named 'Name=Friendly Name'
   check Named 'Icon=web-browser'
   check Custom 'Exec=/opt/test/browser --profile-directory=Alt --app="https://custom.example"'
 
   # Entries must also be linked into ~/.local/share/applications (watched live
   # by GNOME Shell) and resolve to the rendered profile entries.
-  for id in Plain Named Custom; do
+  for id in Plain Named Custom Music Deep; do
     link="${hm.config.home-files}/.local/share/applications/$id.desktop"
     if ! test -L "$link" || ! test -f "$link"; then
       echo "FAIL: $link is not a resolving symlink" >&2

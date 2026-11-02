@@ -18,18 +18,40 @@ let
     {
       browserPath,
       url,
+      profile,
       ...
     }:
-    ''${browserPath} --app="${url}" --kiosk'';
+    ''${browserPath} --profile-directory=${profile} --app="${url}" --kiosk'';
 
   # Per-app template overrides the top-level template, which defaults to
   # the Chromium app/kiosk launch.
+  profileFor = app: if app.profile != null then app.profile else cfg.profile;
+
   commandFor =
     app:
     (if app.command != null then app.command else cfg.command) {
       inherit (app) name url icon;
       inherit browserPath;
+      profile = profileFor app;
     };
+
+  # Window class Chromium assigns to an `--app=<url>` window, which GNOME
+  # matches against StartupWMClass to group the window under its own entry:
+  #   <prefix>-<host>_<path, "/" -> "_">-<profile>
+  # e.g. https://music.carrio.me with profile Music -> msedge-music.carrio.me__-Music
+  # The query string and fragment are ignored.
+  wmClassFor =
+    app:
+    if app.wmClass != null then
+      app.wmClass
+    else
+      let
+        parts = builtins.match "[a-zA-Z][a-zA-Z0-9+.-]*://([^/?#:]+)(:[0-9]+)?([^?#]*).*" app.url;
+        host = builtins.elemAt parts 0;
+        rawPath = builtins.elemAt parts 2;
+        path = if rawPath == "" then "/" else rawPath;
+      in
+      "${cfg.wmClassPrefix}-${host}_${lib.replaceStrings [ "/" ] [ "_" ] path}-${profileFor app}";
 in
 {
   options.oxc.desktop.web-wrappers = {
@@ -44,14 +66,34 @@ in
       '';
     };
 
+    profile = lib.mkOption {
+      type = lib.types.str;
+      default = "Default";
+      description = ''
+        Browser profile directory used by every app wrapper unless an app
+        sets its own. Passed to the command template as `profile` and used
+        to derive the window class.
+      '';
+    };
+
+    wmClassPrefix = lib.mkOption {
+      type = lib.types.str;
+      default = "chrome";
+      example = "msedge";
+      description = ''
+        Prefix Chromium puts on app window classes: "chrome" for
+        Chrome/Chromium, "msedge" for Edge, "brave" for Brave.
+      '';
+    };
+
     command = lib.mkOption {
       type = lib.types.functionTo lib.types.str;
       default = defaultCommand;
       description = ''
         Command template: a function from the app attribute set
-        ({ name, url, icon, browserPath }) to the desktop entry Exec
+        ({ name, url, icon, browserPath, profile }) to the desktop entry Exec
         string. The default assumes a Chromium-based browser and renders
-        `<browserPath> --app="<url>" --kiosk`.
+        `<browserPath> --profile-directory=<profile> --app="<url>" --kiosk`.
       '';
     };
 
@@ -76,13 +118,27 @@ in
                 name (e.g. "web-browser") or a file path.
               '';
             };
+            profile = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              default = null;
+              description = "Browser profile directory for this app. Defaults to oxc.desktop.web-wrappers.profile.";
+            };
+            wmClass = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              default = null;
+              description = ''
+                Window class written as StartupWMClass so GNOME groups the
+                app's windows under this entry (e.g. in Super+Tab). Derived
+                from url, profile and wmClassPrefix when null.
+              '';
+            };
             command = lib.mkOption {
               type = lib.types.nullOr (lib.types.functionTo lib.types.str);
               default = null;
               description = ''
                 Per-app command template overriding
                 oxc.desktop.web-wrappers.command. Receives the same
-                attribute set ({ name, url, icon, browserPath }).
+                attribute set ({ name, url, icon, browserPath, profile }).
               '';
             };
           };
@@ -111,6 +167,7 @@ in
             "WebBrowser"
           ];
           terminal = false;
+          settings.StartupWMClass = wmClassFor app;
         }
         // lib.optionalAttrs (app.icon != null) { inherit (app) icon; }
       ) cfg.apps;
