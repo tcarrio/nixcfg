@@ -97,24 +97,26 @@ in
     };
   };
 
-  config = {
-    xdg.enable = true;
+  config = lib.mkMerge [
+    {
+      xdg.enable = true;
 
-    xdg.desktopEntries = lib.mapAttrs (
-      id: app:
-      {
-        name = if app.name != null then app.name else id;
-        exec = commandFor app;
-        categories = [
-          "Network"
-          "WebBrowser"
-        ];
-        terminal = false;
-      }
-      // lib.optionalAttrs (app.icon != null) { inherit (app) icon; }
-    ) cfg.apps;
-  }
-  // (lib.mkIf pkgs.stdenv.isLinux {
-    xdg.mime.enable = true;
-  });
+      xdg.desktopEntries = lib.mapAttrs (
+        id: app:
+        {
+          name = if app.name != null then app.name else id;
+          exec = commandFor app;
+          categories = [
+            "Network"
+            "WebBrowser"
+          ];
+          terminal = false;
+        }
+        // lib.optionalAttrs (app.icon != null) { inherit (app) icon; }
+      ) cfg.apps;
+    }
+    (lib.mkIf pkgs.stdenv.isLinux {
+      xdg.mime.enable = true;
+    })
+  ];
 }

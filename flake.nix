@@ -140,6 +140,16 @@
       lib = libx;
     }
     // {
+      checks = libx.forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        {
+          web-wrappers = import ./tests/web-wrappers.nix { inherit inputs pkgs system; };
+        }
+      );
+
       apps = libx.forAllSystems (
         system:
         let
