@@ -475,56 +475,55 @@
       inherit overlays;
 
       # Custom packages; acessible via 'nix build', 'nix shell', etc
-      packages =
-        libx.forAllSystems (
-          system:
-          let
-            pkgs = mkPkgsForSystemFromInput system nixpkgs;
-            mkStandardBun = libx.mkBunDerivation inputs.bun2nix.packages.${system}.default;
-            uv2nixLib = {
-              inherit uv2nix pyproject-nix pyproject-build-systems;
-              python = pkgs.python311;
-            };
-            localPackages = import ./pkgs {
-              inherit
-                pkgs
-                mkStandardBun
-                nixvim
-                uv2nixLib
-                ;
-              nixcfgSource = self;
-            };
-          in
-          (lib.optionalAttrs (system == "x86_64-linux") {
-            # TODO: Linode image is still too large: reduction with `qemu-img resize --shrink ./nixos.img 5.5G` didn't error out but image will not boot
-            # linode-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "linode-base-image"; username = "archon"; format = "linode"; diskSize = 5120; };
-            digital-ocean-base-image = libx.mkGeneratorImage {
-              systemType = "server";
-              hostname = "generic-base-image";
-              username = "archon";
-              format = "do";
-            };
+      packages = libx.forAllSystems (
+        system:
+        let
+          pkgs = mkPkgsForSystemFromInput system nixpkgs;
+          mkStandardBun = libx.mkBunDerivation inputs.bun2nix.packages.${system}.default;
+          uv2nixLib = {
+            inherit uv2nix pyproject-nix pyproject-build-systems;
+            python = pkgs.python311;
+          };
+          localPackages = import ./pkgs {
+            inherit
+              pkgs
+              mkStandardBun
+              nixvim
+              uv2nixLib
+              ;
+            nixcfgSource = self;
+          };
+        in
+        (lib.optionalAttrs (system == "x86_64-linux") {
+          # TODO: Linode image is still too large: reduction with `qemu-img resize --shrink ./nixos.img 5.5G` didn't error out but image will not boot
+          # linode-base-image = libx.mkGeneratorImage { systemType = "server"; hostname = "linode-base-image"; username = "archon"; format = "linode"; diskSize = 5120; };
+          digital-ocean-base-image = libx.mkGeneratorImage {
+            systemType = "server";
+            hostname = "generic-base-image";
+            username = "archon";
+            format = "do";
+          };
 
-            # NUC system-image generators (system-image-nuc0..9) removed
-            # with the nuc host trees — the fleet now builds from the eru
-            # repo. Re-add generator images there when reprovisioning.
+          # NUC system-image generators (system-image-nuc0..9) removed
+          # with the nuc host trees — the fleet now builds from the eru
+          # repo. Re-add generator images there when reprovisioning.
 
-            # Installer utility
-            install-system = pkgs.writeShellApplication {
-              name = "install-system";
-              text = builtins.readFile ./scripts/shell/install.sh;
-              runtimeInputs = [
-                inputs.disko.packages.${system}.disko
-              ]
-              ++ (with pkgs; [
-                nixos-install
-                git
-                gum
-              ]);
-            };
-          })
-          // localPackages
-        );
+          # Installer utility
+          install-system = pkgs.writeShellApplication {
+            name = "install-system";
+            text = builtins.readFile ./scripts/shell/install.sh;
+            runtimeInputs = [
+              inputs.disko.packages.${system}.disko
+            ]
+            ++ (with pkgs; [
+              nixos-install
+              git
+              gum
+            ]);
+          };
+        })
+        // localPackages
+      );
     };
 
   inputs = {

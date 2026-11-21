@@ -124,8 +124,7 @@ in
               echo "oxc-zfs-ensure-datasets: creating ${name}"
               zfs create -o com.sun:auto-snapshot=false -o compression=${lib.escapeShellArg ds.compression} ${lib.escapeShellArg name}
             fi
-          ''
-        ) cfg.datasets
+          '') cfg.datasets
       );
     };
   };
