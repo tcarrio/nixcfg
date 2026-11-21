@@ -1,0 +1,18 @@
+diff --git a/src/tts.ts b/src/tts.ts
+index fb777c6..e35cbe9 100644
+--- a/src/tts.ts
++++ b/src/tts.ts
+@@ -139,6 +139,13 @@ export async function prewarm(lang: string, voice?: Voice) {
+ let seq = 0;
+ let sources: AudioBufferSourceNode[] = [];
+ let actx: AudioContext | undefined;
++// WKWebView only unlocks an AudioContext on resume() called synchronously inside a user gesture; after the first
++// await (Tauri IPC counts) the gesture is gone and resume() rejects/hangs, so every speak() that did a db read
++// first fell back to the system voice before reaching the server. Prime the (global) context while we still
++// hold the gesture: the later `await ctx.resume()` in audioCtx() then resolves.
++try { (actx ??= new AudioContext()).resume().catch(() => {}); } catch { /* created outside a gesture; the primer below unlocks it */ }
++// Lesson auto-speak has no gesture of its own, so the first tap anywhere unlocks audio for it too.
++addEventListener("pointerdown", () => { try { (actx ??= new AudioContext()).resume().catch(() => {}); } catch {} }, { once: true, capture: true });
+ let analyser: AnalyserNode | undefined; // local-engine audio passes through it so faces can read the loudness
+ const out = (ctx: AudioContext) => {
+   if (!analyser) { analyser = ctx.createAnalyser(); analyser.fftSize = 1024; analyser.connect(ctx.destination); }

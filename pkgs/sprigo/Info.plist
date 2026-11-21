@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- Mirrors the Info.plist Tauri generates for upstream's release bundle
+       (com.ozerozdas.sprigo). Keys verified against /Applications/Sprigo.app. -->
+  <key>CFBundleDevelopmentRegion</key>
+  <string>English</string>
+  <key>CFBundleDisplayName</key>
+  <string>Sprigo</string>
+  <key>CFBundleExecutable</key>
+  <string>sprigo</string>
+  <key>CFBundleIconFile</key>
+  <string>icon.icns</string>
+  <key>CFBundleIdentifier</key>
+  <string>com.ozerozdas.sprigo</string>
+  <key>CFBundleInfoDictionaryVersion</key>
+  <string>6.0</string>
+  <key>CFBundleName</key>
+  <string>Sprigo</string>
+  <key>CFBundlePackageType</key>
+  <string>APPL</string>
+  <key>CFBundleShortVersionString</key>
+  <string>1.12.0</string>
+  <key>CFBundleVersion</key>
+  <string>1.12.0</string>
+  <key>CSResourcesFileMapped</key>
+  <true/>
+  <key>LSMinimumSystemVersion</key>
+  <string>11.0</string>
+  <key>LSRequiresCarbon</key>
+  <true/>
+  <key>NSCameraUsageDescription</key>
+  <string>Sprigo shows your camera to you during tutor lessons. The picture stays on this Mac and is never uploaded.</string>
+  <key>NSHighResolutionCapable</key>
+  <true/>
+  <key>NSHumanReadableCopyright</key>
+  <string>© 2026 Mehmet Özer Özdaş</string>
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Sprigo listens while you practise speaking. Your voice is transcribed on this Mac and never uploaded.</string>
+</dict>
+</plist>
