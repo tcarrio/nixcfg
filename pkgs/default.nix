@@ -78,6 +78,9 @@
       marker-pdf = pkgs.callPackage ./marker-pdf/default.nix {
         inherit uv2nixLib;
       };
+      kokoro-fastapi = pkgs.callPackage ./kokoro-fastapi/default.nix {
+        inherit uv2nixLib;
+      };
     }
   else
     { }

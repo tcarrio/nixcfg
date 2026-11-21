@@ -1,0 +1,25 @@
+diff --git a/kokoro/pipeline.py b/kokoro/pipeline.py
+index b8bdf89..c10ccae 100644
+--- a/kokoro/pipeline.py
++++ b/kokoro/pipeline.py
+@@ -144,6 +144,20 @@ class KPipeline:
+             try:
+                 from misaki import de
+                 self.g2p = de.DEG2P()
++
++                # Kokoro's 178-symbol vocabulary has long-ü 'y' but not the
++                # short-ü 'ʏ' that misaki's German espeak frontend can emit
++                # (e.g. "Brücke"). Unpatched, short-ü words silently break at
++                # inference. Apply the substitution used to prepare the
++                # German training data (Thorsten-Voice/Kokoro inference.py).
++                _de_g2p = self.g2p
++
++                class _DEG2PUpsilonFix:
++                    def __call__(self, text, *args, **kwargs):
++                        phonemes, tokens = _de_g2p(text, *args, **kwargs)
++                        return phonemes.replace("ʏ", "y"), tokens
++
++                self.g2p = _DEG2PUpsilonFix()
+             except ImportError:
+                 logger.error("You need to `pip install misaki[de]` to use lang_code='d'")
+                 raise
