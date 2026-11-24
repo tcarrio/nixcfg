@@ -26,6 +26,7 @@ let
         oxc.desktop.web-wrappers = {
           browser = "/opt/test/browser";
           wmClassPrefix = "msedge";
+          firefox.browser = "/opt/test/firefox";
           apps = {
             Plain = {
               url = "https://plain.example";
@@ -47,6 +48,11 @@ let
             };
             Deep = {
               url = "https://deep.example:8443/a/b/?x=1#frag";
+            };
+            # Firefox driver: own profile dir, class from the app id.
+            Fox = {
+              driver = "firefox";
+              url = "https://fox.example";
             };
           };
         };
@@ -84,6 +90,8 @@ pkgs.runCommand "web-wrappers-test-${system}" { } ''
   check Music 'Exec=/opt/test/browser --profile-directory=Music --app="https://music.carrio.me" --kiosk'
   check Music 'StartupWMClass=msedge-music.carrio.me__-Music'
   check Deep 'StartupWMClass=msedge-deep.example__a_b_-Default'
+  check Fox 'Exec=/opt/test/firefox --no-remote --profile /home/tester/.local/share/web-apps/Fox --class Fox --name Fox --new-window "https://fox.example"'
+  check Fox 'StartupWMClass=Fox'
   check Custom 'StartupWMClass=explicit-class'
   check Named 'Name=Friendly Name'
   check Named 'Icon=web-browser'
@@ -91,7 +99,7 @@ pkgs.runCommand "web-wrappers-test-${system}" { } ''
 
   # Entries must also be linked into ~/.local/share/applications (watched live
   # by GNOME Shell) and resolve to the rendered profile entries.
-  for id in Plain Named Custom Music Deep; do
+  for id in Plain Named Custom Music Deep Fox; do
     link="${hm.config.home-files}/.local/share/applications/$id.desktop"
     if ! test -L "$link" || ! test -f "$link"; then
       echo "FAIL: $link is not a resolving symlink" >&2
@@ -102,6 +110,17 @@ pkgs.runCommand "web-wrappers-test-${system}" { } ''
       exit 1
     fi
   done
+
+  # The Firefox driver renders a profile that hides the browser chrome.
+  data="${hm.config.home-files}/.local/share/web-apps/Fox"
+  grep -qF 'legacyUserProfileCustomizations.stylesheets", true' "$data/user.js" \
+    || { echo "FAIL: Fox user.js missing stylesheet pref" >&2; exit 1; }
+  grep -qF '#TabsToolbar' "$data/chrome/userChrome.css" \
+    || { echo "FAIL: Fox userChrome.css missing" >&2; exit 1; }
+  if test -e "${hm.config.home-files}/.local/share/web-apps/Plain"; then
+    echo "FAIL: chromium app got a Firefox profile" >&2
+    exit 1
+  fi
 
   touch $out
 ''
