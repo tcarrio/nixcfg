@@ -23,27 +23,72 @@ let
     }:
     ''${browserPath} --profile-directory=${profile} --app="${url}" --kiosk'';
 
-  # Per-app template overrides the top-level template, which defaults to
-  # the Chromium app/kiosk launch.
-  profileFor = app: if app.profile != null then app.profile else cfg.profile;
+  firefoxPath =
+    if lib.isString cfg.firefox.browser then cfg.firefox.browser else lib.getExe cfg.firefox.browser;
 
-  commandFor =
-    app:
-    (if app.command != null then app.command else cfg.command) {
-      inherit (app) name url icon;
-      inherit browserPath;
-      profile = profileFor app;
-    };
+  # Firefox launch template. Firefox has no --app mode: a dedicated profile
+  # directory plus --no-remote keeps each wrapper a separate instance, and
+  # --class/--name give it its own window class. The chrome (tabs, toolbars,
+  # menus) is stripped by userChrome.css in the profile, see firefoxProfileFiles.
+  defaultFirefoxCommand =
+    {
+      browserPath,
+      url,
+      profile,
+      wmClass,
+      ...
+    }:
+    ''${browserPath} --no-remote --profile ${profile} --class ${wmClass} --name ${wmClass} --new-window "${url}"'';
 
-  # Window class Chromium assigns to an `--app=<url>` window, which GNOME
-  # matches against StartupWMClass to group the window under its own entry:
+  firefoxUserJs = ''
+    user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);
+    user_pref("browser.tabs.inTitlebar", 0);
+    user_pref("browser.shell.checkDefaultBrowser", false);
+    user_pref("browser.startup.page", 0);
+    user_pref("browser.sessionstore.resume_from_crash", false);
+    user_pref("browser.toolbars.bookmarks.visibility", "never");
+    user_pref("browser.aboutwelcome.enabled", false);
+  '';
+
+  firefoxUserChrome = ''
+    #TabsToolbar,
+    #nav-bar,
+    #toolbar-menubar,
+    #PersonalToolbar,
+    #sidebar-header {
+      visibility: collapse !important;
+    }
+  '';
+
+  # A per-app driver overrides the top-level driver.
+  driverFor = app: if app.driver != null then app.driver else cfg.driver;
+
+  firefoxApps = lib.filterAttrs (_: app: driverFor app == "firefox") cfg.apps;
+
+  # Chromium apps use a browser profile name; Firefox apps get their own
+  # profile directory named after the app id, so the per-app `profile`
+  # option does not apply to them.
+  profileFor =
+    id: app:
+    if driverFor app == "firefox" then
+      "${config.xdg.dataHome}/web-apps/${id}"
+    else if app.profile != null then
+      app.profile
+    else
+      cfg.profile;
+
+  # Window class GNOME matches against StartupWMClass to group the window
+  # under its own entry. Chromium assigns, for an `--app=<url>` window:
   #   <prefix>-<host>_<path, "/" -> "_">-<profile>
   # e.g. https://music.carrio.me with profile Music -> msedge-music.carrio.me__-Music
-  # The query string and fragment are ignored.
+  # The query string and fragment are ignored. Firefox windows take the class
+  # given on the command line, which is the app id.
   wmClassFor =
-    app:
+    id: app:
     if app.wmClass != null then
       app.wmClass
+    else if driverFor app == "firefox" then
+      id
     else
       let
         parts = builtins.match "[a-zA-Z][a-zA-Z0-9+.-]*://([^/?#:]+)(:[0-9]+)?([^?#]*).*" app.url;
@@ -51,16 +96,74 @@ let
         rawPath = builtins.elemAt parts 2;
         path = if rawPath == "" then "/" else rawPath;
       in
-      "${cfg.wmClassPrefix}-${host}_${lib.replaceStrings [ "/" ] [ "_" ] path}-${profileFor app}";
+      "${cfg.wmClassPrefix}-${host}_${lib.replaceStrings [ "/" ] [ "_" ] path}-${profileFor id app}";
+
+  # Per-app template overrides the driver's template.
+  commandFor =
+    id: app:
+    let
+      isFirefox = driverFor app == "firefox";
+      template =
+        if app.command != null then
+          app.command
+        else if isFirefox then
+          cfg.firefox.command
+        else
+          cfg.command;
+    in
+    template {
+      inherit (app) name url icon;
+      browserPath = if isFirefox then firefoxPath else browserPath;
+      profile = profileFor id app;
+      wmClass = wmClassFor id app;
+    };
 in
 {
   options.oxc.desktop.web-wrappers = {
+    driver = lib.mkOption {
+      type = lib.types.enum [
+        "chromium"
+        "firefox"
+      ];
+      default = "chromium";
+      description = ''
+        How apps are wrapped by default. "chromium" uses `--app=<url>` with
+        `browser`, `wmClassPrefix`, `profile` and `command` (Chrome, Edge,
+        Chromium, Brave). "firefox" uses a per-app profile directory, a
+        generated userChrome.css that hides tabs and toolbars, and
+        `firefox.browser` and `firefox.command`. Each app can override this.
+      '';
+    };
+
+    firefox = {
+      browser = lib.mkOption {
+        type = lib.types.either lib.types.str lib.types.package;
+        default = pkgs.firefox;
+        defaultText = lib.literalExpression "pkgs.firefox";
+        description = ''
+          Firefox entry point for apps using the "firefox" driver. Either a
+          command name or path resolved at launch (e.g. "/usr/bin/firefox")
+          or a package resolved with lib.getExe.
+        '';
+      };
+
+      command = lib.mkOption {
+        type = lib.types.functionTo lib.types.str;
+        default = defaultFirefoxCommand;
+        description = ''
+          Command template for the "firefox" driver: a function from
+          ({ name, url, icon, browserPath, profile, wmClass }) to the desktop
+          entry Exec string. `profile` is the profile directory path.
+        '';
+      };
+    };
+
     browser = lib.mkOption {
       type = lib.types.either lib.types.str lib.types.package;
       default = pkgs.chromium;
       defaultText = lib.literalExpression "pkgs.chromium";
       description = ''
-        Browser entry point shared by every app wrapper. Either a command
+        Browser entry point shared by every "chromium" driver app wrapper. Either a command
         name resolved from PATH at launch (e.g. "msedge") or a package
         whose main program is resolved with lib.getExe.
       '';
@@ -91,8 +194,8 @@ in
       default = defaultCommand;
       description = ''
         Command template: a function from the app attribute set
-        ({ name, url, icon, browserPath, profile }) to the desktop entry Exec
-        string. The default assumes a Chromium-based browser and renders
+        ({ name, url, icon, browserPath, profile, wmClass }) to the desktop entry Exec
+        string for "chromium" driver apps. The default assumes a Chromium-based browser and renders
         `<browserPath> --profile-directory=<profile> --app="<url>" --kiosk`.
       '';
     };
@@ -118,10 +221,24 @@ in
                 name (e.g. "web-browser") or a file path.
               '';
             };
+            driver = lib.mkOption {
+              type = lib.types.nullOr (
+                lib.types.enum [
+                  "chromium"
+                  "firefox"
+                ]
+              );
+              default = null;
+              description = "Wrapping driver for this app. Defaults to oxc.desktop.web-wrappers.driver.";
+            };
             profile = lib.mkOption {
               type = lib.types.nullOr lib.types.str;
               default = null;
-              description = "Browser profile directory for this app. Defaults to oxc.desktop.web-wrappers.profile.";
+              description = ''
+                Browser profile directory for this app (chromium driver only;
+                Firefox apps get a profile directory named after the app id).
+                Defaults to oxc.desktop.web-wrappers.profile.
+              '';
             };
             wmClass = lib.mkOption {
               type = lib.types.nullOr lib.types.str;
@@ -138,7 +255,7 @@ in
               description = ''
                 Per-app command template overriding
                 oxc.desktop.web-wrappers.command. Receives the same
-                attribute set ({ name, url, icon, browserPath, profile }).
+                attribute set ({ name, url, icon, browserPath, profile, wmClass }).
               '';
             };
           };
@@ -161,16 +278,23 @@ in
         id: app:
         {
           name = if app.name != null then app.name else id;
-          exec = commandFor app;
+          exec = commandFor id app;
           categories = [
             "Network"
             "WebBrowser"
           ];
           terminal = false;
-          settings.StartupWMClass = wmClassFor app;
+          settings.StartupWMClass = wmClassFor id app;
         }
         // lib.optionalAttrs (app.icon != null) { inherit (app) icon; }
       ) cfg.apps;
+
+      # Firefox profile per "firefox" driver app: the directory must exist
+      # before launch, and userChrome.css makes the window look app-like.
+      xdg.dataFile = lib.concatMapAttrs (id: _: {
+        "web-apps/${id}/user.js".text = firefoxUserJs;
+        "web-apps/${id}/chrome/userChrome.css".text = firefoxUserChrome;
+      }) firefoxApps;
     }
     (lib.mkIf pkgs.stdenv.isLinux {
       xdg.mime.enable = true;
